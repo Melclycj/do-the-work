@@ -19,7 +19,8 @@
 
 ## A —— 仪器（整前缀 travel）
 
-量程 = 全仓 tracked，`git ls-files <prefix> | wc -l` @ `a7437d3`。
+量程 = 全仓 tracked，`git ls-files <prefix> | wc -l` @ `e4ffa2b`（A10 一行于 `dd7a27c` 补入，
+其 5 件在 `e4ffa2b` 上同样存在，故该 revision 对整表成立）。
 
 | # | 路径（前缀或文件） | 文件数 | 为什么是仪器 |
 |---|---|---|---|
@@ -33,7 +34,15 @@
 | A8 | `ResearchSystem/assurance/review-test/` | 6 | A5 的 golden；唯一读者是 `tooling/tests/document_harness_review/test_golden_review_views.py:39`。**两个历史集合都漏了它**，不跟走则 A5 直接红 |
 | A9 | `ResearchSystem/contract/Document-Work-Assurance-Contract-v3.md`<br>`ResearchSystem/contract/Document-Work-Assurance-Contract-v3-supersession-1.md`<br>`ResearchSystem/contract/Document-Work-Assurance-Contract-v3-supersession-2.md` | 3 | 后两份是指令层九成员之二；三份都在 `E2` 冻结面上，**必须逐字节复制**（acceptance：跨仓后 blob id 与签字记录一致） |
 
-**A 小计 108。**
+| A10 | `ResearchSystem/assurance/test/`（3）<br>`ResearchSystem/tooling/tests/fixtures/expected-construction-prompt.txt`<br>`ResearchSystem/tooling/tests/fixtures/expected-read-prompt.txt` | 5 | **已搬过去的测试所读的 golden**，判据与 A8 完全相同。用户 2026-08-15 裁「甲」补入（VERIFY `F-1`）。前三件是 A4 `test_golden_views.py` 的 coverage golden——初版把 `assurance/test/` 明文列进「不 travel」，而携带它的测试已 travel；后两件是 A5 `test_dispatch.py` 的 prompt golden，其整个前缀（`tooling/tests/fixtures/`，调用者 98 件）**无任何 A 行覆盖**，故新仓为 0 |
+
+**A 小计 113**（原 108 + A10 的 5）。
+
+> **A8 抓到的形状，A10 是同一个**（VERIFY `F-1`）：初版为 `review-test` 抓住了「golden 不跟走
+> 则测试红」，却没把同一把尺子扫过其余 fixture 前缀——`E7`/`HD-41` ④ 的扫类不扫实例，本文件
+> 自己没做到。补入前实测新仓 `pytest -q` = **24 failed / 677 passed**，其中 **7 条与 `rsc.py`
+> 无关**：3 条读一份没搬过去的调用者 plan（**两案都不动**，「仪器的测试去读调用者的树」是 R2
+> 的设计问题）、2 条缺 A10 的 coverage golden、2 条缺 A10 的 prompt golden。
 
 ## B —— 治理登记（`HD-28` 点名的 3 件）
 
@@ -109,13 +118,14 @@ done
 
 ## 合计与不在其内的
 
-**travel 合计 = A 108 + B 3 + C 143 = 254 @ `a7437d3`。**
+**travel 合计 = A 113 + B 3 + C 143 = 259 @ `e4ffa2b`。**（初版 254 @ `a7437d3`：两处错——
+revision 标签见抬头的 `L-4` 更正块，成员数见 A10。）
 
 明确**不 travel**（列出是因为三个历史集合各自漏或多算过它们）：
 
 - `ResearchSystem/HARNESS-LEDGER.md` · `HARNESS-LEDGER-archive.md` · `HARNESS-POLICY.md`（`HD-28`/`HD-33`）
 - `ResearchSystem/tooling/rsc.py`（`split-design.md` §1：`rsc` 这个名字是产品的；v3 命令组的搬迁在 R2）
-- `ResearchSystem/assurance/runs/` · `assurance/shadow/` · `assurance/test/` · `generated/` ·
+- `ResearchSystem/assurance/runs/` · `assurance/shadow/` · `generated/` ·
   `handoffs/` · `inventory/` · `contract/` 的其余成员（`HD-28` D/E）
 - `.claude/`（既不在任何 travel 集内，也被 repo-audit 排除；其归属归打包批，`split-design.md` §10.5）
 - `HD-39` 的 171 个待删文件——与本集合**不相交**（v1/v2 族 vs v3 族）
@@ -140,9 +150,17 @@ done
 > 违 `E3`（写进文本的事实断言须先跑可证伪它的命令）与 `HD-41` ①②（「匹配不到任何」「静默失效」
 > 是无量程的绝对量词）。**后果不是措辞**：它把 `E10-sync` 咬人的时刻搞反了——见下。
 
-**真实状态 = 接线缺席、逻辑完好**：两个仓的 `.git/hooks` 都没装 pre-commit，这是
-`document-harness/README.md:34` 已记的 per-machine 约定（fresh clone 上本就没有），与守卫逻辑
-是否成立无关。
+**真实状态 = 调用者已接线、新仓未接线、两边逻辑都完好**：`D:/Thesis/.git/hooks/pre-commit`
+**存在**并逐条调用那三个 check，`core.hooksPath` 未设、worktree 无本地 `hooks/` 目录，故 git
+从 common dir 解析——**本轮每一个 commit 都走过它**；新仓 `.git/hooks` 里没有 pre-commit。
+这是 `document-harness/README.md` "Local enforcement" 已记的 per-machine 约定（装不装是每台
+机器的事，fresh clone 上本就没有），与守卫逻辑是否成立无关。
+
+> **更正（VERIFY `F-2`）**：本段初版写「**两个仓**的 `.git/hooks` 都没装 pre-commit」——假。
+> FULL 的原句带着使它为真的限定（source repo 的 hook 住在 main repo 的 `.git/hooks` 里），
+> 压缩成「两个仓」时把限定丢了。要紧处在于本节主题恰恰是「守卫什么时候真的跑」，被抹平的正是
+> 它要解释的那个不对称。**这是本轮第三次同一形状**（`B-1` · `F-1` · 本条）：写下绝对量词而
+> 没先跑那条能证伪它的命令，而 `HD-41` ① 正是管这个的。
 
 **故 `E10-sync` 的到期点是 R2**：重扎根（去掉 `ResearchSystem/` 前缀）**正是**让那九个字符串
 不再解析的动作。R2 必须把三处镜像的修改与重扎根放进**同一个 commit**——否则就交付一个守卫静默

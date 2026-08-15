@@ -1,0 +1,5 @@
+# The goldens in this directory are compared byte-for-byte, so Git must never rewrite their
+# line endings. Without this, a fresh checkout on Windows would receive CRLF, the byte
+# comparison in test_golden_views.py would fail, and the failure would look like a product
+# regression rather than a checkout artifact.
+* -text

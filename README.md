@@ -41,10 +41,27 @@ Re-rooting is R2's work, together with this repository's own command-line entry 
 
 - **There is no CLI entry point here.** The six v3 commands still live in the caller's
   `rsc.py`, which is deliberately outside the travel set. Extracting them is R2 (riders `RA` /
-  `CLI-hist`); the command will be `do-the-work`, short alias `dtw`. **Measured consequence,
-  so that nobody discovers it the hard way:** `python -m pytest -q` here is
-  **24 failed, 677 passed** — every failure is `can't open file '…/ResearchSystem/tooling/rsc.py'`
-  and nothing else. Red, not vacuously green.
+  `CLI-hist`); the command will be `do-the-work`, short alias `dtw`.
+- **The suite here is red, not vacuously green.** Measured: `python -m pytest -q` →
+  **20 failed, 681 passed**. Broken down by traceback rather than assumed:
+
+  | failures | cause | cleared by |
+  |---|---|---|
+  | 15 | traceback names the absent `ResearchSystem/tooling/rsc.py` | R2's CLI extraction |
+  | 2 | a subprocess that runs `rsc.py` exits 2 instead of 1 — caused by it, does not name it | R2's CLI extraction |
+  | 3 | `governance document not readable at <root>/.goals/plans/document-work-assurance-harness-v3.plan.md` | **nothing yet** — see below |
+
+  **Extracting the CLI does not by itself green this suite.** Three tests read a document that
+  lives in the caller's tree and was never part of the travel set. Whether an instrument test may
+  depend on its caller's content — and if not, what replaces it — is a design question for R2,
+  deliberately not settled by this README.
+
+  It was 24 failed / 677 passed at `8cd0b9c`; four of those were travelled tests whose goldens had
+  not travelled, closed by adding travel-set row `A10` (`assurance/test/` plus the two
+  `expected-*-prompt.txt` files). Two of them printed *"golden missing: run this file with
+  --regen"* — following that instruction here would have overwritten a pinned user-visible
+  surface with whatever this repository currently renders, which is exactly what the pin exists
+  to prevent.
 - **No hook is installed in `.git/hooks`.** That is the harness's standing per-machine
   convention (`ResearchSystem/document-harness/README.md`, "Local enforcement"), not a
   property of this extraction: a fresh clone of the caller's repository has no hook either.

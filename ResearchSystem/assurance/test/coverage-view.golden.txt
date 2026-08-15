@@ -1,0 +1,9 @@
+1 of 3 obligations review_only · 2 bind checks
+obligation                   mode                     fulfillment      checks
+----------------------------------------------------------------------------------------------------
+o-guide                      local_check              IMPLEMENTED      c-guide-exists=PASS, c-guide-links=FAIL
+                             -> docs/guide.md :: # Guide
+o-changelog                  local_check              NOT_IMPLEMENTED  c-changelog-exists=FAIL
+                             !! missing artifact: a-changelog
+o-tone                       review_only              IMPLEMENTED      -
+                             -> docs/guide.md :: ## Overview
