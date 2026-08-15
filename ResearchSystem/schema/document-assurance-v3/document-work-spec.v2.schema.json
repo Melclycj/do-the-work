@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/document-work-spec.v2.schema.json",
+  "title": "DocumentWorkSpec v2 — authored intent (sole owner: stage author / planning agent)",
+  "description": "Versioned successor to the N0-signed document-work-spec.schema.json, per the user-adjudicated special-case bucket design (2026-07-22, wave 1). The v1 file is signed and is never modified; this file supersedes it for newly authored WorkSpecs only — existing records stay valid against pinned v1. Delta over v1, and nothing else: (1) root schema_version const '2' — the instance names its own schema, and the loader keys on it explicitly with no cross-version fallback; (2) verification_mode 'review_only' additionally requires review_only_rationale (why no deterministic check is possible) and not_supported_when (the condition under which the obligation's disposition would be NOT_SUPPORTED — the authoring-time mutation question); deterministic modes forbid both fields. Presence is mechanical; truth is reviewable: a hollow sentence passes this schema and is challenged at FULL review. Everything else is byte-for-byte the v1 design (V3-D5, V3-D7).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "work_id",
+    "objective",
+    "instruction_ref",
+    "instruction_units",
+    "change_boundary",
+    "expected_artifacts",
+    "obligations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2",
+      "description": "The instance names its own schema (special-case bucket adjudication point 6). v1 instances carry no version field; the loader routes on presence/value and never falls back across versions."
+    },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "objective": { "type": "string", "minLength": 8, "maxLength": 500 },
+    "instruction_ref": {
+      "$ref": "common.schema.json#/$defs/frozenFileRef",
+      "description": "The exact frozen raw instruction (plan §6 step 1)."
+    },
+    "instruction_units": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/instructionUnit" },
+      "description": "Stable, locatable units of the raw instruction. Every normative unit maps to at least one obligation; context requires a rationale (V3-D7, N1-A3)."
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "common.schema.json#/$defs/frozenFileRef" },
+      "description": "Exact ground-truth/source refs + revisions. Absent when the instruction itself is the only input — never an empty placeholder."
+    },
+    "document_assurance_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/profileSelection" },
+      "description": "Exact leaf DocumentAssuranceProfile refs. Whole field absent when none (V3-D2: absence means no profile, never an empty placeholder; N1-A1)."
+    },
+    "change_boundary": { "$ref": "common.schema.json#/$defs/changeBoundary" },
+    "expected_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/expectedArtifact" }
+    },
+    "obligations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/obligation" }
+    }
+  },
+  "$defs": {
+    "instructionUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit_id", "locator", "classification"],
+      "properties": {
+        "unit_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "locator": { "$ref": "common.schema.json#/$defs/locator" },
+        "classification": { "enum": ["obligation", "context"] },
+        "obligation_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" }
+        },
+        "rationale": { "type": "string", "minLength": 8, "maxLength": 500 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "classification": { "const": "obligation" } } },
+          "then": {
+            "required": ["obligation_ids"],
+            "not": { "required": ["rationale"] }
+          }
+        },
+        {
+          "if": { "properties": { "classification": { "const": "context" } } },
+          "then": {
+            "required": ["rationale"],
+            "not": { "required": ["obligation_ids"] }
+          }
+        }
+      ],
+      "description": "One locatable instruction unit. 'obligation' binds obligation_ids; 'context' requires an explicit non-normative rationale (V3-D7)."
+    },
+    "profileSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "version"],
+      "properties": {
+        "profile_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "version": { "$ref": "common.schema.json#/$defs/semver" },
+        "digest_sha256": { "$ref": "common.schema.json#/$defs/sha256" },
+        "parameters": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "$ref": "common.schema.json#/$defs/paramName" },
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "number" },
+              { "type": "boolean" },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 }
+              }
+            ]
+          },
+          "description": "Concrete values for the profile's declared parameters — task-local data belongs to the WorkSpec, never the profile (V3-D2)."
+        }
+      },
+      "description": "Exact leaf profile pin. A non-authoritative bundle may expand to leaf refs before authoring but cannot override them (V3-D2)."
+    },
+    "expectedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "path"],
+      "properties": {
+        "artifact_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "path": { "$ref": "common.schema.json#/$defs/relPath" }
+      }
+    },
+    "obligation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["obligation_id", "instruction_unit_ids", "requirement", "verification_mode"],
+      "properties": {
+        "obligation_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "instruction_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" }
+        },
+        "requirement": { "type": "string", "minLength": 8, "maxLength": 1000 },
+        "expected_artifact_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" }
+        },
+        "verification_mode": { "$ref": "common.schema.json#/$defs/verificationMode" },
+        "local_check_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" }
+        },
+        "review_only_rationale": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 500,
+          "description": "Why a deterministic check is not possible for this requirement. Required exactly when verification_mode is 'review_only' — the cheap path costs one honest sentence (witnessed at V3-N3 §4.1: the run's one real defect sat in a five-line-scriptable obligation declared review_only)."
+        },
+        "not_supported_when": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 500,
+          "description": "The concrete condition under which this obligation's review disposition would be NOT_SUPPORTED — the mutation question at authoring time. An obligation whose author cannot answer it is an impression occupying a requirement's slot; the inability to answer surfaces here, before review."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "verification_mode": { "const": "local_check" } }
+          },
+          "then": {
+            "allOf": [
+              { "required": ["local_check_refs"] },
+              { "not": { "required": ["review_only_rationale"] } },
+              { "not": { "required": ["not_supported_when"] } }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": { "verification_mode": { "const": "review_only" } }
+          },
+          "then": {
+            "allOf": [
+              { "required": ["review_only_rationale", "not_supported_when"] },
+              { "not": { "required": ["local_check_refs"] } }
+            ]
+          }
+        }
+      ],
+      "description": "One requirement traced back to instruction units. Deterministic modes bind exact local checks (invariant 8); review_only additionally states why no check is possible and what would refute it (wave 1, narrow scope per adjudication point 1); every obligation later receives exactly one fulfillment claim and one review disposition (invariant 2)."
+    }
+  }
+}

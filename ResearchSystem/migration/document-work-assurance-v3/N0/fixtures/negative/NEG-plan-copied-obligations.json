@@ -1,0 +1,22 @@
+{
+  "plan_id": "readme-refresh-plan",
+  "work_id": "readme-refresh",
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/work-spec.json",
+    "digest_sha256": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c"
+  },
+  "resolver_version": "0.1.0",
+  "obligations": [
+    {
+      "obligation_id": "obl-01",
+      "instruction_unit_ids": ["u-01"],
+      "requirement": "The README lists the seven v3 schema files with working relative links.",
+      "verification_mode": "review_only"
+    }
+  ],
+  "effective_change_boundary": {
+    "write_scope": ["ResearchSystem/document-harness/README.md"],
+    "out": ["ResearchSystem/contract", "ResearchSystem/schema"]
+  },
+  "repair_cap": 1
+}

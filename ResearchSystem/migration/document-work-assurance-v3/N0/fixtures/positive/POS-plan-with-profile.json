@@ -1,0 +1,39 @@
+{
+  "plan_id": "design-note-set-plan",
+  "work_id": "design-note-set",
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/work-spec.json",
+    "digest_sha256": "4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d"
+  },
+  "resolver_version": "0.1.0",
+  "assurance_profiles": [
+    {
+      "profile_id": "markdown-hygiene",
+      "version": "1.0.0",
+      "digest_sha256": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b"
+    }
+  ],
+  "resolved_deltas": {
+    "added_checks": [
+      { "check_id": "chk-links", "kind": "markdown_link", "source_profile": "markdown-hygiene" }
+    ],
+    "materialized_constraints": [
+      {
+        "constraint_id": "no-generated-edit",
+        "source_profile": "markdown-hygiene",
+        "added_out_paths": ["ResearchSystem/generated"]
+      }
+    ]
+  },
+  "effective_change_boundary": {
+    "write_scope": ["ResearchSystem/document-harness/notes"],
+    "out": [
+      "ResearchSystem/contract",
+      "ResearchSystem/schema",
+      "ResearchSystem/migration",
+      "ResearchSystem/generated"
+    ]
+  },
+  "check_order": ["chk-links", "chk-boundary"],
+  "repair_cap": 1
+}

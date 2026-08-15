@@ -1,0 +1,15 @@
+{
+  "audit_id": "audit-readme-refresh",
+  "work_id": "readme-refresh",
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/work-spec.json",
+    "digest_sha256": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c"
+  },
+  "instruction_ref": {
+    "path": "ResearchSystem/document-harness/instructions/readme-refresh.md",
+    "revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "result": "COVERED",
+  "audited_by": "instruction-auditor-context",
+  "audited_at": "2026-07-20"
+}

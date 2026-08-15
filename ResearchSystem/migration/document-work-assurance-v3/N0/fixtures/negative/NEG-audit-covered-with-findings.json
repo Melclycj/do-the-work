@@ -1,0 +1,26 @@
+{
+  "audit_id": "audit-readme-refresh",
+  "work_id": "readme-refresh",
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/work-spec.json",
+    "digest_sha256": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c"
+  },
+  "instruction_ref": {
+    "path": "ResearchSystem/document-harness/instructions/readme-refresh.md",
+    "revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "result": "COVERED",
+  "findings": [
+    {
+      "finding_id": "f-audit-01",
+      "kind": "AMBIGUOUS_UNIT",
+      "instruction_locator": {
+        "path": "ResearchSystem/document-harness/instructions/readme-refresh.md",
+        "anchor": "#scope"
+      },
+      "description": "A COVERED result may not carry findings; this fixture must be rejected."
+    }
+  ],
+  "audited_by": "instruction-auditor-context",
+  "audited_at": "2026-07-20"
+}

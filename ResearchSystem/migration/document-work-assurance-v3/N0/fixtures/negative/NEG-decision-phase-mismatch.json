@@ -1,0 +1,19 @@
+{
+  "decision_id": "dec-start-01",
+  "work_id": "readme-refresh",
+  "run_id": "run-001",
+  "phase": "START",
+  "decision": "ACCEPT",
+  "target": {
+    "resolved_plan_ref": {
+      "path": "ResearchSystem/document-harness/runs/readme-refresh/resolved-plan.json",
+      "digest_sha256": "5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e"
+    },
+    "instruction_audit_ref": {
+      "path": "ResearchSystem/document-harness/runs/readme-refresh/instruction-audit.json",
+      "digest_sha256": "6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f"
+    }
+  },
+  "decided_by": "Melclycj",
+  "decided_at": "2026-07-20"
+}

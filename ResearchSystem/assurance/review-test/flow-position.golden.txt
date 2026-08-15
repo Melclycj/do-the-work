@@ -1,0 +1,4 @@
+status       : REVIEWED
+repair_round : 0
+legal next   : REPAIRING, AWAITING_FINAL, STOPPED_REPLAN
+  !! missing required pointer: coverage_ref

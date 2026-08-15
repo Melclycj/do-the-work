@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/document-assurance-profile.schema.json",
+  "title": "DocumentAssuranceProfile — one witnessed reusable rule family (sole owner: profile publisher)",
+  "description": "Optional, small and evidence-promoted (V3-D2). One rule family, one owner, one reason to change, two real reuse witnesses. Contains NO capability, enforcement level, authority, concrete task path, stage order or one-off schema/rubric (§5.2, N0-A5). Concrete paths and subjects come from the WorkSpec at resolution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile_id",
+    "version",
+    "summary",
+    "rule_family",
+    "owner",
+    "reason_to_change",
+    "reuse_witnesses"
+  ],
+  "anyOf": [
+    { "required": ["change_constraints"] },
+    { "required": ["required_checks"] }
+  ],
+  "properties": {
+    "profile_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "version": { "$ref": "common.schema.json#/$defs/semver" },
+    "summary": { "type": "string", "minLength": 8, "maxLength": 500 },
+    "rule_family": {
+      "$ref": "common.schema.json#/$defs/slug",
+      "description": "Exactly one rule-family identifier — a profile is never a Coding/Marketing/Document/Research mega-template (V3-D2)."
+    },
+    "owner": { "$ref": "common.schema.json#/$defs/actorName" },
+    "reason_to_change": { "type": "string", "minLength": 8, "maxLength": 500 },
+    "parameters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description", "required"],
+        "properties": {
+          "name": { "$ref": "common.schema.json#/$defs/paramName" },
+          "description": { "type": "string", "minLength": 4, "maxLength": 300 },
+          "required": { "type": "boolean" }
+        }
+      },
+      "description": "Declared parameter names only. Values are supplied by the selecting WorkSpec (V3-D2: task-local data stays in the WorkSpec)."
+    },
+    "reuse_witnesses": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["work_description", "evidence_ref"],
+        "properties": {
+          "work_description": { "type": "string", "minLength": 8, "maxLength": 300 },
+          "evidence_ref": { "$ref": "common.schema.json#/$defs/pointerRef" }
+        }
+      },
+      "description": "Two distinct real work instances that demonstrated this rule's reuse before promotion (V3-D2, N1-A2, §10). Synthetic fixtures are not witnesses."
+    },
+    "change_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["constraint_id", "description"],
+        "properties": {
+          "constraint_id": { "$ref": "common.schema.json#/$defs/slug" },
+          "description": { "type": "string", "minLength": 8, "maxLength": 500 },
+          "parameter_names": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "$ref": "common.schema.json#/$defs/paramName" }
+          }
+        }
+      },
+      "description": "Reusable change-boundary constraint patterns. Stages supply concrete paths; constraints only tighten, never widen, the acceptance boundary (V3-D3)."
+    },
+    "required_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check_id", "kind"],
+        "properties": {
+          "check_id": { "$ref": "common.schema.json#/$defs/slug" },
+          "kind": { "$ref": "common.schema.json#/$defs/checkKind" },
+          "parameter_names": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "$ref": "common.schema.json#/$defs/paramName" }
+          }
+        }
+      },
+      "description": "Checks this rule family requires, by closed kind (§5.3). Exact subjects/config are bound at resolution from WorkSpec data."
+    }
+  }
+}

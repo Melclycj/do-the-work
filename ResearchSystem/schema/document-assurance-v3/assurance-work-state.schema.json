@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/assurance-work-state.schema.json",
+  "title": "AssuranceWorkState — one small live state (sole owner: controller)",
+  "description": "Records current status and exact pointers ONLY (V3-D8). Single-writer local scope: no content-addressed event chain, CAS, idempotency protocol or dangling-event recovery. Copied evidence is rejected by additionalProperties:false — every field is an identity, a closed status or a pointer. Cold resume works from this file plus the records it points to (N1-A10).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "work_id",
+    "run_id",
+    "status",
+    "repair_round",
+    "work_spec_ref",
+    "resolved_plan_ref"
+  ],
+  "properties": {
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "status": { "$ref": "common.schema.json#/$defs/assuranceStatus" },
+    "repair_round": {
+      "enum": [0, 1],
+      "description": "0 = original candidate C; 1 = the single user-approved repair produced C2 (V3-D6)."
+    },
+    "work_spec_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "resolved_plan_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "instruction_audit_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "start_decision_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "candidate_ref": { "$ref": "common.schema.json#/$defs/candidateRef" },
+    "fulfillment_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "manifest_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "check_results_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "coverage_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "review_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "repair_decision_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "assurance_candidate_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "final_decision_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "summary_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "blockers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 4, "maxLength": 500 },
+      "description": "Present only when something actually blocks. Never an empty placeholder."
+    },
+    "next_action": { "type": "string", "minLength": 4, "maxLength": 300 }
+  }
+}

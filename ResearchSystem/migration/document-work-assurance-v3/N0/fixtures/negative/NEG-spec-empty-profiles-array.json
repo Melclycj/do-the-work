@@ -1,0 +1,36 @@
+{
+  "work_id": "readme-refresh",
+  "objective": "Refresh the document-harness README so it matches the signed v3 contract.",
+  "instruction_ref": {
+    "path": "ResearchSystem/document-harness/instructions/readme-refresh.md",
+    "revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "instruction_units": [
+    {
+      "unit_id": "u-01",
+      "locator": {
+        "path": "ResearchSystem/document-harness/instructions/readme-refresh.md",
+        "anchor": "#scope"
+      },
+      "classification": "obligation",
+      "obligation_ids": ["obl-01"]
+    }
+  ],
+  "document_assurance_profiles": [],
+  "change_boundary": {
+    "write_scope": ["ResearchSystem/document-harness/README.md"],
+    "out": ["ResearchSystem/contract", "ResearchSystem/schema"]
+  },
+  "expected_artifacts": [
+    { "artifact_id": "readme", "path": "ResearchSystem/document-harness/README.md" }
+  ],
+  "obligations": [
+    {
+      "obligation_id": "obl-01",
+      "instruction_unit_ids": ["u-01"],
+      "requirement": "The README lists the seven v3 schema files with working relative links.",
+      "expected_artifact_ids": ["readme"],
+      "verification_mode": "review_only"
+    }
+  ]
+}

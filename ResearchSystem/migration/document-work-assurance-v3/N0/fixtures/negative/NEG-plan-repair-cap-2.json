@@ -1,0 +1,14 @@
+{
+  "plan_id": "readme-refresh-plan",
+  "work_id": "readme-refresh",
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/work-spec.json",
+    "digest_sha256": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c"
+  },
+  "resolver_version": "0.1.0",
+  "effective_change_boundary": {
+    "write_scope": ["ResearchSystem/document-harness/README.md"],
+    "out": ["ResearchSystem/contract", "ResearchSystem/schema"]
+  },
+  "repair_cap": 2
+}

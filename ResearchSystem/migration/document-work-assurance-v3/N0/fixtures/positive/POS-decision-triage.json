@@ -1,0 +1,15 @@
+{
+  "decision_id": "dec-triage-01",
+  "work_id": "design-note-set",
+  "run_id": "run-002",
+  "phase": "ISSUE_TRIAGE",
+  "decision": "DEFER",
+  "target": {
+    "harness_issue_ref": {
+      "path": "ResearchSystem/document-harness/runs/design-note-set/issues/issue-01.json"
+    }
+  },
+  "rationale": "Real burden, but one occurrence only; revisit after the next real run.",
+  "decided_by": "Melclycj",
+  "decided_at": "2026-07-20"
+}

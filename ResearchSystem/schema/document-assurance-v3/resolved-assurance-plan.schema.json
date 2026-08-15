@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/resolved-assurance-plan.schema.json",
+  "title": "ResolvedAssurancePlan — disposable generated resolution (sole owner: resolver)",
+  "description": "Immutable for a run, disposable and byte-rebuildable from the pinned WorkSpec, exact profile versions and resolver (§5.2). Stores references plus ONLY resolved deltas, boundary projection, check order, conflicts and the repair cap. It copies NO canonical fact — no instruction text, obligations, inputs, expected artifacts or ground truth (N0-A6). Contains no timestamp (byte-rebuildability).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plan_id",
+    "work_id",
+    "work_spec_ref",
+    "resolver_version",
+    "effective_change_boundary",
+    "repair_cap"
+  ],
+  "properties": {
+    "plan_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_spec_ref": {
+      "$ref": "common.schema.json#/$defs/digestRef",
+      "description": "Digest-pinned WorkSpec this plan was resolved from."
+    },
+    "resolver_version": { "$ref": "common.schema.json#/$defs/semver" },
+    "assurance_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["profile_id", "version", "digest_sha256"],
+        "properties": {
+          "profile_id": { "$ref": "common.schema.json#/$defs/slug" },
+          "version": { "$ref": "common.schema.json#/$defs/semver" },
+          "digest_sha256": { "$ref": "common.schema.json#/$defs/sha256" }
+        }
+      },
+      "description": "Exact digest-pinned leaf profiles used. Whole field absent when the WorkSpec selected none — a no-profile resolution is a required positive case (§5.2, N1-A1)."
+    },
+    "resolved_deltas": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "added_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check_id", "kind", "source_profile"],
+            "properties": {
+              "check_id": { "$ref": "common.schema.json#/$defs/slug" },
+              "kind": { "$ref": "common.schema.json#/$defs/checkKind" },
+              "source_profile": { "$ref": "common.schema.json#/$defs/slug" }
+            }
+          }
+        },
+        "tightened_limits": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["limit_name", "value", "source_profile"],
+            "properties": {
+              "limit_name": { "$ref": "common.schema.json#/$defs/paramName" },
+              "value": { "type": "number" },
+              "source_profile": { "$ref": "common.schema.json#/$defs/slug" }
+            }
+          },
+          "description": "Stricter numeric limit wins (§5.2)."
+        },
+        "materialized_constraints": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["constraint_id", "source_profile"],
+            "properties": {
+              "constraint_id": { "$ref": "common.schema.json#/$defs/slug" },
+              "source_profile": { "$ref": "common.schema.json#/$defs/slug" },
+              "added_out_paths": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "common.schema.json#/$defs/relPath" }
+              }
+            }
+          }
+        }
+      },
+      "description": "ONLY the deltas resolution produced beyond the WorkSpec's own content. Absent when resolution added nothing."
+    },
+    "conflicts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["conflict_id", "description", "owners"],
+        "properties": {
+          "conflict_id": { "$ref": "common.schema.json#/$defs/slug" },
+          "description": { "type": "string", "minLength": 8, "maxLength": 500 },
+          "owners": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 2, "maxLength": 120 }
+          }
+        }
+      },
+      "description": "Named, owner-attributed conflicts. Any conflict fails the resolution: a plan carrying conflicts is unusable for START (§5.2: conflicts name owners and fail)."
+    },
+    "effective_change_boundary": {
+      "$ref": "common.schema.json#/$defs/changeBoundary",
+      "description": "Boundary projection after constraint materialization. Still an acceptance boundary, not hard enforcement (V3-D3)."
+    },
+    "check_order": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "common.schema.json#/$defs/slug" },
+      "description": "Deterministic execution order over all resolved check ids. Absent when the run has no deterministic checks."
+    },
+    "repair_cap": {
+      "const": 1,
+      "description": "At most one user-approved bounded repair per run (V3-D6)."
+    }
+  }
+}

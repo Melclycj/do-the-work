@@ -1,0 +1,6 @@
+outcome      : ACCEPT_WITH_LIMITATIONS
+candidate    : bound by digest cccccccccccc
+promoted     : no
+  reason     : the user accepted the document set but chose not to promote it in this session
+  !! accepted limitation: the tone requirement was accepted as unverifiable rather than met
+  !! accepted limitation: the governance frontmatter scan did not run in this run

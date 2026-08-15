@@ -1,0 +1,15 @@
+{
+  "decision_id": "dec-final-01",
+  "work_id": "design-note-set",
+  "run_id": "run-002",
+  "phase": "FINAL",
+  "decision": "ACCEPT_WITH_LIMITATIONS",
+  "target": {
+    "assurance_candidate_ref": {
+      "path": "ResearchSystem/document-harness/runs/design-note-set/assurance-candidate.json",
+      "digest_sha256": "7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a"
+    }
+  },
+  "decided_by": "Melclycj",
+  "decided_at": "2026-07-20"
+}

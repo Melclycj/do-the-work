@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/common.schema.json",
+  "title": "Document Work Assurance v3 — shared vocabulary",
+  "description": "Single home for the closed shared $defs used by every document-assurance-v3 schema (plan V3-D1..D10). Document-work vocabulary only: no capability, enforcement, activation, authority-grant, receipt, event-chain or consumer/platform vocabulary exists here (N0-A5, N0-A8). Normalized local paths only — no URI/glob algebra (V3-D3).",
+  "type": "object",
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,63}$",
+      "description": "Stable lowercase identifier."
+    },
+    "semver": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gitRev": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Exact Git commit identity (full SHA-1)."
+    },
+    "isoDate": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}(:[0-9]{2})?(Z|[+-][0-9]{2}:[0-9]{2})?)?$"
+    },
+    "actorName": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 120
+    },
+    "relPath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!\\.\\.(/|$))(?!.*/\\.\\.(/|$))[A-Za-z0-9._/ -]+$",
+      "description": "Normalized repository-relative local path. No leading slash, no drive letter, no '..' segment, no glob (V3-D3: normalized local paths, not URI/glob algebra)."
+    },
+    "frozenFileRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "revision"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relPath" },
+        "revision": { "$ref": "#/$defs/gitRev" },
+        "digest_sha256": { "$ref": "#/$defs/sha256" }
+      },
+      "description": "Exact frozen input: path pinned to one Git revision (plan §6 step 1)."
+    },
+    "digestRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "digest_sha256"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relPath" },
+        "digest_sha256": { "$ref": "#/$defs/sha256" },
+        "revision": { "$ref": "#/$defs/gitRev" }
+      },
+      "description": "Content-bound reference: exact bytes pinned by digest (V3-D5: digests are generated bindings, not the product centre)."
+    },
+    "pointerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relPath" },
+        "digest_sha256": { "$ref": "#/$defs/sha256" }
+      },
+      "description": "Lightweight state pointer (V3-D8: pointers, never copied evidence)."
+    },
+    "locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "anchor"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relPath" },
+        "anchor": { "type": "string", "minLength": 1, "maxLength": 300 }
+      },
+      "description": "Stable in-file location: heading, block id or line span. Anchor is always required — a bare file path is not a locator."
+    },
+    "candidateRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch"],
+      "properties": {
+        "branch": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "commit": { "$ref": "#/$defs/gitRev" }
+      },
+      "description": "Isolated payload candidate identity (V3-D3: candidate branch/worktree rooted at an exact base)."
+    },
+    "changeBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["write_scope", "out"],
+      "properties": {
+        "write_scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relPath" }
+        },
+        "out": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relPath" }
+        }
+      },
+      "description": "Acceptance boundary, not hard enforcement (V3-D3): only a candidate whose observed change set conforms may be accepted. An entry names a file or a directory subtree."
+    },
+    "checkKind": {
+      "enum": ["file_exists", "json_schema", "markdown_link", "locator_exists", "git_diff_boundary", "command_exit"],
+      "description": "Closed LocalCheckSpec union (plan §5.3). Unknown kind is SPEC_GAP, never dynamic tool discovery."
+    },
+    "verificationMode": {
+      "enum": ["local_check", "review_only"],
+      "description": "How an obligation is verified: deterministic local check(s) decide it, or semantic review does (plan §5.1, invariant 8). The both-modes value was deleted 2026-08-05 under a recorded user ruling (SIMP-A1): when a check decides only half an obligation, the checker owns half that obligation's truth, so review cannot dispose of the obligation without first judging the checker — which is what pulled every run-local checker into the review subject. The test is whether the machine's answer is the whole answer; if it is not, the mode is review_only and the rationale says why."
+    },
+    "assuranceStatus": {
+      "enum": ["RESOLVED", "AUDITED", "EXECUTING", "EVIDENCED", "REVIEWED", "REPAIRING", "AWAITING_FINAL", "CLOSED", "STOPPED_REPLAN"],
+      "description": "Closed AssuranceWorkState status set mapped 1:1 onto the product flow (plan §6; V3-D8)."
+    },
+    "auditResult": {
+      "enum": ["COVERED", "SPEC_GAP"],
+      "description": "Closed InstructionCoverageAudit result (V3-D7). No repair loop exists for the audit."
+    },
+    "auditFindingKind": {
+      "enum": ["UNMAPPED_NORMATIVE_TEXT", "MISSING_OBLIGATION_LINK", "UNJUSTIFIED_CONTEXT", "AMBIGUOUS_UNIT", "BROKEN_LOCATOR"],
+      "description": "Closed instruction-coverage defect classes observed in real document work (silent omission family)."
+    },
+    "decisionPhase": {
+      "enum": ["START", "REPAIR", "FINAL", "ISSUE_TRIAGE"],
+      "description": "Closed UserDecision phases (V3-D4). Exactly one typed decision interface exists."
+    },
+    "paramName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{1,63}$"
+    }
+  }
+}

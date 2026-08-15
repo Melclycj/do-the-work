@@ -1,0 +1,39 @@
+{
+  "profile_id": "markdown-hygiene",
+  "version": "1.0.0",
+  "summary": "Markdown link integrity and generated-view protection for document-harness note work.",
+  "rule_family": "markdown-hygiene",
+  "owner": "Melclycj",
+  "reason_to_change": "Changes only when the markdown link-integrity rule itself changes, never per task.",
+  "parameters": [
+    {
+      "name": "link_scope",
+      "description": "Directory whose internal markdown links must resolve.",
+      "required": true
+    }
+  ],
+  "reuse_witnesses": [
+    {
+      "work_description": "Real archived multi-file design-note workflow (first witnessed reuse).",
+      "evidence_ref": { "path": "ResearchSystem/migration/document-work-assurance-v3/N3/shadow-run-1.md" }
+    },
+    {
+      "work_description": "Real structured JSON/YAML metadata workflow (second witnessed reuse).",
+      "evidence_ref": { "path": "ResearchSystem/migration/document-work-assurance-v3/N3/shadow-run-2.md" }
+    }
+  ],
+  "change_constraints": [
+    {
+      "constraint_id": "no-generated-edit",
+      "description": "Generated view directories are never hand-edited by document work.",
+      "parameter_names": ["link_scope"]
+    }
+  ],
+  "required_checks": [
+    {
+      "check_id": "chk-links",
+      "kind": "markdown_link",
+      "parameter_names": ["link_scope"]
+    }
+  ]
+}

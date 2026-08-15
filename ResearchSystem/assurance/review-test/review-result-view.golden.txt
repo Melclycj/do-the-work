@@ -1,0 +1,11 @@
+round        : FULL
+verdict      : CHANGES_REQUIRED
+candidate    : aaaaaaaaaaaa
+reviewed_by  : Reviewer Rin
+instruction  : COMPLETE
+  !! ob-changelog: NOT_SUPPORTED — the changelog entry names a different release than the instruction froze
+  !! ob-tone: UNVERIFIABLE — the instruction gives no criterion the frozen subjects could be read against
+  [BLOCKER] f-changelog-release: the changelog entry is filed under 2.1 but the instruction freezes 2.0
+            minimum fix: move the entry under the 2.0 heading; no other line needs to change
+  [finding] f-heading-case: two headings use sentence case where the rest of the document uses title case
+  ?? residual: whether the tone requirement was met is a judgment the frozen subjects cannot settle

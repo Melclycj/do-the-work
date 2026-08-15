@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/user-decision.schema.json",
+  "title": "UserDecision — lightweight workflow metadata (sole owner: user)",
+  "description": "Exactly one typed decision interface with closed phases (V3-D4). Each phase permits a closed decision set bound to one exact target. A START decision is a workflow gate, not proof that pre-start writes were impossible. V3 has no PolicyApprovalReceipt, ActivationReceipt or runtime-authority snapshot.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "work_id",
+    "phase",
+    "decision",
+    "target",
+    "decided_by",
+    "decided_at"
+  ],
+  "properties": {
+    "decision_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "phase": { "$ref": "common.schema.json#/$defs/decisionPhase" },
+    "decision": {
+      "enum": [
+        "START",
+        "REPLAN",
+        "APPLY_ACCEPTED_FINDINGS",
+        "NO_REPAIR",
+        "ACCEPT",
+        "ACCEPT_WITH_LIMITATIONS",
+        "REJECT",
+        "WORKFLOW_FIX",
+        "DOCUMENT_ASSURANCE_PROFILE_CANDIDATE",
+        "VERIFIER_FIX",
+        "CORE_CANDIDATE",
+        "DEFER",
+        "DISMISS"
+      ]
+    },
+    "target": { "type": "object" },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 8, "maxLength": 500 },
+      "description": "User-acknowledged residual limitations. Required for ACCEPT_WITH_LIMITATIONS (V3-D6: residual uncertainty is disclosed data, never a fourth control verdict)."
+    },
+    "rationale": { "type": "string", "minLength": 4, "maxLength": 1000 },
+    "decided_by": { "$ref": "common.schema.json#/$defs/actorName" },
+    "decided_at": { "$ref": "common.schema.json#/$defs/isoDate" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "phase": { "const": "START" } } },
+      "then": {
+        "properties": {
+          "decision": { "enum": ["START", "REPLAN"] },
+          "target": { "$ref": "#/$defs/startTarget" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "phase": { "const": "REPAIR" } } },
+      "then": {
+        "properties": {
+          "decision": { "enum": ["APPLY_ACCEPTED_FINDINGS", "NO_REPAIR"] },
+          "target": { "$ref": "#/$defs/repairTarget" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "phase": { "const": "FINAL" } } },
+      "then": {
+        "properties": {
+          "decision": { "enum": ["ACCEPT", "ACCEPT_WITH_LIMITATIONS", "REJECT", "REPLAN"] },
+          "target": { "$ref": "#/$defs/finalTarget" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "phase": { "const": "ISSUE_TRIAGE" } } },
+      "then": {
+        "properties": {
+          "decision": {
+            "enum": ["WORKFLOW_FIX", "DOCUMENT_ASSURANCE_PROFILE_CANDIDATE", "VERIFIER_FIX", "CORE_CANDIDATE", "DEFER", "DISMISS"]
+          },
+          "target": { "$ref": "#/$defs/issueTarget" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "decision": { "const": "ACCEPT_WITH_LIMITATIONS" } } },
+      "then": { "required": ["limitations"] }
+    },
+    {
+      "if": {
+        "properties": { "phase": { "const": "REPAIR" }, "decision": { "const": "APPLY_ACCEPTED_FINDINGS" } },
+        "required": ["phase", "decision"]
+      },
+      "then": {
+        "properties": {
+          "target": { "required": ["accepted_finding_ids", "repair_boundary"] }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "startTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resolved_plan_ref", "instruction_audit_ref"],
+      "properties": {
+        "resolved_plan_ref": { "$ref": "common.schema.json#/$defs/digestRef" },
+        "instruction_audit_ref": { "$ref": "common.schema.json#/$defs/digestRef" }
+      },
+      "description": "START binds the exact ResolvedAssurancePlan + InstructionCoverageAudit (V3-D4, N1-A4)."
+    },
+    "repairTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_ref"],
+      "properties": {
+        "candidate_ref": { "$ref": "common.schema.json#/$defs/candidateRef" },
+        "accepted_finding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" }
+        },
+        "repair_boundary": { "$ref": "common.schema.json#/$defs/changeBoundary" }
+      },
+      "description": "REPAIR binds the original candidate, the accepted finding IDs and their minimum repair boundary (V3-D6, N2-A4)."
+    },
+    "finalTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assurance_candidate_ref"],
+      "properties": {
+        "assurance_candidate_ref": { "$ref": "common.schema.json#/$defs/digestRef" }
+      },
+      "description": "FINAL binds one exact AssuranceCandidate (invariant 12)."
+    },
+    "issueTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["harness_issue_ref"],
+      "properties": {
+        "harness_issue_ref": { "$ref": "common.schema.json#/$defs/pointerRef" }
+      },
+      "description": "ISSUE_TRIAGE routes one immutable post-run HarnessIssue (V3-D10)."
+    }
+  }
+}

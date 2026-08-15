@@ -1,0 +1,68 @@
+{
+  "work_id": "design-note-set",
+  "objective": "Author the coordinated two-file design note set described by the frozen instruction.",
+  "instruction_ref": {
+    "path": "ResearchSystem/document-harness/instructions/design-note-set.md",
+    "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "instruction_units": [
+    {
+      "unit_id": "u-01",
+      "locator": {
+        "path": "ResearchSystem/document-harness/instructions/design-note-set.md",
+        "anchor": "#requirements"
+      },
+      "classification": "obligation",
+      "obligation_ids": ["obl-01", "obl-02"]
+    },
+    {
+      "unit_id": "u-02",
+      "locator": {
+        "path": "ResearchSystem/document-harness/instructions/design-note-set.md",
+        "anchor": "#background"
+      },
+      "classification": "context",
+      "rationale": "Background narrative only; it imposes no requirement on the candidate."
+    }
+  ],
+  "inputs": [
+    {
+      "path": "ResearchSystem/document-harness/examples/ground-truth-outline.md",
+      "revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "digest_sha256": "1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a"
+    }
+  ],
+  "document_assurance_profiles": [
+    {
+      "profile_id": "markdown-hygiene",
+      "version": "1.0.0",
+      "digest_sha256": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+      "parameters": { "link_scope": "ResearchSystem/document-harness" }
+    }
+  ],
+  "change_boundary": {
+    "write_scope": ["ResearchSystem/document-harness/notes"],
+    "out": ["ResearchSystem/contract", "ResearchSystem/schema", "ResearchSystem/migration"]
+  },
+  "expected_artifacts": [
+    { "artifact_id": "note-main", "path": "ResearchSystem/document-harness/notes/design-note.md" },
+    { "artifact_id": "note-index", "path": "ResearchSystem/document-harness/notes/INDEX.md" }
+  ],
+  "obligations": [
+    {
+      "obligation_id": "obl-01",
+      "instruction_unit_ids": ["u-01"],
+      "requirement": "Both note files exist and every internal link between them resolves.",
+      "expected_artifact_ids": ["note-main", "note-index"],
+      "verification_mode": "local_check",
+      "local_check_refs": ["chk-links"]
+    },
+    {
+      "obligation_id": "obl-02",
+      "instruction_unit_ids": ["u-01"],
+      "requirement": "No file outside the declared write scope is added, modified or deleted.",
+      "verification_mode": "local_check",
+      "local_check_refs": ["chk-boundary"]
+    }
+  ]
+}

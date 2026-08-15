@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/harness-issue.schema.json",
+  "title": "HarnessIssue — one immutable post-run observation (sole owner: observer)",
+  "description": "Growth happens after the run (V3-D10). A real harness defect or burden may be recorded here; it never changes the active WorkSpec, plan, profile, checks or verdict, and it is not part of any live run's evidence. Only a post-run user ISSUE_TRIAGE decision routes it (contract §11) — which is why this document carries NO routing, state, resolution or triage field of its own. Their absence is enforced by additionalProperties:false rather than left to convention: a status field here would quietly become a lifecycle, and V3 has no Retrospective state machine, dedup registry or automatic maintenance stage (N2-A10, N2-A11). An issue is a thing observed, recorded once and thereafter read-only; what to DO about it is a user decision living in its own typed document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "issue_id",
+    "work_id",
+    "run_id",
+    "kind",
+    "statement",
+    "evidence_refs",
+    "observed_after",
+    "observed_by"
+  ],
+  "properties": {
+    "issue_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "run_id": {
+      "$ref": "common.schema.json#/$defs/slug",
+      "description": "The run during which the defect or burden was observed. This binds the observation to a context; it does not make the issue part of that run's evidence."
+    },
+    "kind": {
+      "enum": ["HARNESS_DEFECT", "PROCESS_BURDEN"],
+      "description": "A defect is the harness doing something wrong; a burden is the harness costing more than it protects. The second exists because plan §10 makes it an adoption criterion — if measured control effort dominates the protected document work the decision is REVISE_V3, and that judgment needs recorded instances rather than an impression."
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 2000,
+      "description": "What was observed, in the observer's own words."
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "common.schema.json#/$defs/digestRef" },
+      "description": "At least one exact document supporting the observation. Required and non-empty: an evidence-free issue is an opinion, and routing opinions into workflow, profile or core changes is how a harness grows features nobody could later justify (V3-D10)."
+    },
+    "observed_after": {
+      "$ref": "common.schema.json#/$defs/assuranceStatus",
+      "enum": ["CLOSED", "STOPPED_REPLAN"],
+      "description": "The terminal status the run had reached when this was recorded. Narrowed from the shared status enum to the two terminal values, which makes 'post-run only' a property of the document rather than a rule someone has to remember: an issue claiming to be observed mid-run is unrepresentable, so it cannot be used to influence a run in flight (N2-A10)."
+    },
+    "observed_by": { "$ref": "common.schema.json#/$defs/actorName" },
+    "observed_at": { "$ref": "common.schema.json#/$defs/isoDate" }
+  }
+}

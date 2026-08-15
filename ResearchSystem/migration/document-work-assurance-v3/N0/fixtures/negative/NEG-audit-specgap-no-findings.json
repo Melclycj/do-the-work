@@ -1,0 +1,15 @@
+{
+  "audit_id": "audit-design-note-set",
+  "work_id": "design-note-set",
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/work-spec.json",
+    "digest_sha256": "4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d"
+  },
+  "instruction_ref": {
+    "path": "ResearchSystem/document-harness/instructions/design-note-set.md",
+    "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "result": "SPEC_GAP",
+  "audited_by": "instruction-auditor-context",
+  "audited_at": "2026-07-20"
+}

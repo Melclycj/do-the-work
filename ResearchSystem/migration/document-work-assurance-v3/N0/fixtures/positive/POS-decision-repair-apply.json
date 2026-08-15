@@ -1,0 +1,21 @@
+{
+  "decision_id": "dec-repair-01",
+  "work_id": "design-note-set",
+  "run_id": "run-002",
+  "phase": "REPAIR",
+  "decision": "APPLY_ACCEPTED_FINDINGS",
+  "target": {
+    "candidate_ref": {
+      "branch": "candidate/design-note-set-c1",
+      "commit": "dddddddddddddddddddddddddddddddddddddddd"
+    },
+    "accepted_finding_ids": ["f-rev-01", "f-rev-03"],
+    "repair_boundary": {
+      "write_scope": ["ResearchSystem/document-harness/notes/design-note.md"],
+      "out": ["ResearchSystem/document-harness/notes/INDEX.md"]
+    }
+  },
+  "rationale": "Accepted the two blocking findings; the index file is correct and stays untouched.",
+  "decided_by": "Melclycj",
+  "decided_at": "2026-07-20"
+}

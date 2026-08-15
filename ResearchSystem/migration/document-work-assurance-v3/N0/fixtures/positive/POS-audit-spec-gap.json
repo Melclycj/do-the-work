@@ -1,0 +1,35 @@
+{
+  "audit_id": "audit-design-note-set",
+  "work_id": "design-note-set",
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/work-spec.json",
+    "digest_sha256": "4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d"
+  },
+  "instruction_ref": {
+    "path": "ResearchSystem/document-harness/instructions/design-note-set.md",
+    "revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "result": "SPEC_GAP",
+  "findings": [
+    {
+      "finding_id": "f-audit-01",
+      "kind": "UNMAPPED_NORMATIVE_TEXT",
+      "instruction_locator": {
+        "path": "ResearchSystem/document-harness/instructions/design-note-set.md",
+        "anchor": "#naming-rules"
+      },
+      "description": "The naming-rules paragraph imposes a requirement but no instruction unit covers it."
+    },
+    {
+      "finding_id": "f-audit-02",
+      "kind": "UNJUSTIFIED_CONTEXT",
+      "instruction_locator": {
+        "path": "ResearchSystem/document-harness/instructions/design-note-set.md",
+        "anchor": "#review-notes"
+      },
+      "description": "The review-notes section is classified context but contains an imperative sentence."
+    }
+  ],
+  "audited_by": "instruction-auditor-context",
+  "audited_at": "2026-07-20"
+}

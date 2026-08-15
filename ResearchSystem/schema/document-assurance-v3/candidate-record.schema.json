@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/candidate-record.schema.json",
+  "title": "CandidateRecord — owner-partitioned immutable sections for one payload candidate",
+  "description": "Logical interfaces do not imply one standalone file each (plan §4): the fulfillment claim and the artifact manifest live as owner-partitioned immutable sections under one run root. The envelope is controller-generated identity and pointers; 'fulfillment' is authored solely by the executor; 'manifest' is authored solely by the deterministic diff verifier (V3-D5, N1-A7). The record lives in the control root E(C), OUTSIDE the payload candidate's own identity — payload and assurance evidence never share identity (V3-D9, N1-A5). Repair produces a new record for C2 with repair_round 1; a record is never edited in place.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "work_id",
+    "run_id",
+    "repair_round",
+    "candidate_ref",
+    "base_revision",
+    "control_root",
+    "fulfillment",
+    "manifest"
+  ],
+  "properties": {
+    "record_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "repair_round": {
+      "enum": [0, 1],
+      "description": "0 = the original candidate C; 1 = the single user-approved repair candidate C2 (V3-D6, repair_cap 1)."
+    },
+    "candidate_ref": {
+      "$ref": "common.schema.json#/$defs/candidateRef",
+      "description": "The exact isolated payload candidate this record speaks about."
+    },
+    "base_revision": {
+      "$ref": "common.schema.json#/$defs/gitRev",
+      "description": "The exact base B the candidate was rooted at and the diff was taken against."
+    },
+    "control_root": {
+      "$ref": "common.schema.json#/$defs/relPath",
+      "description": "The control root E(C) holding this record and all other assurance evidence. No payload change may fall inside it: a control file written into the payload candidate collapses the payload/evidence identity separation (V3-D9, N1-A5)."
+    },
+    "fulfillment": { "$ref": "#/$defs/fulfillmentPartition" },
+    "manifest": { "$ref": "#/$defs/manifestPartition" }
+  },
+  "$defs": {
+    "fulfillmentPartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authored_by", "claims"],
+      "properties": {
+        "authored_by": {
+          "$ref": "common.schema.json#/$defs/actorName",
+          "description": "The executor. The executor authors claims about its own work and NOTHING else — it can never author a manifest, a CheckResult or a reviewer verdict (V3-D5)."
+        },
+        "authored_at": { "$ref": "common.schema.json#/$defs/isoDate" },
+        "claims": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/fulfillmentClaim" },
+          "description": "Exactly one claim per obligation — no more, no fewer (invariant 2). The join against the WorkSpec's obligation set is enforced outside this schema, which cannot see the WorkSpec."
+        }
+      },
+      "description": "Executor-owned partition: one implemented/not-implemented claim and exact candidate locators per obligation."
+    },
+    "fulfillmentClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["obligation_id", "status"],
+      "properties": {
+        "obligation_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "status": {
+          "enum": ["IMPLEMENTED", "NOT_IMPLEMENTED"],
+          "description": "Closed claim set. NOT_IMPLEMENTED is explicit and can never be silently rendered as unqualified success (invariant 4)."
+        },
+        "implementation_locators": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/locator" },
+          "description": "Where in the exact payload candidate the work landed. Required for IMPLEMENTED and forbidden for NOT_IMPLEMENTED; a claim is not evidence — each locator is separately checked for resolution against the candidate tree (invariant 3)."
+        },
+        "note": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 1000,
+          "description": "Required for NOT_IMPLEMENTED: the explicit reason the obligation was not implemented."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "IMPLEMENTED" } }, "required": ["status"] },
+          "then": { "required": ["implementation_locators"] }
+        },
+        {
+          "if": { "properties": { "status": { "const": "NOT_IMPLEMENTED" } }, "required": ["status"] },
+          "then": {
+            "required": ["note"],
+            "not": { "required": ["implementation_locators"] }
+          }
+        }
+      ]
+    },
+    "manifestPartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authored_by", "boundary_result", "expected_artifact_results"],
+      "properties": {
+        "authored_by": {
+          "$ref": "common.schema.json#/$defs/actorName",
+          "description": "The deterministic diff verifier — the SOLE author of this partition (V3-D5, N1-A7). It must not be the executor of the same run."
+        },
+        "authored_at": { "$ref": "common.schema.json#/$defs/isoDate" },
+        "changes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/observedChange" },
+          "description": "Every actual add/modify/delete observed between the base and the candidate (invariant 5). Absent means the observed diff was empty — never an empty placeholder."
+        },
+        "boundary_result": {
+          "enum": ["CONFORMANT", "NONCONFORMANT"],
+          "description": "Whether the observed change set conforms to the effective change boundary. This is an ACCEPTANCE boundary result: it never asserts that the boundary prevented bytes from being written (V3-D3). Any out-of-boundary delta is NONCONFORMANT (invariant 6)."
+        },
+        "out_of_boundary_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/relPath" },
+          "description": "Required when NONCONFORMANT: the exact observed paths that fell outside the effective boundary."
+        },
+        "expected_artifact_results": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/expectedArtifactResult" },
+          "description": "Every expected artifact declared by the WorkSpec is either present in the candidate tree or explicitly missing — silence is not an option (invariant 7)."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "boundary_result": { "const": "NONCONFORMANT" } }, "required": ["boundary_result"] },
+          "then": { "required": ["out_of_boundary_paths"] }
+        },
+        {
+          "if": { "properties": { "boundary_result": { "const": "CONFORMANT" } }, "required": ["boundary_result"] },
+          "then": { "not": { "required": ["out_of_boundary_paths"] } }
+        }
+      ],
+      "description": "Diff-verifier-owned partition: the actual observed change set, the boundary result and expected-artifact presence."
+    },
+    "observedChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "change_kind"],
+      "properties": {
+        "path": { "$ref": "common.schema.json#/$defs/relPath" },
+        "change_kind": { "enum": ["added", "modified", "deleted"] }
+      }
+    },
+    "expectedArtifactResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "present"],
+      "properties": {
+        "artifact_id": {
+          "$ref": "common.schema.json#/$defs/slug",
+          "description": "The WorkSpec's expected-artifact id. Its declared path is not copied here (N0-A6); presence was observed at that path in the candidate tree."
+        },
+        "present": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+issue        : hi-golden (PROCESS_BURDEN)
+run          : golden-run, observed after CLOSED
+observed_by  : Observer Oki
+statement    : freezing the package by hand took longer than writing the document it reviews
+  -> evidence: control/package.json
+  (routing is a separate user ISSUE_TRIAGE decision; this document has none)

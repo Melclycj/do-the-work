@@ -1,0 +1,7 @@
+round        : FULL
+verdict      : REVIEWED_NO_BLOCKER
+candidate    : aaaaaaaaaaaa
+reviewed_by  : Reviewer Rin
+instruction  : COMPLETE
+  [finding] f-heading-case: two headings use sentence case where the rest of the document uses title case
+  -- the reviewer recorded no residual uncertainty

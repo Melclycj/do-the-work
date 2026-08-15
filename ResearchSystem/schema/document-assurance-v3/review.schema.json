@@ -1,0 +1,347 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/review.schema.json",
+  "title": "ReviewPackage — the frozen review subject (root) + ReviewResult ($defs/reviewResult)",
+  "description": "Bounded, non-recursive semantic review (V3-D6, contract §8). The package is the frozen floor of the review — the guaranteed minimum evidence set the executor must deliver, never a ceiling on what the reviewer may read at the pinned revisions: exact revision + locator + digest per member, never a byte copy of every source (invariant 9). Membership is by reference precisely so a package cannot become a second copy of the work that then drifts from it. An executor summary may be attached but is supplemental only — a package carrying a summary and no actual subjects is not a review subject at all (N2-A1). ReviewResult is owned solely by the independent reviewer (V3-D5); the controller may bind it but may never restate it with stronger meaning. REVIEWED_NO_BLOCKER means only 'no blocking discrepancy found within the frozen subjects and review dimensions' — it is never a proof of correctness, and no field anywhere below records one (N2-A3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "package_id",
+    "work_id",
+    "run_id",
+    "repair_round",
+    "review_round",
+    "candidate_ref",
+    "base_revision",
+    "frozen_by",
+    "members"
+  ],
+  "properties": {
+    "package_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "repair_round": {
+      "enum": [0, 1],
+      "description": "0 = the original candidate C reviewed by FULL; 1 = C2, the single user-approved repair, reviewed by VERIFY (V3-D6)."
+    },
+    "review_round": { "$ref": "#/$defs/reviewRound" },
+    "candidate_ref": {
+      "$ref": "common.schema.json#/$defs/candidateRef",
+      "required": ["commit"],
+      "description": "The exact payload candidate under review. The commit is required here even though candidateRef leaves it optional: a review bound to a branch name alone would follow the branch as it moves, which is the 'review candidate A, accept candidate B' failure the digests elsewhere exist to prevent."
+    },
+    "base_revision": { "$ref": "common.schema.json#/$defs/gitRev" },
+    "frozen_at": { "$ref": "common.schema.json#/$defs/isoDate" },
+    "frozen_by": {
+      "$ref": "common.schema.json#/$defs/actorName",
+      "description": "The controller that froze the subjects. Freezing is a binding act, not a judgment: it fixes WHAT is reviewed and never contributes an opinion about it (V3-D5)."
+    },
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/packageMember" }
+    },
+    "executor_summary_ref": {
+      "$ref": "common.schema.json#/$defs/pointerRef",
+      "description": "Optional executor-written summary. SUPPLEMENTAL ONLY (invariant 9): it never substitutes for a member, and the required-role assertions below hold regardless of whether it is present."
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "members": { "contains": { "properties": { "role": { "const": "raw_instruction" } }, "required": ["role"] } }
+      },
+      "description": "The raw frozen instruction must be in the package: FULL rechecks instruction-to-obligation completeness against it, and a reviewer given only the derived unit map cannot see an omission the map itself made (V3-D7, invariant 10)."
+    },
+    {
+      "properties": {
+        "members": { "contains": { "properties": { "role": { "const": "resolved_plan" } }, "required": ["role"] } }
+      }
+    },
+    {
+      "properties": {
+        "members": { "contains": { "properties": { "role": { "const": "candidate_artifact" } }, "required": ["role"] } }
+      },
+      "description": "At least one ACTUAL candidate artifact. This is the assertion that makes summary-only substitution fail (N2-A1)."
+    },
+    {
+      "properties": {
+        "members": { "contains": { "properties": { "role": { "const": "fulfillment" } }, "required": ["role"] } }
+      }
+    },
+    {
+      "properties": {
+        "members": { "contains": { "properties": { "role": { "const": "manifest" } }, "required": ["role"] } }
+      }
+    },
+    {
+      "properties": {
+        "members": { "contains": { "properties": { "role": { "const": "coverage" } }, "required": ["role"] } }
+      }
+    }
+  ],
+  "$defs": {
+    "reviewRound": {
+      "enum": ["FULL", "VERIFY"],
+      "description": "One FULL, then at most one targeted VERIFY after a user-approved repair. No third round and no review-of-review exists (V3-D6, N2-A11)."
+    },
+    "memberRole": {
+      "enum": [
+        "raw_instruction",
+        "source_input",
+        "resolved_plan",
+        "candidate_artifact",
+        "fulfillment",
+        "manifest",
+        "check_result",
+        "coverage"
+      ],
+      "description": "Closed logical membership of a ReviewPackage (invariant 9). 'source_input' is conditional because a WorkSpec may declare no inputs; 'check_result' is conditional because every obligation may be review_only. Both are still required to be COMPLETE when they exist, which the reviewer module enforces against the run rather than the schema — the schema cannot see how many results a run produced."
+    },
+    "packageMember": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["member_id", "role", "ref"],
+      "properties": {
+        "member_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "role": { "$ref": "#/$defs/memberRole" },
+        "ref": {
+          "$ref": "common.schema.json#/$defs/digestRef",
+          "description": "Exact bytes by path + digest. There is deliberately no field here that could hold content: membership binds subjects, it never copies them (invariant 9)."
+        },
+        "locator": {
+          "$ref": "common.schema.json#/$defs/locator",
+          "description": "Optional in-file location when the member is a section rather than a whole file."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "role": { "enum": ["raw_instruction", "source_input", "candidate_artifact"] } },
+            "required": ["role"]
+          },
+          "then": {
+            "properties": { "ref": { "required": ["revision"] } },
+            "description": "Members that come out of a tree must pin their revision as well as their digest. A digest alone says 'these bytes'; the revision says WHICH TREE those bytes were taken from, which is the disclosure N0-record R1 exists for. Generated control documents (plan, fulfillment, manifest, coverage, check results) live in the control root rather than in a reviewed tree, so a digest binds them completely."
+          }
+        }
+      ]
+    },
+    "instructionCompleteness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "instruction_ref"],
+      "properties": {
+        "result": {
+          "enum": ["COMPLETE", "INCOMPLETE"],
+          "description": "The reviewer's own recheck of instruction-unit coverage against the raw instruction (invariant 10). It is deliberately NOT the InstructionCoverageAudit's enum: the audit is a pre-start preflight over a proposed map, this is a post-candidate recheck, and giving them one shared enum would invite a later reader to treat one as re-running the other."
+        },
+        "instruction_ref": {
+          "$ref": "common.schema.json#/$defs/frozenFileRef",
+          "description": "The exact raw instruction rechecked — the same frozen bytes the WorkSpec names, not the derived unit map."
+        },
+        "unmapped_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" },
+          "description": "Instruction units the reviewer found normative but unmapped. Present only when there are some; never an empty placeholder."
+        },
+        "detail": { "type": "string", "minLength": 1, "maxLength": 2000 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "result": { "const": "INCOMPLETE" } }, "required": ["result"] },
+          "then": {
+            "required": ["detail", "unmapped_unit_ids"],
+            "description": "An incompleteness claim that says nothing about what is missing cannot be acted on, and cannot be checked either. `unmapped_unit_ids` became required alongside `detail` at the V3 revise round: prose alone cannot be joined to anything, while an enumerated id set is what the finding and the residual are checked against downstream, and it is what a later WorkSpec revision maps. The ids are the reviewer's own — a unit the map omitted has no id in the WorkSpec to borrow, which is the whole point."
+          }
+        }
+      ],
+      "description": "V3 never claims an AI proved every semantic implication was enumerated (V3-D7). This records that the recheck happened and what it found."
+    },
+    "perObligationDisposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["obligation_id", "disposition"],
+      "properties": {
+        "obligation_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "disposition": {
+          "enum": ["SUPPORTED", "NOT_SUPPORTED", "UNVERIFIABLE"],
+          "description": "SUPPORTED = the reviewer established the claim from evidence at the pinned revisions — package members or beyond them; when the establishing evidence goes beyond the package, that coverage is disclosed in `note` or `residual_uncertainty` (deliberately no dedicated field: the package is a floor on evidence, never a ceiling). NOT_SUPPORTED = the evidence CONTRADICTS the claim. UNVERIFIABLE = the reviewer could not establish it either way — including when the evidence that would settle it is not reachable at the pinned revisions, a state the earlier wording left ambiguous between the last two. UNVERIFIABLE is a REPORTED state and never silently folded into SUPPORTED — making the unverified visible is the endpoint this product actually promises (V3-D3, V3-D5, contract §1)."
+        },
+        "note": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "finding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "disposition": { "enum": ["NOT_SUPPORTED", "UNVERIFIABLE"] } },
+            "required": ["disposition"]
+          },
+          "then": {
+            "required": ["note"],
+            "description": "A negative or unestablished disposition must say why. An unexplained NOT_SUPPORTED cannot produce a minimum repair boundary, and an unexplained UNVERIFIABLE cannot be judged by the user who has to decide whether to accept it."
+          }
+        }
+      ]
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finding_id", "blocking", "statement"],
+      "properties": {
+        "finding_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "obligation_id": {
+          "$ref": "common.schema.json#/$defs/slug",
+          "description": "Present when the finding is about one obligation; absent when it is about the instruction map or the candidate as a whole."
+        },
+        "blocking": {
+          "type": "boolean",
+          "description": "Whether this finding blocks acceptance. A non-blocking finding is stated plainly as a finding rather than inflated into a blocker: an inflated blocker burns the single permitted repair round on something that was never a gate condition."
+        },
+        "statement": { "type": "string", "minLength": 8, "maxLength": 2000 },
+        "candidate_locator": {
+          "$ref": "common.schema.json#/$defs/locator",
+          "description": "Where in the candidate the problem is."
+        },
+        "ground_truth_locator": {
+          "$ref": "common.schema.json#/$defs/locator",
+          "description": "Where in the instruction, source or plan the requirement it violates is."
+        },
+        "minimum_fix": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 2000,
+          "description": "The smallest change that would resolve this finding. This is the text a REPAIR decision's boundary is derived from, which is why a blocking finding cannot omit it."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "blocking": { "const": true } }, "required": ["blocking"] },
+          "then": {
+            "required": ["candidate_locator", "ground_truth_locator", "minimum_fix"],
+            "description": "A blocker names where it is, what it violates and the smallest fix — or it is not a blocker. Without all three the user cannot bound a repair, and an unbounded repair is how the single permitted round turns into an open rewrite."
+          }
+        }
+      ]
+    },
+    "verifyScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accepted_finding_ids", "repair_diff_reviewed", "permanent_boundaries_checked"],
+      "properties": {
+        "accepted_finding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" },
+          "description": "The findings the user accepted for repair — exactly the set the VERIFY is answerable for."
+        },
+        "repair_diff_reviewed": {
+          "type": "boolean",
+          "description": "Whether the ENTIRE repair diff was reviewed, not only the lines the accepted findings named. False is a legal, recorded state: an unreviewed remainder is where an unrelated change rides along, and a VERIFY that quietly skipped it must say so rather than report the same shape as one that did not."
+        },
+        "permanent_boundaries_checked": {
+          "type": "boolean",
+          "description": "Whether the boundaries that hold regardless of round were re-checked (V3-D6: VERIFY covers findings, the whole repair diff AND permanent boundaries)."
+        }
+      },
+      "description": "Required on a VERIFY result, absent on a FULL. It makes the round's scope a stated fact rather than an assumption a later reader has to make."
+    },
+    "reviewResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_id",
+        "work_id",
+        "run_id",
+        "review_round",
+        "package_ref",
+        "candidate_ref",
+        "verdict",
+        "instruction_completeness",
+        "per_obligation_disposition",
+        "residual_uncertainty",
+        "reviewed_by"
+      ],
+      "properties": {
+        "result_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "review_round": { "$ref": "#/$defs/reviewRound" },
+        "package_ref": {
+          "$ref": "common.schema.json#/$defs/digestRef",
+          "description": "The exact frozen ReviewPackage this verdict answers for. A verdict that does not bind its package could be re-attributed to a different subject. The digest is `canonical_digest(package)` — computed over the package's canonical JSON (NFC-normalized, sorted keys, compact separators), NOT over the package file's bytes: `sha256sum review-package.json` will not reproduce it, and a CRLF checkout must not change package identity. The value reaches the reviewer out-of-band from the dispatching party; reproduce it from ResearchSystem/tooling with: python -c \"from rsclib.document_harness import load_json; from rsclib.document_harness.review import package_digest; print(package_digest(load_json('<review-package.json>')))\""
+        },
+        "candidate_ref": {
+          "$ref": "common.schema.json#/$defs/candidateRef",
+          "required": ["commit"],
+          "description": "The exact candidate reviewed, carried independently of the package so a mismatch between the two is detectable rather than assumed away."
+        },
+        "verdict": {
+          "enum": ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"],
+          "description": "Closed control verdicts (contract §5). Narrowed per round below. REVIEWED_NO_BLOCKER means only 'no blocking discrepancy found within the frozen subjects and review dimensions'."
+        },
+        "instruction_completeness": { "$ref": "#/$defs/instructionCompleteness" },
+        "per_obligation_disposition": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/perObligationDisposition" },
+          "description": "Every obligation exactly once (invariant 2, N2-A2). The schema can require non-emptiness and reject duplicate whole rows; that the set matches the WorkSpec's obligations exactly is enforced by the reviewer module, which is the only place both documents are present."
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/finding" },
+          "description": "Present only when there are findings; absent means none were raised, following the same 'absence is not an empty placeholder' rule as the rest of v3."
+        },
+        "residual_uncertainty": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 8, "maxLength": 500 },
+          "description": "Disclosed uncertainty as DATA — never a fourth control verdict (V3-D6). This field deliberately breaks the 'absent means none' convention used elsewhere and is REQUIRED, empty array permitted: an omitted field cannot be distinguished from 'the reviewer never considered it', while an empty array is a positive statement that none was found. The user may convert these into ACCEPT_WITH_LIMITATIONS limitations."
+        },
+        "verify_scope": { "$ref": "#/$defs/verifyScope" },
+        "reviewed_by": {
+          "$ref": "common.schema.json#/$defs/actorName",
+          "description": "The independent reviewer that owns this result. Never the executor of the same run (V3-D5). Comparing declared names is all this can establish — role separation is a workflow protocol, not an OS guarantee (contract §1)."
+        },
+        "reviewed_at": { "$ref": "common.schema.json#/$defs/isoDate" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "review_round": { "const": "VERIFY" } }, "required": ["review_round"] },
+          "then": {
+            "required": ["verify_scope"],
+            "properties": { "verdict": { "enum": ["REVIEWED_NO_BLOCKER", "SPEC_GAP"] } },
+            "description": "A VERIFY cannot return CHANGES_REQUIRED (contract §5): there is no second repair for it to request. A remaining blocker stops the run instead."
+          }
+        },
+        {
+          "if": { "properties": { "review_round": { "const": "FULL" } }, "required": ["review_round"] },
+          "then": {
+            "not": { "required": ["verify_scope"] },
+            "description": "A FULL has no accepted-finding scope to declare — it is the round that produces the findings."
+          }
+        },
+        {
+          "if": { "properties": { "verdict": { "const": "CHANGES_REQUIRED" } }, "required": ["verdict"] },
+          "then": {
+            "required": ["findings"],
+            "description": "CHANGES_REQUIRED with no findings would demand a change without naming one."
+          }
+        }
+      ],
+      "description": "One bounded review result (sole owner: the independent reviewer)."
+    }
+  }
+}

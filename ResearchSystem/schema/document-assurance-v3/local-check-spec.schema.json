@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/local-check-spec.schema.json",
+  "title": "LocalCheckSpec — one closed deterministic check request (root) + CheckResult ($defs/checkResult)",
+  "description": "V3 is not a tool plug-in framework (plan §5.3). The root document is one LocalCheckSpec drawn from the closed kind union in common.schema.json; an unknown kind is SPEC_GAP, never dynamic tool discovery (N1-A8). A check request carries ONLY what the author must choose: the exact per-kind config and which tree the check is entitled to observe. The base revision, candidate identity and effective change boundary are bound at run time from the ResolvedAssurancePlan and AssuranceWorkState and are recorded on the CheckResult — the request never duplicates a canonical fact (N0-A6). CheckResult is owned solely by the deterministic verifier that ran it (V3-D5); the executor can never author one, and raw evidence stays authoritative.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["check_id", "kind", "subject_tree"],
+  "properties": {
+    "check_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "kind": { "$ref": "common.schema.json#/$defs/checkKind" },
+    "subject_tree": {
+      "$ref": "#/$defs/treeKind",
+      "description": "Which tree this check is entitled to observe. A check whose subject is the payload candidate MUST declare 'candidate_commit'; observing the working tree instead is a wrong-subject defect (V3-D5; N0-record R1)."
+    },
+    "config": {
+      "description": "Exact per-kind subjects/config. Absent only for git_diff_boundary, whose subjects (base, candidate, effective boundary) are all bound at run time."
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "file_exists" } }, "required": ["kind"] },
+      "then": { "required": ["config"], "properties": { "config": { "$ref": "#/$defs/fileExistsConfig" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "json_schema" } }, "required": ["kind"] },
+      "then": { "required": ["config"], "properties": { "config": { "$ref": "#/$defs/jsonSchemaConfig" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "markdown_link" } }, "required": ["kind"] },
+      "then": { "required": ["config"], "properties": { "config": { "$ref": "#/$defs/markdownLinkConfig" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "locator_exists" } }, "required": ["kind"] },
+      "then": { "required": ["config"], "properties": { "config": { "$ref": "#/$defs/locatorExistsConfig" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "command_exit" } }, "required": ["kind"] },
+      "then": { "required": ["config"], "properties": { "config": { "$ref": "#/$defs/commandExitConfig" } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "git_diff_boundary" } }, "required": ["kind"] },
+      "then": { "not": { "required": ["config"] } }
+    }
+  ],
+  "$defs": {
+    "treeKind": {
+      "enum": ["candidate_commit", "worktree"],
+      "description": "'candidate_commit' = the exact payload candidate commit read through Git. 'worktree' = the mutable working tree, which is NOT the candidate and may drift from it."
+    },
+    "fileExistsConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id"],
+      "properties": {
+        "artifact_id": {
+          "$ref": "common.schema.json#/$defs/slug",
+          "description": "Expected-artifact id declared in the WorkSpec. The path is resolved from the WorkSpec at run time and never copied here (N0-A6)."
+        }
+      }
+    },
+    "jsonSchemaConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_path", "schema_path"],
+      "properties": {
+        "subject_path": { "$ref": "common.schema.json#/$defs/relPath" },
+        "schema_path": { "$ref": "common.schema.json#/$defs/relPath" }
+      },
+      "description": "Success oracle: the validator reports the subject document valid against the exact schema."
+    },
+    "markdownLinkConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_paths"],
+      "properties": {
+        "subject_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/relPath" }
+        }
+      },
+      "description": "Success oracle: every in-scope local link in the subject Markdown resolves. External links are out of scope — v3 assumes no network (plan §5.3)."
+    },
+    "locatorExistsConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["locator"],
+      "properties": {
+        "locator": { "$ref": "common.schema.json#/$defs/locator" }
+      },
+      "description": "Success oracle: the locator resolves UNIQUELY in the observed tree. Zero matches and multiple matches both fail — an ambiguous anchor is not a resolvable locator (invariant 3)."
+    },
+    "commandExitConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["argv", "cwd", "allowed_exit_codes"],
+      "properties": {
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "pattern": "^[^`$|;&<>\\n\\r]*$"
+          },
+          "description": "Exact argument vector, executed WITHOUT a shell. Shell metacharacters are rejected at the schema layer because argv is never interpolated (plan §5.3)."
+        },
+        "cwd": { "$ref": "common.schema.json#/$defs/relPath" },
+        "subject_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/relPath" },
+          "description": "Declared subjects this command reads, recorded so the result binds exact subjects. Absent when the command's subjects are its argv alone."
+        },
+        "allowed_exit_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "integer", "minimum": 0, "maximum": 255 }
+        }
+      },
+      "description": "Success oracle: the process exit code is in the allowed set. No network assumption is permitted; the exact argv, cwd, exit code and raw output ref are recorded on the result."
+    },
+    "observedSubject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": {
+        "path": { "$ref": "common.schema.json#/$defs/relPath" },
+        "revision": { "$ref": "common.schema.json#/$defs/gitRev" },
+        "digest_sha256": { "$ref": "common.schema.json#/$defs/sha256" }
+      },
+      "description": "One subject as actually observed, with the identity the verifier could establish."
+    },
+    "checkResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_id",
+        "check_id",
+        "kind",
+        "request_digest_sha256",
+        "candidate_ref",
+        "observed_tree",
+        "result",
+        "verified_by"
+      ],
+      "properties": {
+        "result_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "check_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "kind": { "$ref": "common.schema.json#/$defs/checkKind" },
+        "request_digest_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256",
+          "description": "Canonical digest of the exact LocalCheckSpec that was run — binds request to result so a result cannot be re-attributed to a different request."
+        },
+        "candidate_ref": {
+          "$ref": "common.schema.json#/$defs/candidateRef",
+          "description": "The exact payload candidate this result speaks about. Digests prevent 'check candidate A, report candidate B' (V3-D5)."
+        },
+        "observed_tree": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "revision"],
+          "properties": {
+            "kind": { "$ref": "#/$defs/treeKind" },
+            "revision": {
+              "$ref": "common.schema.json#/$defs/gitRev",
+              "description": "For 'candidate_commit', the commit whose tree was read. For 'worktree', the HEAD at observation time — which does NOT certify the mutable files that were read."
+            }
+          },
+          "description": "Which tree this result actually observed (N0-record R1). A result whose observed_tree contradicts the request's subject_tree is WRONG_SUBJECT, never PASS."
+        },
+        "subjects": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/observedSubject" },
+          "description": "Exact subjects observed. Absent only when the kind observes no path (a command whose subjects are its argv alone)."
+        },
+        "boundary_observed": {
+          "$ref": "common.schema.json#/$defs/changeBoundary",
+          "description": "For git_diff_boundary only: the effective boundary that was applied, bound from the ResolvedAssurancePlan at run time."
+        },
+        "base_revision": {
+          "$ref": "common.schema.json#/$defs/gitRev",
+          "description": "For git_diff_boundary only: the exact base the candidate diff was taken against."
+        },
+        "exit_code": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255,
+          "description": "For command_exit only: the actual process exit code."
+        },
+        "result": {
+          "enum": ["PASS", "FAIL", "WRONG_SUBJECT", "SPEC_GAP"],
+          "description": "PASS = the success oracle held. FAIL = it did not. WRONG_SUBJECT = the check observed a tree it was not entitled to observe, so the outcome says nothing about the candidate. SPEC_GAP = a schema-valid request that produced no verdict — its declared subject could not be resolved, or the process ran and was killed at the wall-clock ceiling (`COMMAND_TIMEOUT_SECONDS`) before producing an exit code; it is recorded and then stops the run rather than reporting a verdict. An UNKNOWN kind has no representable result at all — 'kind' is the same closed enum — so it raises before any result exists (N1-A8)."
+        },
+        "detail": { "type": "string", "minLength": 1, "maxLength": 2000 },
+        "evidence_ref": {
+          "$ref": "common.schema.json#/$defs/pointerRef",
+          "description": "Raw verifier output. Raw evidence remains authoritative; this record never restates it with stronger meaning (invariant 8, V3-D5)."
+        },
+        "verified_by": {
+          "$ref": "common.schema.json#/$defs/actorName",
+          "description": "The deterministic verifier that owns this result. Never the executor of the same run (V3-D5, N1-A7)."
+        },
+        "verified_at": { "$ref": "common.schema.json#/$defs/isoDate" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": { "const": "git_diff_boundary" },
+              "result": { "enum": ["PASS", "FAIL"] }
+            },
+            "required": ["kind", "result"]
+          },
+          "then": {
+            "required": ["boundary_observed", "base_revision"],
+            "description": "A boundary check that actually ran must state the exact boundary it applied and the base it diffed against. WRONG_SUBJECT and SPEC_GAP results carry neither, because no diff was taken — naming a boundary as 'observed' when nothing was observed would invent evidence, the same rule that keeps exit_code off a command that never ran."
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": { "const": "command_exit" },
+              "result": { "enum": ["PASS", "FAIL"] }
+            },
+            "required": ["kind", "result"]
+          },
+          "then": {
+            "required": ["exit_code"],
+            "description": "A command that ran to completion must record its exact exit code. WRONG_SUBJECT and SPEC_GAP results carry none, because none was observed — either no process ran, or one was killed at the ceiling before producing one — and reporting exit 0 there would invent evidence."
+          }
+        },
+        {
+          "if": { "properties": { "result": { "enum": ["FAIL", "WRONG_SUBJECT", "SPEC_GAP"] } }, "required": ["result"] },
+          "then": { "required": ["detail"] }
+        }
+      ],
+      "description": "One deterministic CheckResult (sole owner: the verifier that ran it)."
+    }
+  }
+}

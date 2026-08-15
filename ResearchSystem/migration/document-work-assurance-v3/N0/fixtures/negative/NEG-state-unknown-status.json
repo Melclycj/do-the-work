@@ -1,0 +1,12 @@
+{
+  "work_id": "readme-refresh",
+  "run_id": "run-001",
+  "status": "PAUSED",
+  "repair_round": 0,
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/work-spec.json"
+  },
+  "resolved_plan_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/resolved-plan.json"
+  }
+}

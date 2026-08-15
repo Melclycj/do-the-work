@@ -1,0 +1,43 @@
+﻿[PASS] POS-spec-minimal-no-profile            schema:spec      want=valid     got=valid   
+[PASS] POS-spec-full-profile                  schema:spec      want=valid     got=valid   
+[PASS] POS-profile-witnessed                  schema:profile   want=valid     got=valid   
+[PASS] POS-plan-no-profile                    schema:plan      want=valid     got=valid   
+[PASS] POS-plan-with-profile                  schema:plan      want=valid     got=valid   
+[PASS] POS-state-resolved                     schema:state     want=valid     got=valid   
+[PASS] POS-state-awaiting-final               schema:state     want=valid     got=valid   
+[PASS] POS-audit-covered                      schema:audit     want=valid     got=valid   
+[PASS] POS-audit-spec-gap                     schema:audit     want=valid     got=valid   
+[PASS] POS-decision-start                     schema:decision  want=valid     got=valid   
+[PASS] POS-decision-repair-apply              schema:decision  want=valid     got=valid   
+[PASS] POS-decision-final-awl                 schema:decision  want=valid     got=valid   
+[PASS] POS-decision-triage                    schema:decision  want=valid     got=valid   
+[PASS] NEG-spec-empty-profiles-array          schema:spec      want=invalid   got=invalid   [] should be non-empty
+[PASS] NEG-spec-obligation-unit-no-ids        schema:spec      want=invalid   got=invalid   'obligation_ids' is a required property
+[PASS] NEG-spec-context-without-rationale     schema:spec      want=invalid   got=invalid   'rationale' is a required property
+[PASS] NEG-spec-generated-digest              schema:spec      want=invalid   got=invalid   Additional properties are not allowed ('digest_sha256', 'status' were unexpected)
+[PASS] NEG-spec-missing-out                   schema:spec      want=invalid   got=invalid   'out' is a required property
+[PASS] NEG-spec-checkless-local-check         schema:spec      want=invalid   got=invalid   'local_check_refs' is a required property
+[PASS] NEG-profile-single-witness             schema:profile   want=invalid   got=invalid   [{'work_description': 'Real archived multi-file design-note workflow (only one witness).',
+[PASS] NEG-profile-capability-surface         schema:profile   want=invalid   got=invalid   Additional properties are not allowed ('capabilities', 'enforcement_level' were unexpected
+[PASS] NEG-profile-no-rules                   schema:profile   want=invalid   got=invalid   {'profile_id': 'markdown-hygiene', 'version': '1.0.0', 'summary': 'Markdown link integrity
+[PASS] NEG-plan-copied-obligations            schema:plan      want=invalid   got=invalid   Additional properties are not allowed ('obligations' was unexpected)
+[PASS] NEG-plan-repair-cap-2                  schema:plan      want=invalid   got=invalid   1 was expected
+[PASS] NEG-state-embedded-evidence            schema:state     want=invalid   got=invalid   Additional properties are not allowed ('check_results' was unexpected)
+[PASS] NEG-state-unknown-status               schema:state     want=invalid   got=invalid   'PAUSED' is not one of ['RESOLVED', 'AUDITED', 'EXECUTING', 'EVIDENCED', 'REVIEWED', 'REPA
+[PASS] NEG-audit-with-repair-round            schema:audit     want=invalid   got=invalid   Additional properties are not allowed ('repair_round' was unexpected)
+[PASS] NEG-audit-specgap-no-findings          schema:audit     want=invalid   got=invalid   'findings' is a required property
+[PASS] NEG-audit-covered-with-findings        schema:audit     want=invalid   got=invalid   {'audit_id': 'audit-readme-refresh', 'work_id': 'readme-refresh', 'work_spec_ref': {'path'
+[PASS] NEG-decision-phase-mismatch            schema:decision  want=invalid   got=invalid   'ACCEPT' is not one of ['START', 'REPLAN']
+[PASS] NEG-decision-awl-no-limitations        schema:decision  want=invalid   got=invalid   'limitations' is a required property
+[PASS] NEG-decision-approval-receipt          schema:decision  want=invalid   got=invalid   Additional properties are not allowed ('approval_receipt_ref' was unexpected)
+[PASS] NEG-decision-repair-apply-no-boundary  schema:decision  want=invalid   got=invalid   'repair_boundary' is a required property
+[PASS] NEG-bundle-spec-dangling-obligation    schema:spec      want=valid     got=valid   
+[PASS] X-NO-PROFILE-ABSENT/spec               bundle           want=pass      got=pass    
+[PASS] X-NO-PROFILE-ABSENT/plan               bundle           want=pass      got=pass    
+[PASS] X-SPEC-BIDIRECTIONAL/positive          bundle           want=pass      got=pass    
+[PASS] X-SPEC-BIDIRECTIONAL/dangling          bundle           want=fail      got=fail    
+[PASS] X-SURFACE-VOCAB/core-schemas           bundle           want=pass      got=pass      []
+[PASS] X-PLAN-NO-CANONICAL-FACT/schema        bundle           want=pass      got=pass      []
+[PASS] X-STATE-POINTERS-ONLY/schema           bundle           want=pass      got=pass      unexpected=[] missing=[]
+
+41/41 cases behaved as declared; failures=0

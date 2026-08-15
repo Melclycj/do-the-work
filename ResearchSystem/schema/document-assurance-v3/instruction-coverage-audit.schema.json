@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/instruction-coverage-audit.schema.json",
+  "title": "InstructionCoverageAudit — one pre-start coverage judgment (sole owner: instruction auditor)",
+  "description": "Exactly one audit of raw-instruction → instruction-unit → obligation completeness before START (V3-D7). Closed result COVERED | SPEC_GAP; no repair loop exists (a repair_round or fix field is rejected). SPEC_GAP requires a new WorkSpec revision and a new user START decision. The user is the trust terminal for this preflight result — v3 never claims mathematical enumeration of every semantic implication.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "audit_id",
+    "work_id",
+    "work_spec_ref",
+    "instruction_ref",
+    "result",
+    "audited_by",
+    "audited_at"
+  ],
+  "properties": {
+    "audit_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_spec_ref": {
+      "$ref": "common.schema.json#/$defs/digestRef",
+      "description": "Digest-pinned WorkSpec whose unit/obligation map was judged (invariant 1)."
+    },
+    "instruction_ref": {
+      "$ref": "common.schema.json#/$defs/frozenFileRef",
+      "description": "The exact frozen raw instruction the map was checked against."
+    },
+    "result": { "$ref": "common.schema.json#/$defs/auditResult" },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_id", "kind", "instruction_locator", "description"],
+        "properties": {
+          "finding_id": { "$ref": "common.schema.json#/$defs/slug" },
+          "kind": { "$ref": "common.schema.json#/$defs/auditFindingKind" },
+          "instruction_locator": { "$ref": "common.schema.json#/$defs/locator" },
+          "description": { "type": "string", "minLength": 8, "maxLength": 1000 }
+        }
+      }
+    },
+    "audited_by": {
+      "$ref": "common.schema.json#/$defs/actorName",
+      "description": "Distinguishable instruction-auditor context — never the executor of the same run (V3-D7)."
+    },
+    "audited_at": { "$ref": "common.schema.json#/$defs/isoDate" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "result": { "const": "SPEC_GAP" } } },
+      "then": { "required": ["findings"] }
+    },
+    {
+      "if": { "properties": { "result": { "const": "COVERED" } } },
+      "then": { "not": { "required": ["findings"] } }
+    }
+  ]
+}

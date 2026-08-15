@@ -1,0 +1,45 @@
+{
+  "work_id": "design-note-set",
+  "run_id": "run-002",
+  "status": "AWAITING_FINAL",
+  "repair_round": 1,
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/work-spec.json",
+    "digest_sha256": "4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d"
+  },
+  "resolved_plan_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/resolved-plan.json"
+  },
+  "instruction_audit_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/instruction-audit.json"
+  },
+  "start_decision_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/decisions/start.json"
+  },
+  "candidate_ref": {
+    "branch": "candidate/design-note-set-c2",
+    "commit": "cccccccccccccccccccccccccccccccccccccccc"
+  },
+  "fulfillment_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/fulfillment.json"
+  },
+  "manifest_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/manifest.json"
+  },
+  "check_results_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/check-results.json"
+  },
+  "coverage_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/coverage.json"
+  },
+  "review_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/review-verify.json"
+  },
+  "repair_decision_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/decisions/repair.json"
+  },
+  "assurance_candidate_ref": {
+    "path": "ResearchSystem/document-harness/runs/design-note-set/assurance-candidate.json"
+  },
+  "next_action": "Await the user FINAL decision on the assurance candidate."
+}

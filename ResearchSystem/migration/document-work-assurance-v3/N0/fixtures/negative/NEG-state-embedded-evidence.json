@@ -1,0 +1,19 @@
+{
+  "work_id": "readme-refresh",
+  "run_id": "run-001",
+  "status": "EVIDENCED",
+  "repair_round": 0,
+  "work_spec_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/work-spec.json"
+  },
+  "resolved_plan_ref": {
+    "path": "ResearchSystem/document-harness/runs/readme-refresh/resolved-plan.json"
+  },
+  "check_results": [
+    {
+      "check_id": "chk-links",
+      "result": "PASS",
+      "raw_output": "all 12 links resolved"
+    }
+  ]
+}

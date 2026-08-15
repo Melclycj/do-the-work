@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/assurance.schema.json",
+  "title": "AssuranceCandidate — the pre-decision binding (root) + AssuranceSummary ($defs/assuranceSummary)",
+  "description": "Both documents are controller-generated bindings, and the line between them is temporal: the AssuranceCandidate exists BEFORE the user's FINAL decision and therefore cannot reference it, while exactly one AssuranceSummary is generated AFTER it (invariant 12, N2-A7). That is why the candidate below has no field for a decision, a summary or an outcome — not by convention but by additionalProperties:false, so a self-binding candidate is unrepresentable rather than merely discouraged. The controller binds refs and may never restate evidence with stronger epistemic meaning (V3-D5, N2-A9): every disclosure it carries must name the document it came from, so the controller cannot author a claim of its own.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assurance_candidate_id",
+    "work_id",
+    "run_id",
+    "repair_round",
+    "candidate_ref",
+    "base_revision",
+    "bound_by",
+    "work_spec_ref",
+    "resolved_plan_ref",
+    "instruction_audit_ref",
+    "fulfillment_ref",
+    "manifest_ref",
+    "coverage_ref",
+    "review_refs",
+    "governance_scan"
+  ],
+  "properties": {
+    "assurance_candidate_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "repair_round": { "enum": [0, 1] },
+    "candidate_ref": {
+      "$ref": "common.schema.json#/$defs/candidateRef",
+      "required": ["commit"],
+      "description": "The exact payload the user is being asked to decide about."
+    },
+    "base_revision": { "$ref": "common.schema.json#/$defs/gitRev" },
+    "bound_at": { "$ref": "common.schema.json#/$defs/isoDate" },
+    "bound_by": {
+      "$ref": "common.schema.json#/$defs/actorName",
+      "description": "The controller that assembled this binding. Assembling is not judging."
+    },
+    "work_spec_ref": { "$ref": "common.schema.json#/$defs/digestRef" },
+    "resolved_plan_ref": { "$ref": "common.schema.json#/$defs/digestRef" },
+    "instruction_audit_ref": { "$ref": "common.schema.json#/$defs/digestRef" },
+    "fulfillment_ref": { "$ref": "common.schema.json#/$defs/digestRef" },
+    "manifest_ref": { "$ref": "common.schema.json#/$defs/digestRef" },
+    "coverage_ref": { "$ref": "common.schema.json#/$defs/digestRef" },
+    "check_result_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "common.schema.json#/$defs/digestRef" },
+      "description": "Absent when the run produced none — every obligation may be review_only. Absence is never an empty placeholder."
+    },
+    "review_refs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "common.schema.json#/$defs/digestRef" },
+      "description": "The FULL, plus the targeted VERIFY when a repair happened. Capped at two because no third review round exists (V3-D6, N2-A11) — a cap the schema can hold and therefore should."
+    },
+    "governance_scan": { "$ref": "#/$defs/governanceScanState" },
+    "unresolved_finding_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "common.schema.json#/$defs/slug" },
+      "description": "Blocking findings still open at the moment of binding, by ID only. Copying an identity is a binding; copying the finding's text would be the controller restating a reviewer's claim (N2-A9)."
+    },
+    "disclosures": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/disclosure" },
+      "description": "What the user should know before deciding. Present only when there is something to disclose."
+    }
+  },
+  "$defs": {
+    "governanceScanState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included"],
+      "properties": {
+        "included": {
+          "type": "boolean",
+          "description": "Whether the governance-frontmatter scan actually ran in this run."
+        },
+        "result_ref": {
+          "$ref": "common.schema.json#/$defs/digestRef",
+          "description": "The CheckResult of the command_exit request that ran it. Required when included, so 'we ran it' is a reference to evidence rather than an assertion."
+        },
+        "skip_reason": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 500,
+          "description": "Why it did not run. Required when it did not."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "included": { "const": true } }, "required": ["included"] },
+          "then": { "required": ["result_ref"] }
+        },
+        {
+          "if": { "properties": { "included": { "const": false } }, "required": ["included"] },
+          "then": { "required": ["skip_reason"] }
+        }
+      ],
+      "description": "Discharges N1-R2. The R4 governance scan was mechanical and reachable after N1, but nothing obliged a run to invoke it, so an operator who never called it got no signal at all. This field makes the state REPORTED either way: the run cannot reach a FINAL decision without saying whether the scan ran, and a skip is a visible, reasoned skip rather than silence. It deliberately does not force the scan to run — forcing verification is the wrong endpoint; making the unverified visible is the reachable one."
+    },
+    "disclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "source_ref"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 8, "maxLength": 500 },
+        "source_ref": {
+          "$ref": "common.schema.json#/$defs/digestRef",
+          "description": "The owner-authored document this disclosure came from. Required, which is what stops the controller from inventing one: a disclosure with no source would be the controller speaking in its own voice about evidence it does not own (V3-D5)."
+        }
+      }
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["promoted"],
+      "properties": {
+        "promoted": { "type": "boolean" },
+        "promoted_to": {
+          "$ref": "common.schema.json#/$defs/candidateRef",
+          "description": "Where the accepted payload was promoted to. Explicit and recorded, never implied by acceptance (invariant 13)."
+        },
+        "reason": { "type": "string", "minLength": 8, "maxLength": 500 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "promoted": { "const": true } }, "required": ["promoted"] },
+          "then": {
+            "required": ["promoted_to", "reason"],
+            "description": "A promotion that does not say where it went and why is not a recorded promotion."
+          }
+        }
+      ]
+    },
+    "assuranceSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary_id",
+        "work_id",
+        "run_id",
+        "assurance_candidate_ref",
+        "final_decision_ref",
+        "outcome",
+        "promotion",
+        "generated_by"
+      ],
+      "properties": {
+        "summary_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "assurance_candidate_ref": {
+          "$ref": "common.schema.json#/$defs/digestRef",
+          "description": "The exact pre-decision binding this terminates. Bound by digest so the summary cannot be re-pointed at a different candidate after the fact."
+        },
+        "final_decision_ref": {
+          "$ref": "common.schema.json#/$defs/digestRef",
+          "description": "The exact user FINAL decision. Required: a summary generated without one would be the controller closing a run the user never closed."
+        },
+        "outcome": {
+          "enum": ["ACCEPT", "ACCEPT_WITH_LIMITATIONS", "REJECT", "REPLAN"],
+          "description": "A copy of the user's own decision, which the user owns — the controller binds it, it does not judge it. This is the one restatement that is not a strengthening (V3-D4, N2-A9)."
+        },
+        "promotion": { "$ref": "#/$defs/promotion" },
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 8, "maxLength": 500 },
+          "description": "The limitations the user acknowledged. Required for ACCEPT_WITH_LIMITATIONS — an acceptance 'with limitations' that lists none is an unqualified acceptance wearing a qualifier."
+        },
+        "generated_by": { "$ref": "common.schema.json#/$defs/actorName" },
+        "generated_at": { "$ref": "common.schema.json#/$defs/isoDate" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "outcome": { "enum": ["REJECT", "REPLAN"] } },
+            "required": ["outcome"]
+          },
+          "then": {
+            "properties": { "promotion": { "properties": { "promoted": { "const": false } } } },
+            "description": "REJECT and REPLAN never promote payload (invariant 13, N2-A8). Held at the schema layer as well as in the flow, because this is the one place where a wrong value silently ships bytes the user declined."
+          }
+        },
+        {
+          "if": {
+            "properties": { "outcome": { "const": "ACCEPT_WITH_LIMITATIONS" } },
+            "required": ["outcome"]
+          },
+          "then": { "required": ["limitations"] }
+        }
+      ],
+      "description": "The single terminal binding, generated only after FINAL (sole owner: controller)."
+    }
+  }
+}

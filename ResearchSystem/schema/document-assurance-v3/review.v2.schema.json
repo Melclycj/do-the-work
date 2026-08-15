@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/review.v2.schema.json",
+  "title": "ReviewResult v2 — commit-bound review subject (sole owner: the independent reviewer)",
+  "description": "Versioned successor to review.schema.json's $defs/reviewResult, per the user-adjudicated wave-2 design (2026-07-23) and contract supersession-1. The v1 file is untouched and stays frozen for reading pinned v1 history (closed runs and shadow rounds keep their frozen packages; no migration). Delta over v1, and nothing else: (1) root schema_version const '2' — the instance names its own schema, and the loader keys on it explicitly with no cross-version fallback (the W1 pattern); (2) 'package_ref' is gone — the review subject is one committed control plane, bound as subject = { evidence_commit, candidate_ref, base_revision, control_root, repair_round }; git content-addresses every member byte, so there are no per-member digests and no hand-authored member list (the w1-r1 freeze-check-paths defect class is unrepresentable here). A result that carries package_ref, or omits subject, fails this schema's closed root. Dispositions, findings and verify_scope are the v1 definitions by $ref (one home, N0-A6); verdict and residual_uncertainty are restated inline because v1 holds them inline in reviewResult (no $def to reference), kept byte-equal to v1's constraints. REVIEWED_NO_BLOCKER still means only 'no blocking discrepancy found within the frozen subjects and review dimensions' (N2-A3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "result_id",
+    "work_id",
+    "run_id",
+    "review_round",
+    "subject",
+    "verdict",
+    "instruction_completeness",
+    "per_obligation_disposition",
+    "residual_uncertainty",
+    "reviewed_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2",
+      "description": "The instance names its own schema (W1 precedent, design §3.6). v1 results carry no version field; the loader routes on presence/value and never falls back across versions — a present-but-null or unknown value is a SPEC_GAP, fail closed."
+    },
+    "result_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "work_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "run_id": { "$ref": "common.schema.json#/$defs/slug" },
+    "review_round": { "$ref": "review.schema.json#/$defs/reviewRound" },
+    "subject": { "$ref": "#/$defs/reviewSubject" },
+    "verdict": {
+      "enum": ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"],
+      "description": "Closed control verdicts (contract §5), unchanged from v1. Narrowed per round below."
+    },
+    "instruction_completeness": { "$ref": "review.schema.json#/$defs/instructionCompleteness" },
+    "per_obligation_disposition": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "review.schema.json#/$defs/perObligationDisposition" },
+      "description": "Every obligation exactly once (invariant 2). That the set matches the WorkSpec's obligations exactly is enforced by the v2-aware result checker, which is the only place both documents are present."
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "review.schema.json#/$defs/finding" },
+      "description": "Present only when there are findings; absent means none were raised."
+    },
+    "residual_uncertainty": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 8, "maxLength": 500 },
+      "description": "Disclosed uncertainty as DATA — REQUIRED, empty array permitted, exactly as in v1: an omitted field cannot be distinguished from 'the reviewer never considered it'."
+    },
+    "verify_scope": { "$ref": "review.schema.json#/$defs/verifyScope" },
+    "reviewed_by": {
+      "$ref": "common.schema.json#/$defs/actorName",
+      "description": "The independent reviewer that owns this result. Never the executor of the same run (V3-D5)."
+    },
+    "reviewed_at": { "$ref": "common.schema.json#/$defs/isoDate" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "review_round": { "const": "VERIFY" } }, "required": ["review_round"] },
+      "then": {
+        "required": ["verify_scope"],
+        "properties": { "verdict": { "enum": ["REVIEWED_NO_BLOCKER", "SPEC_GAP"] } },
+        "description": "A VERIFY cannot return CHANGES_REQUIRED (contract §5): there is no second repair for it to request."
+      }
+    },
+    {
+      "if": { "properties": { "review_round": { "const": "FULL" } }, "required": ["review_round"] },
+      "then": {
+        "not": { "required": ["verify_scope"] },
+        "description": "A FULL has no accepted-finding scope to declare — it is the round that produces the findings."
+      }
+    },
+    {
+      "if": { "properties": { "verdict": { "const": "CHANGES_REQUIRED" } }, "required": ["verdict"] },
+      "then": {
+        "required": ["findings"],
+        "description": "CHANGES_REQUIRED with no findings would demand a change without naming one."
+      }
+    }
+  ],
+  "$defs": {
+    "reviewSubject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_commit", "candidate_ref", "base_revision", "control_root", "repair_round"],
+      "properties": {
+        "evidence_commit": {
+          "$ref": "common.schema.json#/$defs/gitRev",
+          "description": "The exact commit that carries the run's committed control plane — the whole review subject, as one SHA. The reviewer re-derives every member from this commit and the revisions the WorkSpec and CandidateRecord pin; nothing is taken from executor-supplied bytes. The only field of this binding that does not already exist in the CandidateRecord."
+        },
+        "candidate_ref": {
+          "$ref": "common.schema.json#/$defs/candidateRef",
+          "required": ["commit"],
+          "description": "The exact payload candidate reviewed. The commit is required even though candidateRef leaves it optional: a review bound to a branch name alone would follow the branch as it moves — the 'review candidate A, accept candidate B' failure class (V3-D5)."
+        },
+        "base_revision": { "$ref": "common.schema.json#/$defs/gitRev" },
+        "control_root": {
+          "$ref": "common.schema.json#/$defs/relPath",
+          "description": "The run's control root E(C). The evidence commit's changed-path set must lie inside it (supersession-1 S2; checked by check_subject, never hoped)."
+        },
+        "repair_round": {
+          "enum": [0, 1],
+          "description": "0 = the original candidate C reviewed by FULL; 1 = C2, the single user-approved repair, reviewed by VERIFY (V3-D6). Cross-checked against the CandidateRecord read from the evidence commit."
+        }
+      },
+      "description": "The commit-bound review subject. Every field is cross-checked by the v2-aware result checker against the CandidateRecord AT the evidence commit — a result naming a different candidate, round, base, root, work or run than the committed control plane records is rejected (W2-A9), which is the 'check candidate A, report candidate B' class (V3-D5) closed at the result layer without a package object."
+    }
+  }
+}
