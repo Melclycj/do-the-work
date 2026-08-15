@@ -349,9 +349,11 @@ evidence pass, and a pass is ~2.4 minutes, not ~10**. Measured — the p5a-shell
 its 17 checks in 2m22s (`chk-*.out.txt` mtimes `00:08:34`→`00:10:56`), the pytest leg
 alone ~108s of it; the battery run directly totalled 130s **at the p5a-shells revision**
 (P2 29 + P4 80 + P5A 32 + fixtures 58 + pytest 556). Those sub-tallies are a measurement
-pinned to that revision, not a standing fact — test counts only grow, and the sentence
-that used to end this parenthesis, "tallies reproduce exactly", was false by `ddd773a`:
-P5A had reached 39 and pytest 701. Re-run the battery for a current figure rather than
+pinned to that revision, not a standing fact — these five legs have only gained tests
+since (deleting a battery command removes its tests from the battery, which `HD-42` did
+to two other legs in this same batch), and the sentence that used to end this
+parenthesis, "tallies reproduce exactly", was false by `ddd773a`: P5A had reached 39 and
+pytest 701. Re-run the battery for a current figure rather than
 trusting any list written here (`HD-41` ③). Measured again at `a8af54c`, six legs:
 107s total, of which pytest is 106s. The ruling's original
 figure, "~7–8 of the ~10 minutes", was right in ratio and wrong in magnitude by ~4×; that

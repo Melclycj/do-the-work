@@ -39,17 +39,39 @@ Re-rooting is R2's work, together with this repository's own command-line entry 
 
 ## What does not work yet
 
-- **The pre-commit guards are not wired here.** `tooling/hooks/layer_path_check.py` matches
-  staged paths against a hard-coded member list; a caller-shaped prefix means it matches
-  nothing and passes silently while looking green. Rider `E10-sync` requires its three mirrors
-  — the `E10` membership sentence, that `LAYER` constant, and the `EXPECTED` tuple in
-  `tooling/tests/document_harness/test_precommit_checks.py` — to change together and be named
-  in the commit body. That is a change to instruction-layer rule text, which R1 had no
-  authority to make.
 - **There is no CLI entry point here.** The six v3 commands still live in the caller's
-  `rsc.py`; extracting them is R2 (`rider RA` / `CLI-hist`). The command names will be
-  `do-the-work` with the short alias `dtw`.
+  `rsc.py`, which is deliberately outside the travel set. Extracting them is R2 (riders `RA` /
+  `CLI-hist`); the command will be `do-the-work`, short alias `dtw`. **Measured consequence,
+  so that nobody discovers it the hard way:** `python -m pytest -q` here is
+  **24 failed, 677 passed** — every failure is `can't open file '…/ResearchSystem/tooling/rsc.py'`
+  and nothing else. Red, not vacuously green.
+- **No hook is installed in `.git/hooks`.** That is the harness's standing per-machine
+  convention (`ResearchSystem/document-harness/README.md`, "Local enforcement"), not a
+  property of this extraction: a fresh clone of the caller's repository has no hook either.
 - **No remote.** The caller creates it.
+
+### The guards themselves are live — and that is what schedules `E10-sync`
+
+Keeping the `ResearchSystem/` prefix (see §Layout) is what makes the hard-coded member list
+resolve. Measured here, not assumed: all nine `LAYER` members exist; staging a path that
+resolves nowhere into an instruction-layer file makes `tooling/hooks/layer_path_check.py` and
+`tooling/hooks/candidate_path_check.py` both exit 1 and block. `review_freeze_check.py` exits 0
+because `.harness/review-pending.json` is the **caller's** file under `HD-33` — designed
+inertness. `pytest tests/document_harness/test_precommit_checks.py` → 42 passed.
+
+So the member list is correct today and **stops being correct the moment R2 re-roots**, because
+re-rooting is exactly what stops those nine strings resolving. Rider `E10-sync` requires its
+three mirrors — the `E10` membership sentence in
+`ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md`, that `LAYER` constant, and the
+`EXPECTED` tuple in `ResearchSystem/tooling/tests/document_harness/test_precommit_checks.py` —
+to change together and be named in the commit body. **R2 must put that edit in the same commit
+as the re-rooting**, or ship a window in which the guard is silently dead. R1 left the three
+alone because editing the `E10` membership sentence is editing rule text and R1 had no
+authority for it — not because they were broken.
+
+> An earlier version of this section claimed the guards here "match nothing and pass silently
+> while looking green". That was written in the same commit as the decision that made it false,
+> and no one ran the one-line check that would have caught it. Corrected under FULL `B-1`.
 
 ## Reading order
 

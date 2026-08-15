@@ -5,9 +5,14 @@
 > 七路径集 → 335 个 commit；再早一版的十一路径集 → 247），**三个都不等于 `HD-28` 的成员裁决**。
 > 本文件取代它们：**成员由本文件的规则与例外表定义，不由任何散文里的数字定义。**
 >
-> **量程与 revision（`HD-41` ①③）**：下列每条计数的量程写在该条上，revision = `a7437d3`
-> （`V3-REVIEW-RECORD-SPLIT-R0-REREAD-ddd773a-v1`）。**记录类目录随每轮增长**，故计数是该
-> revision 的快照、不是常驻事实；搬动当时按同一命令现算。
+> **量程与 revision（`HD-41` ①③）**：下列每条计数的量程写在该条上，revision = **`e4ffa2b`**
+> ——搬动实际发生的那个 tip。**记录类目录随每轮增长**，故计数是该 revision 的快照、不是常驻
+> 事实；搬动当时按同一命令现算。
+> **更正（FULL `L-4`）**：初版把 revision 写成 `a7437d3`，而 A1 的 26 与 A 合计 108 自
+> `a1b80fa` 起才成立——**本文件住在 `document-harness/` 里，把自己算进去了**，在 `a7437d3` 上
+> 该前缀是 25、A 合计 107。交付的集合一直是对的（108 / 254 @ `e4ffa2b`，与新仓实测一致），
+> 错的只是那两个数字头上的 revision 标签。犯在一份**自称是成员唯一权威、且抬头点名 `HD-41` ①③**
+> 的文件里，照记。
 >
 > 依据：`HD-28`（成员）· `HD-33`（run / freeze marker / 四件实例文件归调用者）· `HD-39`
 > （v1/v2 全族删除，与本集合不相交）· `split-design.md` §3 已裁的**乙案**（评审记录逐文件分）。
@@ -115,14 +120,44 @@ done
 - `.claude/`（既不在任何 travel 集内，也被 repo-audit 排除；其归属归打包批，`split-design.md` §10.5）
 - `HD-39` 的 171 个待删文件——与本集合**不相交**（v1/v2 族 vs v3 族）
 
-## 已知的未接线项（R1 不做，`E10` 不允许 R1 做）
+## `E10-sync` 何时到期 —— 不是现在，是 R2 重扎根那一刻
 
-新仓内 `tooling/hooks/layer_path_check.py` 的 `LAYER` 常量把指令层九成员**硬编码为
-`ResearchSystem/` 开头的字符串**；同一名单另有两处镜像——`document-harness/CONSTRUCTION-CHECKLIST.md:78`
-的 `E10` 成员句、`tooling/tests/document_harness/test_precommit_checks.py:164` 的 `EXPECTED`。
-新仓里这三处指向不存在的路径，**守卫匹配不到任何 staged path = 静默失效，而电池照样全绿**
-（rider `E10-sync` 的三处同改义务正是为此）。
+`tooling/hooks/layer_path_check.py` 的 `LAYER` 常量把指令层九成员**硬编码为 `ResearchSystem/`
+开头的字符串**；同一名单另有两处镜像——`document-harness/CONSTRUCTION-CHECKLIST.md:78` 的
+`E10` 成员句、`tooling/tests/document_harness/test_precommit_checks.py:164` 的 `EXPECTED`。
 
-**R1 不改**：改 `E10` 成员句是改规则文本，`HD-42` 那种一次性例外是用户当场造的、且明写不设通则。
-故 R1 的交付**明确排除**「新仓的 pre-commit 守卫可用」这一条，新仓 README 照记；接线归 R2
-（新仓拿到自己的 CLI 入口那一轮），届时按 rider `E10-sync` 三处同改并在 commit 正文点名。
+**实测（量程 = 新仓 `D:/do-the-work` @ 首 commit，命令见下）**：R1 步骤 10 保留了
+`ResearchSystem/` 前缀，**正是这个决定让九个成员全部解析得到**——`LAYER` 九项 missing **0**。
+守卫在新仓里是**活的**：往指令层文件塞一条坏路径并 stage 后，`layer_path_check` 与
+`candidate_path_check` **两条都 exit 1 当场 BLOCK**；`review_freeze_check` exit 0，因为
+`.harness/review-pending.json` 按 `HD-33` 是**调用者的**文件——设计内的惰性，不是失效。
+新仓 `pytest tests/document_harness/test_precommit_checks.py` **42 passed**，含
+`test_layer_equals_the_hand_written_membership`。
+
+> **更正（FULL `B-1`）**：本节初版写「三处指向不存在的路径、守卫匹配不到任何 staged path =
+> 静默失效、电池照样全绿」，**是反的**。那句写于 `a1b80fa`，当时新仓布局未定、它是一条预测；
+> `345acdd` 决定保留前缀使它变假，而无人回头跑那条能证伪它的命令（一条 `test -f` 即可）。
+> 违 `E3`（写进文本的事实断言须先跑可证伪它的命令）与 `HD-41` ①②（「匹配不到任何」「静默失效」
+> 是无量程的绝对量词）。**后果不是措辞**：它把 `E10-sync` 咬人的时刻搞反了——见下。
+
+**真实状态 = 接线缺席、逻辑完好**：两个仓的 `.git/hooks` 都没装 pre-commit，这是
+`document-harness/README.md:34` 已记的 per-machine 约定（fresh clone 上本就没有），与守卫逻辑
+是否成立无关。
+
+**故 `E10-sync` 的到期点是 R2**：重扎根（去掉 `ResearchSystem/` 前缀）**正是**让那九个字符串
+不再解析的动作。R2 必须把三处镜像的修改与重扎根放进**同一个 commit**——否则就交付一个守卫静默
+失效的窗口，形状与 `HD-42` ③ 强制枚举编辑骑同一 commit 的理由完全一致。R1 不改这三处，理由是
+改 `E10` 成员句是改规则文本、R1 无此权限（`HD-42` 那种一次性例外是用户当场造的且明写不设通则）
+——**不是**因为它们已经坏了。
+
+复现命令（在新仓根跑）：
+
+```
+python - <<'PY'
+import pathlib, sys
+sys.path.insert(0, "ResearchSystem/tooling")
+from hooks import layer_path_check as L
+root = pathlib.Path(".").resolve()
+print([m for m in L.LAYER if not (root/m).exists()])   # -> []
+PY
+```
