@@ -37,58 +37,46 @@ verifiable by comparing blob ids against the caller's repository at `e4ffa2b`.
 
 Re-rooting is R2's work, together with this repository's own command-line entry point.
 
-## What does not work yet
+## State of this repository — run these, do not trust a sentence
 
-- **There is no CLI entry point here.** The six v3 commands still live in the caller's
-  `rsc.py`, which is deliberately outside the travel set. Extracting them is R2 (riders `RA` /
-  `CLI-hist`); the command will be `do-the-work`, short alias `dtw`.
-- **The suite here is red, not vacuously green.** Measured: `python -m pytest -q` →
-  **20 failed, 681 passed**. Broken down by traceback rather than assumed:
+This section deliberately carries commands instead of claims. Its only readers are agents, and
+an agent can run a command; a sentence about the state goes stale the day something changes,
+and two of this extraction's three review legs were spent falsifying sentences that lived here.
 
-  | failures | cause | cleared by |
-  |---|---|---|
-  | 15 | traceback names the absent `ResearchSystem/tooling/rsc.py` | R2's CLI extraction |
-  | 2 | a subprocess that runs `rsc.py` exits 2 instead of 1 — caused by it, does not name it | R2's CLI extraction |
-  | 3 | `governance document not readable at <root>/.goals/plans/document-work-assurance-harness-v3.plan.md` | **nothing yet** — see below |
+| Question | Command |
+|---|---|
+| Does the suite pass? | `python -m pytest -q` |
+| Why does a test fail? | `python -m pytest -q --tb=line` |
+| Do the instruction layer's nine members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'ResearchSystem/tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
+| Do the pre-commit guards bind? | stage a path that resolves nowhere into an instruction-layer file, then run each of `ResearchSystem/tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py` and read the exit codes |
+| Is a guard installed in git? | `ls .git/hooks/pre-commit` |
+| Is there a CLI? | `ls ResearchSystem/tooling/rsc.py` |
+| Which files travelled and which stayed? | `ResearchSystem/document-harness/split-travel-manifest.md` — it carries the rule, not just the list |
 
-  **Extracting the CLI does not by itself green this suite.** Three tests read a document that
-  lives in the caller's tree and was never part of the travel set. Whether an instrument test may
-  depend on its caller's content — and if not, what replaces it — is a design question for R2,
-  deliberately not settled by this README.
+What stays true of this repository regardless of when you read it:
 
-  It was 24 failed / 677 passed at `8cd0b9c`; four of those were travelled tests whose goldens had
-  not travelled, closed by adding travel-set row `A10` (`assurance/test/` plus the two
-  `expected-*-prompt.txt` files). Two of them printed *"golden missing: run this file with
-  --regen"* — following that instruction here would have overwritten a pinned user-visible
-  surface with whatever this repository currently renders, which is exactly what the pin exists
-  to prevent.
-- **No hook is installed in `.git/hooks`.** That is the harness's standing per-machine
-  convention (`ResearchSystem/document-harness/README.md`, "Local enforcement"), not a
-  property of this extraction: a fresh clone of the caller's repository has no hook either.
+- **The CLI is not here.** `rsc.py` is the caller's by design; extracting the six v3 commands
+  into `do-the-work` (alias `dtw`) is R2's work, riders `RA` / `CLI-hist`.
+- **Some travelled tests read the caller's tree**, so the CLI extraction alone will not make the
+  suite green. Whether an instrument's test may depend on its caller's content, and what
+  replaces it if not, is R2's design question — this README does not settle it.
+- **Guard wiring is per-machine.** No hook is installed here by the extraction, and a fresh
+  clone of the caller has none either; that is the harness's standing convention, not a
+  property of this repository.
+- **`E10-sync` falls due at R2's re-rooting, not before.** The nine member paths are hard-coded
+  with the caller's prefix in three places — the `E10` membership sentence in
+  `ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md`, the `LAYER` constant in
+  `ResearchSystem/tooling/hooks/layer_path_check.py`, and the `EXPECTED` tuple in
+  `ResearchSystem/tooling/tests/document_harness/test_precommit_checks.py`. Re-rooting is
+  exactly the act that stops them resolving, so **R2 must change all three in the commit that
+  re-roots**, or ship a window in which the guard passes without matching anything. Whether
+  they resolve *today* is the third row of the table above; do not take this paragraph's word
+  for it.
 - **No remote.** The caller creates it.
 
-### The guards themselves are live — and that is what schedules `E10-sync`
-
-Keeping the `ResearchSystem/` prefix (see §Layout) is what makes the hard-coded member list
-resolve. Measured here, not assumed: all nine `LAYER` members exist; staging a path that
-resolves nowhere into an instruction-layer file makes `tooling/hooks/layer_path_check.py` and
-`tooling/hooks/candidate_path_check.py` both exit 1 and block. `review_freeze_check.py` exits 0
-because `.harness/review-pending.json` is the **caller's** file under `HD-33` — designed
-inertness. `pytest tests/document_harness/test_precommit_checks.py` → 42 passed.
-
-So the member list is correct today and **stops being correct the moment R2 re-roots**, because
-re-rooting is exactly what stops those nine strings resolving. Rider `E10-sync` requires its
-three mirrors — the `E10` membership sentence in
-`ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md`, that `LAYER` constant, and the
-`EXPECTED` tuple in `ResearchSystem/tooling/tests/document_harness/test_precommit_checks.py` —
-to change together and be named in the commit body. **R2 must put that edit in the same commit
-as the re-rooting**, or ship a window in which the guard is silently dead. R1 left the three
-alone because editing the `E10` membership sentence is editing rule text and R1 had no
-authority for it — not because they were broken.
-
-> An earlier version of this section claimed the guards here "match nothing and pass silently
-> while looking green". That was written in the same commit as the decision that made it false,
-> and no one ran the one-line check that would have caught it. Corrected under FULL `B-1`.
+> This section previously asserted the guard state twice and got it wrong both times — once in
+> each direction. Both corrections cost a review leg. The table replaced the assertions rather
+> than a third attempt at wording them correctly (user ruling, 2026-08-15).
 
 ## Reading order
 
