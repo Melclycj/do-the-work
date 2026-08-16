@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pre-commit: while a review or read is out, only its record may land.
 
-The marker `.harness/review-pending.json` is written by `rsc v3 dispatch` at the moment a
+The marker `.harness/review-pending.json` is written by `dtw dispatch` at the moment a
 subject is handed over, and deleted by the executor in the same act that commits the
 returned record. While it exists, every staged path must belong to the record families R6
 names (`v3-review-full-* / v3-review-verify-* / v3-checkpoint-read-* / v3-cold-read-*`

@@ -68,6 +68,7 @@ RECORD_SURFACE = (
     "ResearchSystem/HARNESS-LEDGER.md",
     "ResearchSystem/HARNESS-LEDGER-archive.md",
     "ResearchSystem/HARNESS-RIDERS.md",
+    "ResearchSystem/HARNESS-DECISIONS-archive.md",
     ".goals/LEDGER.md",
     ".goals/LEDGER-archive.md",
 )

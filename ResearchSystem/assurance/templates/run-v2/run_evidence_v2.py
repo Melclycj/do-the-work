@@ -87,8 +87,8 @@ def next_action_for(repair_round: int) -> str:
     targeted VERIFY of that repair (contract §8). A round-blind string instructs a cold
     session to open a SECOND FULL after a repair — the round-renaming shape the operating
     contract exists to prevent, reached by accident. This is the instruction, not a label:
-    ``rsc v3 status`` prints it verbatim as the cold-resume action, and nothing mechanical
-    relates it to the round, so ``rsc v3 flow`` still reports consistent. Witnessed on
+    ``dtw status`` prints it verbatim as the cold-resume action, and nothing mechanical
+    relates it to the round, so ``dtw flow`` still reports consistent. Witnessed on
     p3-corr as VERIFY finding v2 (issue-p3-corr-template-next-action-round-blind, routed
     WORKFLOW_FIX 2026-07-25).
     """
@@ -277,7 +277,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         # session opens a second FULL of a repaired candidate. That is the round-renaming shape
         # `next_action_for` below already documents; this template had fixed the string and left
         # the field it is derived from behind. Witnessed on p5b-claims round 1, the first
-        # repaired run to reach `rsc v3 dispatch` (p3-corr's VERIFY predates the generator).
+        # repaired run to reach `dtw dispatch` (p3-corr's VERIFY predates the generator).
         repair_round=REPAIR_ROUND,
         next_action=next_action_for(REPAIR_ROUND),
     )

@@ -16,7 +16,7 @@ that moves ``repair_round`` to 1, which is why ``flow.advance_checked`` is used 
 at round 0 is rejected as preceding the repair it authorizes.
 
 Skipping the step skips the gate, and the flow strands: ``run_bind_v2`` at round 0 stops at
-REVIEWED and owes a repair decision, and ``rsc v3 dispatch`` refuses the round-1 VERIFY because
+REVIEWED and owes a repair decision, and ``dtw dispatch`` refuses the round-1 VERIFY because
 the state carries no ``repair_decision_ref`` to derive its scope from. Witnessed on p5b-claims,
 which advanced straight to the round-1 evidence pass: both gates then passed clean, but they
 confirmed the repair rather than gating it, and unwinding the state to its round-0 position and

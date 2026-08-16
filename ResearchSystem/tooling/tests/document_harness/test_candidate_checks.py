@@ -1718,8 +1718,14 @@ class SchemaVocabularyGuardTests(unittest.TestCase):
 # ===========================================================================
 
 
-PLAN_PATH = ".goals/plans/document-work-assurance-harness-v3.plan.md"
 CONTRACT_PATH = "ResearchSystem/contract/Document-Work-Assurance-Contract-v3.md"
+#: The caller's `.goals/plans/document-work-assurance-harness-v3.plan.md` was the second
+#: real document here until the split batch's R2. It does not travel with the instrument
+#: (`HD-28`), and a test that reads the caller's tree passes in one repository and fails in
+#: the other — which is a statement about who checked out what, not about the scan. The
+#: contract is the real, immutable, `E2`-frozen sample that travels; the plan's own shape
+#: (`approval_status_owner` present, `status` carried) stays covered by the in-memory cases
+#: above, which is where a fixture belongs.
 
 
 class GovernanceFrontmatterScopeTests(unittest.TestCase):
@@ -1956,11 +1962,11 @@ class GovernanceExemptionTests(unittest.TestCase):
 
 
 class GovernanceRealDocumentTests(unittest.TestCase):
-    """R4: the scan must hold over the repository's real, immutable governance documents."""
+    """R4: the scan must hold over the repository's real, immutable governance document."""
 
     def setUp(self) -> None:
         self.reader = WorktreeReader(REPO_ROOT)
-        self.paths = [PLAN_PATH, CONTRACT_PATH]
+        self.paths = [CONTRACT_PATH]
         for path in self.paths:
             # A skip here would be a silent pass — the whole point of R4 is that the scan
             # actually reaches the real governance layer.
@@ -1969,9 +1975,9 @@ class GovernanceRealDocumentTests(unittest.TestCase):
             )
 
     def test_r4_real_governance_documents_are_flagged_without_an_exemption(self):
-        """Both carry a top-level `status:`, so both must be reported when unexempted."""
+        """It carries a top-level `status:`, so it must be reported when unexempted."""
         scan = governance_scan(self.reader, self.paths)
-        self.assertEqual(codes(scan.report), ["V3-GOVERNANCE-SELF-APPROVAL"] * 2)
+        self.assertEqual(codes(scan.report), ["V3-GOVERNANCE-SELF-APPROVAL"])
         self.assertEqual(sorted(issue.where for issue in scan.report.issues), sorted(self.paths))
         for issue in scan.report.issues:
             self.assertIn("status", issue.message)
@@ -1995,12 +2001,9 @@ class GovernanceRealDocumentTests(unittest.TestCase):
         self.assertEqual(sorted(scan.exempted), sorted(self.paths))
 
     def test_r4_owner_delegating_fields_in_the_real_documents_are_not_flagged(self):
-        """The plan's `approval_status_owner` and the contract's `signature_owner` are correct."""
-        plan_keys = frontmatter_keys(self.reader.read(PLAN_PATH))
+        """The contract's `signature_owner` names WHO approves without carrying approval."""
         contract_keys = frontmatter_keys(self.reader.read(CONTRACT_PATH))
-        self.assertIn("approval_status_owner", plan_keys)
         self.assertIn("signature_owner", contract_keys)
-        self.assertNotIn("approval_status_owner", SELF_APPROVAL_FIELDS)
         self.assertNotIn("signature_owner", SELF_APPROVAL_FIELDS)
 
 

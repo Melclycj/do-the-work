@@ -255,7 +255,7 @@ class TheReviewCommandReportsRatherThanCrashes(unittest.TestCase):
         (tmp / "rec.json").write_text('{"run_id":"run-one"}', encoding="utf-8")
         completed = subprocess.run(
             [
-                sys.executable, "rsc.py", "v3", "review",
+                sys.executable, "dtw.py", "review",
                 "--package", str(tmp / "pkg.json"),
                 "--spec", str(tmp / "spec.json"),
                 "--record", str(tmp / "rec.json"),
@@ -319,9 +319,23 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
     #: Listed rather than silently excluded: a later module that *does* name codes must not
     #: be able to hide behind this precedent — it fails this partition until someone says
     #: which sweep covers it.
+    #: `cli.py` joined 2026-08-16 (split batch R2), the six command bodies moved verbatim out
+    #: of `rsc.py`. Second member with NO code sweep, and for a different reason than
+    #: `paths.py`: it names no code because it *originates* none — every code it prints was
+    #: raised by the module it called, and each of those is swept where it lives. A sweep
+    #: here would re-assert other modules' vocabulary through a caller, which is the shape
+    #: that makes a green sweep uninformative. What stands in its place: `TheSurface` +
+    #: `TheTwoNames` in `tests/document_harness/test_cli_entry.py` (the six operations and
+    #: the two entry names, both mutation-tested), plus the **two** suites that drive real
+    #: commands through it in a subprocess — `test_dispatch_freeze_marker.py` and
+    #: `test_review_cli_v2_subject.py` — each asserting an effect or a code only the called
+    #: function can produce, which is what proves the CLI reaches it. (`test_dispatch.py`
+    #: was named here as a third until the FULL of `297bb2b` `L-2` measured it: it exercises
+    #: `dispatch` in-process off the module, never through the entry, so it says nothing
+    #: about the CLI.)
     SUCCESSOR_ROUND_MODULES = (
         "review_subject.py", "review_result_v2.py", "dispatch.py", "enumerations.py",
-        "paths.py",
+        "paths.py", "cli.py",
     )
 
     def named_codes(self) -> dict[str, set[str]]:

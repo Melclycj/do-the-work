@@ -126,7 +126,7 @@
   provenance entries are one-line derived facts, no characterization.
 - **E11** Preview card before each round; its first line states what the round buys, how
   often that is used, and what happens if skipped. Wait for the user unless told otherwise.
-- **E12** The handoff is one commit SHA / range (`rsc v3 dispatch`) — no per-acceptance
+- **E12** The handoff is one commit SHA / range (`dtw dispatch`) — no per-acceptance
   argument. A range recorded in a file has its base written and its tip `HEAD`, never a
   written SHA — the CLI printing a resolved full SHA is display, not a recorded range:
   recording the range is itself a commit inside the round, so a written tip is short by at

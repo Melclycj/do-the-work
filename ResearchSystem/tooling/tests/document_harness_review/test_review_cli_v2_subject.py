@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""M10 — `rsc v3 review --subject <SHA>` reaches BOTH wave-2 checks from the command line.
+"""M10 — `dtw review --subject <SHA>` reaches BOTH wave-2 checks from the command line.
 
 The gap this closes is reachability, not logic: `check_subject` and `check_review_result_v2`
-were fully implemented and fully unit-tested, while the only `v3 review` the CLI offered was
+were fully implemented and fully unit-tested, while the only `review` the CLI offered was
 the version-1 package path — so the wave-2 checks a reviewer is supposed to run had no
 command to run them from, and `check_review_result_v2` had no caller outside a run script.
 
@@ -39,7 +39,7 @@ FAKE_REV = "f" * 40
 def run_cli(*argv: str) -> subprocess.CompletedProcess:
     """Drive the real command, exactly as a reviewer would (the point of this suite)."""
     return subprocess.run(
-        [sys.executable, "rsc.py", "v3", "review", *argv],
+        [sys.executable, "dtw.py", "review", *argv],
         cwd=str(_harness.TOOLING_DIR),
         capture_output=True,
         encoding="utf-8",

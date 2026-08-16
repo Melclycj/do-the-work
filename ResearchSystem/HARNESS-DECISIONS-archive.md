@@ -128,3 +128,109 @@
   A2 要答的结构问题：`Instruction form` 与 `Authoring gate` 是起草期规则，而 `EXECUTION.md` 是
   执行者役职指令，读者是否同一。（答案落 R1 预览与 stage marker：多读者一文件，标注惯例既有。）
 - basis: journal §11.3 · §12.4
+
+### HD-43 · 拆分批 R1 的 `E9` 超腿：一次性追认，不改 `E9`、不立通则
+- 2026-08-15 · user · scope: one-shot · status: **retired**（本条即裁即成立，无待执行动作；
+  R4 收批时议转 `implemented`。**编号与状态只有用户能翻**，`HD-2`）
+- 裁决：R1 走满五腿而 `E9` 上限为三，用户裁定**一次性追认**第四、第五腿（fix `100e2dd` +
+  VERIFY `caf633c`），**不修改 `E9` 的三腿上限、不建立「超了再补批」的通则**。
+- 判据（实测，非断言）：`E9` 原文「Budget per round: one FULL, at most one user-approved fix,
+  one targeted VERIFY」把 FULL 与 VERIFY 一并计入，故 FULL `0792a89`（1）→ fix `22264b5`（2）
+  → VERIFY `dd7a27c`（3）即已用满；`io-design.md:19` 同义（「评审预算至多三腿、预算是轮的
+  属性」）。超腿的**内容**经 VERIFY `caf633c` 独立复算全部成立（travel 集 259 机械复现、
+  260 blob 中 259 个跨仓逐字节相同、新仓套件 24/677→20/681 在校验过的 clone 里复现），故追认
+  的是**预算**不是质量。
+- 后果 / 诚实边界：**用户批准第二条修腿（「甲 + 花」）时拿到的账目是错的**——executor 报的是
+  「三腿花了两腿」，那是只把 fix 计入腿数的读法，`E9` 文本不支持（VERIFY `100e2dd` 的 `F-1`）。
+  退役 operating contract 写死「预算分类是用户的，executor 只 propose the accounting，绝不
+  自行分类哪一轮消耗了什么」——本条追认的正是一次**在错账上做出的批准**，故记此边界而非略过。
+  更正落 `030a999`。**本条不豁免任何未来轮次**：下一轮超腿仍须当场停下并重新取得裁决。
+- basis: 用户裁决 2026-08-15（对话）· `v3-review-verify-100e2dd.md` `F-1` + 其自开自闭的
+  `SPEC_GAP` 段 · `document-harness/CONSTRUCTION-CHECKLIST.md` `E9`
+- retired 2026-08-15（用户裁）：执行完毕，无后继。
+
+### HD-42 · 全电池枚举随删除由八条改六条：只此一次、只这两条、与删除同 commit
+- 2026-08-15 · user · scope: one-shot（R1 执行即 retire）· status: **retired**（待 R1 执行）
+- 裁决：`HD-39` 的删除使 `EXECUTION.md` 全电池枚举中的两条指向不存在的文件——
+  `ResearchSystem/tooling/tests/harness/run_tests.py` 与
+  `ResearchSystem/tooling/tests/stage_control/run_tests.py`。用户裁定**把枚举由「八条」改为
+  「六条」并删去这两项，不算 `E10` 意义上的规则变更、不开设计轮**。**四重收窄，缺一不可**：
+  ① **只此一次**（不建立「主体消失即可改枚举」的通则）② **只这两条**（其余六条一字不动，
+  `nothing fewer` 子句保留）③ **与删除同一个 commit 落地**（不得先删文件后补规则，也不得反过来）
+  ④ **该 commit 正文点名**本裁决与被删的两条。
+- 判据（实测，非断言）：两个 runner 是 `unittest` 独立脚本，**pytest 收不到**——`python -m pytest -q
+  --collect-only`（量程 = 从 `ResearchSystem/tooling` 跑）收 **701** 个测试，其中来自这两个文件的
+  **0**；正因如此当年才把它们单列，防静默跳过。二者的 import 面**全部落在删除集内**
+  （`rsclib.harness.*` 十个模块 / `rsclib.{stage_close,stage_control}`），**59 个测试
+  （39 + 20）无一测到删除后仍存活的东西**。故删除零覆盖损失，留着则是两条指向空气的强制命令。
+- 后果：`E10` 的 design test **无**「枚举主体消失不算改规则」这一例外，故本条是**用户当场造的一个
+  例外**，形状比照 `E2` 的「只为该文件、只此一次」松冻结（`O-2b`）。**未豁免的**：该编辑仍是对
+  `E10` 成员 `EXECUTION.md` 的写入，按 `E10` **仍欠该层的一次独立 read**（riding the next read of
+  this layer at per-member digest cost）——本条只免「开设计轮」，不免读。
+  **同批须核**：rider `tier-scope` ② 的 redeem-when 点名的是 tiering **节头**，而本次编辑落在节内
+  的枚举句，严格论不触发；R1 应主动核一次而非等它咬人。**承载点三处**（扫类实测，量程 = 全仓
+  tracked `*.md`/`*.py`，排除评审记录与 archive）：`EXECUTION.md:329` · plan 步骤 13 · plan
+  Acceptance；另五处「八条」属别的主题（`HD-25` 八条守卫 / digest-narrowing 八条探针 / 批 B
+  第八条测试），不动。**无测试或代码钉住该枚举**。
+- basis: 用户裁决 2026-08-15（对话）· `v3-checkpoint-read-a654fb2.md` `M-1` ·
+  executor 复现（pytest collect 701/0 · import 面 · 39+20 测试数）
+- retired 2026-08-15（用户裁）：执行完毕，无后继。
+
+### HD-39 · v1/v2 全族**删除**（`HD-24` 的收窄后继）：七树不 travel，连 v1 运行时族一并删
+- 2026-08-14 · user · scope: standing · status: **retired**（待拆分批 R1 执行；**编号是提议，
+  状态只有用户能翻**（`HD-2`）。按 `HD-30` 机制承载 `HD-24` 收窄后的**全文**，`HD-24` 同 commit
+  转 `superseded` 入 archive，双向指针）
+- 裁决：`HD-24` 逐项裁定的七树**全部改为删除、不 travel**——① `ResearchSystem/harness/` ②
+  `tooling/rsclib/harness/` ③ `tooling/tests/harness/` ④ `schema/harness-v2/` 及
+  `contract/General-Harness-Contract-v2.md` ⑤ `migration/general-harness-v2/` ⑥
+  `migration/stage-control-refactor/` ⑦ `stages/`（其「处置归拆分批」于本条兑现）；
+  连同 `HD-24` **未 scope 到的 v1 运行时族**：`contract/Stage-Control-Contract.md` ·
+  `rsclib/stage_control.py` · `rsclib/stage_close.py` · `schema/stage-record.schema.json` ·
+  `schema/review-result.schema.json` · `schema/closure-receipt.schema.json` ·
+  `schema/stage-control-fixtures/`（24）· `tooling/tests/stage_control/`（2）·
+  `.claude/commands/rs-execute.md`。**合计 171 文件**（`HD-24` 时点报的 139 只覆盖前七树）。
+- 判据：`HD-9` 三砍之**「无锁证词」**——无任何决定依赖这批字节。事实基础：A2 存活审计定性
+  「注册在案、从未行使」（零份 Stage Record 曾存在），用户 2026-08-14 补充 v1 实际存活约半小时
+  即被 v2 推翻、v2 未活过一天。`E2` **不挡**：其冻结清单穷举（v3 契约 `b2dbdf75` + 两份
+  supersession + 15 个 schema 文件），两份待删契约均在清单外，规则原文「a path outside them is
+  not frozen by this rule」——删除是普通用户裁决，不是动冻结面。
+- 后果：travel 集不再含这七树，新仓不带从未行使的字节出门。**连带清单（R0 read `M-1` 更正后）**：
+  ① `rsc.py:48`/`:50` 两条 import（rider `CLI-hist` 照旧兑付）**外加 `rsc.py:850`**——
+  `except stage_control.StageControlFault` 在 `main()` 里包着 `args.func(args)`，是所有命令
+  （含六个 v3 命令）的共用错误出口；只剪 import 不动它，会把每个命令的意外失败路径从
+  `FATAL: …`/exit 2 变成未捕获的 `NameError`（re-read `M-1`；处置方式归 R1/R2 的设计判断）· ② **删除集之外有 4 个文件、
+  **14 条引用**（13 markdown 链接 + **1 wikilink**）指进删除集，全部进 R1 改动边界**（**「3 个文件」是加入 wikilink 那一处时漏改的残数，R1 更正为 4——`split-design.md` §7 表与 plan 步骤 12/Acceptance 一直是 4**）——`ResearchSystem/README.md`（8）·
+  `.goals/plans/general-harness-v2-architecture-revision.plan.md`（3，`:723-725`）·
+  `.goals/plans/research-system-stage-control-refactor.plan.md`（2，`:323`/`:324`）·
+  **`.goals/plans/document-work-assurance-harness-v3.plan.md`（1 条 wikilink，`:41`，目标 stem
+  `General-Harness-Contract-v2`；**不原样引用**——wikilink 扫描无 inline-code 豁免，照抄即自造断链——`repo-audit` 的 wikilink 是与 markdown-link 并列的另一道
+  硬检查 `:306`，按 stem 解析、不受 inline-code 豁免，故修完 13 条 markdown 仍 exit 1；re-read `M-2`）**；逐条见
+  `split-design.md` §7 表。**本条初稿只点了「指向 `stages/` 的 4 条」（其一自删），即预算 3 条而
+  实存 13 条**；`repo-audit` 的链接检查 resolve 任意目标路径、一条断链即 exit 1，故按初稿执行会
+  撞上 `HD-24` 当初用来说「直接删」不存在的那个失败形态。③ 已关闭 run
+  `p5b-firewall/build_run.py:216-217` 把两契约列在**边界排除表**（纯字符串、不读字节，不影响该
+  run 既有证据）。rider `SCC` 随其 subject 删除而在 R1 **retire**；rider `PD`
+  提到的「两处活调用是 v2 `schemas.pack_digests()`」随 ② 消失，其 v3 半边（删零调用函数）不变。
+  **诚实边界**：⑤⑥ 是**记录**不是仪器（`HD-9` 三留之「证据」），删除它们在 tip 上移除 v2 的构造
+  与评审轨迹；缓解事实 = 调用者仓保留全部 git 历史（本批新仓从头、不保历史，故历史只在调用者仓，
+  `git show` 仍可达）。**已验并更正**：三个 v1 schema 的**字节读者**仅在 v1 族自身内、v3 零命中
+  （本条初稿把这个 grep 结果写成了「全仓读者」，而 `ResearchSystem/README.md:43-45` 正链接着它们
+  ——字节读者 ≠ 引用者，R0 read `M-1`）。
+- basis: 用户裁决 2026-08-14（对话）· [journal/repo-split-r0-2026-08-13.md](document-harness/journal/repo-split-r0-2026-08-13.md) §7 ·
+  `document-harness/split-design.md` §7/§10.2 · supersedes `HD-24`
+- retired 2026-08-15（用户裁）：执行完毕，无后继。
+
+### HD-27 · `E2` 不加守卫：`pack_digests()` 不接、路径判据也不加；重开条件 = 拆分批（批 B ③）
+- 2026-08-11 · user · scope: standing · status: **retired**（"不加守卫"是 standing do-not，
+  rider `PD` 只承载 `pack_digests` 那半边，`E2` 通用守卫这半边无别家）
+- 裁决：**不**把 `pack_digests()`（`__init__.py:238`）接成 `E2` 的机械挂点，**也不**另加路径判据守卫；
+  `E2` 维持纯散文规则 + 纪律。**重开条件 = 拆分批**（三条理由届时同时变形）。
+- 后果：rider `PD` 的 redeem-when 由「I/O design 批一起议」重定为拆分批（比照 `HD-22`，重定范围
+  非兑付，**行不删**）。同批分开的两件事：`pack_digests` 零调用**不是** `E2` 缺守卫的症状，而是
+  **v3 证据从不记自己由哪个 interface 版本产出**（v2 的 `resolver.py:272` 记在 `bindings`，v3 全仓
+  零命中）——后者与 `E2` 无关，随重开条件一并再议。
+- basis: 本批 journal §3（三条实测：产品 run 的 `_check_git_diff_boundary` 已把 `schema`/契约列进
+  `boundary.out`；构造批每轮独立评审且 boundary 检查点名 frozen surface；`HD-16` 使"证据离仓自证"
+  价值落空）· `E6` · 用户裁决 2026-08-11
+- retired 2026-08-15（用户裁）：执行完毕，无后继。
+

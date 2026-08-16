@@ -23,6 +23,8 @@ ResearchSystem/assurance/review-test
 ResearchSystem/assurance/test
 ResearchSystem/tooling/tests/fixtures/expected-construction-prompt.txt
 ResearchSystem/tooling/tests/fixtures/expected-read-prompt.txt
+ResearchSystem/tooling/do-the-work.py
+ResearchSystem/tooling/dtw.py
 ResearchSystem/contract/Document-Work-Assurance-Contract-v3.md
 ResearchSystem/contract/Document-Work-Assurance-Contract-v3-supersession-1.md
 ResearchSystem/contract/Document-Work-Assurance-Contract-v3-supersession-2.md
@@ -52,9 +54,18 @@ ResearchSystem/HARNESS-DECISIONS-archive.md'
 | `ResearchSystem/assurance/test/` | `tests/document_harness` 的 coverage golden |
 | `ResearchSystem/tooling/tests/fixtures/expected-construction-prompt.txt`<br>`ResearchSystem/tooling/tests/fixtures/expected-read-prompt.txt` | dispatch prompt 的 golden。**该前缀其余文件不 travel**——它们是产品编译器的 fixture |
 | `ResearchSystem/contract/Document-Work-Assurance-Contract-v3.md`<br>`…-supersession-1.md`<br>`…-supersession-2.md` | 后两份是指令层九成员之二；三份都在 `E2` 冻结面上，**逐字节复制**，跨仓后 blob id 须与签字记录一致 |
+| `ResearchSystem/tooling/do-the-work.py`<br>`ResearchSystem/tooling/dtw.py` | 仪器自己的 CLI 入口（R2 建，`split-design.md` §1 + `HD-40` §10：一个入口两个名字）。**该前缀其余文件不 travel**——`rsc.py` 是产品编译器 |
+
+**一条未写明的依赖（FULL `297bb2b` `O-4`）**：travel 前缀是
+`ResearchSystem/tooling/rsclib/document_harness`，所以 `rsclib/__init__.py` **不 travel**——两个
+入口的 `from rsclib.document_harness.cli import main` 在新仓靠 **PEP 420 namespace package** 生效。
+今日成立且实测：五个 travel 前缀内 `from rsclib import` / `import rsclib` / `SCHEMA_VERSION`
+零命中，新仓 pytest 已按此导入。记在这里是因为它一旦失效是**静默**的——谁哪天在 `rsclib/`
+根加一个必须被导入的名字，新仓就会在 import 期炸而这份 manifest 一个字都没提过它。
 
 判据一句话：**已 travel 的测试所读的 golden 必须一同 travel**，否则那些测试在新仓必红。
-后四行（`review-test` / `test` / 两个 prompt golden）全部由这一句决定。
+`assurance/review-test/` · `assurance/test/` · 两个 prompt golden 这四行全部由这一句决定
+（原写「后四行」，R2 在其后加了 CLI 入口那行，按位置指的说法就此作废）。
 
 ## B —— 治理登记（`HD-28` 点名的 3 件）
 
@@ -114,7 +125,8 @@ ResearchSystem/HARNESS-DECISIONS-archive.md'
 ## 不 travel
 
 - `ResearchSystem/HARNESS-LEDGER.md` · `HARNESS-LEDGER-archive.md` · `HARNESS-POLICY.md`（`HD-28`/`HD-33`）
-- `ResearchSystem/tooling/rsc.py`（`split-design.md` §1：`rsc` 这个名字是产品的；v3 命令组的搬迁在 R2）
+- `ResearchSystem/tooling/rsc.py`（`split-design.md` §1：`rsc` 这个名字是产品的。R2 已把 v3 命令组
+  搬进 `rsclib/document_harness/cli.py` 与上面两个入口，`rsc.py` 只剩 `inventory` / `compile`）
 - `ResearchSystem/tooling/tests/fixtures/` 的其余成员——产品编译器的 fixture
 - `ResearchSystem/assurance/runs/` · `assurance/shadow/` · `generated/` · `handoffs/` ·
   `inventory/` · `contract/` 的其余成员（`HD-28` D/E）

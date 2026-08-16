@@ -118,7 +118,7 @@ record the user's REPAIR decision, run `flow.check_repair_decision`, advance to 
 It is templated here as `run_repair.py` rather than left to precedent, because unlike the
 three above it has no w1-r1 instance — w1-r1 was never repaired — and because its omission
 is *silent*: nothing refuses at the time, and the run learns of it rounds later when
-`rsc v3 dispatch` declines the VERIFY for a state carrying no `repair_decision_ref`. p3-corr
+`dtw dispatch` declines the VERIFY for a state carrying no `repair_decision_ref`. p3-corr
 wrote the transition by hand; `../../runs/p5b-claims/run_repair.py` is the worked instance,
 and its docstring shows the run-local habit of recording which findings were accepted and
 which were carried to FINAL unrepaired.

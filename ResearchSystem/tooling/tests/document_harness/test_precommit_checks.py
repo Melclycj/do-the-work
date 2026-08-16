@@ -348,6 +348,7 @@ class CandidateScanScope(unittest.TestCase):
         "ResearchSystem/HARNESS-LEDGER.md",
         "ResearchSystem/HARNESS-LEDGER-archive.md",
         "ResearchSystem/HARNESS-RIDERS.md",
+        "ResearchSystem/HARNESS-DECISIONS-archive.md",
         ".goals/LEDGER.md",
         ".goals/LEDGER-archive.md",
         "ResearchSystem/assurance/runs/",
@@ -363,6 +364,7 @@ class CandidateScanScope(unittest.TestCase):
         "ResearchSystem/HARNESS-LEDGER.md",
         "ResearchSystem/HARNESS-LEDGER-archive.md",
         "ResearchSystem/HARNESS-RIDERS.md",
+        "ResearchSystem/HARNESS-DECISIONS-archive.md",
         ".goals/LEDGER.md",
         ".goals/LEDGER-archive.md",
         "ResearchSystem/assurance/runs/p5b-claims/instruction.md",
@@ -446,6 +448,28 @@ class NonAsciiFilenames(unittest.TestCase):
             stage(repo, {self.NAME: "hosted in `Thesis/no/such/file.md`\n"})
             repo.write({self.NAME: "no citation here at all\n"})
             git(repo.root, "add", "--", self.NAME)
+            self.assertEqual(candidate_path_check.check(repo.root), 0)
+
+    def test_an_ascii_directory_holding_one_resolves(self):  # must NOT fire — rider qp-index
+        """The other half of the same quoting: the INDEX side, which blocks instead of missing.
+
+        `TrackedPaths.from_index` registers the directories implied by tracked files. A
+        C-quoted entry implies quoted ancestors, so a directory whose only content carries a
+        non-ASCII segment resolves nowhere and a correct citation of it is reported —
+        a false block, one grade worse than the silent miss above, because it is what
+        `--no-verify` gets used for. The citation itself is plain ASCII — only the tracked
+        file below it is not, so no amount of care in the citing document avoids this.
+
+        Inverse shape to its neighbours, and labelled accordingly (FULL `297bb2b` `O-5`):
+        it asserts exit 0, so what proves it binds is the mutation, not a companion
+        must-fire — neutering `from_index`'s `core.quotepath=off` turns it red with the
+        real message, `pre-commit BLOCKED: … 'ResearchSystem/notes/'`.
+        """
+        with TempRepo() as repo:
+            stage(repo, {
+                "ResearchSystem/notes/笔记/x.md": "content\n",
+                CANDIDATE: "the notes live under `ResearchSystem/notes/`\n",
+            })
             self.assertEqual(candidate_path_check.check(repo.root), 0)
 
 

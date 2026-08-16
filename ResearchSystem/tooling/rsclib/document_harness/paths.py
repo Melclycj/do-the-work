@@ -60,7 +60,7 @@ OUT_OF_INDEX = "OUT_OF_INDEX"
 UNRESOLVED = "UNRESOLVED"
 
 #: Trees git never tracks by design — its own directory, and the harness runtime state that
-#: `rsc v3 dispatch` writes. The index cannot answer for these, so the lint says so instead
+#: `dtw dispatch` writes. The index cannot answer for these, so the lint says so instead
 #: of pretending: `OUT_OF_INDEX`, never `UNRESOLVED`. Found the way it should be found — the
 #: guard's first live run blocked its own round on `.git/hooks/` and
 #: `.harness/review-pending.json`, two legitimate references in the harness README. The
@@ -115,7 +115,7 @@ class TrackedPaths:
     def from_index(cls, repo_root: pathlib.Path | str) -> "TrackedPaths":
         """The index, not `HEAD`: a file added by the very commit being linted resolves."""
         out = subprocess.run(
-            ["git", "-C", str(repo_root), "ls-files"],
+            ["git", "-C", str(repo_root), "-c", "core.quotepath=off", "ls-files"],
             check=False,
             stdout=subprocess.PIPE,
         )
@@ -186,8 +186,7 @@ def staged_added_lines(repo_root: pathlib.Path | str, path: str) -> list[str]:
     shorthand.
     """
     out = subprocess.run(
-        ["git", "-C", str(repo_root), "-c", "core.quotepath=off",
-         "diff", "--cached", "-U0", "--", path],
+        ["git", "-C", str(repo_root), "diff", "--cached", "-U0", "--", path],
         check=False,
         stdout=subprocess.PIPE,
     )

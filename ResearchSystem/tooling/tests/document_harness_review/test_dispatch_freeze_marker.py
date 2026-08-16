@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""F-3r — `rsc v3 dispatch` actually WRITES `.harness/review-pending.json` (producer side).
+"""F-3r — `dtw dispatch` actually WRITES `.harness/review-pending.json` (producer side).
 
 The freeze marker is the mechanical half of E9's review window: the tracked
 `review_freeze_check.py` (the consumer) refuses commits while the marker exists, and that
 side is already red-tested via `test_precommit_checks`. Until this file nothing bound the
 PRODUCER — a dispatch that silently stopped writing the marker would leave the window
 unheld while every consumer test stayed green. Rider F-3r (source:
-`v3-review-full-8ec4c60.md` F-3), redeemed in Phase D, the batch that touched `rsc.py`.
+`v3-review-full-8ec4c60.md` F-3), redeemed in Phase D, the batch that touched `rsc.py` —
+the file the six commands lived in until the split batch's R2 moved them to `dtw.py`.
 
 The command is driven exactly as a dispatcher would drive it (subprocess against a real
 disposable repository), following `test_review_cli_v2_subject.py`. The expected field set,
@@ -35,7 +36,7 @@ MARKER = ".harness/review-pending.json"
 def run_dispatch(*argv: str) -> subprocess.CompletedProcess:
     """Drive the real command, exactly as a dispatcher would (the point of this suite)."""
     return subprocess.run(
-        [sys.executable, "rsc.py", "v3", "dispatch", *argv],
+        [sys.executable, "dtw.py", "dispatch", *argv],
         cwd=str(_harness.TOOLING_DIR),
         capture_output=True,
         encoding="utf-8",
