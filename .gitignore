@@ -1,0 +1,18 @@
+# This repository's own file, like README.md: it is NOT synced from the caller.
+#
+# The caller's .gitignore sits at its repository root, outside every travel prefix, so it
+# does not arrive here — and the first `python -m pytest` run in this tree left six
+# __pycache__ directories and a .pytest_cache behind, untracked and unignored. That matters
+# beyond tidiness: a harness round dispatched from inside this repository needs a clean tree,
+# so an unignorable build artefact is a round that cannot start.
+#
+# Kept minimal on purpose. Anything here should be a by-product this repository's own
+# commands produce; editor and OS noise belongs in a personal global ignore file.
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Harness runtime state, matching the caller's treatment: the freeze marker
+# (.harness/review-pending.json) and the run log are per-checkout, never committed.
+.harness/
