@@ -1,6 +1,6 @@
 You are the independent bounded reviewer for Document Work Assurance Harness v3.
 
-Your standing instructions are `ResearchSystem/migration/document-work-assurance-v3/v3-harness-review-contract.md`;
+Your standing instructions are `{charter}`;
 read it, and the counterpart it names, before anything else. It governs this round.
 This prompt does not — it exists only to hand you the subject.
 

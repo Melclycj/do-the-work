@@ -48,7 +48,32 @@ DISPATCHABLE_STATUS = "EVIDENCED"
 #: A commit-bound subject admits only the v2 ReviewResult: `review_result_v2` stops a v1
 #: result outright rather than validating package-bound semantics against a commit. So this
 #: is derived with certainty from the shape of the subject, not guessed from the spec.
-RESULT_SCHEMA = "ResearchSystem/schema/document-assurance-v3/review.v2.schema.json"
+#: Instrument-relative, resolved for the subject repository by `instrument_relative`.
+RESULT_SCHEMA = "schema/document-assurance-v3/review.v2.schema.json"
+
+
+def instrument_relative(repo_root: pathlib.Path | str, member: str) -> str:
+    """Where `member` — a path inside this instrument — is opened from `repo_root`.
+
+    Not a constant, because it is a deployment fact. The instrument is `ResearchSystem/…`
+    when a round runs inside its own repository and `ResearchSystem/harness/ResearchSystem/…`
+    from a caller that mounts it as a submodule, and a prompt naming a path the reviewer
+    cannot open is a prompt that fails at its one job. Written as a literal it was right in
+    exactly one of the two, and the split made the caller the wrong one: the first dispatch
+    issued after the caller's duplicate copy was deleted named a charter resolving nowhere.
+
+    When the instrument is not under `repo_root` at all — a synthetic repository built by a
+    test, where the instrument is somewhere else entirely — no repo-relative answer exists
+    and the member's own name is returned. That is the honest output for that case and it is
+    what the goldens pin.
+    """
+    from rsclib.document_harness import RS_ROOT
+
+    try:
+        prefix = RS_ROOT.resolve().relative_to(pathlib.Path(repo_root).resolve())
+    except ValueError:
+        return member
+    return (prefix / member).as_posix()
 
 #: Closed per-round verdicts (contract §5). A VERIFY cannot return `CHANGES_REQUIRED`:
 #: there is no second repair for it to request, and a remaining blocker stops the round.
@@ -84,6 +109,9 @@ class Dispatch:
     obligation_count: int | None
     check_count: int | None
     report: Report
+    #: Instrument paths resolved for THIS subject repository (`instrument_relative`).
+    charter: str = ""
+    result_schema: str = ""
 
 
 def control_root_of(
@@ -262,13 +290,17 @@ def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch
     resolved, resolve_report = resolve_subject(repo_root, evidence_commit)
     if resolved is None:
         return Dispatch(evidence_commit, None, None, None, None, None, None, None, None,
-                        (), None, None, None, None, resolve_report)
+                        (), None, None, None, None, resolve_report,
+                        instrument_relative(repo_root, ROLE_INSTRUCTION),
+                        instrument_relative(repo_root, RESULT_SCHEMA))
     evidence_commit = resolved
 
     control_root, report = control_root_of(repo_root, evidence_commit)
     if control_root is None:
         return Dispatch(evidence_commit, None, None, None, None, None, None, None, None,
-                        (), None, None, None, None, report)
+                        (), None, None, None, None, report,
+                        instrument_relative(repo_root, ROLE_INSTRUCTION),
+                        instrument_relative(repo_root, RESULT_SCHEMA))
 
     plane = read_control_plane(repo_root, evidence_commit, control_root)
     report = report + plane.report
@@ -332,6 +364,8 @@ def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch
         obligation_count=len(spec.get("obligations", [])) or None,
         check_count=len(plan.get("check_order", [])) or None,
         report=report + report_of(issues),
+        charter=instrument_relative(repo_root, ROLE_INSTRUCTION),
+        result_schema=instrument_relative(repo_root, RESULT_SCHEMA),
     )
 
 
@@ -388,7 +422,8 @@ def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch
 # reviewer should see.
 
 #: The reviewer's fixed role instruction. Named, never quoted — one live copy.
-ROLE_INSTRUCTION = "ResearchSystem/document-harness/REVIEW.md"
+#: Instrument-relative; `Dispatch.charter` carries it resolved for the subject repository.
+ROLE_INSTRUCTION = "document-harness/REVIEW.md"
 
 _UNRESOLVED = "<<< NOT DERIVED — see the issues below >>>"
 
@@ -420,7 +455,7 @@ def render_dispatch(dispatch: Dispatch) -> str:
         "Read your role instruction first: it is the contract for this round, and this file",
         "is not. This file exists only to hand you the subject.",
         "",
-        f"- **Role instruction:** `{ROLE_INSTRUCTION}`",
+        f"- **Role instruction:** `{dispatch.charter or ROLE_INSTRUCTION}`",
         f"- **Subject:** `{dispatch.evidence_commit}`",
         # The marker is state this dispatch itself created — like the subject, it is a fact
         # only the dispatch can hand over, so naming it here does not restate anything the
@@ -462,7 +497,7 @@ def render_derivation(dispatch: Dispatch) -> str:
     lines.append(
         f"  obligations/chk : {_value(dispatch.obligation_count)} / {_value(dispatch.check_count)}"
     )
-    lines.append(f"  result schema   : {RESULT_SCHEMA}")
+    lines.append(f"  result schema   : {dispatch.result_schema or RESULT_SCHEMA}")
     if dispatch.accepted_finding_ids:
         lines.append("  repair scope    : " + ", ".join(dispatch.accepted_finding_ids))
     boundary = dispatch.repair_boundary if role == "VERIFY" else dispatch.change_boundary
@@ -505,8 +540,10 @@ def render_derivation(dispatch: Dispatch) -> str:
 # computation was deterministic; the thing it computed was not. A caveat declaring the number
 # an upper bound was a confession dressed as a feature.
 
+#: Instrument-relative; the resolved form travels on `ConstructionDispatch.charter` and
+#: `ReadDispatch.charter`.
 CONSTRUCTION_ROLE_INSTRUCTION = (
-    "ResearchSystem/migration/document-work-assurance-v3/v3-harness-review-contract.md"
+    "migration/document-work-assurance-v3/v3-harness-review-contract.md"
 )
 
 #: The whole reviewer-facing prompt. One constant, two substitutions — so the test can assert
@@ -535,6 +572,8 @@ class ConstructionDispatch:
     base: str | None
     tip: str | None
     report: Report
+    #: The construction charter, resolved for THIS subject repository.
+    charter: str = ""
 
 
 def construction_dispatch_of(
@@ -542,11 +581,12 @@ def construction_dispatch_of(
 ) -> ConstructionDispatch:
     """Resolve and sanity-check the two revisions that bound a construction round."""
     repo_root = pathlib.Path(repo_root)
+    charter = instrument_relative(repo_root, CONSTRUCTION_ROLE_INSTRUCTION)
     base_sha, base_report = resolve_subject(repo_root, base)
     tip_sha, tip_report = resolve_subject(repo_root, tip)
     report = base_report + tip_report
     if base_sha is None or tip_sha is None:
-        return ConstructionDispatch(base_sha, tip_sha, report)
+        return ConstructionDispatch(base_sha, tip_sha, report, charter)
 
     # An unordered pair does not bound a round, and picking an order for the caller would
     # invent a round they did not mean.
@@ -555,7 +595,7 @@ def construction_dispatch_of(
         check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
     if ancestry.returncode != 0:
-        return ConstructionDispatch(base_sha, tip_sha, report + report_of([
+        return ConstructionDispatch(base_sha, tip_sha, charter=charter, report=report + report_of([
             Issue(
                 f"{CODE}-RANGE-NOT-ANCESTRAL",
                 f"{base_sha[:12]} is not an ancestor of {tip_sha[:12]}, so these two do not "
@@ -569,7 +609,7 @@ def construction_dispatch_of(
         check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
     if revs.returncode != 0 or int(revs.stdout.decode().strip() or 0) == 0:
-        return ConstructionDispatch(base_sha, tip_sha, report + report_of([
+        return ConstructionDispatch(base_sha, tip_sha, charter=charter, report=report + report_of([
             Issue(
                 f"{CODE}-EMPTY-RANGE",
                 f"{base_sha[:12]}..{tip_sha[:12]} contains no commit, so there is nothing to "
@@ -578,7 +618,7 @@ def construction_dispatch_of(
             )
         ]))
 
-    return ConstructionDispatch(base=base_sha, tip=tip_sha, report=report)
+    return ConstructionDispatch(base=base_sha, tip=tip_sha, report=report, charter=charter)
 
 
 def render_construction_dispatch(dispatch: ConstructionDispatch) -> str:
@@ -595,7 +635,9 @@ def render_construction_dispatch(dispatch: ConstructionDispatch) -> str:
         return "\n".join(lines) + "\n"
 
     return CONSTRUCTION_PROMPT.format(
-        charter=CONSTRUCTION_ROLE_INSTRUCTION, base=dispatch.base, tip=dispatch.tip
+        charter=dispatch.charter or CONSTRUCTION_ROLE_INSTRUCTION,
+        base=dispatch.base,
+        tip=dispatch.tip,
     )
 
 
@@ -645,12 +687,18 @@ class ReadDispatch:
 
     commit: str | None
     report: Report
+    #: The construction charter, resolved for THIS subject repository.
+    charter: str = ""
 
 
 def read_dispatch_of(repo_root: pathlib.Path | str, revision: str) -> ReadDispatch:
     """Resolve the commit whose instruction layer is the read's subject."""
     commit, report = resolve_subject(pathlib.Path(repo_root), revision)
-    return ReadDispatch(commit=commit, report=report)
+    return ReadDispatch(
+        commit=commit,
+        report=report,
+        charter=instrument_relative(repo_root, CONSTRUCTION_ROLE_INSTRUCTION),
+    )
 
 
 def render_read_dispatch(dispatch: ReadDispatch) -> str:
@@ -665,7 +713,9 @@ def render_read_dispatch(dispatch: ReadDispatch) -> str:
         ]
         lines += [f"- {issue.render()}" for issue in dispatch.report.issues]
         return "\n".join(lines) + "\n"
-    return READ_PROMPT.format(charter=CONSTRUCTION_ROLE_INSTRUCTION, commit=dispatch.commit)
+    return READ_PROMPT.format(
+        charter=dispatch.charter or CONSTRUCTION_ROLE_INSTRUCTION, commit=dispatch.commit
+    )
 
 
 def render_read_derivation(dispatch: ReadDispatch) -> str:

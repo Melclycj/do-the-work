@@ -391,12 +391,18 @@ class ConstructionRoundsGenerateToo(unittest.TestCase):
     #: compare the module to itself. In a separate data file there is nothing to collapse.
     FIXTURE = pathlib.Path(__file__).parents[1] / "fixtures" / "expected-construction-prompt.txt"
 
+    #: Hand-written, never read back from the module: the charter a subject repository that
+    #: does NOT contain the instrument gets. Every scenario here builds such a repository.
+    CHARTER_OUTSIDE = "migration/document-work-assurance-v3/v3-harness-review-contract.md"
+
     def test_the_prompt_is_exactly_the_golden_file(self):
         """Added, missing and reordered lines all fail here, in one comparison."""
         repo, base, tip = self._round()
         d = D.construction_dispatch_of(repo.root, base, tip)
         self.assertTrue(d.report.ok, codes(d.report))
-        expected = self.FIXTURE.read_text(encoding="utf-8").format(base=base, tip=tip)
+        expected = self.FIXTURE.read_text(encoding="utf-8").format(
+            base=base, tip=tip, charter=self.CHARTER_OUTSIDE
+        )
         self.assertEqual(D.render_construction_dispatch(d), expected)
 
     def test_the_prompt_carries_nothing_but_the_charter_and_the_range(self):
@@ -439,6 +445,48 @@ class ConstructionRoundsGenerateToo(unittest.TestCase):
         self.assertIn(f"{base}..{tip}", D.render_construction_dispatch(d))
 
 
+class TheCharterIsNamedWhereTheReviewerCanOpenIt(unittest.TestCase):
+    """`instrument_relative`: the charter path is a deployment fact, not a constant.
+
+    Bought by a real failure. The caller's duplicate copy of the instrument was deleted, and
+    the very next dispatch handed a reviewer
+    `ResearchSystem/migration/…/v3-harness-review-contract.md` — a path that had just stopped
+    resolving there, because from the caller the instrument now lives under the submodule
+    mount. A prompt whose one job is to name the charter had named a file nobody could open.
+
+    Both directions are pinned, and every expectation below is a hand-written literal rather
+    than the module's own constant (`E5`).
+    """
+
+    MEMBER = "migration/document-work-assurance-v3/v3-harness-review-contract.md"
+
+    def test_a_repo_that_contains_the_instrument_gets_the_path_through_the_mount(self):
+        instrument_root = pathlib.Path(D.__file__).resolve().parents[3]
+        caller_root = instrument_root.parents[2]  # the repo the instrument is mounted in
+        self.assertEqual(
+            D.instrument_relative(caller_root, self.MEMBER),
+            "ResearchSystem/harness/ResearchSystem/" + self.MEMBER,
+        )
+
+    def test_the_instruments_own_repo_gets_the_path_it_always_had(self):
+        instrument_root = pathlib.Path(D.__file__).resolve().parents[3]
+        self.assertEqual(
+            D.instrument_relative(instrument_root.parent, self.MEMBER),
+            "ResearchSystem/" + self.MEMBER,
+        )
+
+    def test_a_repo_that_does_not_contain_the_instrument_gets_the_member_name(self):
+        """The negative control: no repo-relative answer exists, and none is invented."""
+        scn = build_scenario()
+        self.assertEqual(D.instrument_relative(scn.repo.root, self.MEMBER), self.MEMBER)
+
+    def test_the_resolved_charter_is_what_reaches_the_prompt(self):
+        scn = build_scenario()
+        d = D.read_dispatch_of(scn.repo.root, "HEAD")
+        self.assertEqual(d.charter, self.MEMBER)
+        self.assertIn(f"`{self.MEMBER}`", D.render_read_dispatch(d))
+
+
 class ReadDispatchesGenerateToo(unittest.TestCase):
     """The third family (E10 layer reads): one commit, a constant prompt, no member list.
 
@@ -450,11 +498,15 @@ class ReadDispatchesGenerateToo(unittest.TestCase):
 
     FIXTURE = pathlib.Path(__file__).parents[1] / "fixtures" / "expected-read-prompt.txt"
 
+    CHARTER_OUTSIDE = "migration/document-work-assurance-v3/v3-harness-review-contract.md"
+
     def test_the_prompt_is_exactly_the_golden_file(self):
         scn = build_scenario()
         d = D.read_dispatch_of(scn.repo.root, "HEAD")
         self.assertTrue(d.report.ok, codes(d.report))
-        expected = self.FIXTURE.read_text(encoding="utf-8").format(commit=d.commit)
+        expected = self.FIXTURE.read_text(encoding="utf-8").format(
+            commit=d.commit, charter=self.CHARTER_OUTSIDE
+        )
         self.assertEqual(D.render_read_dispatch(d), expected)
 
     def test_the_subject_is_routed_in_full(self):
