@@ -46,40 +46,14 @@
 - 后果：`HD-36` ① 与 `E7` 的扫类义务由「应当」变为**可核**（commit 正文里有没有 grep 输出）。
   **不新增机器**（`E6`）：纯纪律 + 留痕。**未解决**：本条与指令层的关系——`E3` 只管时间，
   范围与扫类留痕在层里无承载，要不要写进 `E3` 或另起一条是**下一个设计轮**的题。
+- **2026-08-17 用户追认：维持纯纪律，那个设计轮暂不开**（拆分批 R3 的 FULL `O-A` 归口用户）。
+  依据是同一轮的实测：该缺陷类在一轮之内又发生至少四次——FULL 两条 blocker（代码注释里没跑过
+  命令的「因为」· 把眼睛扫到的两处写成「全部」），VERIFY 三条残留（其中一条是**修它的那次自己
+  把量程写窄了**：声明的量程返 6、实际跑的窄命令返 4；另一条是同一段落相邻两行自相矛盾），
+  且全部由**评审员**而非本条纪律抓出。用户看过这组数据后仍选 `E6`：**不为一条被绕过的纪律再造
+  机器**。上一行的「未解决」不因此关闭——题还在，只是排期未定。
 - basis: 用户裁决 2026-08-14（对话，「同意改写法」+「建一条吧」）· `document-harness/split-design.md`
   §11 · 四份 read 记录 `v3-checkpoint-read-{ffbc393,0cc45ce,b75676e,a2f8c7d}.md` 的 must-fix 段
-
-### HD-40 · split-design v1 已签字：拆分批 R1–R4 的执行依据
-- 2026-08-14 · user · scope: standing · status: **live**（是 R1–R4 的执行依据；各轮执行完其
-  对应节后可议转 implemented。本条即签字记录本身——`split-design.md` 按 governance-scan 判据
-  不携带自身审批状态，签字住这里，形状比照 `HD-35`）
-- 裁决：用户签署 `document-harness/split-design.md` **v1 定稿**（八问全裁 + §1–§9 与 §10 对齐的
-  一致性 pass，`9736670`；签字绑定字节 blob `3f4d2b0a`、sha256 `c4e24f99…ab5c`，251 行）。
-  **绑定原文恢复（re-read `O-1`）**：源 read 的 `L-2` 明写「签字是用户的行为，替换归用户」，
-  而本 session 曾把 `sha256` 从绑定句里移走——越权，初签绑定原字节留档如上。
-- **重签 2026-08-15（`HD-40` 的第二次签字）**：初签后经**五轮独立 read**（记录 `feb7b48` ·
-  `6a946ba` · `4342c6b` · `289f8ab` · `72694c4`，共返七条 must-fix）与其全部答复，稿由 251 行
-  增至 **352 行**（新增 §11 量程纪律一整节，及各节的更正块）。**八条裁决自初签起逐字节未变**
-  （§10 表 `git show 3f4d2b0a` vs tip，diff 为空）；变的是影响面与写法。
-  **重签绑定 blob `3140faf1`、sha256 `1108574f…c033`（blob 内容，LF——按 `HD-41` 的口径，
-  `git cat-file blob <id> | sha256sum`），352 行**；初签 `3f4d2b0a` / `8da2d17d…59af` / 251 行留档。
-- **重签时仍开着的三件**（不阻塞 R1，记明以免被读成已闭）：① 新仓 remote 由用户自建
-  ② R1 动手前确认删除范围的净增 32 件 ③ **`ddd773a` 欠一次独立 re-read**——它是 `72694c4` 的
-  `M-2` 答复，按 `E10` must-fix 通道欠对被改文本的独立复核；R1 开轮前付清，或用户明示豁免。
-  **`sha256` 口径更正（R0 read `L-2`）**：初记的 `c4e24f99…ab5c` 是**工作副本**的摘要，本机
-  `core.autocrlf=true` 故每行多一个 CR；**blob 内容（LF）的 sha256 是 `8da2d17d…59af`**。
-  今后一律记 blob 内容的摘要——`git cat-file blob <id> | sha256sum`；工作副本摘要在别人的 clone
-  上（`core.autocrlf=false`）算不出来，会把好签字读成坏的。`HD-35` 未暴露此坑纯属侥幸：
-  **`io-design.md` 的工作副本恰好也是 LF**（写入即 LF、从未被 checkout 重新落盘），故其工作副本
-  摘要与 blob 摘要重合；**仓内 blob 一律 LF**，`E2` 三份冻结件亦然（re-read `L-1` 更正本句原写的
-  「blob 恰好存的就是 CRLF」——那是反的，且会教读者用错模型验签）。
-  十节全部生效为设计依据：R1 按 §3/§4/§7 施工、R2 按 §1 施工、R3 按 §2/§6/§8 施工、
-  打包批按 §10.5 立项。
-- 后果：R0 的步骤 8 完成，只余步骤 9（独立 read）。对该文件的后续实质修改欠重签。
-  **签字时仍开着的两件**（均不阻塞 R1，记明以免被读成已闭）：① 新仓 remote 由用户自建；
-  ② 删除范围 **139→171** 的差额欠 R1 动手前的最后确认——用户的「删」是对 139 口径给的，
-  32 件的补测发生在其后（`HD-39` 与 §7 均已照记）。
-- basis: 用户签字 2026-08-14（对话）· `document-harness/split-design.md` @ `3f4d2b0a`
 
 ### HD-36 · `E10` must-fix 通道放松：收扫类 + 无字节由 executor 写；design test 收窄回自由通道
 - 2026-08-13 · user · scope: standing · status: **live**（read 已走完（`v3-checkpoint-read-f61ce2c.md`）
@@ -118,33 +92,6 @@
   随裁更新。重签绑定 blob `8f3c82c2`、sha256 `730fddf4…8157`（初签 `ef75b870` 留档）。
 - basis: 用户签字 2026-08-12（对话）· `document-harness/io-design.md` @ `8f3c82c2`
 
-### HD-28 · 新仓成员（`HD-16` 的收窄后继）：A 仪器 + B=decisions/riders+decisions-archive + C 评审记录；ledger 留调用者
-- 2026-08-12 · user · scope: standing · status: **live**（待拆分批执行；本条 2026-08-12 按
-  `HD-30` 机制由差量式收窄注重写为 `HD-16` 的**完整后继**，`HD-16` 同 commit 转 superseded
-  入 archive，双向指针）
-- 裁决：新 harness 仓带 **A 仪器 + B 治理登记（`HARNESS-DECISIONS.md` · `HARNESS-RIDERS.md` ·
-  `HARNESS-DECISIONS-archive.md`，3 files——riders 无 archive）+ C 评审记录**；
-  **`HARNESS-LEDGER.md` 与 `HARNESS-LEDGER-archive.md` 留调用者仓**；**D 已关闭 run 的产物与
-  E shadow 留产品仓**（此半边承 `HD-16` 原文不变）。
-- 判据：实例内容按「**谁的开发**」归属——harness 仓里填满的四件（decision log / rider bank /
-  journal / ledger）是 harness 跑在自身的实例，调用者的归调用者；四件中唯 ledger 连**规则**都
-  不归 harness（global 约定的收紧方言，harness 只占三个参数），故其实例随调用者。
-- 后果：记录跟着被记录的对象走，不跟仪器走（承 `HD-16`）；A1 §13.4 的「B 治理账本 5 files」
-  重算为 3。
-- basis: [journal/batch-b-2026-08-11.md](document-harness/journal/batch-b-2026-08-11.md) §5 ·
-  `document-harness/io-design.md` §6/§7 · 用户裁决 2026-08-12 · supersedes `HD-16`
-
-### HD-33 · 调用模型 = submodule；run 与实例文件归调用者仓（`HD-29` 拆分后继 ①）
-- 2026-08-12 · user · scope: standing · status: **live**（待拆分批执行）
-- 裁决：调用者仓以 gitlink 钉住 harness 版本（`HD-15` 拆分形态在调用侧的兑现）；run 目录
-  （可 gitignore）、freeze marker（`.harness/review-pending.json`）、四件实例文件（decision
-  log / rider bank / journal / ledger）**全归调用者仓**。ledger 跨仓指针问题不存在——每库用
-  自己的四件。
-- 后果：「用哪个版本的仪器查的」由候选 commit 自带（copy 守不住的那条线）；升级 = 显式的
-  gitlink 指针变更 commit，历史可读。
-- basis: journal §5 · `document-harness/io-design.md` §7 · 用户裁决 2026-08-12 ·
-  supersedes `HD-29`（与 `HD-34` 共同取代）
-
 ### HD-34 · 调用者纪律：零升级、适配留痕；copy 仅为逃生口（`HD-29` 拆分后继 ②）
 - 2026-08-12 · user · scope: standing · status: **live**（待首个外部调用者执行）
 - 裁决：调用者仓内**不得改动/升级 harness 内容**；任何适配**必须记入调用者自己的 decision
@@ -161,23 +108,6 @@
   不改，本条是其外延；先例 `8dae1e0`；起因 = `7a08265` VERIFY §4.3 指出 A1 曾把原裁决读宽。
 - basis: `v3-review-verify-7a08265.md` §4.3 · 用户裁决 2026-08-08
 
-### HD-10 · harness 独立成仓的目的与必要性
-- 2026-08-08 · user · scope: standing · status: **live**（待拆分批执行）
-- 裁决：**harness 不依附于 ResearchSystem 存在**，因此从本仓拆出为独立 repo **必须做**。
-- 后果：批 A 的 `D5` 由「拆不拆 / 哪个方案」收窄为「切线与成员」。**A1 的 M5/M6 costed 的是另一条
-  切线**（`ResearchSystem/` 整体离开论文仓），其「(b) 是全部代价、`generated/` 362 处」结论**不适用
-  本切线**——`generated/` 属产品侧、不随 harness 走。按本切线重算见 basis。
-- basis: [journal/batch-a1-2026-08-08.md](document-harness/journal/batch-a1-2026-08-08.md) §13
-
-### HD-15 · 拆分形态 = submodule（批 A `D5`）
-- 2026-08-08 · user · scope: standing · status: **live**（待拆分批执行）
-- 裁决：harness 独立成仓，产品仓以 **submodule** 钉住其版本。
-- 后果：保障要求「用哪个版本的仪器查的」可复现，submodule 指针恰好把仪器版本钉进候选 commit。
-  **A1 的未量项因此转为 A2 必量**：两仓下 `subject_tree: candidate_commit` 出现第二个 revision
-  的具体语义。`rsc.py` 的两条入边（`rsclib.document_harness` + `.review`）与
-  `hooks/candidate_path_check.py` 的一条须一并处置。
-- basis: [journal/batch-a1-2026-08-08.md](document-harness/journal/batch-a1-2026-08-08.md) §13.2–13.3
-
 ### HD-9 · 记录层三留三砍判据
 - 2026-08-08 · user · scope: standing · status: **live**（standing 量尺，判据无别家承载）
 - 裁决：一件记录留下的理由按**可核验性**判，且写明谁在什么时候读。**三留**：证据（不可再生的
@@ -188,6 +118,89 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-40 · split-design v1 已签字：拆分批 R1–R4 的执行依据
+- 2026-08-14 · user · scope: standing · status: **implemented**（拆分批 R1–R4 于 2026-08-17
+  整批 CLOSED，本条所绑的十节执行义务至此清空——`R5` 归口的两条 rider（`RA` / `PD`）在 R4 收批
+  时各自重定范围而非兑付，属 bank 的事、不再是本条的。本条即签字记录本身——`split-design.md`
+  按 governance-scan 判据不携带自身审批状态，签字住这里，形状比照 `HD-35`）
+- 裁决：用户签署 `document-harness/split-design.md` **v1 定稿**（八问全裁 + §1–§9 与 §10 对齐的
+  一致性 pass，`9736670`；签字绑定字节 blob `3f4d2b0a`、sha256 `c4e24f99…ab5c`，251 行）。
+  **绑定原文恢复（re-read `O-1`）**：源 read 的 `L-2` 明写「签字是用户的行为，替换归用户」，
+  而本 session 曾把 `sha256` 从绑定句里移走——越权，初签绑定原字节留档如上。
+- **重签 2026-08-15（`HD-40` 的第二次签字）**：初签后经**五轮独立 read**（记录 `feb7b48` ·
+  `6a946ba` · `4342c6b` · `289f8ab` · `72694c4`，共返七条 must-fix）与其全部答复，稿由 251 行
+  增至 **352 行**（新增 §11 量程纪律一整节，及各节的更正块）。**八条裁决自初签起逐字节未变**
+  （§10 表 `git show 3f4d2b0a` vs tip，diff 为空）；变的是影响面与写法。
+  **重签绑定 blob `3140faf1`、sha256 `1108574f…c033`（blob 内容，LF——按 `HD-41` 的口径，
+  `git cat-file blob <id> | sha256sum`），352 行**；初签 `3f4d2b0a` / `8da2d17d…59af` / 251 行留档。
+- **重签时仍开着的三件**（不阻塞 R1，记明以免被读成已闭）：① 新仓 remote 由用户自建
+  ② R1 动手前确认删除范围的净增 32 件 ③ **`ddd773a` 欠一次独立 re-read**——它是 `72694c4` 的
+  `M-2` 答复，按 `E10` must-fix 通道欠对被改文本的独立复核；R1 开轮前付清，或用户明示豁免。
+  **`sha256` 口径更正（R0 read `L-2`）**：初记的 `c4e24f99…ab5c` 是**工作副本**的摘要，本机
+  `core.autocrlf=true` 故每行多一个 CR；**blob 内容（LF）的 sha256 是 `8da2d17d…59af`**。
+  今后一律记 blob 内容的摘要——`git cat-file blob <id> | sha256sum`；工作副本摘要在别人的 clone
+  上（`core.autocrlf=false`）算不出来，会把好签字读成坏的。`HD-35` 未暴露此坑纯属侥幸：
+  **`io-design.md` 的工作副本恰好也是 LF**（写入即 LF、从未被 checkout 重新落盘），故其工作副本
+  摘要与 blob 摘要重合；**仓内 blob 一律 LF**，`E2` 三份冻结件亦然（re-read `L-1` 更正本句原写的
+  「blob 恰好存的就是 CRLF」——那是反的，且会教读者用错模型验签）。
+  十节全部生效为设计依据：R1 按 §3/§4/§7 施工、R2 按 §1 施工、R3 按 §2/§6/§8 施工、
+  打包批按 §10.5 立项。
+- 后果：R0 的步骤 8 完成，只余步骤 9（独立 read）。对该文件的后续实质修改欠重签。
+  **签字时仍开着的两件**（均不阻塞 R1，记明以免被读成已闭）：① 新仓 remote 由用户自建；
+  ② 删除范围 **139→171** 的差额欠 R1 动手前的最后确认——用户的「删」是对 139 口径给的，
+  32 件的补测发生在其后（`HD-39` 与 §7 均已照记）。
+- basis: 用户签字 2026-08-14（对话）· `document-harness/split-design.md` @ `3f4d2b0a`
+
+
+### HD-33 · 调用模型 = submodule；run 与实例文件归调用者仓（`HD-29` 拆分后继 ①）
+- 2026-08-12 · user · scope: standing · status: **implemented**（拆分批 R3 执行完毕 2026-08-17：
+  gitlink 已挂 `ResearchSystem/harness`，run 目录 / freeze marker / 四件实例文件均在调用者仓原位）
+- 裁决：调用者仓以 gitlink 钉住 harness 版本（`HD-15` 拆分形态在调用侧的兑现）；run 目录
+  （可 gitignore）、freeze marker（`.harness/review-pending.json`）、四件实例文件（decision
+  log / rider bank / journal / ledger）**全归调用者仓**。ledger 跨仓指针问题不存在——每库用
+  自己的四件。
+- 后果：「用哪个版本的仪器查的」由候选 commit 自带（copy 守不住的那条线）；升级 = 显式的
+  gitlink 指针变更 commit，历史可读。
+- basis: journal §5 · `document-harness/io-design.md` §7 · 用户裁决 2026-08-12 ·
+  supersedes `HD-29`（与 `HD-34` 共同取代）
+
+### HD-28 · 新仓成员（`HD-16` 的收窄后继）：A 仪器 + B=decisions/riders+decisions-archive + C 评审记录；ledger 留调用者
+- 2026-08-12 · user · scope: standing · status: **implemented**（成员集已由
+  `document-harness/split-travel-manifest.md` 承载并于 R1 搬迁完毕，拆分批 R3 2026-08-17 转；
+  本条 2026-08-12 按 `HD-30` 机制由差量式收窄注重写为 `HD-16` 的**完整后继**，`HD-16` 同 commit
+  转 superseded 入 archive，双向指针）
+- 裁决：新 harness 仓带 **A 仪器 + B 治理登记（`HARNESS-DECISIONS.md` · `HARNESS-RIDERS.md` ·
+  `HARNESS-DECISIONS-archive.md`，3 files——riders 无 archive）+ C 评审记录**；
+  **`HARNESS-LEDGER.md` 与 `HARNESS-LEDGER-archive.md` 留调用者仓**；**D 已关闭 run 的产物与
+  E shadow 留产品仓**（此半边承 `HD-16` 原文不变）。
+- 判据：实例内容按「**谁的开发**」归属——harness 仓里填满的四件（decision log / rider bank /
+  journal / ledger）是 harness 跑在自身的实例，调用者的归调用者；四件中唯 ledger 连**规则**都
+  不归 harness（global 约定的收紧方言，harness 只占三个参数），故其实例随调用者。
+- 后果：记录跟着被记录的对象走，不跟仪器走（承 `HD-16`）；A1 §13.4 的「B 治理账本 5 files」
+  重算为 3。
+- basis: [journal/batch-b-2026-08-11.md](document-harness/journal/batch-b-2026-08-11.md) §5 ·
+  `document-harness/io-design.md` §6/§7 · 用户裁决 2026-08-12 · supersedes `HD-16`
+
+### HD-15 · 拆分形态 = submodule（批 A `D5`）
+- 2026-08-08 · user · scope: standing · status: **implemented**（形态已兑现：`.gitmodules` +
+  gitlink `ResearchSystem/harness`，拆分批 R3 2026-08-17）
+- 裁决：harness 独立成仓，产品仓以 **submodule** 钉住其版本。
+- 后果：保障要求「用哪个版本的仪器查的」可复现，submodule 指针恰好把仪器版本钉进候选 commit。
+  **A1 的未量项因此转为 A2 必量**：两仓下 `subject_tree: candidate_commit` 出现第二个 revision
+  的具体语义。`rsc.py` 的两条入边（`rsclib.document_harness` + `.review`）与
+  `hooks/candidate_path_check.py` 的一条须一并处置。
+- basis: [journal/batch-a1-2026-08-08.md](document-harness/journal/batch-a1-2026-08-08.md) §13.2–13.3
+
+### HD-10 · harness 独立成仓的目的与必要性
+- 2026-08-08 · user · scope: standing · status: **implemented**（拆分已执行：新仓
+  `Melclycj/do-the-work` 存在，产品仓以 gitlink 钉住，拆分批 R3 2026-08-17）
+- 裁决：**harness 不依附于 ResearchSystem 存在**，因此从本仓拆出为独立 repo **必须做**。
+- 后果：批 A 的 `D5` 由「拆不拆 / 哪个方案」收窄为「切线与成员」。**A1 的 M5/M6 costed 的是另一条
+  切线**（`ResearchSystem/` 整体离开论文仓），其「(b) 是全部代价、`generated/` 362 处」结论**不适用
+  本切线**——`generated/` 属产品侧、不随 harness 走。按本切线重算见 basis。
+- basis: [journal/batch-a1-2026-08-08.md](document-harness/journal/batch-a1-2026-08-08.md) §13
+
 
 ### HD-38 · 自由通道字节自带 commit：不搭 amendment 的车（`L-1` 的用户裁决）
 - 2026-08-13 · user · scope: standing · status: implemented（承载 =
