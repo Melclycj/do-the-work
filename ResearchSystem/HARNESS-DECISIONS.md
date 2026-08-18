@@ -134,6 +134,30 @@
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
 
+### HD-45 · 全档电池按仓分档：六条不减、各归其主体所在的树；例外句按子句读；revert anchor 写明价钱
+- 2026-08-18 · user · scope: standing · status: **implemented**（承载 = `EXECUTION.md` 的
+  Regression-battery tiering 节，同 commit：分仓两条子项 + 「addresses the enumeration; it does
+  not shorten it」句 + 例外句的 path-not-prose 改写 + revert note 的价钱段。**初始状态即
+  implemented**，形状比照 `HD-30`——承载与建条同一个 commit，不是 session 事后翻态）
+- 裁决：① 全档电池仍是**六条、nothing fewer**，但**按被验证的那个仓分档**——仪器仓一条
+  （`python -m pytest -q`，从 `ResearchSystem/tooling` 跑），调用者仓五条（三个 runner +
+  fixtures 校验 + `compile --check`）；**主体不在被验证仓里的命令在那里不欠**，且验证记录写明
+  跑在哪个仓。② doc-only 例外句**按子句读**：代码与测试钉住的是那些 doc 文件的**路径**，故增删
+  或改名这些路径算 tooling-touching，而只改内容、路径不动仍算 doc-only。③ tiering 节头的
+  revert anchor **保留但写明价钱**：`HD-14` 把该节搬进指令层之后，行使它是 `E10` 下的设计轮而
+  非一次 revert，2026-08-03 裁决隐含的「随时可撤」条件已不存在。
+- 判据（实测 2026-08-18，量程＝两棵树上六条腿各跑一次）：仪器仓 `pytest` 712 passed / 92.87s，
+  另五个脚本在该仓**根本不存在**；调用者仓五条全绿（29 / 80 / 39 tests · 58 cases · exit 0），
+  而 `pytest` 在那里收 `no tests ran`。故拆分之后那份单一清单**两个仓都满足不了**——五条腿测的
+  是产品编译器与 schema，不是仪器。
+- 后果：`HD-42` ①「不建立『主体消失即可改枚举』的通则」**未被动用**——本条一条都不删，只指明各条
+  归哪棵树，两处 `nothing fewer` 保留。真正放弃的是构造轮从另一仓的腿上白拿的附带覆盖，照记。
+  riders `battery-travel` / `tier-file-vs-clause` / `tier-scope` 三行随本 commit 兑付删除。
+  按 `HD-42` 未豁免的那半同样适用：本轮对 `E10` 成员的写入仍欠该层一次独立 read。
+- basis: 用户裁决 2026-08-18（对话，预览卡三问）· rider `battery-travel`（`v3-review-full-297bb2b.md`
+  `O-2`）· rider `tier-file-vs-clause`（`v3-review-full-418b89c.md` `L-2`+`O-1`）· rider
+  `tier-scope` ②（`v3-review-verify-fbcb035.md` `V-1`）
+
 ### HD-40 · split-design v1 已签字：拆分批 R1–R4 的执行依据
 - 2026-08-14 · user · scope: standing · status: **implemented**（拆分批 R1–R4 于 2026-08-17
   整批 CLOSED，本条所绑的十节执行义务至此清空——`R5` 归口的两条 rider（`RA` / `PD`）在 R4 收批

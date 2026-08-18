@@ -314,32 +314,50 @@ The audit is an executor-side gate (a subagent auditor is V3-D7-distinct, never
 review-independent — the N1 ruling), which is why handing the prior report to a delta
 auditor is admissible where handing a reviewer anything would not be.
 
-## Regression-battery tiering (2026-08-03 ruling — this section is the revert unit)
+## Regression-battery tiering (2026-08-03 ruling — this section is the revert unit, at the price the revert note states)
 
 Which verification a pass owes is tiered by the change surface — for a product run's
 evidence pass and for a construction batch's pre-commit verification alike:
 
 - **Doc-only change set** (every changed path is prose/markdown outside the schema,
   tooling, and generated trees): run the batch-specific checks only; the full battery
-  is not owed. Exception: a doc file that code enumerates or tests pin
-  (`ResearchSystem/document-harness/README.md` under `test_readme_enumeration.py`; the layer-path
-  mirror, `ResearchSystem/tooling/hooks/layer_path_check.py`) is tooling-load-bearing — treat the
-  batch as tooling-touching.
+  is not owed. Exception, and what it turns on is the **path**, not the prose: code and
+  tests pin the *paths* of certain doc files — `ResearchSystem/document-harness/README.md`
+  under `test_readme_enumeration.py`, and the member paths in the layer-path mirror,
+  `ResearchSystem/tooling/hooks/layer_path_check.py` — so a change that adds, removes or
+  renames one of those paths is tooling-load-bearing and the batch is tooling-touching,
+  while a change to the *content* of such a file, its path unchanged, stays doc-only.
+  Two accepted rounds had already read it this way before any text said so (`838c413`,
+  and batch B R4, which changed two enumerated members and took the doc-only tier);
+  rider `tier-file-vs-clause` carried the gap, and the user ruled the clause reading into
+  the text 2026-08-18.
 - **Schema, tooling, or generated surfaces touched**: the full battery runs, and it is
-  these six commands and nothing fewer — `ResearchSystem/tooling/tests/run_tests.py`
-  (P2 goldens *only*, per its own docstring),
-  `ResearchSystem/tooling/tests/run_p4_tests.py`,
-  `ResearchSystem/tooling/tests/run_p5a_tests.py`,
-  `ResearchSystem/schema/fixtures/validate_fixtures.py`,
-  `python -m pytest -q` **run from `ResearchSystem/tooling`** (from the repository root
-  collection aborts: `ExperimentLab/papers/` holds two same-named `smoke_test.py`), and
-  `ResearchSystem/tooling/rsc.py compile --check`. Enumerated here because the earlier
-  four-item phrasing authorized less than the battery is: it under-ran twice (batch B R1
-  and R3) and both times only the executor's private knowledge caught it. It was eight
-  until `HD-42` (2026-08-15): the two struck entries were the v1 stage-control and v2
-  harness `run_tests.py` runners, whose trees `HD-39` deleted in that same commit. That
-  exception is one-shot and covers only those two entries — a subject disappearing does
-  not license editing this enumeration again.
+  these six commands and nothing fewer — owed by **the repository that holds each one's
+  subject**, because since the 2026-08-17 split the instrument and the product it grew
+  inside are two repositories:
+  - *this repository, the instrument*: `python -m pytest -q` **run from
+    `ResearchSystem/tooling`** (from a repository root that also carries the product,
+    collection aborts: `ExperimentLab/papers/` holds two same-named `smoke_test.py`).
+    One command, and nothing fewer.
+  - *the caller repository, the product tree* — the five paths that follow are the
+    caller's and do not resolve here: `ResearchSystem/tooling/tests/run_tests.py` (P2
+    goldens *only*, per its own docstring),
+    `ResearchSystem/tooling/tests/run_p4_tests.py`,
+    `ResearchSystem/tooling/tests/run_p5a_tests.py`,
+    `ResearchSystem/schema/fixtures/validate_fixtures.py`, and
+    `ResearchSystem/tooling/rsc.py compile --check`. Five commands, and nothing fewer.
+  - A command whose subject is not in the repository being verified is not owed there,
+    and the verification record names the repository it ran in, so review can
+    re-classify. **This addresses the enumeration; it does not shorten it** — each of the
+    six is still owed by the tree that holds what it tests, so `HD-42`'s "a subject
+    disappearing does not license editing this enumeration again" is not spent here: no
+    entry is struck. What is genuinely given up is the incidental coverage a construction
+    round in one repository used to take from the other's legs. Enumerated at all because
+    the earlier four-item phrasing authorized less than the battery is: it under-ran
+    twice (batch B R1 and R3) and both times only the executor's private knowledge caught
+    it. It was eight until `HD-42` (2026-08-15): the two struck entries were the v1
+    stage-control and v2 harness `run_tests.py` runners, whose trees `HD-39` deleted in
+    that same commit.
 - The tier is derived from the actual diff and stated where the verification is
   recorded (commit body or CandidateRecord), so review can re-classify it.
 
@@ -355,7 +373,13 @@ to two other legs in this same batch), and the sentence that used to end this
 parenthesis, "tallies reproduce exactly", was false by `ddd773a`: P5A had reached 39 and
 pytest 701. Re-run the battery for a current figure rather than
 trusting any list written here (`HD-41` ③). Measured again at `a8af54c`, six legs:
-107s total, of which pytest is 106s. The ruling's original
+107s total, of which pytest is 106s. Measured once more 2026-08-18 across both trees, on
+the tree this round's candidate was cut from (its bases: instrument `0d73a5f`, caller
+`6fd0ae3`) — this is the measurement that made the bullet above address repositories
+rather than one list: the instrument's single leg is `712 passed in 93.67s`, while
+`pytest` in the caller collects `no tests ran`; the caller's five legs are 29, 80 and 39
+tests, 58 fixture cases, and `compile --check` exit 0, and none of those five scripts
+exists in the instrument. The ruling's original
 figure, "~7–8 of the ~10 minutes", was right in ratio and wrong in magnitude by ~4×; that
 FULL's O2 had already marked the minutes half as carrying no repo lock. **So what this
 tiering buys is ≈2 minutes per doc-only pass, not ≈8** — weigh the revert anchor below
@@ -372,6 +396,14 @@ section restores the prior rule (full battery on every pass); nothing else depen
 it.** The deleting commit's body must state that the AUDIT-CADENCE / PRE-START-OPT /
 BATTERY-TIERING precedent is retired with the section — after the revert, a doc-only
 pass owes the full battery notwithstanding those records.
+
+**What exercising it costs now (2026-08-18 user ruling, rider `tier-scope` ②).** The
+anchor stands; the price the 2026-08-03 ruling implied does not. `HD-14` (`418b89c`)
+moved this section into the instruction layer, and deleting an instruction-layer section
+changes what a rule requires — so the revert is a design round under `E10`, not a
+one-commit revert, and the moving commit disclosed no such cost. Read the anchor as it
+now is: still the single unit to delete, still nothing else depending on it, and a round
+to exercise.
 
 ## Instruction authoring rules (routed from run findings)
 
