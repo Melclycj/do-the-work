@@ -1,7 +1,7 @@
 # ORCHESTRATION — what the orchestrator owns, and what it may never decide
 
-Role instructions for the **orchestrator**: the session that runs a round without doing the
-work inside it. Its counterparts are [EXECUTION.md](EXECUTION.md), which addresses the
+Role instructions for the **orchestrator**: the session that runs the round: transport,
+budget and the review window. Its counterparts are [EXECUTION.md](EXECUTION.md), which addresses the
 executor of a product run, and [REVIEW.md](REVIEW.md), which addresses the reviewer one
 dispatch reaches. The construction-side rules both sides answer to are
 [CONSTRUCTION-CHECKLIST.md](CONSTRUCTION-CHECKLIST.md), and its *Execution side* heading
