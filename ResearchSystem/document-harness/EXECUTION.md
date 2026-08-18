@@ -352,7 +352,10 @@ evidence pass and for a construction batch's pre-commit verification alike:
     six is still owed by the tree that holds what it tests, so `HD-42`'s "a subject
     disappearing does not license editing this enumeration again" is not spent here: no
     entry is struck. What is genuinely given up is the incidental coverage a construction
-    round in one repository used to take from the other's legs. Enumerated at all because
+    round in one repository used to take from the other's legs — bounded, though not by any
+    rule here, by how the two trees move: a gitlink bump is not a prose/markdown path, so a
+    caller-side batch carrying one is never doc-only, and the caller's five legs run at every
+    bump. Enumerated at all because
     the earlier four-item phrasing authorized less than the battery is: it under-ran
     twice (batch B R1 and R3) and both times only the executor's private knowledge caught
     it. It was eight until `HD-42` (2026-08-15): the two struck entries were the v1
