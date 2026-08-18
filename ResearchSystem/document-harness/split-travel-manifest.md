@@ -53,7 +53,7 @@ ResearchSystem/HARNESS-DECISIONS-archive.md'
 | `ResearchSystem/assurance/review-test/` | `tests/document_harness_review` 的 golden |
 | `ResearchSystem/assurance/test/` | `tests/document_harness` 的 coverage golden |
 | `ResearchSystem/tooling/tests/fixtures/expected-construction-prompt.txt`<br>`ResearchSystem/tooling/tests/fixtures/expected-read-prompt.txt` | dispatch prompt 的 golden。**该前缀其余文件不 travel**——它们是产品编译器的 fixture |
-| `ResearchSystem/contract/Document-Work-Assurance-Contract-v3.md`<br>`…-supersession-1.md`<br>`…-supersession-2.md` | 后两份是指令层九成员之二；三份都在 `E2` 冻结面上，**逐字节复制**，跨仓后 blob id 须与签字记录一致 |
+| `ResearchSystem/contract/Document-Work-Assurance-Contract-v3.md`<br>`…-supersession-1.md`<br>`…-supersession-2.md` | 后两份是指令层成员之二；三份都在 `E2` 冻结面上，**逐字节复制**，跨仓后 blob id 须与签字记录一致 |
 | `ResearchSystem/tooling/do-the-work.py`<br>`ResearchSystem/tooling/dtw.py` | 仪器自己的 CLI 入口（R2 建，`split-design.md` §1 + `HD-40` §10：一个入口两个名字）。**该前缀其余文件不 travel**——`rsc.py` 是产品编译器 |
 
 **一条未写明的依赖（FULL `297bb2b` `O-4`）**：travel 前缀是

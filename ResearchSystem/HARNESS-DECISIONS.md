@@ -134,6 +134,32 @@
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
 
+### HD-46 · orchestrator charter 立为第十成员；charter 走收窄形（九条只指路）；`E1` 充分条件句按 `R1` 重写
+- 2026-08-18 · user · scope: standing · status: **implemented**（承载三处，同 commit：新成员
+  `ResearchSystem/document-harness/ORCHESTRATION.md` · `E10` 成员句「exactly these ten paths」·
+  `E1` 重写句。初始态即 implemented，形状比照 `HD-30`/`HD-45`——承载与建条同一个 commit）
+- 裁决：① orchestrator 的角色说明书**立为指令层第十成员**。② 它走**收窄形**：已在层里的九条义务
+  只点名归属并指向规则 id（`E9`/`E10`/`E11`/`E12`/`R5`/`R6`/`R10`，另加住在决策簿的 `HD-2`），
+  **不复述条文**；写正文的只有三角色模型本身与三条层内零承载的义务——交付 instruction、读调用者
+  策略文件、executor 上报回程。依据：`E10` 明写成员编辑 never re-typed "with the same content"，
+  `HD-5` 判转录为漂移面，抄九条即造第二份会漂的拷贝。③ `E1` 的「orchestrator 派发即独立」由**充分
+  条件**改为**必要非充分**，判定交回 `R1` 的四项持有（dispatched / prompted / scoped / reported）。
+- **`HD-21` 的提问义务，此处即问与答**：ORCHESTRATION.md **算成员**——它对 orchestrator 的义务有
+  权威，故按 `HD-21` 必须由成员句点名，本轮点名了；`E10-sync` 的三处（成员句 / `LAYER` /
+  `EXPECTED`）同 commit 同改。
+- **本条留下的 tiebreak，如实记**：`R1` 同时含「四项全归 executor＝自检」与「executor 一项不占＝
+  结构性独立」两句，中间态两句都不管。重写取的读法是：**全占＝失格 · 一项不占＝结构性独立 ·
+  中间态＝独立但该轮在记录里写明 executor 占了哪几项，且不得自称结构性独立**。这条中间态处置是
+  本轮新加的 bound（rider `E1-suff` 明写任何限定词都是 design），随本轮设计轮落地；它直接作用于
+  今天的实际形态——一个 session 同时持 orchestrator 与 executor 两个角色。同句另把「一个 session
+  一辈子一个角色」重述为**work side / review side 之分**，与 `Execution side` 节头「whether it
+  orchestrates the round or executes it」一致，消掉字面读法下每一轮都违规的矛盾。
+- 后果：rider `E1-suff` 兑付删行；`E10-sync` 按 `HD-22` 不删行、deadline 顺延。`HD-19`（决策簿不进
+  `E10`，必读义务写在 charter 里）**不受影响**：那里的 charter 指 `CONSTRUCTION-CHECKLIST.md`，
+  必读义务仍写在其 `E10` 里，本轮新文件不接手该义务、只在自己的表里指向它。
+- basis: 用户裁决 2026-08-18（对话，预览卡两问）· rider `E1-suff`（`v3-checkpoint-read-be9878a.md`
+  `L-1`）· `document-harness/io-design.md` §2/§3（设计来源，本身非成员、对规则无权威）
+
 ### HD-45 · 全档电池按仓分档：六条不减、各归其主体所在的树；例外句按子句读；revert anchor 写明价钱
 - 2026-08-18 · user · scope: standing · status: **implemented**（承载 = `EXECUTION.md` 的
   Regression-battery tiering 节，同 commit：分仓两条子项 + 「addresses the enumeration; it does

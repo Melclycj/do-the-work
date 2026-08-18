@@ -166,6 +166,7 @@ class LayerMembership(unittest.TestCase):
         "ResearchSystem/document-harness/README.md",
         "ResearchSystem/document-harness/EXECUTION.md",
         "ResearchSystem/document-harness/REVIEW.md",
+        "ResearchSystem/document-harness/ORCHESTRATION.md",
         "ResearchSystem/migration/document-work-assurance-v3/v3-harness-operating-contract.md",
         "ResearchSystem/migration/document-work-assurance-v3/v3-harness-review-contract.md",
         "ResearchSystem/contract/Document-Work-Assurance-Contract-v3-supersession-1.md",

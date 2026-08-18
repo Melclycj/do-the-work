@@ -21,10 +21,17 @@
 - **E1** Never review, verify, or sign your own work. A subagent the executor dispatches is a
   self-check: no verdict words on its output, no review budget consumed. What disqualifies it
   is who set the question (`R1`), never the subagent form — a reviewer the orchestrator
-  dispatches under the standing review contract is independent whether it runs as a subagent
-  or as its own session. One session holds one role for
-  its whole life: work out at the start which role this session holds, and a request that
-  belongs to the other role is flagged for the user to route, never absorbed.
+  dispatches under the standing review contract may run as a subagent or as its own session,
+  and the form changes nothing. Orchestrator dispatch is necessary and **not sufficient**:
+  `R1` decides, and it decides on four holdings — dispatched by, prompted by, scoped by,
+  reported through. All four in the executor's hands is a self-check whatever it is called;
+  none of them there is independence that holds structurally rather than as a discipline
+  kept against oneself. Between those, the round **states in its record which of the four
+  the executor held** and does not call the result structurally independent. The line one
+  session may not cross is the one between the **work side** and the **review side**:
+  orchestrator and executor are both the work side — the heading above binds them in one
+  breath — so work out at the start which side this session is on, and a request that
+  belongs to the other side is flagged for the user to route, never absorbed.
 - **E2** Frozen bytes are **not written without a recorded user ruling**, and the list is
   exactly this: contract `b2dbdf75…`, supersession-1
   `68031fa2…`, supersession-2 `e1a2f26b…`, and every file the
@@ -75,11 +82,12 @@
   the cap was a renamed round. A dispatched FULL, VERIFY or read has occurred only when its
   record's commit lands; from dispatch to that commit the branch takes no commit but the
   record itself.
-- **E10** The instruction layer is exactly these nine paths and nothing else:
+- **E10** The instruction layer is exactly these ten paths and nothing else:
   `ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md` (this file),
   `ResearchSystem/document-harness/README.md`,
   `ResearchSystem/document-harness/EXECUTION.md`,
-  `ResearchSystem/document-harness/REVIEW.md`, the two retired contracts' stubs
+  `ResearchSystem/document-harness/REVIEW.md`,
+  `ResearchSystem/document-harness/ORCHESTRATION.md`, the two retired contracts' stubs
   `ResearchSystem/migration/document-work-assurance-v3/v3-harness-operating-contract.md`
   and `ResearchSystem/migration/document-work-assurance-v3/v3-harness-review-contract.md`,
   the two contract supersessions — prose successors to signed text —
