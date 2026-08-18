@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """The command line of the Document Work Assurance v3 harness.
 
-Six read-only-by-default operations: `governance-scan` / `status` / `flow` / `dispatch` /
-`disposition` / `review`. `dispatch` is the only one that writes anything (the freeze marker
-`.harness/review-pending.json`, E9's review window).
+Seven operations: `governance-scan` / `status` / `flow` / `dispatch` / `disposition` /
+`review` / `init`. Five are read-only. `dispatch` writes the freeze marker
+`.harness/review-pending.json` (E9's review window) in the repository it is run against, and
+`init` writes into a target repository being onboarded — the mechanical four of onboarding's
+nine items, and nothing else (`init_target.py`; the user ruled on 2026-08-18 that a seventh
+command may exist, overriding the reading of `split-design.md` §1 under which the six
+travelled as they were).
 
 They lived under `rsc.py v3 <op>` until the split batch's R2 moved them here: `rsc` is the
 product compiler's name and stays with the caller, while these six travel with the instrument
@@ -443,6 +447,36 @@ def _cmd_v3_review(args: argparse.Namespace) -> int:
     print("RESULT: " + ("sound subject (exit 0)" if report.ok else "defects (exit 1)"))
     return 0 if report.ok else 1
 
+def _cmd_v3_init(args: argparse.Namespace) -> int:
+    """Create a target repository's `.harness/`, its ignore entry, and the two templates.
+
+    The only command that writes outside a run's control plane, and the only one whose
+    subject is a repository that does not have the harness yet. It issues no verdict: the
+    exit code says the command ran, never that the target is onboarded — the other five
+    items are the procedure's, and this command's report names them so that a caller who
+    runs only this cannot mistake it for the whole of onboarding.
+    """
+    from rsclib.document_harness import init_target as v3_init
+
+    repo_root = pathlib.Path(args.repo_root).resolve() if args.repo_root else pathlib.Path.cwd().resolve()
+    try:
+        result = v3_init.init_target(repo_root)
+    except (FileNotFoundError, NotADirectoryError, OSError) as exc:
+        print(f"FATAL: {exc}", file=sys.stderr)
+        return 2
+
+    print("=" * 72)
+    print("Document Work Assurance v3 — init (the mechanical half of caller onboarding)")
+    print("=" * 72)
+    print(v3_init.render(result))
+    print("-" * 72)
+    print(
+        f"RESULT: {len(result.created)} created, {len(result.already_present)} left as found "
+        "(exit 0) — no verdict on whether this repository is onboarded"
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="do-the-work",
@@ -535,6 +569,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     review_cmd.add_argument("--repo-root", help="repository root (default: current directory)")
     review_cmd.set_defaults(func=_cmd_v3_review)
+
+    init_cmd = sub.add_parser(
+        "init",
+        help="onboard a target repository: .harness/, its ignore entry, the two templates",
+    )
+    init_cmd.add_argument("--repo-root", help="repository root (default: current directory)")
+    init_cmd.set_defaults(func=_cmd_v3_init)
 
     return p
 

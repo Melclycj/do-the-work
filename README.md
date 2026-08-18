@@ -49,7 +49,8 @@ and two of this extraction's three review legs were spent falsifying sentences t
 | Why does a test fail? | `python -m pytest -q --tb=line` |
 | Do the instruction layer's ten members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'ResearchSystem/tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
 | Do the pre-commit guards bind? | stage a path that resolves nowhere into an instruction-layer file, then run each of `ResearchSystem/tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py` and read the exit codes |
-| Is a guard installed in git? | `ls .git/hooks/pre-commit` |
+| Is a hook wired in THIS checkout? | `git config --get core.hooksPath` — exit 1 means nothing runs, whatever the tree carries; then `ls .githooks/pre-commit` for what would run |
+| How do I onboard a repository that has never seen this? | `ResearchSystem/document-harness/ONBOARDING.md` — nine items, each with its command, its check, and the rule that owns it |
 | Is there a CLI? | `ls ResearchSystem/tooling/dtw.py` |
 | Which files travelled and which stayed? | `ResearchSystem/document-harness/split-travel-manifest.md` — it carries the rule, not just the list |
 
@@ -60,9 +61,13 @@ What stays true of this repository regardless of when you read it:
 - **Some travelled tests read the caller's tree**, so the CLI extraction alone will not make the
   suite green. Whether an instrument's test may depend on its caller's content, and what
   replaces it if not, is R2's design question — this README does not settle it.
-- **Guard wiring is per-machine.** No hook is installed here by the extraction, and a fresh
-  clone of the caller has none either; that is the harness's standing convention, not a
-  property of this repository.
+- **Guard wiring is per-machine, and that half is all of it.** Since 2026-08-19 this
+  repository carries a tracked `.githooks/pre-commit` running the instruction layer's path
+  check — the extraction installed none, and the re-homing that closed that gap put the script
+  in the tree, not in anyone's `.git/`. A clone carries the file; it does not carry the one
+  `git config core.hooksPath .githooks` that makes git run it, so every checkout starts with
+  nothing running until that command. The caller side works the same way. Whether a hook is
+  wired in the checkout you are reading is the table row above, not this paragraph.
 - **`E10-sync` falls due whenever the membership sentence is touched** — `HD-22` made it a
   per-touch checklist item, so R2's re-rooting is one such moment and not the only one; the
   2026-08-18 charter round was another, and complied. The ten member paths are hard-coded
@@ -90,3 +95,5 @@ What stays true of this repository regardless of when you read it:
   reading before opening a round.
 - `ResearchSystem/document-harness/split-travel-manifest.md` — exactly which files travelled
   here and which stayed with the caller, with the rule that decided each.
+- `ResearchSystem/document-harness/ONBOARDING.md` — if you are a repository that has never
+  used this harness, start there instead: nine items, in order, each with how you see it took.

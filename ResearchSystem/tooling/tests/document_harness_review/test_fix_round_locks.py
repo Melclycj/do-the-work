@@ -333,9 +333,18 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
     #: was named here as a third until the FULL of `297bb2b` `L-2` measured it: it exercises
     #: `dispatch` in-process off the module, never through the entry, so it says nothing
     #: about the CLI.)
+    #: `init_target.py` joined 2026-08-19 (round CALLER-ONBOARDING), the body of the seventh
+    #: command. Third member with NO code sweep, and for a third reason: it raises only plain
+    #: stdlib exceptions and returns a dataclass, so it has no coded vocabulary to sweep —
+    #: `FileNotFoundError` / `NotADirectoryError` reach the caller as the CLI's `FATAL` line.
+    #: What stands in its place is `tests/document_harness/test_init_command.py`, whose two
+    #: load-bearing properties (the copy is verbatim; an existing file is never overwritten)
+    #: are mutation-tested — three neutered mechanisms, each turning the matching case red.
+    #: This module announced itself here when it was added, which is the sentence above
+    #: working rather than a nuisance.
     SUCCESSOR_ROUND_MODULES = (
         "review_subject.py", "review_result_v2.py", "dispatch.py", "enumerations.py",
-        "paths.py", "cli.py",
+        "paths.py", "cli.py", "init_target.py",
     )
 
     def named_codes(self) -> dict[str, set[str]]:

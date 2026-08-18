@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """The harness's own command line: what it offers, and that both its names reach it.
 
-Written by the split batch's R2, the round that moved the six operations out of the product
-compiler `rsc.py` and gave the instrument an entry of its own. Two properties are worth
-binding and nothing more:
+Written by the split batch's R2, the round that moved the then-six operations out of the
+product compiler `rsc.py` and gave the instrument an entry of its own. Two properties are
+worth binding and nothing more:
 
-* **the surface** — exactly six operations, each wired to its own function. The expectation
+* **the surface** — exactly seven operations, each wired to its own function. The expectation
   is a hand-written literal (`E5`); reading it back off `build_parser()` would assert that
   the parser equals itself, and a command silently disappearing in a later move is precisely
   what this must catch.
@@ -34,6 +34,7 @@ import _harness
 from rsclib.document_harness import cli
 
 #: Hand-written, never `cli`'s own list (E5). Ordered as `build_parser` declares them.
+#: Six until 2026-08-19, when the user's ruling admitted `init` as a seventh.
 OPERATIONS = (
     "governance-scan",
     "status",
@@ -41,6 +42,7 @@ OPERATIONS = (
     "dispatch",
     "disposition",
     "review",
+    "init",
 )
 
 ENTRIES = ("do-the-work.py", "dtw.py")

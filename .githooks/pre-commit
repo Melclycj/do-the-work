@@ -1,0 +1,42 @@
+#!/bin/sh
+# Instrument-side pre-commit: the instruction layer's path check, and nothing else.
+#
+# TRACKED hook, so it travels with a clone and lands inside review subjects. One per-machine
+# step is still needed after a clone, because a hook path is config and config is not tracked:
+#
+#     git config core.hooksPath .githooks
+#
+# Until that command is run in a checkout, this file exists and nothing calls it. That is the
+# whole of the wiring, and it is stated here, in README.md's "State of this repository" table,
+# and in ResearchSystem/document-harness/ONBOARDING.md for a caller doing the same on its side.
+#
+# What it runs: layer_path_check.py, which blocks a repository path newly written into one of
+# the instruction layer's ten members when that path does not resolve from this repository's
+# root. Those ten members live here, so this is the repository where the check can resolve
+# them; it was unwired from the caller on 2026-08-17, when the caller's duplicate copy of the
+# instrument was deleted and 0 of the 9 it then had resolved there.
+#
+# What it does NOT run, and why: `review_freeze_check.py` and `candidate_path_check.py` guard
+# a caller's staged work products and a caller's review window. Whether this repository — which
+# is a caller of itself for its own construction rounds — should also run them was not part of
+# the round that wired this file, and adding a guard nobody asked for is what E6 refuses.
+#
+# Advisory: bypassable with `git commit --no-verify`, and never a harness guarantee. The
+# instruction layer's own instrument is the independent read (document-harness/README.md,
+# "Local enforcement" row).
+
+CHK=ResearchSystem/tooling/hooks/layer_path_check.py
+if [ -f "$CHK" ]; then
+  python "$CHK"
+  status=$?
+  if [ "$status" -ne 0 ]; then
+    exit "$status"
+  fi
+else
+  # Loud, not silent. An existence guard that skips quietly is how the caller's hook spent a
+  # month calling a script that had been deleted (split-design.md section 2).
+  echo "pre-commit: $CHK not found — the layer path check did NOT run."
+  exit 1
+fi
+
+exit 0
