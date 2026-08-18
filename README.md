@@ -30,7 +30,7 @@ repository and are reachable there.
 Everything sits under `ResearchSystem/`, the path it occupied in the caller's tree. That is
 temporary and deliberate. The instrument resolves its own roots **by directory depth**, not by
 name (`RS_ROOT = parents[3]`, `REPO_ROOT = parents[4]`), and three separate places hard-code
-the instruction layer's nine members as strings beginning `ResearchSystem/`. Moving the bytes
+the instruction layer's ten members as strings beginning `ResearchSystem/`. Moving the bytes
 and re-rooting them at once would have made a byte move indistinguishable from a content
 change, so R1 moved bytes only: **the 254 files here are byte-identical to their sources**,
 verifiable by comparing blob ids against the caller's repository at `e4ffa2b`.
@@ -47,10 +47,10 @@ and two of this extraction's three review legs were spent falsifying sentences t
 |---|---|
 | Does the suite pass? | `python -m pytest -q` |
 | Why does a test fail? | `python -m pytest -q --tb=line` |
-| Do the instruction layer's nine members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'ResearchSystem/tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
+| Do the instruction layer's ten members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'ResearchSystem/tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
 | Do the pre-commit guards bind? | stage a path that resolves nowhere into an instruction-layer file, then run each of `ResearchSystem/tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py` and read the exit codes |
 | Is a guard installed in git? | `ls .git/hooks/pre-commit` |
-| Is there a CLI? | `ls ResearchSystem/tooling/rsc.py` |
+| Is there a CLI? | `ls ResearchSystem/tooling/dtw.py` |
 | Which files travelled and which stayed? | `ResearchSystem/document-harness/split-travel-manifest.md` — it carries the rule, not just the list |
 
 What stays true of this repository regardless of when you read it:
@@ -63,7 +63,9 @@ What stays true of this repository regardless of when you read it:
 - **Guard wiring is per-machine.** No hook is installed here by the extraction, and a fresh
   clone of the caller has none either; that is the harness's standing convention, not a
   property of this repository.
-- **`E10-sync` falls due at R2's re-rooting, not before.** The nine member paths are hard-coded
+- **`E10-sync` falls due whenever the membership sentence is touched** — `HD-22` made it a
+  per-touch checklist item, so R2's re-rooting is one such moment and not the only one; the
+  2026-08-18 charter round was another, and complied. The ten member paths are hard-coded
   with the caller's prefix in three places — the `E10` membership sentence in
   `ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md`, the `LAYER` constant in
   `ResearchSystem/tooling/hooks/layer_path_check.py`, and the `EXPECTED` tuple in

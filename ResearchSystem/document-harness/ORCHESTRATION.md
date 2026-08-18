@@ -42,7 +42,7 @@ This table assigns them. It does not restate them — read the rule.
 | hand the reviewer one commit SHA or range and no per-acceptance argument | `E12` |
 | keep the budget — one FULL, at most one user-approved fix, one targeted VERIFY — and never self-classify what consumed it | `E9` |
 | hold the review window: from dispatch until the record's commit lands, the branch takes no commit but that record | `E9` |
-| commit the reviewer's record unchanged, under the title the rule names | `R6` |
+| commit the reviewer's record unchanged, under the title the rule names | `R6` for the title; that it lands unchanged is `R1`'s *reported through* holding, not `R6`'s text |
 | before closeout, put each low's spend-the-fix-leg / bank choice to the user | `R10` |
 | route a "should this exist at all" conclusion to the user rather than answering it | `R5` |
 | flip a decision entry's state only in the commit that lands its carrier | `HD-2`, which lives in the decision log — outside this layer, and reached through `E10`'s standing `§live` obligation rather than through membership |
