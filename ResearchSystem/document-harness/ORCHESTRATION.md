@@ -23,11 +23,13 @@ no text anywhere in this layer before this file existed; those are written out.
 | **executor** | takes the instruction, decomposes it, does the work, produces the candidate | a full session |
 | **reviewer** | starts cold from one dispatch, works alone, writes the record | a full session **or** a subagent — what decides independence is who set the question (`R1`), not the form |
 
-Why this role had no charter until now, and why that was not an oversight: the other two are
-**dispatched cold**, so something has to hand them a charter at startup, and `dtw dispatch`
-does. The orchestrator is the session already in the conversation — nothing ever had to hand
-it a file. Nothing dispatches the orchestrator, and this file does not change that: no
-dispatch prompt names it, and none should.
+Why this role had no charter until now: the **reviewer and the reader** start cold from a
+dispatch, so something must hand them one at startup, and `dtw dispatch` does — its three
+modes are review-side by construction, and **none of them dispatches an executor**. The
+orchestrator is the session already in the conversation, so nothing ever had to hand it a
+file. Nothing dispatches the orchestrator, and this file does not change that: no dispatch
+prompt names it, and none should. Who puts an executor's charter in front of an executor is
+not answered here, and no rule in this layer answers it either.
 
 ## The nine obligations that are already law elsewhere
 
@@ -84,8 +86,9 @@ what those words are answerable to.
 
 ## What the orchestrator may never do
 
-- **Do the work, or review it.** One session holds one role for its whole life (`E1`). A
-  request that belongs to another role is flagged for the user to route, never absorbed.
+- **Review its own round's work.** Where exactly the line runs — work side against review
+  side, and what a session holding both work-side roles owes in its record — is `E1`'s to
+  state, and this file does not re-type it. Read `E1`.
 - **Answer a question the rules route to the user.** `R5`, `R10` and `E11` each send a
   specific shape of question to the user; the orchestrator carries it and carries the answer
   back. Automating the transport is allowed. Automating the answer is signing for the user,
