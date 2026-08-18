@@ -18,7 +18,9 @@ from __future__ import annotations
 import json
 import pathlib
 import re
+import tempfile
 import unittest
+from unittest import mock
 
 from _harness import TempRepo, git  # noqa: F401  (imported for parity with the suite)
 from test_review_v2_subject import CONTROL_ROOT, build_scenario, codes
@@ -460,20 +462,37 @@ class TheCharterIsNamedWhereTheReviewerCanOpenIt(unittest.TestCase):
 
     MEMBER = "migration/document-work-assurance-v3/v3-harness-review-contract.md"
 
-    def test_a_repo_that_contains_the_instrument_gets_the_path_through_the_mount(self):
-        instrument_root = pathlib.Path(D.__file__).resolve().parents[3]
-        caller_root = instrument_root.parents[2]  # the repo the instrument is mounted in
-        self.assertEqual(
-            D.instrument_relative(caller_root, self.MEMBER),
-            "ResearchSystem/harness/ResearchSystem/" + self.MEMBER,
-        )
+    #: Both deployments are BUILT, never read off the live checkout. The first form of these
+    #: two tests derived its subject from where this clone happens to sit
+    #: (`Path(D.__file__).parents[3].parents[2]`), which is the caller root on the one machine
+    #: where the only clone of this repository is a submodule mount — and is two levels above
+    #: the repository root in a plain `git clone`, where the assertion failed and took the
+    #: whole battery red with it. `E5` asks the expectation to be independent of the thing it
+    #: guards; an expectation applied to an environment-derived input is the same defect on
+    #: the input side, and a mutation cannot surface it (the FULL of `2d148f3`, B-3).
+    def _layout(self, tmp: str, instrument_within: str):
+        """A repository root and an instrument planted at a stated depth inside it."""
+        root = pathlib.Path(tmp).resolve()
+        instrument = root.joinpath(*instrument_within.split("/"))
+        instrument.mkdir(parents=True)
+        return root, mock.patch("rsclib.document_harness.RS_ROOT", instrument)
+
+    def test_a_caller_that_mounts_the_instrument_gets_the_path_through_the_mount(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, patched = self._layout(tmp, "ResearchSystem/harness/ResearchSystem")
+            with patched:
+                self.assertEqual(
+                    D.instrument_relative(root, self.MEMBER),
+                    "ResearchSystem/harness/ResearchSystem/" + self.MEMBER,
+                )
 
     def test_the_instruments_own_repo_gets_the_path_it_always_had(self):
-        instrument_root = pathlib.Path(D.__file__).resolve().parents[3]
-        self.assertEqual(
-            D.instrument_relative(instrument_root.parent, self.MEMBER),
-            "ResearchSystem/" + self.MEMBER,
-        )
+        with tempfile.TemporaryDirectory() as tmp:
+            root, patched = self._layout(tmp, "ResearchSystem")
+            with patched:
+                self.assertEqual(
+                    D.instrument_relative(root, self.MEMBER), "ResearchSystem/" + self.MEMBER
+                )
 
     def test_a_repo_that_does_not_contain_the_instrument_gets_the_member_name(self):
         """The negative control: no repo-relative answer exists, and none is invented."""
