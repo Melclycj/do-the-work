@@ -145,8 +145,8 @@
   resolving whether or not it exists at rest, and an artifact living only in a caller is
   given its name and its holder instead, so that a reader following a path in this layer
   cannot land on another repository's bytes or on nothing. `layer_path_check` decides, on
-  the lines a commit adds, only tokens it can relate to this repository — written in its
-  path convention, or resolving somewhere inside it; a token that resolves nowhere at all
+  the lines a commit adds, only tokens it can relate to this repository — written with the
+  single prefix it recognizes, or resolving somewhere inside it; a token it can relate neither way
   it skips as possibly illustrative, which is how another repository's path reads by
   default (the caller's ExperimentLab papers directory was one, until this round named it
   instead). That shape, and the standing text the guard never re-scans, are held by this
