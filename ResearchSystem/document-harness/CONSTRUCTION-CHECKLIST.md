@@ -3,7 +3,7 @@
 > Compressed 2026-07-27 from the two operating contracts
 > (`../migration/document-work-assurance-v3/v3-harness-{operating,review}-contract.md`, now
 > stubs; full text at `7011916`) — Phase A of
-> `.goals/plans/harness-deletion-first-stabilization.plan.md`. Like any instruction-layer
+> `ResearchSystem/document-harness/plans/harness-deletion-first-stabilization.plan.md`. Like any instruction-layer
 > amendment (E10), relied on only after an independent read.
 >
 > **This file is the operative rule set, not a complete replacement.** Where it is silent on a
