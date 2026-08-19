@@ -41,10 +41,11 @@ The boundary is stateable only because the both-modes verification mode is gone
 (`EXECUTION.md`): a check now either decides its obligation or owns none of it. Under the
 old shape the checker co-owned obligation truth, so reviewers reported checker weakness as
 candidate findings and were right to — nothing had told them otherwise. Witnessed at run
-`p5b-firewall`: four of that FULL's seven findings (`f2`–`f5`,
-[`v3-review-full-fef3a2e.md`](../migration/document-work-assurance-v3/v3-review-full-fef3a2e.md))
-name assertion strength in `chk-bookkeeping`, `chk-tripwires`, `chk-tooling` and `chk-open`,
-and every one of them died with the run's checker.
+`p5b-firewall`: four of that FULL's seven findings (`f2`–`f5`, recorded in
+`v3-review-full-fef3a2e.md`, which is held with that run's records in the caller that grew
+this harness rather than here) name assertion strength in `chk-bookkeeping`,
+`chk-tripwires`, `chk-tooling` and `chk-open`, and every one of them died with the run's
+checker.
 
 ## Independence is decided by who sets the question
 

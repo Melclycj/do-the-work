@@ -33,8 +33,10 @@
   `R1` decides, and it decides on four holdings — dispatched by, prompted by, scoped by,
   reported through. All four in the executor's hands is a self-check whatever it is called;
   none of them there is independence that holds structurally rather than as a discipline
-  kept against oneself. Between those, the round **states in its record which of the four
-  the executor held** and does not call the result structurally independent. The line one
+  kept against oneself. Between those, the round **states which of the four the executor
+  held** — in the commit body or the round journal, the carriers `E3` names, and the
+  statement is the orchestrator's to make, that being the role whose commits carry it —
+  and does not call the result structurally independent. The line one
   session may not cross is the one between the **work side** and the **review side**:
   orchestrator and executor are both the work side — the heading above binds them in one
   breath — so work out at the start which side this session is on, and a request that
@@ -138,7 +140,12 @@
   discipline (`HD-7`), and it is cited by section, never by blob; a file that appears
   later and claims authority over any rule here is not a member until the membership
   sentence names it, and the round that creates one records the question and its answer;
-  provenance entries are one-line derived facts, no characterization.
+  a caller-held path is named, never written as a path token — a member's path tokens
+  resolve in this repository, and an artifact living only in a caller is given its name
+  and its holder instead, so that a reader following a path in this layer cannot land on
+  another repository's bytes or on nothing: `layer_path_check` enforces this on the lines
+  a commit adds, this clause binds the standing text that guard never re-scans, and the
+  bytes `E2` freezes are excepted while they are frozen.
 - **E11** Preview card before each round; its first line states what the round buys, how
   often that is used, and what happens if skipped. Wait for the user unless told otherwise.
 - **E12** The handoff is one commit SHA / range (`dtw dispatch`) — no per-acceptance

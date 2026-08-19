@@ -182,8 +182,9 @@ pre-START gate, and **Regression-battery tiering** governs what verification a p
 
 Two duties gate the instruction freeze commit itself — run them before freezing and record
 the command output in the freeze commit's body (measure-last form: the output, never a
-description of it). Both were bought by p5a-shells' pre-START history
-(`ResearchSystem/assurance/runs/p5a-shells/control/audit-rounds.md`).
+description of it). Both were bought by p5a-shells' pre-START history, recorded in that
+run's `audit-rounds.md` — a run artifact held with its run in the caller that grew this
+harness, not in this repository.
 
 1. **Mechanical reconciliation (2026-08-02 ruling).** Every enumeration the instruction
    text states — module lists, path lists, counts — is reconciled by command-output diff,
@@ -337,15 +338,16 @@ evidence pass and for a construction batch's pre-commit verification alike:
   inside are two repositories:
   - *this repository, the instrument*: `python -m pytest -q` **run from
     `ResearchSystem/tooling`** (from a repository root that also carries the product,
-    collection aborts: `ExperimentLab/papers/` holds two same-named `smoke_test.py`).
-    One command, and nothing fewer.
-  - *the caller repository, the product tree* — the five paths that follow are the
-    caller's and do not resolve here: `ResearchSystem/tooling/tests/run_tests.py` (P2
-    goldens *only*, per its own docstring),
-    `ResearchSystem/tooling/tests/run_p4_tests.py`,
-    `ResearchSystem/tooling/tests/run_p5a_tests.py`,
-    `ResearchSystem/schema/fixtures/validate_fixtures.py`, and
-    `ResearchSystem/tooling/rsc.py compile --check`. Five commands, and nothing fewer.
+    collection aborts — in the caller that grew this harness, a papers tree holds two
+    same-named `smoke_test.py`). One command, and nothing fewer.
+  - *the caller repository, the product tree* — five commands owed by the caller and not
+    by this repository, **named here rather than written as paths** (`E10`) because their
+    scripts live in the caller's tree: the P2 golden runner `run_tests.py` (P2 goldens
+    *only*, per its own docstring), `run_p4_tests.py`, `run_p5a_tests.py`, the schema
+    fixture runner `validate_fixtures.py`, and `rsc.py compile --check`. Five commands,
+    and nothing fewer. A name here may also belong to an unrelated file in this
+    repository, so a caller identifies each command by its battery leg inside its own
+    tree and never by name-matching against this one.
   - A command whose subject is not in the repository being verified is not owed there,
     and the verification record names the repository it ran in, so review can
     re-classify. **This addresses the enumeration; it does not shorten it** — each of the
@@ -445,12 +447,14 @@ to exercise.
   declared-order demand compares the whole order, not the first key; and every
   script-decidable demand the WorkSpec leaves review-borne is named in the freeze-time
   disclosure (instruction text or the audit round history), so the FULL inherits a list,
-  not a discovery. Sources: `v3-review-full-86defbc.md` f1–f2; audit rounds 4 o1–o2 and
-  6 f1 (`ResearchSystem/assurance/runs/p5a-shells/control/audit-rounds.md`).
+  not a discovery. Sources, both held in the caller that grew this harness rather than
+  here: the FULL record `v3-review-full-86defbc.md` f1–f2, and audit rounds 4 o1–o2 and
+  6 f1 in p5a-shells' `audit-rounds.md`.
 - **The comparator is a template member: `compare_blocks.py`** (first instantiated by
-  p4-doc; templated with two `VERIFIER_FIX` repairs routed by
-  `ResearchSystem/assurance/runs/p4-doc/issues/user-decision-triage-comparator-environment-defects.json`,
-  2026-08-01 — explicit UTF-8 subprocess decoding, and `--rebuild` judged against
+  p4-doc; templated with two `VERIFIER_FIX` repairs routed by that run's
+  `user-decision-triage-comparator-environment-defects.json`, an issue record held with its
+  run in the caller that grew this harness, 2026-08-01 — explicit UTF-8 subprocess
+  decoding, and `--rebuild` judged against
   `git show` blob bytes instead of eol-sensitive working-tree status). Copy it beside
   the instruction and **freeze both in the base commit**: the materialized candidate
   tree must carry the comparator for `subject_tree: candidate_commit` checks to reach
