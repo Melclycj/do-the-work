@@ -23,14 +23,32 @@
 > (worktree `D:/Thesis-stage-control-refactor`, branch `document-work-assurance-v3`) at commit
 > `7c54507`, from its `ResearchSystem/HARNESS-LEDGER.md` — by the round `LEDGER-SPLIT`, which
 > overturned the "ledger 留调用者" half of `HD-28` by user ruling of 2026-08-19. The history that
-> file carried travels with them, byte-identical, as
-> [`CONSTRUCTION-LEDGER-archive.md`](CONSTRUCTION-LEDGER-archive.md); it keeps its own former
-> title inside, because it is history and history is not rewritten to match its new shelf.
+> file carried travels with them as
+> [`CONSTRUCTION-LEDGER-archive.md`](CONSTRUCTION-LEDGER-archive.md), byte-identical to its
+> source at `acbc553` (source blob `50d3e66e`, still readable at `7c54507` in the caller) and
+> since then diverging in exactly two bytes-worth of link target: `:559` and `:576` named two
+> records of *this* repository through the caller's mount, so the mount prefix was stripped and
+> they resolve here. Narrative, wording and its own former title are untouched — history is not
+> rewritten to match its new shelf, and a pointer to a file in this same repository is not
+> narrative.
 >
 > **Caller paths inside these entries are historical facts, not links.** A closed round that ran
 > against the caller's product tree names that tree — `handoffs/…`, `assurance/runs/…`,
 > `.goals/LEDGER.md`. Those tokens resolve in the caller, not here, and are left exactly as they
 > were written; the same rule as the archive's title.
+>
+> **How long this file may get: 180 lines, discipline only — no machine enforces it here.** The
+> caller's `ledger_cap_check.py` is pinned to the literal string `ResearchSystem/HARNESS-LEDGER.md`
+> and is the caller's machine, not this repository's (io-design §5); this repository's tracked
+> hook runs `layer_path_check.py` alone, and this file is not an `E10` member, so nothing sees it.
+> A second checker would be new machinery for a file with one writer, which `E6` names as the
+> signal to re-question rather than to guard. The bound is not the caller's 120: that 120 was set
+> on a file carrying *both* accounts, which measured 113 lines at the split, and this file is the
+> construction half alone — it measured 130 before this paragraph existed and `wc -l` at the
+> commit that declares the bound is the figure to trust. 180 leaves room for several CLOSED-roll
+> entries and nowhere near enough to absorb a round's narrative, which is the blocked event, the
+> same one the caller's cap names: the 20-to-300-line session, not line 181. When it is reached,
+> move the oldest closed material into the archive; never compress meaning out of a live pointer.
 
 ## ▶ 当前指针 — 只放指针与未结裁决（理由与叙事进各轮 commit 正文 / round record）
 

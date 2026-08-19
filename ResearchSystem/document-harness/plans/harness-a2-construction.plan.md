@@ -29,13 +29,13 @@ whose shape is already settled.
 `HD-5` forbids transcribing a ruling into a plan: transcription is a drift surface and batch A has
 **three measured instances** of exactly that failure (the "276+ mixed history" figure with no
 source, the plan's Why paragraph, and `D5`'s cut). So this file names the ids and nothing more.
-Read them in [ResearchSystem/HARNESS-DECISIONS.md](../../ResearchSystem/harness/ResearchSystem/HARNESS-DECISIONS.md) §live:
+Read them in [ResearchSystem/HARNESS-DECISIONS.md](../../HARNESS-DECISIONS.md) §live:
 
 **This plan executes**: `HD-11` (D1) · `HD-12` (D2) · `HD-14` (D7) · `HD-17` (AMBIG audit) ·
 `HD-13` (D3 — a *do-not*, and the reason there is no round for the review record).
 **Ruled but executed elsewhere**: `HD-10` / `HD-15` / `HD-16` / `HD-18` are the split batch's.
 Measurements behind all of them:
-[journal/batch-a1-2026-08-08.md](../../ResearchSystem/harness/ResearchSystem/document-harness/journal/batch-a1-2026-08-08.md).
+[journal/batch-a1-2026-08-08.md](../../document-harness/journal/batch-a1-2026-08-08.md).
 
 ## Why / value
 

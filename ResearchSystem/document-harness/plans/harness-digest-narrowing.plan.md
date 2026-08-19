@@ -123,7 +123,7 @@ ISSUE_TRIAGE 只针对 **schema**（`pointerRef` 的 digest 可选）授权，**
 
 ### 运行本轮时适用的 harness 规则
 
-执行契约是 [ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md](../../ResearchSystem/harness/ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md)（E1–E12 执行侧 / R1–R9 评审侧）。最要紧的几条：
+执行契约是 [ResearchSystem/document-harness/CONSTRUCTION-CHECKLIST.md](../../document-harness/CONSTRUCTION-CHECKLIST.md)（E1–E12 执行侧 / R1–R9 评审侧）。最要紧的几条：
 
 - **E11 preview card**：范围已由用户在 2026-07-29 规划会话逐项批准，执行 session 的卡可以精简为「按 plan 做，范围不变」一行确认，不必重新推销范围。**但上面那条 E2 冲突必须在卡上单独提出并等用户处置。**
 - **E10 开轮 cold read**：本轮 subject 全在代码层，**零指令层字节、零 schema 字节**。仍须向用户申请一次。先例：⑤ 与 Phase A 判 waive（`E10` 内置的出口）；**C0 那次 waive 的是 amendment-read，ledger 明记为 override 而非规则内出口**——引用先例时别把两者混为一谈。

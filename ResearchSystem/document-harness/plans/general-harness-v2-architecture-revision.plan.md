@@ -4,7 +4,7 @@
 > The product goal moved from General Harness v2 to **Document Work Assurance Harness v3** per the
 > user-approved [[document-work-assurance-harness-v3.plan|v3 plan]] (approval binds plan SHA-256
 > `9B08CD0038FA0C36E76674B7CE386129D9797EFFE5CEC7FABBF69699811F171F`; recorded in the
-> [V3-N0 record](../../ResearchSystem/harness/ResearchSystem/migration/document-work-assurance-v3/N0/N0-record.md)).
+> [V3-N0 record](../../migration/document-work-assurance-v3/N0/N0-record.md)).
 > A1–A4 are closed and immutable accepted history; **A5–A7 and cutover are parked** under this plan:
 > they never started and do not continue automatically. Do not execute any node below. The v3 branch is `document-work-assurance-v3`, rooted at
 > accepted A3 closeout `7db177d`; A4 remains accepted v2 history (historical-only-for-v3).

@@ -166,7 +166,7 @@ template changes go through a round**. These are template and tooling changes.
 
 当前指针: **CLOSED；不要恢复执行。** FULL 与 targeted VERIFY 均为
 `REVIEWED_NO_BLOCKER`，`E9` 预算用尽，三条 VERIFY low 已入 rider bank。收轮锚点：
-[`hi-redeem-5-2026-08-07.md`](../../ResearchSystem/harness/ResearchSystem/document-harness/journal/hi-redeem-5-2026-08-07.md)
+[`hi-redeem-5-2026-08-07.md`](../../document-harness/journal/hi-redeem-5-2026-08-07.md)
 以及本计划；当前 harness 指针回到 `ResearchSystem/HARNESS-LEDGER.md`。
 
 ## Notes

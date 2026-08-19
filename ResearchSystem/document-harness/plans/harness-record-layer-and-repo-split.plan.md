@@ -39,7 +39,7 @@ footprint is first-hand, non-regenerable evidence (the captured command output).
 > genuinely shareable mass is **≈883 lines/run** — about a third of what this paragraph projects —
 > and it needs a "shared core + per-run delta" shape, not a plain reference swap, because
 > `build_run.py` (the largest single script, 25% of all script bytes) is only **24%** similar
-> across runs. Full derivation: [journal/batch-a1-2026-08-08.md](../../ResearchSystem/harness/ResearchSystem/document-harness/journal/batch-a1-2026-08-08.md) §2.
+> across runs. Full derivation: [journal/batch-a1-2026-08-08.md](../../document-harness/journal/batch-a1-2026-08-08.md) §2.
 
 Second measured cost, taken 2026-08-07 during `HI-REDEEM-5`: one FULL review ran **252k tokens /
 25.5 min**, and its targeted VERIFY — on a subject one-third the size — ran **208k / 23.8 min**,
@@ -54,9 +54,9 @@ what `R2` makes them RE-DERIVE.** Sample n=1; `subagent_tokens` units unverified
 
 | # | Item | Recorded where | What is open |
 |---|---|---|---|
-| ① | **Record-layer redesign** | [ResearchSystem/document-harness/journal/record-layer-2026-08-05.md](../../ResearchSystem/harness/ResearchSystem/document-harness/journal/record-layer-2026-08-05.md) — ledger §1-2, criterion §3, scope §4, the five questions §5, second data point §7 | §5's five questions |
+| ① | **Record-layer redesign** | [ResearchSystem/document-harness/journal/record-layer-2026-08-05.md](../../document-harness/journal/record-layer-2026-08-05.md) — ledger §1-2, criterion §3, scope §4, the five questions §5, second data point §7 | §5's five questions |
 | ② | **Independent-repo split** | `ResearchSystem/HARNESS-LEDGER.md` backlog | option (subtree split / submodule / nested repo) + three hard problems |
-| ③ | **run-v2 README layering** | [ResearchSystem/migration/document-work-assurance-v3/v3-review-full-0b8b824.md](../../ResearchSystem/harness/ResearchSystem/migration/document-work-assurance-v3/v3-review-full-0b8b824.md) O-1, plus the ledger's open line | three-way choice |
+| ③ | **run-v2 README layering** | [ResearchSystem/migration/document-work-assurance-v3/v3-review-full-0b8b824.md](../../migration/document-work-assurance-v3/v3-review-full-0b8b824.md) O-1, plus the ledger's open line | three-way choice |
 | ④ | **rider `CLI-hist`** | `ResearchSystem/HARNESS-RIDERS.md` | nothing — the fix is already written out; it is A2 work whose trigger is tied to ② |
 
 **Not recorded anywhere before this file** (it existed only in the 2026-08-07 conversation): the
@@ -248,7 +248,7 @@ answers A1 exists to obtain.
 [harness-a2-construction.plan.md](harness-a2-construction.plan.md); the split is its own later
 batch (`HD-18`). A resuming session reads `ResearchSystem/HARNESS-LEDGER.md` → 
 `ResearchSystem/HARNESS-DECISIONS.md` §live (`HD-5`) → the A2 plan — not this file.
-Measurements: [journal/batch-a1-2026-08-08.md](../../ResearchSystem/harness/ResearchSystem/document-harness/journal/batch-a1-2026-08-08.md)
+Measurements: [journal/batch-a1-2026-08-08.md](../../document-harness/journal/batch-a1-2026-08-08.md)
 §1–13. `C1` landed `55fe4e9`.
 
 **Step 8 is blocked and it is not this session's to unblock**: `rsc v3 dispatch` needs a clean tree
@@ -287,7 +287,7 @@ Two questions the eventual review should judge, both found by self-audit rather 
 ### What A1 actually found that this plan did not predict (2026-08-08)
 
 Three of this file's own premises moved. All three are in
-[journal/batch-a1-2026-08-08.md](../../ResearchSystem/harness/ResearchSystem/document-harness/journal/batch-a1-2026-08-08.md);
+[journal/batch-a1-2026-08-08.md](../../document-harness/journal/batch-a1-2026-08-08.md);
 named here so a cold session does not re-derive them.
 
 - **The copies→references prize is ~1/3 of what Why projects**, and the achievable shape is

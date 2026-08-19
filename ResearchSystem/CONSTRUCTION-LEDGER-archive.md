@@ -556,7 +556,7 @@
   `9237960` / `85742ae` / `9bda771`, so the reviewed object and the signed object are the same bytes;
   the signature lives in N0 record §8, never in the contract's own bytes (its frontmatter `status:`
   is an authoring residue — see the §8 errata and residual R4). Plus 7 `document-assurance-v3`
-  schemas + [N0 record](harness/ResearchSystem/migration/document-work-assurance-v3/N0/N0-record.md)
+  schemas + [N0 record](migration/document-work-assurance-v3/N0/N0-record.md)
   (plan binding / A4 disposition / 5 reuse decisions / field traceability / §9 residuals) + 41/41
   contract fixtures. Commits: `ebbc304` → `9237960` → `85742ae` →
   `V3-N0-ADMINISTRATIVE-CLOSEOUT-v1` (the closeout carrying this pointer — a commit cannot contain
@@ -573,7 +573,7 @@
   ~~**⚠ 断点 = V3-N2 is NOT yet authorized.**~~ **Superseded 2026-07-21 — V3-N2 and V3-N3 are both
   past. See the 2026-07-21 block at the top of this interlock for the live pointer.** The text
   below is left standing as history. N1's own four carried-forward
-  residuals are in [N1 record §10](harness/ResearchSystem/migration/document-work-assurance-v3/N1/N1-record.md):
+  residuals are in [N1 record §10](migration/document-work-assurance-v3/N1/N1-record.md):
   N1-R1 + N1-R2 → V3-N2; **N1-R3 and N1-R4 are permanent endpoints, not debt — do not schedule work
   against them.**
   **N1 record errata — CORRECTED `220bf6b` (`V3-N1-RECORD-ERRATA-v1`).** The closed record had
