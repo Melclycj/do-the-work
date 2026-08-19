@@ -11,6 +11,13 @@
 > record; the silence is not a defect, and closing it rides the next batch under R9 rather than
 > opening a round.
 >
+> **Where a cited commit id resolves.** A commit id cited in this file or in any other
+> instruction-layer member (`E10`) that this repository does not have — `7011916` included —
+> is a commit of the repository this one was extracted from; the root
+> [`README.md`](../../README.md)'s *Where the bytes came from* names that repository and says
+> why the history stayed there. A citation naming its own repository is read as written; a
+> silent one means that one.
+>
 > Rationale is deliberately absent: every rule below was paid for by a recorded incident, and
 > the records — not this file — hold the stories (`git log` on the two superseded contracts;
 > `../migration/document-work-assurance-v3/v3-*.md`). Product runs are NOT governed here —
