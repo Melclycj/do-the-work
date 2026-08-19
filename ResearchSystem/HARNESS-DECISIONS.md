@@ -27,19 +27,42 @@
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 
-### HD-48 · 下一个设计轮 = 三题打包（`layer-crossrepo-token` · `e1-disclose-home` · `dtw init` 写哪儿）
-- 2026-08-19 · user · scope: batch:next-design · status: **live**（排期裁决，执行完 retire；除本条外只活在对话里）
-- 裁决：`CALLER-ONBOARDING` 收批后的**下一个队首是一个设计轮**，收三题：① rider `layer-crossrepo-token`
-  （deadline 已于本轮到达——guard 接进仪器仓那一刻；今天不咬人只因它只扫新增行）② rider
-  `e1-disclose-home`（deadline 亦于本轮到达：`E1` 的四持有披露句无载体、无责任人，本轮两次披露都只写在
-  commit 正文里，属自定而非规则要求）③ `dtw init` 的两个实例文件写在 target 根固定文件名，要不要加
-  `--into` 或改默认（`HD-33`/`HD-34`/io-design 均未定位置）。三题的修法都是 design 形状——加 clause 或
-  加 bound——故 `E10` 要求开轮，不得搭任何 amendment 的车。
-- **未选中的一题继续 bank**：仪器仓要不要也跑 `review_freeze_check` / `candidate_path_check`
-  （它对自己的构造轮也是调用者、也真持有冻结窗口，而 `E9` 那道窗口在该仓目前零机械执行）。用户
-  2026-08-19 裁不进本批；rider 见 `self-caller-guards`。
-- basis: 用户裁决 2026-08-19（对话，四选多）· FULL `v3-review-full-2026a14.md` 与 VERIFY
-  `v3-review-verify-4029b43.md` `O-1` 各记一条到期未付 · `HD-37` ②（design 形状的 rider 只点名有资格开轮的表面）
+### HD-49 · 新仓成员（`HD-28` 的再后继）：仪器开发史归仪器仓；调用者只留自己的账
+- 2026-08-19 · user · scope: standing · status: **implemented**（轮 `LEDGER-SPLIT` 执行完毕：
+  `CONSTRUCTION-LEDGER.md` + archive + `document-harness/plans/` 16 件落 `acbc553`/`b5fd58b`，
+  调用者账瘦身至 57 行落 `e74be07`/`8f1ad1d`，三腿 FULL→修→VERIFY `REVIEWED_NO_BLOCKER` 走满；
+  本条按 `HD-30` 机制为 `HD-28` 的**完整后继**，`HD-28` 同 commit 转 superseded 入 archive，双向指针）
+- 裁决：新 harness 仓带 **A 仪器 + B 治理登记（decisions / riders / decisions-archive，3 files）+
+  C 构造评审记录 + D（本条新增）仪器自身的开发账**——`CONSTRUCTION-LEDGER.md`、其 archive、与驱动
+  构造批的 plans（现 16 件，住 `document-harness/plans/`）。判据从「谁的开发」细化为 **(a)/(b) 切**
+  （用户 2026-08-19）：(a) 仪器自身开发史（轮次台账、CLOSED roll、构造裁决、构造 plan）归仪器仓；
+  (b) 调用者作为使用者的账（收批义务、ledger 参数、机器接线、router 状态）留调用者。**产品 run 的
+  记录与产物仍留调用者**（承 `HD-28`——记录跟着被记录的对象走：产品 run 的对象是调用者的树）；
+  **已关闭 run 的产物与 shadow 留产品仓**（承 `HD-16` 原文不变）。`HD-28` 的「ledger 留调用者」
+  半边就此被推翻——那半边把「仪器的开发账」与「调用者的使用账」混作一种 ledger，(a)/(b) 切是其修正；
+  ledger 的**规则**归属不变（global 约定的收紧方言仍是调用者的，`ledger_cap_check.py` 仍只钉调用者那份）。
+- 例外照记：`SPLIT-COPY-RETIRE` 的 FULL 与 VERIFY（`v3-review-full-2d148f3` / `v3-review-verify-bef77f3`）
+  虽属构造记录，但该轮 subject 是调用者的树，留调用者——`LEDGER-SPLIT` 的 executor 与 FULL 均按此报告，
+  处置归本条。
+- basis: 用户裁决 2026-08-19（对话，「按 (a)/(b) 切」，推翻 `HD-28` ledger 半边亦经其明示确认）·
+  轮 `LEDGER-SPLIT`（分类清单在 executor 报告，`v3-review-full-e74be07.md` 复核）· supersedes `HD-28`
+
+### HD-50 · 批 DTW-INDEPENDENCE：四轮独立化（取代 `HD-48` 的排期）
+- 2026-08-19 · user · scope: batch:dtw-independence · status: **live**（R1 `LEDGER-SPLIT` 已 CLOSED，
+  R2–R4 未开；执行完 retire。除本条外批的授权只活在对话里——FULL `e74be07` `O-4` 点名的缺口即由本条补）
+- 裁决：用户批准四轮批（预览卡确认）：**R1** ledger 切（已收）· **R2** 教 `layer_path_check` 认跨仓
+  （rider `layer-crossrepo-token`）+ B 类断链降名（`REVIEW.md:45`、`EXECUTION.md:186/:449/:452`，
+  用户裁「降成名字，不做链接」）+ `e1-disclose-home` 落座 + `E10` 结尾 provenance 死从句顺带删
+  （用户 2026-08-19 裁「入 bank 搭 R3」后经排序并入设计面；若 R2 不触 `E10` 正文则留给 R3）·
+  **R3** 去 `ResearchSystem/` 前缀（重扎根第②件，`E10-sync` 三处同 commit）· **R4** `dtw init`
+  命令面（`--into` 与「树里那半接线可进 init、机器那半不进」的判据）。**R2 必须先于 R3**：守卫先认
+  跨仓，否则 R3 改 `EXECUTION.md` 按仓枚举句会被刚归位的守卫挡住。本条取代 `HD-48`：其三题
+  两题并入 R2、一题并入 R4，`HD-48` 同 commit 转 superseded 入 archive。
+- 未入批（用户明示）：人看的根 README + LICENSE（继续 bank，rider `readme-cli-stale` 兼指其三句
+  已证伪断言；诚实提醒已给——无 LICENSE 则第二人无法合法使用）· 仪器仓自跑另两支守卫
+  （rider `self-caller-guards`）。
+- basis: 用户裁决 2026-08-19（对话：批预览卡「ok」· B 类「降成名字」· 「继续躺 bank」）·
+  supersedes `HD-48`
 
 ### HD-47 · `dtw init` 立为第七个命令；`split-design` §1 的「六命令原样」是搬迁指令、不是命令数上限
 - 2026-08-18 · user · scope: standing · status: **live**（已签的 `split-design.md` §1 仍写着「六命令原样」、
@@ -265,23 +288,6 @@
 - basis: journal §5 · `document-harness/io-design.md` §7 · 用户裁决 2026-08-12 ·
   supersedes `HD-29`（与 `HD-34` 共同取代）
 
-### HD-28 · 新仓成员（`HD-16` 的收窄后继）：A 仪器 + B=decisions/riders+decisions-archive + C 评审记录；ledger 留调用者
-- 2026-08-12 · user · scope: standing · status: **implemented**（成员集已由
-  `document-harness/split-travel-manifest.md` 承载并于 R1 搬迁完毕，拆分批 R3 2026-08-17 转；
-  本条 2026-08-12 按 `HD-30` 机制由差量式收窄注重写为 `HD-16` 的**完整后继**，`HD-16` 同 commit
-  转 superseded 入 archive，双向指针）
-- 裁决：新 harness 仓带 **A 仪器 + B 治理登记（`HARNESS-DECISIONS.md` · `HARNESS-RIDERS.md` ·
-  `HARNESS-DECISIONS-archive.md`，3 files——riders 无 archive）+ C 评审记录**；
-  **`HARNESS-LEDGER.md` 与 `HARNESS-LEDGER-archive.md` 留调用者仓**；**D 已关闭 run 的产物与
-  E shadow 留产品仓**（此半边承 `HD-16` 原文不变）。
-- 判据：实例内容按「**谁的开发**」归属——harness 仓里填满的四件（decision log / rider bank /
-  journal / ledger）是 harness 跑在自身的实例，调用者的归调用者；四件中唯 ledger 连**规则**都
-  不归 harness（global 约定的收紧方言，harness 只占三个参数），故其实例随调用者。
-- 后果：记录跟着被记录的对象走，不跟仪器走（承 `HD-16`）；A1 §13.4 的「B 治理账本 5 files」
-  重算为 3。
-- basis: [journal/batch-b-2026-08-11.md](document-harness/journal/batch-b-2026-08-11.md) §5 ·
-  `document-harness/io-design.md` §6/§7 · 用户裁决 2026-08-12 · supersedes `HD-16`
-
 ### HD-15 · 拆分形态 = submodule（批 A `D5`）
 - 2026-08-08 · user · scope: standing · status: **implemented**（形态已兑现：`.gitmodules` +
   gitlink `ResearchSystem/harness`，拆分批 R3 2026-08-17）
@@ -395,7 +401,7 @@
 ### HD-18 · 拆分单立一批，排在批 B 之后（批 A 因此收窄）
 - 2026-08-08 · user · scope: standing · status: implemented（2026-08-10 随 A2 收批：「拆分离开
   批 A」半边已由 A2 执行完毕消耗；前向细则各有承载——排序（排批 B 之后）与「先设计跨仓运作模型
-  再执行」在 `HARNESS-LEDGER.md` 拆分批 backlog 行原文；rider `CLI-hist` 的随批归属在其
+  再执行」在拆分批 backlog 行原文（该行 2026-08-19 随 `HD-49` 迁入本仓 `CONSTRUCTION-LEDGER.md`，此前住调用者 `HARNESS-LEDGER.md`）；rider `CLI-hist` 的随批归属在其
   redeem-when 列；完整搬出账在 A2 plan §R5/R6）
 - 裁决：`HD-15`/`HD-16` 的**拆分执行离开批 A**，单立一批，**排在批 B（「谁调用、谁绑定」）之后**；
   批 A 的 A2 只保留单仓内改造。

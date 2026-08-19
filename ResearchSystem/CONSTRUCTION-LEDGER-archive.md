@@ -515,7 +515,7 @@
   the node is OPEN and unsigned, and the adoption decision has NOT been taken** — the user is
   adjudicating it separately and has indicated `REVISE_V3`.
   - **断点 / next step:** read
-    [`plans/document-work-assurance-v3-revise.plan.md`](../.goals/plans/document-work-assurance-v3-revise.plan.md)
+    [`plans/document-work-assurance-v3-revise.plan.md`](document-harness/plans/document-work-assurance-v3-revise.plan.md)
     (committed `6bad2b5`, self-contained for a cold session), then
     `ResearchSystem/migration/document-work-assurance-v3/N3/N3-record.md`. Step 1 of that plan is
     to re-check the actual adoption ruling before doing anything.
@@ -541,10 +541,10 @@
     two test files over 800 lines; N2-R7 the V3-N2 VERIFY report is not in the repository.
 
 - **ACTIVE control-plane roadmap — Document Work Assurance Harness v3:** follow only
-  [`plans/document-work-assurance-harness-v3.plan.md`](../.goals/plans/document-work-assurance-harness-v3.plan.md)
+  [`plans/document-work-assurance-harness-v3.plan.md`](document-harness/plans/document-work-assurance-harness-v3.plan.md)
   (**user-approved 2026-07-20**; approval binds plan SHA-256 `9B08CD00…F171F`, committed byte-exact as
   blob `8ad404b` in `V3-PLAN-BOUNDARY-v1` = `ebbc304`). The v2 plan
-  [`plans/general-harness-v2-architecture-revision.plan.md`](../.goals/plans/general-harness-v2-architecture-revision.plan.md)
+  [`plans/general-harness-v2-architecture-revision.plan.md`](document-harness/plans/general-harness-v2-architecture-revision.plan.md)
   is **SUPERSEDED/historical** (banner + pointer updated): A1–A4 closed and immutable (A4 accepted at
   fix `f91a7c4`, closeout `de39b3d`); **A5–A7 and cutover are parked**: they never started and do not
   continue automatically; resuming requires explicit user authorization. v3 executes on branch

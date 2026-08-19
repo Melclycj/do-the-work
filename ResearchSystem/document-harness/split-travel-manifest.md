@@ -72,7 +72,7 @@ ResearchSystem/HARNESS-DECISIONS-archive.md'
 `ResearchSystem/HARNESS-DECISIONS.md` · `ResearchSystem/HARNESS-RIDERS.md` ·
 `ResearchSystem/HARNESS-DECISIONS-archive.md`。
 
-`HARNESS-LEDGER.md` 与其 archive **不在其列**（`HD-28`：ledger 连规则都不归 harness）；
+`HARNESS-LEDGER.md` 与其 archive 当时**不在其列**（`HD-28`：ledger 连规则都不归 harness）——**2026-08-19 `HD-49` 改判**：仪器自身的开发账（现 `CONSTRUCTION-LEDGER.md` + archive）与 16 份构造 plan（`document-harness/plans/`）随轮 `LEDGER-SPLIT` 迁入本仓，调用者只留其使用账；本表其余行按搬迁当日（`HD-28` 在 force 时）读，不逐行改写；
 `HARNESS-POLICY.md` 同样留调用者——它按定义就是调用者侧的策略文件。
 
 ## C —— 评审记录：逐文件分
@@ -124,7 +124,7 @@ ResearchSystem/HARNESS-DECISIONS-archive.md'
 
 ## 不 travel
 
-- `ResearchSystem/HARNESS-LEDGER.md` · `HARNESS-LEDGER-archive.md` · `HARNESS-POLICY.md`（`HD-28`/`HD-33`）
+- `ResearchSystem/HARNESS-LEDGER.md`（2026-08-19 起仅调用者使用账，其构造半边已按 `HD-49` 迁入本仓）· `HARNESS-LEDGER-archive.md`（已按 `HD-49` 整体迁入本仓为 `CONSTRUCTION-LEDGER-archive.md`，调用者侧删除）· `HARNESS-POLICY.md`（照旧留调用者，`HD-33`）
 - `ResearchSystem/tooling/rsc.py`（`split-design.md` §1：`rsc` 这个名字是产品的。R2 已把 v3 命令组
   搬进 `rsclib/document_harness/cli.py` 与上面两个入口，`rsc.py` 只剩 `inventory` / `compile`）
 - `ResearchSystem/tooling/tests/fixtures/` 的其余成员——产品编译器的 fixture

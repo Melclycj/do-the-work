@@ -234,3 +234,33 @@
   价值落空）· `E6` · 用户裁决 2026-08-11
 - retired 2026-08-15（用户裁）：执行完毕，无后继。
 
+### HD-28 · 新仓成员（`HD-16` 的收窄后继）：A 仪器 + B=decisions/riders+decisions-archive + C 评审记录；ledger 留调用者
+- 2026-08-12 · user · scope: standing · status: **superseded**（→ `HD-49`，2026-08-19 同 commit 迁入本档）（成员集已由
+  `document-harness/split-travel-manifest.md` 承载并于 R1 搬迁完毕，拆分批 R3 2026-08-17 转；
+  本条 2026-08-12 按 `HD-30` 机制由差量式收窄注重写为 `HD-16` 的**完整后继**，`HD-16` 同 commit
+  转 superseded 入 archive，双向指针）
+- 裁决：新 harness 仓带 **A 仪器 + B 治理登记（`HARNESS-DECISIONS.md` · `HARNESS-RIDERS.md` ·
+  `HARNESS-DECISIONS-archive.md`，3 files——riders 无 archive）+ C 评审记录**；
+  **`HARNESS-LEDGER.md` 与 `HARNESS-LEDGER-archive.md` 留调用者仓**；**D 已关闭 run 的产物与
+  E shadow 留产品仓**（此半边承 `HD-16` 原文不变）。
+- 判据：实例内容按「**谁的开发**」归属——harness 仓里填满的四件（decision log / rider bank /
+  journal / ledger）是 harness 跑在自身的实例，调用者的归调用者；四件中唯 ledger 连**规则**都
+  不归 harness（global 约定的收紧方言，harness 只占三个参数），故其实例随调用者。
+- 后果：记录跟着被记录的对象走，不跟仪器走（承 `HD-16`）；A1 §13.4 的「B 治理账本 5 files」
+  重算为 3。
+- basis: [journal/batch-b-2026-08-11.md](document-harness/journal/batch-b-2026-08-11.md) §5 ·
+  `document-harness/io-design.md` §6/§7 · 用户裁决 2026-08-12 · supersedes `HD-16`
+
+### HD-48 · 下一个设计轮 = 三题打包（`layer-crossrepo-token` · `e1-disclose-home` · `dtw init` 写哪儿）
+- 2026-08-19 · user · scope: batch:next-design · status: **superseded**（→ `HD-50`，2026-08-19 同 commit 迁入本档；其三题两题并入批 DTW-INDEPENDENCE R2、一题并入 R4）（排期裁决，执行完 retire；除本条外只活在对话里）
+- 裁决：`CALLER-ONBOARDING` 收批后的**下一个队首是一个设计轮**，收三题：① rider `layer-crossrepo-token`
+  （deadline 已于本轮到达——guard 接进仪器仓那一刻；今天不咬人只因它只扫新增行）② rider
+  `e1-disclose-home`（deadline 亦于本轮到达：`E1` 的四持有披露句无载体、无责任人，本轮两次披露都只写在
+  commit 正文里，属自定而非规则要求）③ `dtw init` 的两个实例文件写在 target 根固定文件名，要不要加
+  `--into` 或改默认（`HD-33`/`HD-34`/io-design 均未定位置）。三题的修法都是 design 形状——加 clause 或
+  加 bound——故 `E10` 要求开轮，不得搭任何 amendment 的车。
+- **未选中的一题继续 bank**：仪器仓要不要也跑 `review_freeze_check` / `candidate_path_check`
+  （它对自己的构造轮也是调用者、也真持有冻结窗口，而 `E9` 那道窗口在该仓目前零机械执行）。用户
+  2026-08-19 裁不进本批；rider 见 `self-caller-guards`。
+- basis: 用户裁决 2026-08-19（对话，四选多）· FULL `v3-review-full-2026a14.md` 与 VERIFY
+  `v3-review-verify-4029b43.md` `O-1` 各记一条到期未付 · `HD-37` ②（design 形状的 rider 只点名有资格开轮的表面）
