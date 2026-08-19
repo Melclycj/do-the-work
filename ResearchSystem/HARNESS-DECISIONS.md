@@ -50,14 +50,17 @@
 ### HD-50 · 批 DTW-INDEPENDENCE：四轮独立化（取代 `HD-48` 的排期）
 - 2026-08-19 · user · scope: batch:dtw-independence · status: **live**（R1 `LEDGER-SPLIT` 已 CLOSED，
   R2–R4 未开；执行完 retire。除本条外批的授权只活在对话里——FULL `e74be07` `O-4` 点名的缺口即由本条补）
-- 裁决：用户批准四轮批（预览卡确认）：**R1** ledger 切（已收）· **R2** 教 `layer_path_check` 认跨仓
-  （rider `layer-crossrepo-token`）+ B 类断链降名（`REVIEW.md:45`、`EXECUTION.md:186/:449/:452`，
-  用户裁「降成名字，不做链接」）+ `e1-disclose-home` 落座 + `E10` 结尾 provenance 死从句顺带删
-  （用户 2026-08-19 裁「入 bank 搭 R3」后经排序并入设计面；若 R2 不触 `E10` 正文则留给 R3）·
-  **R3** 去 `ResearchSystem/` 前缀（重扎根第②件，`E10-sync` 三处同 commit）· **R4** `dtw init`
-  命令面（`--into` 与「树里那半接线可进 init、机器那半不进」的判据）。**R2 必须先于 R3**：守卫先认
-  跨仓，否则 R3 改 `EXECUTION.md` 按仓枚举句会被刚归位的守卫挡住。本条取代 `HD-48`：其三题
-  两题并入 R2、一题并入 R4，`HD-48` 同 commit 转 superseded 入 archive。
+- 裁决：用户批准四轮批（预览卡确认）：**R1** ledger 切（已收）· **R2 `XREPO-REFS`（已收
+  2026-08-20，三腿走满）**——落地为「层文本不写调用者路径」的 `E10` 条款 + 四处降名 +
+  `e1-disclose-home` 落座 + `E10` provenance 死从句删除；**「教守卫认全类」与 `sweep_refs.py`
+  入仓经用户 2026-08-20 裁改入 R3**（R2 的 FULL `B-1` 实测守卫只判前缀形状，而 R3 去前缀时守卫
+  路径模型本来就要重写，一次改到位；`HD-50` 原文把它记在 R2 名下，本次更新即 V-2 要的承载）·
+  **R3** 去 `ResearchSystem/` 前缀（重扎根第②件，`E10-sync` 三处同 commit）+ 守卫认全类 +
+  `sweep_refs.py` 入仓；VERIFY `O-1` 的实测入题面——守卫的缺前缀分支今天会拦 R3 自己要写的
+  token 形状 · **R4** `dtw init` 命令面（`--into` 与「树里那半接线可进 init、机器那半不进」的
+  判据）。**R2 先于 R3 的理由已兑现**：`E10` 条款与降名先落，R3 改 `EXECUTION.md` 枚举句不再
+  会被守卫按旧判据挡住。本条取代 `HD-48`：其三题两题并入 R2、一题并入 R4，`HD-48` 同 commit
+  转 superseded 入 archive。
 - 未入批（用户明示）：人看的根 README + LICENSE（继续 bank，rider `readme-cli-stale` 兼指其三句
   已证伪断言；诚实提醒已给——无 LICENSE 则第二人无法合法使用）· 仪器仓自跑另两支守卫
   （rider `self-caller-guards`）。
