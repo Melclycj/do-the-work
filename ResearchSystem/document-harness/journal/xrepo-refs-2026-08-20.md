@@ -236,3 +236,91 @@ one clause in this section before it became the reason for another.
 what is wrong is using one without saying which, so every sweep in this record states its
 pattern beside its output. This cost the phase-1 amendment nothing only because the tokens it
 missed were blob ids already outside its class.
+
+## 8. Repair leg — what the FULL falsified, and what the clause now says
+
+`v3-review-full-dd18226.md` returned `CHANGES_REQUIRED` on `B-1`: the clause's enforcement
+sentence claimed `layer_path_check` enforces the caller-held-path rule, and the guard is blind
+to the class's central shape. The user approved one fix covering `B-1`, `L-1`, `O-2`'s wording
+half and `O-3`.
+
+**The measurement that decided it, re-run after the repair.** The reviewer's falsifying
+experiment, reproduced in a throwaway clone of `55c36c9` with the repaired clause staged. One
+added line carrying three caller-held tokens, none written in this repository's path
+convention:
+
+```
++A caller-held example: `ExperimentLab/papers/` and `assurance/runs/p5a-shells/control/audit-rounds.md` and `.goals/plans/x.plan.md`.
+$ python ResearchSystem/tooling/hooks/layer_path_check.py
+exit=0   (no output)
+
+POSITIVE CONTROL — the same run artifact, this repository's prefix restored:
++Positive control: `ResearchSystem/assurance/runs/p5a-shells/control/audit-rounds.md`.
+$ python ResearchSystem/tooling/hooks/layer_path_check.py
+exit=1
+pre-commit BLOCKED: newly added instruction text names a repository path that does not resolve:
+  …EXECUTION.md: `ResearchSystem/assurance/runs/p5a-shells/control/audit-rounds.md` — does not resolve from the repo root
+```
+
+Unchanged from the reviewer's run, and that is the point: the repair changed no behaviour,
+only the sentence that described it. Three caller-held tokens still pass silently; the same
+target with the prefix still blocks. What the clause now says is that this is so.
+
+**Why the replacement is not the reviewer's line verbatim.** The minimum fix offered enumerates
+the guard's two decidable shapes, one of which is *missing-prefix* — a shape that exists only
+because this repository still carries the caller's `ResearchSystem/` prefix, which R3 is
+chartered to remove. Baking it in would make the clause false one round from now, in the
+opposite direction. The replacement states the guard's **trichotomy** instead: it decides
+tokens it can relate to this repository — written in its path convention, or resolving
+somewhere inside it — and skips the rest as possibly illustrative. That is convention-neutral,
+so re-rooting changes what "its path convention" denotes without touching the sentence, and the
+honest half `B-1` demanded is the clause's own last sentence: the skipped shape, and the
+standing stock the guard never re-scans, are held by the clause alone.
+
+The witnessed instance stays named but is deliberately **not reproduced as a token** — the
+caller's ExperimentLab papers directory is written as prose, because writing it as a backticked
+path token in a member is precisely what the clause forbids. A rule that violated itself in its
+own example would be the same defect one layer down.
+
+**`L-1`: the at-rest falsifier, and the sweep for others.** `.harness/review-pending.json`
+appears at `README.md:36` and `REVIEW.md:139`, and at rest the file does not exist —
+`ls .harness/` returns `runs.jsonl` and nothing else, the dispatch window having closed. Under
+the clause's flat first sentence those two member sites were violations; the exception now
+lives in the clause rather than in this journal, which is not a member and cannot carry a
+rule's exception.
+
+Two instruments, because one cannot see the class. The guard's own predicate over the complete
+text of all ten members:
+
+```
+$ python -c "… from hooks import layer_path_check as L; for m in L.LAYER: print(L.unresolved_tokens(root, m, read(m)))"
+…supersession-1.md [('schema/document-assurance-v3/review.v2.schema.json', 'resolves only under ResearchSystem/ — prefix missing')]
+…supersession-2.md [('schema/', 'resolves only under ResearchSystem/ — prefix missing')]
+whole-stock scan complete -- members: 10
+```
+
+That predicate **skips the resolve-nowhere class by design**, which is the class both the
+runtime marker and `B-1`'s central shape sit in — so running only it would repeat the error
+`B-1` names. `sweep_refs.py`'s broader `LINK` + `PATHTOK` classes (§2 for the patterns), at
+rest:
+
+```
+$ python sweep_refs.py . | grep -v "^NAMETOK"
+PATHTOK ResearchSystem/document-harness/README.md:36    .harness/review-pending.json
+PATHTOK ResearchSystem/document-harness/REVIEW.md:139   .harness/review-pending.json
+PATHTOK …supersession-2.md:60                           assurance/runs/
+PATHTOK …supersession-2.md:99                           templates/run-v2/
+-- 16 caller-held or unresolvable references over 10 members
+```
+
+`LINK` is empty. Four `PATHTOK`s: the two runtime markers the new exception covers, and the two
+`E2`-frozen sites the clause already excepts. **No other at-rest falsifier exists** — the
+sentence is now true of the whole standing stock, not merely of the writable part.
+
+**`O-2`'s wording half.** `ORCHESTRATION.md:90` glossed the `E1` disclosure as what a session
+"owes **in its record**" — the wording `E1` had just replaced with its named carriers. In a
+cite-only file the repair is to shrink toward the pointer, never to grow toward a copy, so the
+gloss loses the stale carrier and keeps the assignment: *"what a session holding both work-side
+roles owes — is `E1`'s to state"*. The nine-obligation-table gap the same observation names is
+**not** in this leg; it banks at closeout, because a table row opens rider `charter-qualifiers`'
+surface for the same reason the candidate gave.

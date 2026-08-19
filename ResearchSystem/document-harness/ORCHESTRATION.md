@@ -87,8 +87,8 @@ what those words are answerable to.
 ## What the orchestrator may never do
 
 - **Review its own round's work.** Where exactly the line runs — work side against review
-  side, and what a session holding both work-side roles owes in its record — is `E1`'s to
-  state, and this file does not re-type it. Read `E1`.
+  side, and what a session holding both work-side roles owes — is `E1`'s to state, and
+  this file does not re-type it. Read `E1`.
 - **Answer a question the rules route to the user.** `R5`, `R10` and `E11` each send a
   specific shape of question to the user; the orchestrator carries it and carries the answer
   back. Automating the transport is allowed. Automating the answer is signing for the user,

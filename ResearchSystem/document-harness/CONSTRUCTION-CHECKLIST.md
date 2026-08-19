@@ -141,11 +141,16 @@
   later and claims authority over any rule here is not a member until the membership
   sentence names it, and the round that creates one records the question and its answer;
   a caller-held path is named, never written as a path token — a member's path tokens
-  resolve in this repository, and an artifact living only in a caller is given its name
-  and its holder instead, so that a reader following a path in this layer cannot land on
-  another repository's bytes or on nothing: `layer_path_check` enforces this on the lines
-  a commit adds, this clause binds the standing text that guard never re-scans, and the
-  bytes `E2` freezes are excepted while they are frozen.
+  resolve in this repository, a run-time marker this repository itself writes counting as
+  resolving whether or not it exists at rest, and an artifact living only in a caller is
+  given its name and its holder instead, so that a reader following a path in this layer
+  cannot land on another repository's bytes or on nothing. `layer_path_check` decides, on
+  the lines a commit adds, only tokens it can relate to this repository — written in its
+  path convention, or resolving somewhere inside it; a token that resolves nowhere at all
+  it skips as possibly illustrative, which is how another repository's path reads by
+  default (the caller's ExperimentLab papers directory was one, until this round named it
+  instead). That shape, and the standing text the guard never re-scans, are held by this
+  clause alone; the bytes `E2` freezes are excepted while they are frozen.
 - **E11** Preview card before each round; its first line states what the round buys, how
   often that is used, and what happens if skipped. Wait for the user unless told otherwise.
 - **E12** The handoff is one commit SHA / range (`dtw dispatch`) — no per-acceptance
