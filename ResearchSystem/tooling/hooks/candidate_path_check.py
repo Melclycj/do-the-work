@@ -12,8 +12,13 @@ shorthand: a unique tracked path suffix passes, nothing anywhere blocks.
 on purpose and share no verdict.
 
 The two are **not** a partition of the tree, and saying so was this file's own first error:
-the six Markdown instruction-layer members outside `NOT_SCANNED` are scanned by both, and
-there this guard overrides the exemption the older one takes on purpose. That is intended —
+the Markdown instruction-layer members outside `NOT_SCANNED` are scanned by both, and there
+this guard overrides the exemption the older one takes on purpose. The number is deliberately
+not written here — it was "six" from `SIMP-A4` until 2026-08-19 and went stale the moment
+`ORCHESTRATION.md` became the tenth member, with nothing to notice (`v3-cold-read-c22e229.md`
+`O-2`). Compute it instead:
+`[p for p in layer_path_check.LAYER if candidate_path_check.scanned(p)]` — 7 at
+`2026a14`, the two retired-contract stubs being the members a `RECORD_SURFACE` prefix exempts. That is intended —
 an amendment is a work product, and the class the older guard waves through is exactly where
 the defect this lint exists for was found — but it is a stricter rule applying on top, not a
 division of territory.

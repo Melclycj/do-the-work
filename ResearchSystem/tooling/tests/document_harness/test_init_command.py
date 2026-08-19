@@ -40,16 +40,25 @@ TEMPLATE_SOURCES = {
     "HARNESS-RIDERS.md": _harness.RS_ROOT / "document-harness" / "templates" / "rider-bank.md",
 }
 
-#: Whole lines (E5: never a substring unrelated content can satisfy), one per thing io-design
-#: §6 requires the decision-log header to carry: the state machine, the four scopes, the three
-#: admission questions, inheritance, and the deletion discipline. A template edited to drop
-#: any of the five fails here rather than reaching a caller half-formed.
+#: Whole lines (E5: never a substring unrelated content can satisfy). The first five are
+#: io-design §6's five, in its order — 状态机四态 / scope 四档 / 准入三问 / 继承 / 删除纪律:
+#: the state machine, the four scopes, the three admission questions, **inheritance**, and the
+#: deletion discipline. The sixth, narrowing (`HD-30`), is **not** one of §6's five; it is
+#: pinned as an extra because the template ships it and a template edited to drop it would
+#: still be wrong.
+#:
+#: The inheritance line was missing until 2026-08-19 while this comment claimed it was here
+#: (`v3-review-full-2026a14.md` `B-2`): dropping that block left the whole suite green, and it
+#: is the block carrying "Every cold read MUST read `§live`" and the verbatim-inheritance rule
+#: — the two `E10`/`HD-5` obligations that are the reason to ship a decision log at all. All
+#: six blocks are now must-fire, each proven by deleting it from the template in turn.
 DECISION_LOG_HEADER_LINES = (
     "> **State machine.** `live` (in force and required reading — ruled but not yet carried, or",
     "> **Scope.** `standing` (only supersedable) · `mechanism:<path>` (retires with the mechanism)",
     "> **Admission — three questions; any yes admits.** Does it bind the next round and beyond? ·",
-    "> **Narrowing is not a fifth state.** A successor entry carries the narrowed text **in full**",
+    "> **Who reads it.** Every cold read MUST read `§live`, and only `§live`. A plan author reads",
     "> **Deletion — discipline, no lint.** Dead entries move to the archive file beside this one.",
+    "> **Narrowing is not a fifth state.** A successor entry carries the narrowed text **in full**",
 )
 
 #: The rider bank's header points at the rule instead of restating it (io-design §6).
@@ -115,7 +124,7 @@ class TheCopyIsVerbatim(unittest.TestCase):
                 with self.subTest(instance=name):
                     self.assertEqual((root / name).read_bytes(), source.read_bytes())
 
-    def test_the_copied_decision_log_carries_the_five_header_rules(self):
+    def test_the_copied_decision_log_carries_every_pinned_header_rule(self):
         with Target() as root:
             init_target.init_target(root)
             lines = (root / "HARNESS-DECISIONS.md").read_text(encoding="utf-8").splitlines()

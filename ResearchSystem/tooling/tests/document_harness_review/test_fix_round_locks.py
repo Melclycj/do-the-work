@@ -325,7 +325,7 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
     #: raised by the module it called, and each of those is swept where it lives. A sweep
     #: here would re-assert other modules' vocabulary through a caller, which is the shape
     #: that makes a green sweep uninformative. What stands in its place: `TheSurface` +
-    #: `TheTwoNames` in `tests/document_harness/test_cli_entry.py` (the six operations and
+    #: `TheTwoNames` in `tests/document_harness/test_cli_entry.py` (the operation surface and
     #: the two entry names, both mutation-tested), plus the **two** suites that drive real
     #: commands through it in a subprocess — `test_dispatch_freeze_marker.py` and
     #: `test_review_cli_v2_subject.py` — each asserting an effect or a code only the called

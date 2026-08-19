@@ -69,7 +69,7 @@ def load_entry(script: str):
 
 
 class TheSurface(unittest.TestCase):
-    def test_the_six_operations_are_the_ones_named(self):
+    def test_the_operations_are_the_ones_named(self):
         sub = cli.build_parser()._subparsers._group_actions[0]
         self.assertEqual(tuple(sub.choices), OPERATIONS)
 

@@ -10,7 +10,7 @@ command may exist, overriding the reading of `split-design.md` §1 under which t
 travelled as they were).
 
 They lived under `rsc.py v3 <op>` until the split batch's R2 moved them here: `rsc` is the
-product compiler's name and stays with the caller, while these six travel with the instrument
+product compiler's name and stays with the caller, while these travel with the instrument
 (`HD-28`, split-design §1). The two entry scripts beside `rsc.py` — `do-the-work.py` and its
 short alias `dtw.py` — are the same entry under the two names `HD-40` §10 recorded; both do
 nothing but call `main()` below.

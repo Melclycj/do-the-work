@@ -42,7 +42,12 @@ by the membership sentence — which is design, and opens a round under `E10`.
 `split-design.md` §1 records the six commands travelling "as they were", and rider `RA` records
 that a seventh was once declined as convenience rather than correctness. The user ruled on
 2026-08-18 that a seventh may exist. The two are not in conflict and this journal does not
-harmonise them — the decision-log entry is the orchestrator's closeout work. What is worth
+harmonise them — the decision-log entry is the orchestrator's to write, and the FULL of
+`2026a14` (`L-3`) found that deferring it left the ruling authorising this round's central
+artifact living only in commit bodies, against the precedent of `HD-46`, which landed in its
+own round's candidate commit. It is written with the repair that answers `L-3`, not at
+closeout; `split-design.md` §1 and rider `RA` still read as they did, which is that entry's
+subject and not this journal's. What is worth
 recording here is the shape the ruling was implemented in, because it is what keeps `RA`'s
 objection answered rather than overruled:
 
