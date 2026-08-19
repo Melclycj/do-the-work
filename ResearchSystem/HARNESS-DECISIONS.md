@@ -27,8 +27,22 @@
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 
+### HD-48 · 下一个设计轮 = 三题打包（`layer-crossrepo-token` · `e1-disclose-home` · `dtw init` 写哪儿）
+- 2026-08-19 · user · scope: batch:next-design · status: **live**（排期裁决，执行完 retire；除本条外只活在对话里）
+- 裁决：`CALLER-ONBOARDING` 收批后的**下一个队首是一个设计轮**，收三题：① rider `layer-crossrepo-token`
+  （deadline 已于本轮到达——guard 接进仪器仓那一刻；今天不咬人只因它只扫新增行）② rider
+  `e1-disclose-home`（deadline 亦于本轮到达：`E1` 的四持有披露句无载体、无责任人，本轮两次披露都只写在
+  commit 正文里，属自定而非规则要求）③ `dtw init` 的两个实例文件写在 target 根固定文件名，要不要加
+  `--into` 或改默认（`HD-33`/`HD-34`/io-design 均未定位置）。三题的修法都是 design 形状——加 clause 或
+  加 bound——故 `E10` 要求开轮，不得搭任何 amendment 的车。
+- **未选中的一题继续 bank**：仪器仓要不要也跑 `review_freeze_check` / `candidate_path_check`
+  （它对自己的构造轮也是调用者、也真持有冻结窗口，而 `E9` 那道窗口在该仓目前零机械执行）。用户
+  2026-08-19 裁不进本批；rider 见 `self-caller-guards`。
+- basis: 用户裁决 2026-08-19（对话，四选多）· FULL `v3-review-full-2026a14.md` 与 VERIFY
+  `v3-review-verify-4029b43.md` `O-1` 各记一条到期未付 · `HD-37` ②（design 形状的 rider 只点名有资格开轮的表面）
+
 ### HD-47 · `dtw init` 立为第七个命令；`split-design` §1 的「六命令原样」是搬迁指令、不是命令数上限
-- 2026-08-19 · user · scope: standing · status: **live**（已签的 `split-design.md` §1 仍写着「六命令原样」、
+- 2026-08-18 · user · scope: standing · status: **live**（已签的 `split-design.md` §1 仍写着「六命令原样」、
   rider `RA` 的裁决叙述仍是 2026-08-17 那个答案；两处都按旧读法说话，本条是唯一说出新读法的地方。
   **要转 `implemented`** 须有一次对 §1 的重签（`HD-40` 要求实质修改重签），或一个设计轮把命令面的增删
   判据写进指令层，二者任一）
@@ -41,7 +55,10 @@
 - 后果：`init` 只做机械的四件（建 `.harness/` · 追 gitignore 条目 · 逐字节拷两个模板 · 逐文件拒绝覆盖），
   并打印它**故意不做**的五件；判断性的那些留在 `document-harness/ONBOARDING.md` 由人做。命令面自此为七，
   `cli.py` 的操作枚举与 `test_cli_entry.py` 的手写 `OPERATIONS` 元组同步。
-- basis: 用户裁决 2026-08-19（对话；三形态里取「甲 + 给 `dtw` 加 `init`」）· 轮 `CALLER-ONBOARDING`
+- basis: 用户裁决 **2026-08-18**（对话；三形态里取「甲 + 给 `dtw` 加 `init`」）。**日期只能从对话核，仓里查不到**
+  ——本条初稿写 2026-08-19，与同轮 `cli.py:8`、轮 journal `:44` 的 08-18 相抵，由 VERIFY `v3-review-verify-4029b43.md`
+  `V-1` 点出、用户 2026-08-19 裁作记录更正改回。这个天花板照记（`R2`：只活在对话里的载重材料是 finding）：
+  08-18 之所以为准，是因为本轮 instruction（写于当日）即以该日期陈述该裁决，两个 08-18 站点都由它派生· 轮 `CALLER-ONBOARDING`
   的候选 `2026a14` · 其 FULL `v3-review-full-2026a14.md` `L-3`（指出该裁决当时只活在 commit 正文里、
   与已签文本相抵，本条即其答案）· `document-harness/split-design.md` §1 · rider `RA`
 
