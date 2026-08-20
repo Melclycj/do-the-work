@@ -1,0 +1,269 @@
+"""Golden tests for the user-facing review, flow and disposition views (V3-N2).
+
+Plan §6: user-facing reports show only the objective/candidate, instruction or obligation
+exceptions, failed checks and boundary deltas, blocking findings, uncertainty and the
+requested decision. What the user *sees* is therefore part of the product, not a rendering
+detail — a later node that silently turned an `UNVERIFIABLE` obligation into a blank line, or
+dropped the "no residual uncertainty" statement, would change what a user is deciding on
+without changing any acceptance ID.
+
+Three renderings are pinned, and each fixture deliberately carries the exception rather than
+the happy path:
+
+* `review.render_result` — one unsupported obligation, one unverifiable one, a blocker with
+  its minimum fix, and a residual;
+* `flow.render_flow` — a state missing a pointer its own status requires;
+* `summary.render_summary` — an `ACCEPT_WITH_LIMITATIONS` close-out that promoted nothing.
+
+A fourth pins the empty-residual line specifically. `residual_uncertainty: []` is a positive
+statement by the reviewer that none was found, and it must render as such — if it rendered as
+nothing at all it would be indistinguishable from a reviewer who never considered the
+question, which is the exact distinction the required-but-possibly-empty field exists to make.
+
+The fixtures are pure data with fixed identities — no Git repository, no clock, no filesystem
+observation — so the goldens are byte-reproducible. Regenerate deliberately with::
+
+    python tooling/tests/document_harness_review/test_golden_review_views.py --regen
+"""
+from __future__ import annotations
+
+import pathlib
+import sys
+import unittest
+
+import _harness  # noqa: F401 — installs the tooling and V3-N1 mechanism import paths
+
+from rsclib.document_harness import canonical_bytes  # noqa: E402
+from rsclib.document_harness import flow, issues, review, summary  # noqa: E402
+
+GOLDEN_DIR = _harness.RS_ROOT / "assurance" / "review-test"
+RESULT_GOLDEN = GOLDEN_DIR / "review-result-view.golden.txt"
+RESULT_EMPTY_RESIDUAL_GOLDEN = GOLDEN_DIR / "review-result-no-residual.golden.txt"
+FLOW_GOLDEN = GOLDEN_DIR / "flow-position.golden.txt"
+SUMMARY_GOLDEN = GOLDEN_DIR / "summary-view.golden.txt"
+ISSUE_GOLDEN = GOLDEN_DIR / "harness-issue-view.golden.txt"
+
+_CANDIDATE = "a" * 40
+_BASE = "b" * 40
+_DIGEST = "c" * 64
+_PACKAGE_DIGEST = "d" * 64
+
+REVIEW_RESULT = {
+    "result_id": "rr-golden",
+    "work_id": "golden-work",
+    "run_id": "golden-run",
+    "review_round": "FULL",
+    "package_ref": {"path": "control/package.json", "digest_sha256": _PACKAGE_DIGEST},
+    "candidate_ref": {"branch": "cand", "commit": _CANDIDATE},
+    "verdict": "CHANGES_REQUIRED",
+    "instruction_completeness": {
+        "result": "COMPLETE",
+        "instruction_ref": {"path": "docs/instruction.md", "revision": _BASE},
+    },
+    "per_obligation_disposition": [
+        {"obligation_id": "ob-guide", "disposition": "SUPPORTED"},
+        {
+            "obligation_id": "ob-changelog",
+            "disposition": "NOT_SUPPORTED",
+            "note": "the changelog entry names a different release than the instruction froze",
+            "finding_ids": ["f-changelog-release"],
+        },
+        {
+            "obligation_id": "ob-tone",
+            "disposition": "UNVERIFIABLE",
+            "note": "the instruction gives no criterion the frozen subjects could be read against",
+        },
+    ],
+    "findings": [
+        {
+            "finding_id": "f-changelog-release",
+            "obligation_id": "ob-changelog",
+            "blocking": True,
+            "statement": "the changelog entry is filed under 2.1 but the instruction freezes 2.0",
+            "candidate_locator": {"path": "docs/CHANGELOG.md", "anchor": "## 2.1"},
+            "ground_truth_locator": {"path": "docs/instruction.md", "anchor": "release 2.0"},
+            "minimum_fix": "move the entry under the 2.0 heading; no other line needs to change",
+        },
+        {
+            "finding_id": "f-heading-case",
+            "blocking": False,
+            "statement": "two headings use sentence case where the rest of the document uses title case",
+        },
+    ],
+    "residual_uncertainty": [
+        "whether the tone requirement was met is a judgment the frozen subjects cannot settle"
+    ],
+    "reviewed_by": "Reviewer Rin",
+}
+
+FLOW_STATE = {
+    "work_id": "golden-work",
+    "run_id": "golden-run",
+    "status": "REVIEWED",
+    "repair_round": 0,
+    "work_spec_ref": {"path": "control/spec.json"},
+    "resolved_plan_ref": {"path": "control/plan.json"},
+    "instruction_audit_ref": {"path": "control/audit.json"},
+    "start_decision_ref": {"path": "control/start.json"},
+    "fulfillment_ref": {"path": "control/fulfillment.json"},
+    "manifest_ref": {"path": "control/manifest.json"},
+    # coverage_ref is deliberately absent: REVIEWED requires it, so the view must say so.
+    "review_ref": {"path": "control/review.json"},
+}
+
+SUMMARY_DOCUMENT = {
+    "summary_id": "sum-golden",
+    "work_id": "golden-work",
+    "run_id": "golden-run",
+    "assurance_candidate_ref": {"path": "control/assurance.json", "digest_sha256": _DIGEST},
+    "final_decision_ref": {"path": "control/final.json", "digest_sha256": _PACKAGE_DIGEST},
+    "outcome": "ACCEPT_WITH_LIMITATIONS",
+    "promotion": {
+        "promoted": False,
+        "reason": "the user accepted the document set but chose not to promote it in this session",
+    },
+    "limitations": [
+        "the tone requirement was accepted as unverifiable rather than met",
+        "the governance frontmatter scan did not run in this run",
+    ],
+    "generated_by": "controller",
+}
+
+HARNESS_ISSUE = {
+    "issue_id": "hi-golden",
+    "work_id": "golden-work",
+    "run_id": "golden-run",
+    "kind": "PROCESS_BURDEN",
+    "statement": "freezing the package by hand took longer than writing the document it reviews",
+    "evidence_refs": [{"path": "control/package.json", "digest_sha256": _PACKAGE_DIGEST}],
+    "observed_after": "CLOSED",
+    "observed_by": "Observer Oki",
+}
+
+
+def _render_all() -> dict[pathlib.Path, str]:
+    no_residual = dict(REVIEW_RESULT, residual_uncertainty=[], verdict="REVIEWED_NO_BLOCKER")
+    no_residual["findings"] = [REVIEW_RESULT["findings"][1]]  # the non-blocking one only
+    no_residual["per_obligation_disposition"] = [REVIEW_RESULT["per_obligation_disposition"][0]]
+    return {
+        RESULT_GOLDEN: review.render_result(REVIEW_RESULT),
+        RESULT_EMPTY_RESIDUAL_GOLDEN: review.render_result(no_residual),
+        FLOW_GOLDEN: flow.render_flow(FLOW_STATE),
+        SUMMARY_GOLDEN: summary.render_summary(SUMMARY_DOCUMENT),
+        ISSUE_GOLDEN: issues.render_issue(HARNESS_ISSUE),
+    }
+
+
+class GoldenViewTests(unittest.TestCase):
+    """The rendered views are pinned byte-for-byte."""
+
+    def test_views_match_their_goldens(self):
+        for path, rendered in _render_all().items():
+            with self.subTest(golden=path.name):
+                self.assertTrue(path.exists(), f"missing golden: {path}")
+                self.assertEqual(
+                    path.read_bytes(),
+                    rendered.encode("utf-8"),
+                    f"{path.name} drifted; regenerate deliberately, never to make a test pass",
+                )
+
+    def test_result_view_shows_every_exception_and_the_minimum_fix(self):
+        """The view is not merely stable — it must actually carry the decision inputs."""
+        rendered = review.render_result(REVIEW_RESULT)
+        for expected in (
+            "NOT_SUPPORTED",
+            "UNVERIFIABLE",
+            "[BLOCKER] f-changelog-release",
+            "minimum fix:",
+            "?? residual:",
+        ):
+            with self.subTest(fragment=expected):
+                self.assertIn(expected, rendered)
+        self.assertNotIn("ob-guide", rendered, "a SUPPORTED obligation is not an exception")
+
+    def test_empty_residual_renders_as_a_positive_statement(self):
+        """`residual_uncertainty: []` is the reviewer saying 'none', not saying nothing.
+
+        If it rendered as absence, a reviewer who found none and a reviewer who never
+        considered the question would produce identical output — the distinction the
+        required-but-possibly-empty field exists to preserve.
+        """
+        rendered = review.render_result(dict(REVIEW_RESULT, residual_uncertainty=[]))
+        self.assertIn("the reviewer recorded no residual uncertainty", rendered)
+
+    def test_flow_view_names_the_missing_required_pointer(self):
+        rendered = flow.render_flow(FLOW_STATE)
+        self.assertIn("missing required pointer: coverage_ref", rendered)
+        self.assertIn("REPAIRING", rendered)  # the legal successors are shown
+
+    def test_flow_view_of_a_complete_state_reports_nothing_missing(self):
+        """Negative control: the missing-pointer line must not be printed unconditionally."""
+        complete = dict(FLOW_STATE, coverage_ref={"path": "control/coverage.json"})
+        self.assertNotIn("missing required pointer", flow.render_flow(complete))
+
+    def test_summary_view_states_non_promotion_and_every_limitation(self):
+        rendered = summary.render_summary(SUMMARY_DOCUMENT)
+        self.assertIn("promoted     : no", rendered)
+        for limitation in SUMMARY_DOCUMENT["limitations"]:
+            with self.subTest(limitation=limitation[:30]):
+                self.assertIn(limitation, rendered)
+
+    def test_issue_view_states_that_routing_is_not_on_the_document(self):
+        """N2-A11: an issue has no lifecycle, and the view must not imply one."""
+        rendered = issues.render_issue(HARNESS_ISSUE)
+        self.assertIn("routing is a separate user ISSUE_TRIAGE decision", rendered)
+
+
+class N2ValidatorTests(unittest.TestCase):
+    """The V3-N2 schema extension: registered, closed, and failing closed."""
+
+    def test_every_n2_kind_resolves_to_a_real_schema(self):
+        for kind in (*review.N2_SCHEMA_FILES, *review.N2_SCHEMA_POINTERS):
+            with self.subTest(kind=kind):
+                report = review.validate_n2(kind, {})
+                self.assertFalse(
+                    report.ok, f"{kind} accepted an empty document, so it validated nothing"
+                )
+
+    def test_unknown_kind_fails_closed(self):
+        """An unrecognised document kind is never validated permissively."""
+        from rsclib.document_harness import SpecGap
+
+        with self.assertRaises(SpecGap):
+            review.validate_n2("not_a_real_kind", {})
+
+    def test_n2_registry_covers_the_frozen_pack_as_well_as_the_new_schemas(self):
+        """The extension must not shadow the N0/N1 pack it builds on.
+
+        `__init__.py` is outside V3-N2's boundary, so the three schemas authored here cannot
+        be registered with the package validator and this local registry exists instead. The
+        risk that creates is a second, divergent view of the pack — so the registry is built
+        from the public `SCHEMA_FILES` export rather than a restatement of it, and this test
+        pins that: every frozen schema must still resolve through the N2 registry.
+        """
+        from rsclib.document_harness import SCHEMA_FILES
+
+        registry = review._n2_registry()
+        for filename in (*SCHEMA_FILES.values(), *review.N2_SCHEMA_FILES.values()):
+            with self.subTest(schema=filename):
+                resolved = registry.get("researchsystem/schema/document-assurance-v3/" + filename)
+                self.assertIsNotNone(resolved, f"{filename} does not resolve through the N2 registry")
+
+    def test_canonical_bytes_of_a_review_result_are_stable(self):
+        """A result is bound by digest, so its canonical form must not depend on key order."""
+        shuffled = dict(reversed(list(REVIEW_RESULT.items())))
+        self.assertEqual(canonical_bytes(REVIEW_RESULT), canonical_bytes(shuffled))
+
+
+def _regen() -> int:
+    GOLDEN_DIR.mkdir(parents=True, exist_ok=True)
+    for path, rendered in _render_all().items():
+        path.write_bytes(rendered.encode("utf-8"))
+        print(f"wrote {path}")
+    return 0
+
+
+if __name__ == "__main__":
+    if "--regen" in sys.argv:
+        raise SystemExit(_regen())
+    raise SystemExit(unittest.main(argv=[sys.argv[0]]))
