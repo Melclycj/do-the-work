@@ -86,6 +86,12 @@ def added_lines_by_path(repo_root: pathlib.Path) -> dict[str, list[str]]:
     re-scans — the DE-PREFIX candidate was blocked by its own frozen supersessions that way.
     One un-pathspec'd diff, because limiting the diff to the new path filters the old path
     out and breaks the very rename pairing `-M` exists to make.
+
+    Header detection is textual and has a residual ambiguity no parse of `-U0` output can
+    remove (FULL `v3-review-full-39a21a8.md` B-2): an added line whose own CONTENT opens
+    `++ ` renders as `+++ …` — `++ b/x` mis-files the lines after it, any other `++ …`
+    silences them. A pasted diff header (content `+++ …`, rendering `++++ …`) is handled:
+    the header branches require a space in fourth position, which four plusses fail.
     """
     out = subprocess.run(
         ["git", "-C", str(repo_root), "-c", "diff.noprefix=false",
@@ -98,7 +104,7 @@ def added_lines_by_path(repo_root: pathlib.Path) -> dict[str, list[str]]:
     for line in out.stdout.decode("utf-8", errors="replace").splitlines():
         if line.startswith("+++ b/"):
             current = line[len("+++ b/"):]
-        elif line.startswith("+++"):
+        elif line.startswith("+++ "):
             current = None
         elif line.startswith("+") and current is not None:
             added.setdefault(current, []).append(line[1:])

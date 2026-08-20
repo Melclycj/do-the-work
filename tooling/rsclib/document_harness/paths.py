@@ -14,9 +14,12 @@ discarded with it would repeat the shape SIMP-A1 deleted.
 
 **The rule, and the one branch that is new.** A token resolves DIRECTly when git tracks it
 from the repo root, from the containing file's own directory, or under `ResearchSystem/` —
-the three branches `tooling/hooks/layer_path_check.py` has always used for the instruction
-layer. That guard then stops: a token resolving nowhere is skipped, because it *may be
-illustrative*. Measured on the four real product candidates (p4-doc, p5a-firewall,
+the three branches `tooling/hooks/layer_path_check.py` used for the instruction layer until
+round DE-PREFIX (`HD-50` R3) re-rooted the instrument and taught that guard to block the
+nowhere-resolving class on its own ten members; the caller trees this lint scans keep their
+`ResearchSystem/` directory, so the third branch stays meaningful here. On work products —
+the surface the layer guard never scans — a token resolving nowhere *may be illustrative*,
+and that exemption is this lint's whole subject. Measured on the four real product candidates (p4-doc, p5a-firewall,
 p5a-shells, p5b-firewall), that exemption is where the defects live — 47 added path tokens,
 4 resolving nowhere, of which three are shorthand for exactly one tracked file
 (`tests/run_p4_tests.py`, `tests/run_p5a_tests.py`, `rsclib/lint.py`) and one is simply

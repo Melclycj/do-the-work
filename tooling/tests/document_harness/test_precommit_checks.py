@@ -202,6 +202,17 @@ class LayerPath(unittest.TestCase):
             stage(repo, {CHECKLIST: "clean standing line\nsee `no/such/file.md`\n"})
             self.assertEqual(layer_path_check.check(repo.root), 1)
 
+    def test_a_pasted_diff_header_does_not_silence_the_rest_of_the_member(self):
+        """FULL 39a21a8 B-2: a content line opening `+++ ` renders in the diff as `++++ …`,
+        which the parser used to read as a header reset — every added line after it was
+        dropped from the scan, a fail-open. Must fire on the token BELOW the pasted header."""
+        with TempRepo() as repo:
+            stage(
+                repo,
+                {CHECKLIST: "clean line\n+++ a pasted diff header\nsee `no/such/file.md`\n"},
+            )
+            self.assertEqual(layer_path_check.check(repo.root), 1)
+
 
 class LayerMembership(unittest.TestCase):
     """E5: the expectation is this hand-written list, never the module's own tuple.
@@ -236,7 +247,9 @@ class LayerMembership(unittest.TestCase):
 
 
 class CandidatePath(unittest.TestCase):
-    """SIMP-A4: the class `layer_path_check` skips as *may be illustrative*, split.
+    """SIMP-A4: the nowhere-resolving class on work products, split by shorthand.
+    (`layer_path_check` skipped that class as *may be illustrative* until round DE-PREFIX
+    taught it to block; this lint owns the work-product surface the layer guard never scans.)
 
     The whole point of this guard is the token that resolves NOWHERE, so the shorthand
     baseline is asserted first in every pair — a guard that blocked both would be a guard

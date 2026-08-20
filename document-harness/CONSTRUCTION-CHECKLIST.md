@@ -151,7 +151,9 @@
   class entire, a caller-held path included (the caller's ExperimentLab papers directory
   was its measured blind spot until then). What the guard still cannot see is held by this
   clause alone: a token carrying a placeholder segment falls outside its path shape, prose
-  and markdown links carry no backtick token for it to find, and the standing text it
+  and markdown links carry no backtick token for it to find, an added line whose own
+  content opens `++ ` reads to its diff parser as a file header (`++ b/…` mis-files the
+  member's remaining added lines, any other `++ …` silences them), and the standing text it
   never re-scans stays unscanned; the bytes `E2` freezes are excepted while they are frozen.
 - **E11** Preview card before each round; its first line states what the round buys, how
   often that is used, and what happens if skipped. Wait for the user unless told otherwise.
