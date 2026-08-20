@@ -248,8 +248,8 @@ class LayerMembership(unittest.TestCase):
 
 class CandidatePath(unittest.TestCase):
     """SIMP-A4: the nowhere-resolving class on work products, split by shorthand.
-    (`layer_path_check` skipped that class as *may be illustrative* until round DE-PREFIX
-    taught it to block; this lint owns the work-product surface the layer guard never scans.)
+    (Division of labour with the layer guard: stated once, in the *Local enforcement* row
+    of `document-harness/README.md` — not restated here.)
 
     The whole point of this guard is the token that resolves NOWHERE, so the shorthand
     baseline is asserted first in every pair — a guard that blocked both would be a guard

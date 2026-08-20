@@ -12,14 +12,12 @@ shared validators — `check_record` refusing an empty locator, `check_spec` ref
 over-long field — are what actually stopped defects. A lint written fresh each round and
 discarded with it would repeat the shape SIMP-A1 deleted.
 
-**The rule, and the one branch that is new.** A token resolves DIRECTly when git tracks it
-from the repo root, from the containing file's own directory, or under `ResearchSystem/` —
-the three branches `tooling/hooks/layer_path_check.py` used for the instruction layer until
-round DE-PREFIX (`HD-50` R3) re-rooted the instrument and taught that guard to block the
-nowhere-resolving class on its own ten members; the caller trees this lint scans keep their
-`ResearchSystem/` directory, so the third branch stays meaningful here. On work products —
-the surface the layer guard never scans — a token resolving nowhere *may be illustrative*,
-and that exemption is this lint's whole subject. Measured on the four real product candidates (p4-doc, p5a-firewall,
+**The rule.** A token resolves DIRECTly when git tracks it from the repo root, from the
+containing file's own directory, or under `ResearchSystem/` — the caller trees this lint
+scans keep that directory, so the third branch stays meaningful here (how this lint and the
+instruction-layer guard divide the work is stated once, in the *Local enforcement* row of
+`document-harness/README.md`, not here). On work products a token resolving nowhere *may be
+illustrative*, and that exemption is this lint's whole subject. Measured on the four real product candidates (p4-doc, p5a-firewall,
 p5a-shells, p5b-firewall), that exemption is where the defects live — 47 added path tokens,
 4 resolving nowhere, of which three are shorthand for exactly one tracked file
 (`tests/run_p4_tests.py`, `tests/run_p5a_tests.py`, `rsclib/lint.py`) and one is simply

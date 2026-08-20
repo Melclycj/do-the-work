@@ -190,8 +190,8 @@ harness, not in this repository.
    text states — module lists, path lists, counts — is reconciled by command-output diff,
    never by eye, against both the registry or tree it derives from and the `write_scope`
    the WorkSpec/build script grants. A discrepancy blocks the freeze until text or scope
-   is corrected. Witnessed cost: audit round 3 f1 — the v2 instruction narrowed
-   `tooling/tests/` to four named paths, `build_run.py`'s list never received it, and the
+   is corrected. Witnessed cost: audit round 3 f1 — the v2 instruction narrowed the caller's
+   own tests tree to four named paths, `build_run.py`'s list never received it, and the
    miss cost one full from-scratch round (~176k tokens).
 2. **Checker dry-run self-check (2026-08-03 ruling).** Every bound check argv is executed
    once against the base tree and three-way classified: PASS /
