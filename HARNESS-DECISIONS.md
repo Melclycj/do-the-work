@@ -48,8 +48,8 @@
   轮 `LEDGER-SPLIT`（分类清单在 executor 报告，`v3-review-full-e74be07.md` 复核）· supersedes `HD-28`
 
 ### HD-50 · 批 DTW-INDEPENDENCE：四轮独立化（取代 `HD-48` 的排期）
-- 2026-08-19 · user · scope: batch:dtw-independence · status: **live**（R1 `LEDGER-SPLIT` 已 CLOSED，
-  R2–R4 未开；执行完 retire。除本条外批的授权只活在对话里——FULL `e74be07` `O-4` 点名的缺口即由本条补）
+- 2026-08-19 · user · scope: batch:dtw-independence · status: **live**（R1 `LEDGER-SPLIT`、R2
+  `XREPO-REFS`、R3 `DE-PREFIX` 已 CLOSED（2026-08-19/20），R4 未开；执行完 retire。除本条外批的授权只活在对话里——FULL `e74be07` `O-4` 点名的缺口即由本条补）
 - 裁决：用户批准四轮批（预览卡确认）：**R1** ledger 切（已收）· **R2 `XREPO-REFS`（已收
   2026-08-20，三腿走满）**——落地为「层文本不写调用者路径」的 `E10` 条款 + 四处降名 +
   `e1-disclose-home` 落座 + `E10` provenance 死从句删除；**「教守卫认全类」与 `sweep_refs.py`
