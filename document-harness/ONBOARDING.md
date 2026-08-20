@@ -71,7 +71,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 |---|---|
 | **Do** | `python <mount-path>/tooling/dtw.py init --repo-root .` from the caller's root — it creates `.harness/`, appends `.harness/` to `.gitignore` (creating that file if absent), and does items 3 and 4. By hand it is `mkdir .harness` plus one line in `.gitignore`. |
 | **See** | `git check-ignore -v .harness/x` names the `.gitignore` line that ignores it. `dtw init` prints every path it created and every one it left alone. |
-| **Owner** | `io-design.md` §7: the run directory and the freeze marker `.harness/review-pending.json` belong to the caller and may be gitignored; `HD-33` rules the same. The marker is written by `dtw dispatch` and is `E9`'s review window — not `E2`'s byte freeze, which is a different thing with a similar name. Which of these nine items `init` may absorb at all is bounded by the criterion in the onboarding row of `README.md` beside this file: the tree half of the wiring may enter `init`, the machine half never does. |
+| **Owner** | `io-design.md` §7: the run directory and the freeze marker `.harness/review-pending.json` belong to the caller and may be gitignored; `HD-33` rules the same. The marker is written by `dtw dispatch` and is `E9`'s review window — not `E2`'s byte freeze, which is a different thing with a similar name. Which of these nine items `init` may absorb at all is bounded by the criterion in the onboarding row of `README.md` beside this file: the tree half may enter `init`, the machine half never does. |
 
 ### 3 — The decision log
 

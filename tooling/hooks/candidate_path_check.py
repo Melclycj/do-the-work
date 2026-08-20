@@ -9,8 +9,7 @@ How this lint and the instruction-layer guard (`layer_path_check.py`) divide the
 stated once, in the *Local enforcement* row of `document-harness/README.md` (ruled
 2026-08-20); this docstring does not restate it. Local to this file: it reads work products,
 splits the nowhere-resolving class by whether the token is shorthand — a unique tracked path
-suffix passes — and `rsclib.document_harness.paths` holds the whole decision; the two hooks
-keep separate rules on purpose and share no verdict.
+suffix passes — and `rsclib.document_harness.paths` holds the whole decision.
 
 The count of instruction-layer members this lint also scans is deliberately not written
 here — it was "six" from `SIMP-A4` until 2026-08-19 and went stale the moment

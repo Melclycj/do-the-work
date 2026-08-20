@@ -346,7 +346,9 @@ class CandidatePath(unittest.TestCase):
 
 
 class OneNotionOfAPath(unittest.TestCase):
-    """The two guards disagree on verdicts by design, and must agree on what a path IS.
+    """The two guards' token and path patterns must stay equal — this class pins that.
+    (Why they must agree, and how the two divide the work, is the *Local enforcement* row
+    of `document-harness/README.md` — not restated here.)
 
     `layer_path_check` stays stdlib-only on purpose — it is existence-guarded on the script,
     not on its imports, so making it import `rsclib` would let a broken package silently

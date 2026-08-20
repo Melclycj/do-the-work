@@ -8,8 +8,9 @@ The sweep is not a guard — it always exits 0 and decides nothing — so what t
 is not a verdict but the enumeration itself: each reference form is reported when broken and
 kept silent when whole, the resolution rule honours the member's own directory and refuses
 root escape, and the exit code stays 0 with and without hits (a sweep that started failing
-would become a guard nobody chartered). Every must-report case is paired with a clean
-baseline asserted in the same test (E4's negative-control shape, applied to a reporter).
+would become a guard nobody chartered). Each reference-form must-report case is paired with
+a clean baseline asserted in the same test (E4's negative-control shape, applied to a
+reporter); the MISSING case's baseline is the clean-layer test beside it.
 
 The member list is patched per test: the real `LAYER` tuple would tie every assertion to the
 live instruction layer's current contents, which is the staleness this module itself avoids
@@ -115,7 +116,7 @@ class Sweep(unittest.TestCase):
         self.assertIn("PATHTOK docs/member.md:2  docs/ghost.py", out)
         self.assertIn("NAMETOK docs/member.md:3  phantom.md", out)
         # negative controls — the whole siblings on the same lines stay silent:
-        self.assertNotIn("target.md", out.replace("phantom.md", ""))
+        self.assertNotIn("target.md", out)
         self.assertNotIn("docs/real.py", out)
         self.assertIn("-- 3 caller-held or unresolvable references over 1 members", out)
 
