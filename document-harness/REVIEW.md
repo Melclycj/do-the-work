@@ -131,9 +131,11 @@ artifacts:
 1. **The ReviewResult** — schema-valid against the result schema the run's control plane
    names, written to `<control root>/evidence/review-full.json` (a round-1 targeted VERIFY:
    `review-verify.json`), bound to the dispatched subject.
-2. **The review record** — the prose record of what you read, re-executed and found, at
-   `migration/document-work-assurance-v3/v3-review-<round>-<subject short
-   SHA>.md` (`<round>` = `full` | `verify`; repo naming precedent).
+2. **The review record** — the prose record of what you read, re-executed and found: a file
+   named `v3-review-<round>-<subject short SHA>.md` (`<round>` = `full` | `verify`; repo
+   naming precedent), written beside that run's other records in the caller's own
+   document-work-assurance-v3 migration directory. The caller holds it; this layer does not
+   write its path.
 
 The commit that lands the record is also the act that **deletes the dispatch freeze marker**
 `.harness/review-pending.json` — the marker was written when your subject was dispatched, and
