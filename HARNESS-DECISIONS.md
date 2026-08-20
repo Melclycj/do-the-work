@@ -58,7 +58,8 @@
   **R3** 去 `ResearchSystem/` 前缀（重扎根第②件，`E10-sync` 三处同 commit）+ 守卫认全类 +
   `sweep_refs.py` 入仓；VERIFY `O-1` 的实测入题面——守卫的缺前缀分支今天会拦 R3 自己要写的
   token 形状 · **R4** `dtw init` 命令面（`--into` 与「树里那半接线可进 init、机器那半不进」的
-  判据）。**R2 先于 R3 的理由已兑现**：`E10` 条款与降名先落，R3 改 `EXECUTION.md` 枚举句不再
+  判据）**＋分工收拢**（两支路径守卫的关系改为一处说、其余指过去——VERIFY `2538893` `O-5` 的 `R5`
+  问题，用户 2026-08-20 裁做、搭 R4；站点清单与细节在 rider `guard-division-home`）。**R2 先于 R3 的理由已兑现**：`E10` 条款与降名先落，R3 改 `EXECUTION.md` 枚举句不再
   会被守卫按旧判据挡住。本条取代 `HD-48`：其三题两题并入 R2、一题并入 R4，`HD-48` 同 commit
   转 superseded 入 archive。
 - 未入批（用户明示）：人看的根 README + LICENSE（继续 bank，rider `readme-cli-stale` 兼指其三句
