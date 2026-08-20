@@ -23,7 +23,11 @@ not written here — it was "six" from `SIMP-A4` until 2026-08-19 and went stale
 `ORCHESTRATION.md` became the tenth member, with nothing to notice (`v3-cold-read-c22e229.md`
 `O-2`). Compute it instead:
 `[p for p in layer_path_check.LAYER if candidate_path_check.scanned(p)]` — 7 at
-`2026a14`, the two retired-contract stubs being the members a `RECORD_SURFACE` prefix exempts. That is intended —
+`2026a14`; 9 at `2538893`, the schema member being the only one `scanned()`'s `.md` test
+drops — round DE-PREFIX removed the `ResearchSystem/` prefix from this repository while
+`NOT_SCANNED` still names it, so on this repository these prefixes exempt nothing and a
+record here would be scanned. The caller trees this lint actually runs against keep the
+prefix, which is why the constants were left alone. That is intended —
 an amendment is a work product, and the nowhere-resolving class is exactly where the defect
 this lint exists for was found — but it is a second rule applying on top, not a division of
 territory.
