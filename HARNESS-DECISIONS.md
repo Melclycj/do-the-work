@@ -27,26 +27,6 @@
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 
-### HD-49 · 新仓成员（`HD-28` 的再后继）：仪器开发史归仪器仓；调用者只留自己的账
-- 2026-08-19 · user · scope: standing · status: **implemented**（轮 `LEDGER-SPLIT` 执行完毕：
-  `CONSTRUCTION-LEDGER.md` + archive + `document-harness/plans/` 16 件落 `acbc553`/`b5fd58b`，
-  调用者账瘦身至 57 行落 `e74be07`/`8f1ad1d`，三腿 FULL→修→VERIFY `REVIEWED_NO_BLOCKER` 走满；
-  本条按 `HD-30` 机制为 `HD-28` 的**完整后继**，`HD-28` 同 commit 转 superseded 入 archive，双向指针）
-- 裁决：新 harness 仓带 **A 仪器 + B 治理登记（decisions / riders / decisions-archive，3 files）+
-  C 构造评审记录 + D（本条新增）仪器自身的开发账**——`CONSTRUCTION-LEDGER.md`、其 archive、与驱动
-  构造批的 plans（现 16 件，住 `document-harness/plans/`）。判据从「谁的开发」细化为 **(a)/(b) 切**
-  （用户 2026-08-19）：(a) 仪器自身开发史（轮次台账、CLOSED roll、构造裁决、构造 plan）归仪器仓；
-  (b) 调用者作为使用者的账（收批义务、ledger 参数、机器接线、router 状态）留调用者。**产品 run 的
-  记录与产物仍留调用者**（承 `HD-28`——记录跟着被记录的对象走：产品 run 的对象是调用者的树）；
-  **已关闭 run 的产物与 shadow 留产品仓**（承 `HD-16` 原文不变）。`HD-28` 的「ledger 留调用者」
-  半边就此被推翻——那半边把「仪器的开发账」与「调用者的使用账」混作一种 ledger，(a)/(b) 切是其修正；
-  ledger 的**规则**归属不变（global 约定的收紧方言仍是调用者的，`ledger_cap_check.py` 仍只钉调用者那份）。
-- 例外照记：`SPLIT-COPY-RETIRE` 的 FULL 与 VERIFY（`v3-review-full-2d148f3` / `v3-review-verify-bef77f3`）
-  虽属构造记录，但该轮 subject 是调用者的树，留调用者——`LEDGER-SPLIT` 的 executor 与 FULL 均按此报告，
-  处置归本条。
-- basis: 用户裁决 2026-08-19（对话，「按 (a)/(b) 切」，推翻 `HD-28` ledger 半边亦经其明示确认）·
-  轮 `LEDGER-SPLIT`（分类清单在 executor 报告，`v3-review-full-e74be07.md` 复核）· supersedes `HD-28`
-
 ### HD-44 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写，不欠裁决
 - 2026-08-18 · user · scope: standing · status: **live**（`E2` 正文只说「三个 blob 加一个目录，
   都由 inspection 可判」，没说这些路径必须留在哪个仓；跨仓之后这个歧义第一次咬人，而层里无承载。
@@ -153,6 +133,26 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-49 · 新仓成员（`HD-28` 的再后继）：仪器开发史归仪器仓；调用者只留自己的账
+- 2026-08-19 · user · scope: standing · status: **implemented**（轮 `LEDGER-SPLIT` 执行完毕；条目挪入本节 2026-08-21，用户裁「挪吧」——建条时按当时惯例留在 §live，cold read `17ce3ed` `O-1` 指出与状态机不符：
+  `CONSTRUCTION-LEDGER.md` + archive + `document-harness/plans/` 16 件落 `acbc553`/`b5fd58b`，
+  调用者账瘦身至 57 行落 `e74be07`/`8f1ad1d`，三腿 FULL→修→VERIFY `REVIEWED_NO_BLOCKER` 走满；
+  本条按 `HD-30` 机制为 `HD-28` 的**完整后继**，`HD-28` 同 commit 转 superseded 入 archive，双向指针）
+- 裁决：新 harness 仓带 **A 仪器 + B 治理登记（decisions / riders / decisions-archive，3 files）+
+  C 构造评审记录 + D（本条新增）仪器自身的开发账**——`CONSTRUCTION-LEDGER.md`、其 archive、与驱动
+  构造批的 plans（现 16 件，住 `document-harness/plans/`）。判据从「谁的开发」细化为 **(a)/(b) 切**
+  （用户 2026-08-19）：(a) 仪器自身开发史（轮次台账、CLOSED roll、构造裁决、构造 plan）归仪器仓；
+  (b) 调用者作为使用者的账（收批义务、ledger 参数、机器接线、router 状态）留调用者。**产品 run 的
+  记录与产物仍留调用者**（承 `HD-28`——记录跟着被记录的对象走：产品 run 的对象是调用者的树）；
+  **已关闭 run 的产物与 shadow 留产品仓**（承 `HD-16` 原文不变）。`HD-28` 的「ledger 留调用者」
+  半边就此被推翻——那半边把「仪器的开发账」与「调用者的使用账」混作一种 ledger，(a)/(b) 切是其修正；
+  ledger 的**规则**归属不变（global 约定的收紧方言仍是调用者的，`ledger_cap_check.py` 仍只钉调用者那份）。
+- 例外照记：`SPLIT-COPY-RETIRE` 的 FULL 与 VERIFY（`v3-review-full-2d148f3` / `v3-review-verify-bef77f3`）
+  虽属构造记录，但该轮 subject 是调用者的树，留调用者——`LEDGER-SPLIT` 的 executor 与 FULL 均按此报告，
+  处置归本条。
+- basis: 用户裁决 2026-08-19（对话，「按 (a)/(b) 切」，推翻 `HD-28` ledger 半边亦经其明示确认）·
+  轮 `LEDGER-SPLIT`（分类清单在 executor 报告，`v3-review-full-e74be07.md` 复核）· supersedes `HD-28`
 
 ### HD-47 · `dtw init` 立为第七个命令；`split-design` §1 的「六命令原样」是搬迁指令、不是命令数上限
 - 2026-08-18 · user · scope: standing · status: **implemented**（转条件「一个设计轮把命令面的增删判据写进指令层」
