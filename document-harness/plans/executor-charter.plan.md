@@ -57,8 +57,11 @@ product runs as its own samples (open question below). It does not reach the eig
 
 Measured 2026-08-22 at `f084db4` against the caller's eight closed runs. Nothing below is
 stored as a dump; each figure names the command that produced it, so a cold session re-derives
-rather than trusts. The caller's run directories are its own; read them, never write into them
-(this session wrote one file into a run directory while verifying and had to delete it — see the
+rather than trusts. **Where the caller is:** its location is machine-local and this plan does
+not hard-code it — `CONSTRUCTION-LEDGER.md`'s header (*Where the bytes came from*) names this
+machine's worktree and branch, and the runs sit under its `assurance/runs/<run-id>/instruction.md`.
+The caller's run directories are its own; read them, never write into them (this session wrote
+one file into a run directory while verifying and had to delete it — see the
 `TEMPLATE-LIB-ROOT` journal's boundary section).
 
 **The marker gate has never fired, and the English half of its word list has never been used.**
@@ -132,23 +135,30 @@ wrote the content out in full (same-source, not an independence sample, a closeo
 A reference is *"the rules this session runs under are in `EXECUTION.md`"* and stops. That gap
 between the rule's letter and its practice is a second reason deletion beats tightening.
 
-**One sentence carries the whole shape.** `p5b-claims`'s Context, line 14: *"Every demand this
-order carries lives in a numbered section below."* Two demands sit in the same section.
+**One sentence carries the whole shape.** `p5b-claims`'s Context, line 15 (`grep -n` on the
+instruction, not the extract's renumbering): *"Every demand this order carries lives in a
+numbered section below."* Two demands sit in the same section.
 
 ## The four user rulings of 2026-08-22 (this file is their carrier until the round records them)
 
 1. **Product-side executor mode emits three things and nothing more**: the run id, the
-   instruction's path and revision, and the charter pointer. No enumeration of what to check —
+   instruction's path and revision, and the charter pointer — **the charter it points at is
+   `document-harness/EXECUTION.md`**, the document addressed to this role. No enumeration of
+   what to check —
    `dispatch.py`'s docstring already refuses that shape for reviewers (*"once such a section
    enumerates what to check it is a shadow WorkSpec, ex post and approved by nobody"*), and the
    executor mode inherits the refusal. Note the timing that makes this the only honest option:
    the executor is dispatched at the start, when the run directory holds a frozen
    `instruction.md` and little else — the WorkSpec is authored by the executor afterwards
    (`HD-35`).
-2. **Construction-side mode emits one sentence** — the charter pointer, deriving nothing. A
-   construction round has no control plane to derive from (its range is *"the one thing no
-   control plane records"*), and feeding the round name and boundary in by hand would reproduce
-   exactly what the module exists to abolish.
+2. **Construction-side mode emits one sentence** — the charter pointer, deriving nothing —
+   **and the charter it points at is `document-harness/CONSTRUCTION-CHECKLIST.md`**, whose
+   *Execution side* heading already binds this role by name ("any session changing harness
+   code, schemas, or instruction files, whether it orchestrates the round or executes it"), so
+   the pointer names an existing obligation rather than creating one. A construction round has
+   no control plane to derive from (its range is *"the one thing no control plane records"*),
+   and feeding the round name and boundary in by hand would reproduce exactly what the module
+   exists to abolish.
 3. **Queue head: this round, ahead of the re-rooting item's remaining ten resolution points.**
    Measured basis for the reordering: those ten do not bite today — `cli.py`'s six default to
    the current directory, and the six template scripts' `parents[3]` default resolves to the
@@ -183,9 +193,12 @@ harness's own instruction processing, collected to answer a harness design quest
 paragraph-map classification column should survive), and the product run is the sample. That is a
 **category** question, not a volume one: it asks whether an instrument may charge its own
 research to the instruction surface of the work it is measuring. Evidence that authors felt the
-absence of a home rather than being careless: **four separate runs parked the identical item in
-Context**, and `p4-bridge`'s Context says so outright — those obligations *"bind the session
-rather than the WorkSpec's obligation table"*. Whatever the answer, the new charter is a
+absence of a home rather than being careless: **five separate runs parked the same item in
+Context** — `p4-doc`, `p5a-firewall`, `p5a-shells` and `p5b-firewall` carry the near-identical
+standing sentence, and `p4-bridge` carries it inside its four first-run obligations (re-counted
+2026-08-22 by grepping the eight Context spans; an earlier "four" missed `p4-bridge`, whose
+wording differs) — and `p4-bridge`'s Context says so outright: those obligations *"bind the
+session rather than the WorkSpec's obligation table"*. Whatever the answer, the new charter is a
 candidate home for run-conduct obligations that are not candidate properties, which is the first
 time such a home has existed.
 
@@ -196,9 +209,9 @@ time such a home has existed.
 | `tooling/rsclib/document_harness/dispatch.py` | a third role: charter constant(s) plus its prompt constant, mirroring `CONSTRUCTION_PROMPT` / `READ_PROMPT` (one constant, whole-document equality asserted by the test — the shape that catches an added, missing or reordered line alike) |
 | `tooling/rsclib/document_harness/cli.py` | the new dispatch mode |
 | `tooling/tests/...` | new tests, with `E4`'s mutation and a negative control |
-| `document-harness/EXECUTION.md` | *Instruction authoring rules*: delete "standing run-conduct discipline appears by reference, in the Context section only"; replace with dispatch-delivered charter, Context carrying background only, and a demand in Context being a defect. **Design change — this is what opens the round.** |
+| `document-harness/EXECUTION.md` | *Instruction authoring rules*: delete "standing run-conduct discipline appears by reference, in the Context section only"; replace with dispatch-delivered charter, Context carrying background only, and a demand in Context being a defect. **Design change — this is what opens the round.** One trap a cold session must not walk past: the bullet being deleted was itself installed by a **routed user decision** (p4-bridge finding f1, WORKFLOW_FIX `user-decision-triage-conduct-prose-in-normative-preamble`, 2026-08-01 — named at `EXECUTION.md:421-422`), so the round names the supersession rather than silently deleting, and it is **partial**: the half that survives (strengthened) is "never restate conduct inside normative preamble — a demand in Context is now a defect too"; the half replaced is "reference it from Context", whose job dispatch now does. |
 | `document-harness/ORCHESTRATION.md` | *"no rule in this layer answers it either"* is falsified by this round; rider `charter-prose-overreach` ② names this same sentence and is redeemed here |
-| registers | `HARNESS-DECISIONS.md` (the user's ruling admitting the mode; precedents `HD-47` for `dtw init` and `HD-51` for `dtw preview`, both per-case), `HARNESS-RIDERS.md`, `CONSTRUCTION-LEDGER.md`, round journal |
+| registers | `HARNESS-DECISIONS.md` (the user's ruling admitting the mode; precedents `HD-47` for `dtw init` and `HD-51` for `dtw preview`, both per-case), `HARNESS-RIDERS.md`, `CONSTRUCTION-LEDGER.md` — including flipping its open-items line for the `ORCHESTRATOR-CHARTER` round's question ① (construction executor charter carrier), which this round answers — and the round journal |
 
 **Out of boundary, deliberately:** the re-rooting item's remaining ten resolution points; the
 eight closed runs' Context sections; the invented demands themselves (the new rule makes them
@@ -219,6 +232,13 @@ rather than take this paragraph's word for it — later commits may have landed.
 - `HARNESS-DECISIONS.md`'s `§live` is owed at the same opening and now carries `HD-52`.
 - Battery at this base: `python -m pytest -q` → `774 passed`.
 - `E9` budget for the round: one FULL, at most one user-approved fix, one targeted VERIFY.
+- **The `E1` disclosure trap, which bit two consecutive rounds.** This round will most likely
+  again be one work-side session holding orchestrator and executor. The candidate body must
+  state which of `R1`'s four holdings that session held and must **not** claim structural
+  independence — `HD-46`'s middle-state form. `PREVIEW-RENDER` omitted the disclosure
+  (`v3-review-full-57d1312.md` `L-4`, fixed in `15a53fe` with the correct wording);
+  `TEMPLATE-LIB-ROOT` then wrote the opposite claim and took a blocker for it
+  (`v3-review-full-83e3191.md` `B-1`). Copy `15a53fe`'s form, first time.
 - Riders likely to come within reach, to be checked rather than assumed:
   `charter-prose-overreach` (its ② names the very sentence this round falsifies);
   `e1-table` and `charter-qualifiers`, both naming the `ORCHESTRATION.md` obligation table, which
