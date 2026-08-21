@@ -342,9 +342,14 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
     #: are mutation-tested — three neutered mechanisms, each turning the matching case red.
     #: This module announced itself here when it was added, which is the sentence above
     #: working rather than a nuisance.
+    #: `preview.py` joined 2026-08-21 (round PREVIEW-RENDER), the body of the eighth
+    #: command. Its sweep is `NamedIssueReachability` in
+    #: `tests/document_harness/test_preview.py`, beside the tests that name its one code —
+    #: the same shape as `dispatch.py`'s: read the codes out of the source, require each
+    #: asserted by name, and pin the count so a code surface that moves announces itself.
     SUCCESSOR_ROUND_MODULES = (
         "review_subject.py", "review_result_v2.py", "dispatch.py", "enumerations.py",
-        "paths.py", "cli.py", "init_target.py",
+        "paths.py", "cli.py", "init_target.py", "preview.py",
     )
 
     def named_codes(self) -> dict[str, set[str]]:

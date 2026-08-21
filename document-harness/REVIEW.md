@@ -130,7 +130,8 @@ artifacts:
 
 1. **The ReviewResult** — schema-valid against the result schema the run's control plane
    names, written to `<control root>/evidence/review-full.json` (a round-1 targeted VERIFY:
-   `review-verify.json`), bound to the dispatched subject.
+   `review-verify.json`), bound to the dispatched subject — the control root lives in the
+   caller.
 2. **The review record** — the prose record of what you read, re-executed and found: a file
    named `v3-review-<round>-<subject short SHA>.md` (`<round>` = `full` | `verify`; repo
    naming precedent), written beside that run's other records in the caller's own

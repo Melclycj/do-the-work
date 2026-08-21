@@ -5,7 +5,7 @@ Written by the split batch's R2, the round that moved the then-six operations ou
 product compiler `rsc.py` and gave the instrument an entry of its own. Two properties are
 worth binding and nothing more:
 
-* **the surface** — exactly seven operations, each wired to its own function. The expectation
+* **the surface** — exactly eight operations, each wired to its own function. The expectation
   is a hand-written literal (`E5`); reading it back off `build_parser()` would assert that
   the parser equals itself, and a command silently disappearing in a later move is precisely
   what this must catch.
@@ -34,7 +34,8 @@ import _harness
 from rsclib.document_harness import cli
 
 #: Hand-written, never `cli`'s own list (E5). Ordered as `build_parser` declares them.
-#: Six until 2026-08-19, when the user's ruling admitted `init` as a seventh.
+#: Six until 2026-08-19, when the user's ruling admitted `init` as a seventh; eight since
+#: 2026-08-21, when round PREVIEW-RENDER's ruling admitted `preview` (`HD-47`: per-case).
 OPERATIONS = (
     "governance-scan",
     "status",
@@ -43,6 +44,7 @@ OPERATIONS = (
     "disposition",
     "review",
     "init",
+    "preview",
 )
 
 ENTRIES = ("do-the-work.py", "dtw.py")

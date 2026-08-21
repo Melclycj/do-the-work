@@ -241,6 +241,10 @@ Two authoring consequences:
   form the WorkSpec is a transcript, so asking the user to read it is asking them to
   proof-read a mechanical copy. They approve the `R0…Rn` list — the bytes they were going
   to be bound by anyway — and the transcript check is what says the WorkSpec matches it.
+  Since round PREVIEW-RENDER (2026-08-21 ruling) the card is rendered by `dtw preview`
+  from the frozen control plane — deterministic, re-derivable at any time and therefore
+  never stored — so what the user reads is the plane's own bytes, not a session's
+  transcription of them.
 
 ## Authoring gate (W2-A5 + M11)
 

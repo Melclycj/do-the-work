@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """The command line of the Document Work Assurance v3 harness.
 
-Seven operations: `governance-scan` / `status` / `flow` / `dispatch` / `disposition` /
-`review` / `init`. Five are read-only. `dispatch` writes the freeze marker
+Eight operations: `governance-scan` / `status` / `flow` / `dispatch` / `disposition` /
+`review` / `init` / `preview`. Six are read-only. `dispatch` writes the freeze marker
 `.harness/review-pending.json` (E9's review window) in the repository it is run against, and
 `init` writes into a target repository being onboarded — the mechanical four of onboarding's
 nine items, and nothing else (`init_target.py`; the user ruled on 2026-08-18 that a seventh
 command may exist, overriding the reading of `split-design.md` §1 under which the six
-travelled as they were).
+travelled as they were; `preview` joined as the eighth by the ruling of 2026-08-21, round
+PREVIEW-RENDER — adding or removing a command stays a per-case user ruling, `HD-47`).
 
 They lived under `rsc.py v3 <op>` until the split batch's R2 moved them here: `rsc` is the
 product compiler's name and stays with the caller, while these travel with the instrument
@@ -477,6 +478,33 @@ def _cmd_v3_init(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_v3_preview(args: argparse.Namespace) -> int:
+    """Deterministic pre-START rendering of a run's frozen control plane.
+
+    A pure function of the run directory's bytes (round PREVIEW-RENDER, executing the
+    2026-08-21 ruling): re-derivable at any time, so its output is never stored, and never
+    a judgment — the gates that judge the plane are untouched by it. What it prints is the
+    approval surface itself: the instruction verbatim (Context elided), the checks in
+    resolved-plan order, and the digests the START decision will bind.
+    """
+    from rsclib.document_harness import AssuranceFault, SpecGap
+    from rsclib.document_harness import preview as v3_preview
+
+    try:
+        text, coherent = v3_preview.render_preview(pathlib.Path(args.run))
+    except SpecGap as exc:
+        print(f"SPEC_GAP: {exc}", file=sys.stderr)
+        return 2
+    except AssuranceFault as exc:
+        print(f"FATAL: {exc}", file=sys.stderr)
+        return 2
+
+    print(text, end="")
+    print("-" * 72)
+    print("RESULT: " + ("coherent (exit 0)" if coherent else "plane disagrees with itself or is missing a check spec (exit 1)"))
+    return 0 if coherent else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="do-the-work",
@@ -576,6 +604,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     init_cmd.add_argument("--repo-root", help="repository root (default: current directory)")
     init_cmd.set_defaults(func=_cmd_v3_init)
+
+    preview_cmd = sub.add_parser(
+        "preview",
+        help="deterministic pre-START rendering of a run's frozen control plane",
+    )
+    preview_cmd.add_argument(
+        "--run", required=True, help="the run directory (holds instruction.md and control/)"
+    )
+    preview_cmd.set_defaults(func=_cmd_v3_preview)
 
     return p
 
