@@ -41,9 +41,99 @@ which has the same gap and no delivery path at all — is covered by the same mo
 first of the two questions the `ORCHESTRATOR-CHARTER` round left open. And one drift surface
 goes: N instructions hand-copying one sentence become one CLI constant.
 
+One consequence worth naming because it is not obvious: **`dtw preview` elides the Context
+section from the START card.** Verified at `f084db4` against `p5b-claims`, the card prints the
+heading and then `[lines 8-38 not rendered: the section above is non-normative by its own
+heading; read instruction.md for its body]`. Today that means the run-conduct discipline an
+instruction says binds the session was never on the surface the user signed — and neither was
+anything else parked there. Once Context is background only, eliding it becomes correct rather
+than merely honest, so this round settles the elision without touching `preview.py`.
+
 **Does not buy.** It does not detect an invented demand — that stays a reviewer's judgement; the
 round only makes such demands conspicuous. It does not settle whether the harness may keep using
 product runs as its own samples (open question below). It does not reach the eight closed runs.
+
+## The evidence, and how to re-derive it
+
+Measured 2026-08-22 at `f084db4` against the caller's eight closed runs. Nothing below is
+stored as a dump; each figure names the command that produced it, so a cold session re-derives
+rather than trusts. The caller's run directories are its own; read them, never write into them
+(this session wrote one file into a run directory while verifying and had to delete it — see the
+`TEMPLATE-LIB-ROOT` journal's boundary section).
+
+**The marker gate has never fired, and the English half of its word list has never been used.**
+Extract each instruction's Context span with the gate's own predicate
+(`instruction._is_context_title`, an exact match — not a prefix) and count:
+
+- existing markers (`(normative)`, `MUST`, `SHALL`, `REQUIRED`, `必须`, `不得`, `禁止`) inside
+  Context, across all eight runs: **0**;
+- lowercase `must` / `shall` / `required` inside Context: **1**, in `w1-r1`, and it is a quoted
+  section title from another document (`§"Six proof obligations B must discharge"`) — a false
+  positive, so a case-insensitive marker list would have produced exactly one flag in the whole
+  history and it would have been wrong;
+- uppercase `MUST` / `SHALL` / `REQUIRED` anywhere in the eight instructions' full text: **0**.
+
+That last figure is the load-bearing one. It is not that the gate had nothing to catch; it is
+that nobody writes demands the way the gate reads. **Rider `mark-case`'s case-sensitivity is a
+footnote, not the defect** — this plan's round is the response, and `mark-case` should not be
+redeemed by making the list case-insensitive.
+
+**Ground truth says Context does carry demands.** Two independent judgements of the same
+extracted bytes, judging content rather than wording: this session's read found six of eight
+runs carrying demands plus one borderline and one clean; a second reader, dispatched cold with
+the extract and no conclusion, found **seven of eight**, counting 18 outright demands (21 at
+obligation granularity) and 12 borderline, with only `w1-r1` clean. The two differed on one run
+(`p3-corr`'s *"Ground truth for the figures is the repository at the pinned base, read through
+Git rather than the working tree"* — a method constraint with an explicit exclusion, which the
+second reader counted and this one had left borderline).
+
+**They are covered by nothing.** Searching each run's own obligation table for the demand's own
+words returns nothing anywhere: `p5a-shells` (12 obligations) has no `utf8`; `p5b-claims` (18)
+has no `isolated branch`, `promotion` or `FINAL`; `p4-bridge` (6) has no `hand-copying`,
+`burden` or `two-map`. So the consequence is exact and not rhetorical: **a demand in Context has
+no obligation, therefore no fulfilment claim, therefore no check and no review disposition,
+therefore no evidence** — whether it was honoured rests on the executor's memory.
+
+**Why it cannot be otherwise, structurally.** An obligation's schema requires
+`instruction_unit_ids`, and instruction units come from the numbered sections; Context is by
+construction not a unit. A demand written in Context is therefore not merely unverified but
+*unrepresentable* as an obligation without first being moved. And the reason is not "no script
+could check it": `review_only` exists precisely for that and is in live use — across the eight
+runs the modes are `local_check_and_review` 47, `local_check` 22, **`review_only` 10**.
+
+**But most of what both readers flagged is what the current rule requires.** `EXECUTION.md`'s
+*Instruction authoring rules* mandate that standing run-conduct discipline appear **by
+reference, in the Context section only**, naming map-filling disclosures among its examples, and
+give the reason: a restated conduct sentence *"sits in no obligation and no context-unit, and
+narrows the START approval surface invisibly"* — a defect `p4-bridge`'s two same-source maps
+both missed and only the independent FULL caught. So the four runs that parked the map-filling
+disclosure in Context were **complying**, and the earlier "seven of eight are defective" reading
+is measured against the wrong standard.
+
+**The right standard, and the minority it leaves.** Ask instead: does Context *reference* a
+demand that lives elsewhere, or *originate* one that lives only here? Referencing is compliant
+today (`EXECUTION.md`, the governing plans, the audit-cadence ruling, the isolated-branch and
+FINAL-promotion discipline). Originating is not, and these are the instances found:
+`p4-doc`'s commit order with promotion only after FINAL ACCEPT and commit ⑦ outside the
+candidate; `p3-corr`'s Git-not-worktree constraint; `p5b-claims`'s host table transcribed into
+the batch inventory record at execution; `p5a-shells`'s `-X utf8` on every python
+`command_exit` argv; `p5b-firewall`'s three checker-authoring rules. **This list was not
+re-verified exhaustively and is not a closed enumeration** — it is what two reads surfaced, and
+a round acting on it should re-derive.
+
+**The distinction is the reason the rule is deleted rather than tightened.** Telling a reference
+from an origination is a semantic judgement no scan can make, which is exactly why the gate has
+never been useful. Remove the reference from Context — because dispatch now delivers it — and
+the judgement disappears with it: Context carries background, and anything demand-shaped there
+is a defect on sight.
+
+**And the practice was restatement, not reference.** The rule says reference; the four runs
+wrote the content out in full (same-source, not an independence sample, a closeout obligation).
+A reference is *"the rules this session runs under are in `EXECUTION.md`"* and stops. That gap
+between the rule's letter and its practice is a second reason deletion beats tightening.
+
+**One sentence carries the whole shape.** `p5b-claims`'s Context, line 14: *"Every demand this
+order carries lives in a numbered section below."* Two demands sit in the same section.
 
 ## The four user rulings of 2026-08-22 (this file is their carrier until the round records them)
 
@@ -86,6 +176,19 @@ discipline and belongs in whatever the new charter points at; if it is retired, 
 for Context to have ever carried. Three options were put to the user — name a reading moment,
 retire it now, or leave it untouched (the default, which is that it continues indefinitely).
 
+**The user's framing is sharper than "sampling", and the round should keep it.** The question
+raised was *why is the harness's own internal bookkeeping in a product run's task instruction at
+all* — the two classification maps and the independence-sample accounting are artifacts of the
+harness's own instruction processing, collected to answer a harness design question (whether the
+paragraph-map classification column should survive), and the product run is the sample. That is a
+**category** question, not a volume one: it asks whether an instrument may charge its own
+research to the instruction surface of the work it is measuring. Evidence that authors felt the
+absence of a home rather than being careless: **four separate runs parked the identical item in
+Context**, and `p4-bridge`'s Context says so outright — those obligations *"bind the session
+rather than the WorkSpec's obligation table"*. Whatever the answer, the new charter is a
+candidate home for run-conduct obligations that are not candidate properties, which is the first
+time such a home has existed.
+
 ## Change surface
 
 | surface | what changes |
@@ -101,7 +204,12 @@ retire it now, or leave it untouched (the default, which is that it continues in
 eight closed runs' Context sections; the invented demands themselves (the new rule makes them
 conspicuous, this round does not sweep them); `E2`'s frozen bytes.
 
-## Opening conditions, measured at `f084db4`
+## Opening conditions, measured at `f084db4` and still true at the tip that carries this file
+
+Only `CONSTRUCTION-LEDGER.md` and this plan have changed since that measurement; no code, no
+schema and no `E10` member, re-checked by `git diff --name-only` and by comparing each member's
+blob against `39e395e` at the tip. A cold session should nonetheless re-run the two checks
+rather than take this paragraph's word for it — later commits may have landed.
 
 - **All ten `E10` members are byte-identical to the blobs recorded in
   `migration/document-work-assurance-v3/v3-cold-read-39e395e.md`**, so the opening cold read may
@@ -111,6 +219,12 @@ conspicuous, this round does not sweep them); `E2`'s frozen bytes.
 - `HARNESS-DECISIONS.md`'s `§live` is owed at the same opening and now carries `HD-52`.
 - Battery at this base: `python -m pytest -q` → `774 passed`.
 - `E9` budget for the round: one FULL, at most one user-approved fix, one targeted VERIFY.
-- Two riders are likely to come within reach and should be checked rather than assumed:
-  `charter-prose-overreach` (named above) and `e1-table` / `charter-qualifiers`, both of which
-  name the `ORCHESTRATION.md` obligation table.
+- Riders likely to come within reach, to be checked rather than assumed:
+  `charter-prose-overreach` (its ② names the very sentence this round falsifies);
+  `e1-table` and `charter-qualifiers`, both naming the `ORCHESTRATION.md` obligation table, which
+  gains a row if the executor-charter obligation is assigned there; `one-session-roles`, whose ②
+  is the `ORCHESTRATION.md` *executor's report back* section — the same file, and the same
+  underlying question of what role separation means when one session holds both work-side roles;
+  and `startcard-form`, redeemable only if this round touches the SIMP-C4 bullet anyway.
+  `mark-case` is **not** redeemed here and must not be: the evidence above shows its
+  case-insensitivity fix would flag one thing in eight runs and be wrong about it.
