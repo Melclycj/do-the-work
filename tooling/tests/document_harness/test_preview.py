@@ -35,7 +35,7 @@ import unittest
 
 import _harness  # noqa: F401  — sys.path side effect
 
-from rsclib.document_harness import SpecGap, canonical_digest, write_canonical
+from rsclib.document_harness import SpecGap, canonical_digest, validate, write_canonical
 from rsclib.document_harness import preview as v3_preview
 
 INSTRUCTION = """---
@@ -59,6 +59,23 @@ The claim is supportable only by reading.
 
 HOST_TABLE = "| host | HOST-TABLE-MARKER |\n"
 
+#: The layout the FULL of 57d1312 (B-2) measured being swallowed whole: a numbered section
+#: nested inside the Context span. The elision must stop at the nested heading.
+NESTED_INSTRUCTION = """---
+form: enumerated
+---
+
+# Work order — nested fixture
+
+## Context (non-normative)
+
+CONTEXT-BODY-MARKER again.
+
+### R0 — nested under context
+
+NESTED-BOUND-SENTENCE must render.
+"""
+
 
 def build_plane(root: pathlib.Path, *, host_table: bool = True) -> dict:
     """Write a minimal, internally consistent control plane; return its documents."""
@@ -73,10 +90,17 @@ def build_plane(root: pathlib.Path, *, host_table: bool = True) -> dict:
         "instruction_ref": {"path": "fixture/instruction.md", "revision": "f" * 40},
         "instruction_units": [
             {
+                "unit_id": "unit-r0",
                 "classification": "obligation",
                 "locator": {"path": "fixture/instruction.md", "anchor": "## R0 — the boundary"},
                 "obligation_ids": ["ob-r0"],
-            }
+            },
+            {
+                "unit_id": "unit-r1",
+                "classification": "obligation",
+                "locator": {"path": "fixture/instruction.md", "anchor": "## R1 — the judged half"},
+                "obligation_ids": ["ob-r1"],
+            },
         ],
         "obligations": [
             {
@@ -95,9 +119,8 @@ def build_plane(root: pathlib.Path, *, host_table: bool = True) -> dict:
                 "not_supported_when": "NOT-SUPPORTED-MARKER: the cited source says otherwise",
             },
         ],
-        "change_boundary": ["docs/target.md"],
-        "expected_artifacts": [],
-        "inputs": [],
+        "change_boundary": {"write_scope": ["docs/target.md"], "out": ["docs/"]},
+        "expected_artifacts": [{"artifact_id": "target-doc", "path": "docs/target.md"}],
     }
     write_canonical(control / "work-spec.json", spec)
 
@@ -111,7 +134,7 @@ def build_plane(root: pathlib.Path, *, host_table: bool = True) -> dict:
         "check_order": ["chk-alpha", "chk-beta"],
         "repair_cap": 1,
         "resolver_version": "1.0.0",
-        "effective_change_boundary": ["docs/target.md"],
+        "effective_change_boundary": {"write_scope": ["docs/target.md"], "out": ["docs/"]},
     }
     write_canonical(control / "resolved-plan.json", plan)
 
@@ -151,6 +174,48 @@ class PreviewRendering(unittest.TestCase):
 
     def render(self) -> tuple[str, bool]:
         return v3_preview.render_preview(self.root)
+
+    def test_fixture_is_schema_valid(self) -> None:
+        """The FULL of 57d1312 (B-1) traced the boundary blocker to an off-schema fixture:
+        a shape that cannot occur exercises a branch that never runs. This pins the class."""
+        spec_report = validate("spec_v2", self.docs["spec"])
+        self.assertTrue(spec_report.ok, [issue.render() for issue in spec_report.issues])
+        plan_report = validate("plan", self.docs["plan"])
+        self.assertTrue(plan_report.ok, [issue.render() for issue in plan_report.issues])
+
+    def test_boundary_renders_both_lists_not_the_field_names(self) -> None:
+        text, _ = self.render()
+        self.assertIn("write_scope (1): docs/target.md", text)
+        self.assertIn("out (1): docs/", text)
+
+    def test_a_section_nested_inside_context_is_not_swallowed(self) -> None:
+        (self.root / "instruction.md").write_text(NESTED_INSTRUCTION, encoding="utf-8")
+        text, _ = v3_preview.render_preview(self.root)
+        self.assertIn("### R0 — nested under context", text)
+        self.assertIn("NESTED-BOUND-SENTENCE must render.", text)
+        self.assertNotIn("CONTEXT-BODY-MARKER", text)
+
+    def test_a_check_the_plan_does_not_order_is_loud(self) -> None:
+        plan = dict(self.docs["plan"])
+        plan["check_order"] = ["chk-alpha"]
+        write_canonical(self.root / "control" / "resolved-plan.json", plan)
+        text, ok = v3_preview.render_preview(self.root)
+        self.assertFalse(ok)
+        self.assertIn("absent from the plan order: chk-beta", text)
+
+    def test_all_planned_checks_leave_no_unplanned_line(self) -> None:
+        text, ok = self.render()
+        self.assertTrue(ok)
+        self.assertNotIn("absent from the plan order", text)
+
+    def test_a_plan_without_check_order_renders_the_absence_instead_of_crashing(self) -> None:
+        plan = dict(self.docs["plan"])
+        del plan["check_order"]
+        self.assertTrue(validate("plan", plan).ok)
+        write_canonical(self.root / "control" / "resolved-plan.json", plan)
+        text, ok = v3_preview.render_preview(self.root)
+        self.assertIn("the plan records no check order", text)
+        self.assertFalse(ok)  # the obligations still reference chk-alpha/chk-beta
 
     def test_numbered_sections_appear_verbatim(self) -> None:
         text, ok = self.render()

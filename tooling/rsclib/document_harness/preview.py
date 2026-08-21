@@ -11,9 +11,10 @@ what a script can re-derive is not recorded).
 
 Two properties are the design:
 
-* **Deterministic.** The output depends on the input files and nothing else — no clock, no
-  randomness, no environment, no absolute paths. Rendering twice yields identical bytes,
-  which is what makes "re-derive instead of store" honest.
+* **Deterministic.** The output depends on the input files and the run directory's name —
+  the one input beyond their bytes — and nothing else: no clock, no randomness, no
+  environment, no absolute paths. Rendering the same run directory twice yields identical
+  bytes, which is what makes "re-derive instead of store" honest.
 * **Render, never judge.** The preview states what the plane contains and recomputes the
   digests START will bind. The one comparison it prints — the plan's recorded WorkSpec
   digest against the WorkSpec bytes on disk — is wrong-candidate visibility (the same
@@ -58,22 +59,30 @@ REQUIRED = (
 )
 
 
-def _context_spans(instruction_text: str) -> list[dict[str, Any]]:
-    return [
-        span
-        for span in _heading_spans(instruction_text.splitlines())
-        if _is_context_title(span["title"])
-    ]
-
-
 def _instruction_body(instruction_text: str) -> list[str]:
-    """The instruction verbatim, with each Context body elided under a note."""
+    """The instruction verbatim, with each Context body elided under a note.
+
+    The elision is bounded by ownership, not by the Context span alone: a heading nested
+    inside that span — a numbered section, an appendix — opens a section of its own, and
+    from its line onward the bytes belong to it, not to Context, so elision stops there
+    and those lines render. Only lines whose innermost enclosing heading IS the Context
+    heading are elided, which is what keeps "eliding cannot drop an obligation" true of
+    the code: the FULL of 57d1312 (B-2) measured the unbounded form swallowing a nested
+    `### R0` whole while `coherent` stayed True.
+    """
     lines = instruction_text.splitlines()
+    spans = _heading_spans(lines)
     elide: dict[int, int] = {}
-    for span in _context_spans(instruction_text):
+    for span in spans:
+        if not _is_context_title(span["title"]):
+            continue
         first_body = span["start_line"] + 1  # the heading itself stays
-        if first_body <= span["end_line"]:
-            elide[first_body] = span["end_line"]
+        end = span["end_line"]
+        nested = [s["start_line"] for s in spans if first_body <= s["start_line"] <= end]
+        if nested:
+            end = min(nested) - 1
+        if first_body <= end:
+            elide[first_body] = end
     out: list[str] = []
     number = 1
     while number <= len(lines):
@@ -140,7 +149,10 @@ def render_preview(run_dir: pathlib.Path | str) -> tuple[str, bool]:
         f"plan        : {plan['plan_id']} · resolver {plan['resolver_version']} · "
         f"repair_cap {plan['repair_cap']}"
     )
-    put(f"boundary    : {', '.join(plan['effective_change_boundary'])}")
+    boundary = plan["effective_change_boundary"]
+    put(f"boundary    : write_scope ({len(boundary['write_scope'])}): "
+        + ", ".join(boundary["write_scope"]))
+    put(f"              out ({len(boundary['out'])}): " + ", ".join(boundary["out"]))
     put(f"audit       : {audit['result']} · by {audit['audited_by']} at {audit['audited_at']}")
     put("")
 
@@ -185,7 +197,15 @@ def render_preview(run_dir: pathlib.Path | str) -> tuple[str, bool]:
     put("The machine half — checks in resolved-plan order")
     put(LINE)
     by_check = _obligations_by_check(spec)
-    for position, check_id in enumerate(plan["check_order"], start=1):
+    check_order = plan.get("check_order")
+    if check_order is None:
+        # The plan schema's own description: absent when the run has no deterministic
+        # checks. A legal shape, so it renders as a fact rather than crashing (FULL
+        # of 57d1312, L-2 — the crash exited with the code RESULT reserves for
+        # "incoherent").
+        put("(the plan records no check order — absent when the run has no deterministic checks)")
+        check_order = []
+    for position, check_id in enumerate(check_order, start=1):
         path = root / "control" / f"check-{check_id}.json"
         if not path.is_file():
             coherent = False
@@ -197,7 +217,7 @@ def render_preview(run_dir: pathlib.Path | str) -> tuple[str, bool]:
             f"{position:3d}. {check_id}  kind={check['kind']}  "
             f"subject={check['subject_tree']}  obligations: {obligations}"
         )
-    unplanned = sorted(set(by_check) - set(plan["check_order"]))
+    unplanned = sorted(set(by_check) - set(check_order))
     if unplanned:
         coherent = False
         put("obligations reference checks absent from the plan order: " + ", ".join(unplanned))
