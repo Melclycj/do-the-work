@@ -21,6 +21,13 @@ import pathlib
 import subprocess
 import sys
 
+# __file__-based on purpose: this locates the co-located library, not run data (the run
+# directory and the repository the instruction is pinned in both arrive as arguments, and
+# since the split that repository is the caller's, which holds no library).
+HERE = pathlib.Path(__file__).resolve().parent
+RS_ROOT = HERE.parents[2]
+sys.path.insert(0, str(RS_ROOT / "tooling"))
+
 
 def main(argv: list[str]) -> int:
     if len(argv) < 2:
@@ -34,7 +41,6 @@ def main(argv: list[str]) -> int:
             f"PARAGRAPH-MAP-EXISTS: {map_path} already exists; a filled classification "
             "column is never clobbered — delete the file first if regeneration is intended")
         return 1
-    sys.path.insert(0, str(repo_root / "ResearchSystem" / "tooling"))
     from rsclib.document_harness import load_json  # noqa: E402
     from rsclib.document_harness.instruction import paragraph_skeleton  # noqa: E402
 

@@ -42,6 +42,13 @@ import pathlib
 import subprocess
 import sys
 
+# __file__-based on purpose: this locates the co-located library, not run data (the run
+# directory and the repository the instruction is pinned in both arrive as arguments, and
+# since the split that repository is the caller's, which holds no library).
+HERE = pathlib.Path(__file__).resolve().parent
+RS_ROOT = HERE.parents[2]
+sys.path.insert(0, str(RS_ROOT / "tooling"))
+
 
 def preamble_of(instruction_text: str) -> str:
     """Everything before the first '## ' heading. The whole file when there is none."""
@@ -186,7 +193,6 @@ def main(argv: list[str]) -> int:
         return 2
     run_dir = pathlib.Path(argv[1])
     repo_root = pathlib.Path(argv[2]) if len(argv) > 2 else run_dir.parents[3]
-    sys.path.insert(0, str(repo_root / "ResearchSystem" / "tooling"))
     from rsclib.document_harness import load_json, validate  # noqa: E402
     from rsclib.document_harness.instruction import (  # noqa: E402
         FORM_ENUMERATED,
