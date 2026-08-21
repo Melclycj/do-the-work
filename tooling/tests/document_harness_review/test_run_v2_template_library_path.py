@@ -22,14 +22,20 @@ All six are exercised, not the two that were reported: the class is "a template 
 invoked as a real process finds its library", and the four that were already right are the
 regression pins for it.
 
-RED evidence (2026-08-21, commands and output pasted in the round journal): run in place
-against the caller's real run directory, both repaired scripts exited 1 with
-``ImportError: cannot import name 'load_json' from 'rsclib.document_harness'`` while the
-four ``run_*.py`` exited 0.
+RED evidence, re-run 2026-08-21 with its commands and output pasted in
+``document-harness/journal/template-lib-root-2026-08-21.md``: the pre-fix bytes, recovered
+with ``git show 39e395e:``, exit 1 on ``ModuleNotFoundError: No module named 'rsclib'``
+against a disposable caller-shaped repository, and — for the read-only gate, pointed at the
+caller's own run directory — on ``ImportError: cannot import name 'load_json' from
+'rsclib.document_harness' (unknown location)``; the two diagnostics differ only in whether
+the tree being reached into still holds an ``rsclib`` package at all. The same invocations
+at HEAD exit 0.
 
 Out of scope, deliberately: the ``run_dir.parents[3]`` default each script falls back to
 when no repository root is given. That depth assumption is the remainder of the re-rooting
-item and is not this round's subject; every invocation below passes the root explicitly.
+item and is not this round's subject, and nothing below reaches it: the two invocations
+that resolve a root pass one explicitly, the four ``--help`` calls exit at argparse before
+root resolution, and the probe is a standalone file taking no arguments at all.
 """
 from __future__ import annotations
 
