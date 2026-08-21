@@ -134,6 +134,21 @@
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
 
+### HD-51 · `dtw preview` 立为第八个命令；产品 run 的 START 卡由其从冻结 control plane 确定性渲染
+- 2026-08-21 · user · scope: standing · status: **implemented**（承载与建条同批：`cli.py` 第八命令 +
+  `test_cli_entry.py` OPERATIONS + `EXECUTION.md` SIMP-C4 接线句，随轮 `PREVIEW-RENDER` candidate
+  `57d1312` 落地；条目按该轮 FULL `v3-review-full-57d1312.md` `L-3` 建——裁决此前只活在 commit 正文，
+  先例 `HD-47` 自己的 `basis` 记过同一形状的代价）
+- 裁决：① `dtw` 可以有第八个命令 `preview`——从产品 run 的冻结 control plane（instruction + WorkSpec +
+  check specs + resolved plan + audit）确定性渲染 START 前的人类可读预览，不经 LLM、可随时重推导故
+  不另存渲染产物（`E11` 载体裁决「脚本化立项」半边的兑现）。② `EXECUTION.md` SIMP-C4 段接线：START
+  卡由该脚本渲染。命令面自此为八；增减命令仍按 `HD-47` 逐案归用户。
+- 轮内小裁决不入册（构造轮无 user-decision 载体，按 `E11` 载体裁决活在 commit 正文与 journal）：
+  修腿边界「全包」· boundary 计数「删」· catch-all「不加」——见 journal
+  `document-harness/journal/preview-render-2026-08-21.md`。
+- basis: 用户裁决 2026-08-21（对话，选择卡）· candidate `57d1312` · FULL `v3-review-full-57d1312.md`
+  `L-3` · 轮 journal 同上
+
 ### HD-49 · 新仓成员（`HD-28` 的再后继）：仪器开发史归仪器仓；调用者只留自己的账
 - 2026-08-19 · user · scope: standing · status: **implemented**（轮 `LEDGER-SPLIT` 执行完毕；条目挪入本节 2026-08-21，用户裁「挪吧」——建条时按当时惯例留在 §live，cold read `17ce3ed` `O-1` 指出与状态机不符：
   `CONSTRUCTION-LEDGER.md` + archive + `document-harness/plans/` 16 件落 `acbc553`/`b5fd58b`，
