@@ -150,9 +150,8 @@ def render_preview(run_dir: pathlib.Path | str) -> tuple[str, bool]:
         f"repair_cap {plan['repair_cap']}"
     )
     boundary = plan["effective_change_boundary"]
-    put(f"boundary    : write_scope ({len(boundary['write_scope'])}): "
-        + ", ".join(boundary["write_scope"]))
-    put(f"              out ({len(boundary['out'])}): " + ", ".join(boundary["out"]))
+    put("boundary    : write_scope: " + ", ".join(boundary["write_scope"]))
+    put("              out: " + ", ".join(boundary["out"]))
     put(f"audit       : {audit['result']} · by {audit['audited_by']} at {audit['audited_at']}")
     put("")
 

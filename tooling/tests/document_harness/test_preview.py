@@ -59,8 +59,10 @@ The claim is supportable only by reading.
 
 HOST_TABLE = "| host | HOST-TABLE-MARKER |\n"
 
-#: The layout the FULL of 57d1312 (B-2) measured being swallowed whole: a numbered section
-#: nested inside the Context span. The elision must stop at the nested heading.
+#: The layout the FULL of 57d1312 (B-2) measured being swallowed whole: sections nested
+#: inside the Context span. The elision must stop at the FIRST nested heading — two of
+#: them, an unnumbered one before the numbered one, so the clamp's direction is bound
+#: (min-vs-max was invisible with a single nested heading; VERIFY of 15a53fe, V-2).
 NESTED_INSTRUCTION = """---
 form: enumerated
 ---
@@ -71,9 +73,35 @@ form: enumerated
 
 CONTEXT-BODY-MARKER again.
 
+### Background (non-normative)
+
+BACKGROUND-BOUND-SENTENCE must render.
+
 ### R0 — nested under context
 
 NESTED-BOUND-SENTENCE must render.
+"""
+
+#: The other half of the claim (VERIFY of 15a53fe, V-2): an unnumbered normative section —
+#: an appendix — under a trailing Context whose span runs to EOF. Seven of the eight real
+#: instructions put Context last, so this is the shape one authoring motion away.
+APPENDIX_INSTRUCTION = """---
+form: enumerated
+---
+
+# Work order — appendix fixture
+
+## R0 — the boundary
+
+Only `docs/target.md` changes.
+
+## Context (non-normative)
+
+CONTEXT-BODY-MARKER again.
+
+### Appendix — the frozen bindings
+
+APPENDIX-BOUND-SENTENCE must render.
 """
 
 
@@ -119,7 +147,7 @@ def build_plane(root: pathlib.Path, *, host_table: bool = True) -> dict:
                 "not_supported_when": "NOT-SUPPORTED-MARKER: the cited source says otherwise",
             },
         ],
-        "change_boundary": {"write_scope": ["docs/target.md"], "out": ["docs/"]},
+        "change_boundary": {"write_scope": ["docs/target.md"], "out": ["docs/", "drafts/"]},
         "expected_artifacts": [{"artifact_id": "target-doc", "path": "docs/target.md"}],
     }
     write_canonical(control / "work-spec.json", spec)
@@ -134,7 +162,7 @@ def build_plane(root: pathlib.Path, *, host_table: bool = True) -> dict:
         "check_order": ["chk-alpha", "chk-beta"],
         "repair_cap": 1,
         "resolver_version": "1.0.0",
-        "effective_change_boundary": {"write_scope": ["docs/target.md"], "out": ["docs/"]},
+        "effective_change_boundary": {"write_scope": ["docs/target.md"], "out": ["docs/", "drafts/"]},
     }
     write_canonical(control / "resolved-plan.json", plan)
 
@@ -184,15 +212,26 @@ class PreviewRendering(unittest.TestCase):
         self.assertTrue(plan_report.ok, [issue.render() for issue in plan_report.issues])
 
     def test_boundary_renders_both_lists_not_the_field_names(self) -> None:
+        """Whole lines, not substrings (E5; VERIFY of 15a53fe, V-1) — the label, the
+        leading columns and the line end are all part of what the user reads."""
         text, _ = self.render()
-        self.assertIn("write_scope (1): docs/target.md", text)
-        self.assertIn("out (1): docs/", text)
+        self.assertIn("\nboundary    : write_scope: docs/target.md\n", text)
+        self.assertIn("\n              out: docs/, drafts/\n", text)
 
     def test_a_section_nested_inside_context_is_not_swallowed(self) -> None:
         (self.root / "instruction.md").write_text(NESTED_INSTRUCTION, encoding="utf-8")
         text, _ = v3_preview.render_preview(self.root)
+        self.assertIn("### Background (non-normative)", text)
+        self.assertIn("BACKGROUND-BOUND-SENTENCE must render.", text)
         self.assertIn("### R0 — nested under context", text)
         self.assertIn("NESTED-BOUND-SENTENCE must render.", text)
+        self.assertNotIn("CONTEXT-BODY-MARKER", text)
+
+    def test_an_appendix_under_a_trailing_context_is_not_swallowed(self) -> None:
+        (self.root / "instruction.md").write_text(APPENDIX_INSTRUCTION, encoding="utf-8")
+        text, _ = v3_preview.render_preview(self.root)
+        self.assertIn("### Appendix — the frozen bindings", text)
+        self.assertIn("APPENDIX-BOUND-SENTENCE must render.", text)
         self.assertNotIn("CONTEXT-BODY-MARKER", text)
 
     def test_a_check_the_plan_does_not_order_is_loud(self) -> None:
