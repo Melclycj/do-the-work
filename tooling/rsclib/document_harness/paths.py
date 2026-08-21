@@ -52,8 +52,8 @@ from collections.abc import Iterable
 #: A backtick-quoted token — the only path form this module reads (see the ceiling above).
 _TOKEN = re.compile(r"`([^`\s]+)`")
 #: Path-shaped: a slash, plus either a known extension or a trailing slash. Mirrors
-#: `layer_path_check.PATHLIKE`, kept identical by hand — why the two guards must agree
-#: is the home row's to say (`document-harness/README.md`, *Local enforcement*).
+#: `layer_path_check.PATHLIKE`, kept identical by hand; what keeps them equal is the
+#: `OneNotionOfAPath` pin in `tooling/tests/document_harness/test_precommit_checks.py`.
 _PATHLIKE = re.compile(r"^[A-Za-z0-9_.\-/]+(?:\.(?:md|py|json|yaml|yml|txt|js)|/)$")
 
 DIRECT = "DIRECT"
