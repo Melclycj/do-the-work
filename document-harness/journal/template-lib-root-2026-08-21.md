@@ -200,3 +200,45 @@ answered here.
 
 None. No instruction-layer member changed, and the opening cold read read all ten end to end
 at `39e395e`, so nothing rides the next round's opening read.
+
+## Closeout — the VERIFY's findings, and the user's rulings of 2026-08-22
+
+The VERIFY returned `REVIEWED_NO_BLOCKER` with one low and three observations, so `E9`'s
+three legs are walked and nothing further was owed. Four questions went to the user; the
+user asked what several of the terms meant before answering, and the answers below are what
+came back after that exchange.
+
+- **VERIFY `V-1`** (`HD-41` ④'s class-scan grep pasted nowhere in the repair) — **user ruled:
+  no row, no paste.** Both sweeps had already been re-run at closeout and both classes were
+  closed: absolute quantifiers over the round's added lines returned 21 instances, every one
+  scoped by adjacent text or true as written, and citation resolution returned 10 tokens of
+  which 9 resolve and the tenth (`control/paragraph-map.json`) is a run-relative path the
+  scripts' own pre-existing docstrings already use. With nothing found, the user judged the
+  residue — that the output was not pasted — not worth a row. The reviewer's wider point,
+  that one paste in three fix legs is a drifting discipline, is recorded here and in the
+  VERIFY record rather than banked, the same disposition `PREVIEW-RENDER`'s `O-3` took for a
+  commit-body practice with no file a row could name.
+- **VERIFY `V-2`** (pasted command lines carry placeholders) — no action; the reviewer
+  rebuilt every fixture from the surrounding prose and got byte-identical diagnostics, which
+  is the property the observation tests.
+- **VERIFY `V-3` and FULL `O-3`** (the one-session role question) — banked together as rider
+  `one-session-roles`, naming both surfaces. The user's ruling is **pending**: asked
+  2026-08-22, the user first established what the mechanism actually was — that orchestrator
+  and executor were one session while every reviewer was separate, and that the missing text
+  would record an already-made ruling rather than open a new escape — and has not yet ruled
+  on whether the rule text should carry it. The row's deadline is that ruling.
+- **cold read `L-1`** (the START-card sentence scoped to the enumerated form) — its prior
+  question is **answered**: the user ruled 2026-08-22 that the 2026-08-21 rendering ruling is
+  **general, not enumerated-only**, on the criterion they set — whether prose form can be
+  script-rendered at all. It can, and the check is pasted in the rider row: `preview.py`
+  reads the declared form and prints it, refusing only for an incomplete control plane. The
+  carrier widening is design and so opens a round, so it banks as rider `startcard-form`
+  with the scope question already settled — the round that takes it executes rather than asks.
+- **cold read `O-2`** (two stale line pointers in the bank) — both corrected in this
+  closeout, each re-derived rather than copied from the record: `E10-sync`'s `EXPECTED`
+  locator is `test_precommit_checks.py:225-236`, and `amend-exempt-caller`'s role-annotation
+  surface is `EXECUTION.md:387-388`.
+
+**Queue head after this round: the re-rooting item's remaining ten resolution points**
+(user ruling, 2026-08-22), taken ahead of contract v4 because the user intends to resume
+product runs and the re-rooting work is what stands between the instrument and a clean one.
