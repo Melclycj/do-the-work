@@ -264,3 +264,27 @@
   2026-08-19 裁不进本批；rider 见 `self-caller-guards`。
 - basis: 用户裁决 2026-08-19（对话，四选多）· FULL `v3-review-full-2026a14.md` 与 VERIFY
   `v3-review-verify-4029b43.md` `O-1` 各记一条到期未付 · `HD-37` ②（design 形状的 rider 只点名有资格开轮的表面）
+
+### HD-50 · 批 DTW-INDEPENDENCE：四轮独立化（取代 `HD-48` 的排期）
+- 2026-08-19 · user · scope: batch:dtw-independence · status: **retired**（R1–R4 全部
+  CLOSED：R1 `LEDGER-SPLIT` · R2 `XREPO-REFS` · R3 `DE-PREFIX`（2026-08-19/20）· R4
+  `INIT-SURFACE`（2026-08-21，`E9` 三腿走满，rider `guard-division-home` 兑付删行）；批执行
+  完毕，按本条自身「执行完 retire」于同日移入本档，四轮锚在 CONSTRUCTION-LEDGER 的 CLOSED roll。
+  原 status 注记的「批的授权只活在对话里」的缺口自建条起由本条补上，随批终结）
+- 裁决：用户批准四轮批（预览卡确认）：**R1** ledger 切（已收）· **R2 `XREPO-REFS`（已收
+  2026-08-20，三腿走满）**——落地为「层文本不写调用者路径」的 `E10` 条款 + 四处降名 +
+  `e1-disclose-home` 落座 + `E10` provenance 死从句删除；**「教守卫认全类」与 `sweep_refs.py`
+  入仓经用户 2026-08-20 裁改入 R3**（R2 的 FULL `B-1` 实测守卫只判前缀形状，而 R3 去前缀时守卫
+  路径模型本来就要重写，一次改到位；`HD-50` 原文把它记在 R2 名下，本次更新即 V-2 要的承载）·
+  **R3** 去 `ResearchSystem/` 前缀（重扎根第②件，`E10-sync` 三处同 commit）+ 守卫认全类 +
+  `sweep_refs.py` 入仓；VERIFY `O-1` 的实测入题面——守卫的缺前缀分支今天会拦 R3 自己要写的
+  token 形状 · **R4** `dtw init` 命令面（`--into` 与「树里那半接线可进 init、机器那半不进」的
+  判据）**＋分工收拢**（两支路径守卫的关系改为一处说、其余指过去——VERIFY `2538893` `O-5` 的 `R5`
+  问题，用户 2026-08-20 裁做、搭 R4；站点清单与细节在 rider `guard-division-home`）。**R2 先于 R3 的理由已兑现**：`E10` 条款与降名先落，R3 改 `EXECUTION.md` 枚举句不再
+  会被守卫按旧判据挡住。本条取代 `HD-48`：其三题两题并入 R2、一题并入 R4，`HD-48` 同 commit
+  转 superseded 入 archive。
+- 未入批（用户明示）：人看的根 README + LICENSE（继续 bank，rider `readme-cli-stale` 兼指其三句
+  已证伪断言；诚实提醒已给——无 LICENSE 则第二人无法合法使用）· 仪器仓自跑另两支守卫
+  （rider `self-caller-guards`）。
+- basis: 用户裁决 2026-08-19（对话：批预览卡「ok」· B 类「降成名字」· 「继续躺 bank」）·
+  supersedes `HD-48`

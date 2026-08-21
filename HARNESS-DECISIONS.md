@@ -47,48 +47,6 @@
 - basis: 用户裁决 2026-08-19（对话，「按 (a)/(b) 切」，推翻 `HD-28` ledger 半边亦经其明示确认）·
   轮 `LEDGER-SPLIT`（分类清单在 executor 报告，`v3-review-full-e74be07.md` 复核）· supersedes `HD-28`
 
-### HD-50 · 批 DTW-INDEPENDENCE：四轮独立化（取代 `HD-48` 的排期）
-- 2026-08-19 · user · scope: batch:dtw-independence · status: **live**（R1 `LEDGER-SPLIT`、R2
-  `XREPO-REFS`、R3 `DE-PREFIX` 已 CLOSED（2026-08-19/20），R4 未开；执行完 retire。除本条外批的授权只活在对话里——FULL `e74be07` `O-4` 点名的缺口即由本条补）
-- 裁决：用户批准四轮批（预览卡确认）：**R1** ledger 切（已收）· **R2 `XREPO-REFS`（已收
-  2026-08-20，三腿走满）**——落地为「层文本不写调用者路径」的 `E10` 条款 + 四处降名 +
-  `e1-disclose-home` 落座 + `E10` provenance 死从句删除；**「教守卫认全类」与 `sweep_refs.py`
-  入仓经用户 2026-08-20 裁改入 R3**（R2 的 FULL `B-1` 实测守卫只判前缀形状，而 R3 去前缀时守卫
-  路径模型本来就要重写，一次改到位；`HD-50` 原文把它记在 R2 名下，本次更新即 V-2 要的承载）·
-  **R3** 去 `ResearchSystem/` 前缀（重扎根第②件，`E10-sync` 三处同 commit）+ 守卫认全类 +
-  `sweep_refs.py` 入仓；VERIFY `O-1` 的实测入题面——守卫的缺前缀分支今天会拦 R3 自己要写的
-  token 形状 · **R4** `dtw init` 命令面（`--into` 与「树里那半接线可进 init、机器那半不进」的
-  判据）**＋分工收拢**（两支路径守卫的关系改为一处说、其余指过去——VERIFY `2538893` `O-5` 的 `R5`
-  问题，用户 2026-08-20 裁做、搭 R4；站点清单与细节在 rider `guard-division-home`）。**R2 先于 R3 的理由已兑现**：`E10` 条款与降名先落，R3 改 `EXECUTION.md` 枚举句不再
-  会被守卫按旧判据挡住。本条取代 `HD-48`：其三题两题并入 R2、一题并入 R4，`HD-48` 同 commit
-  转 superseded 入 archive。
-- 未入批（用户明示）：人看的根 README + LICENSE（继续 bank，rider `readme-cli-stale` 兼指其三句
-  已证伪断言；诚实提醒已给——无 LICENSE 则第二人无法合法使用）· 仪器仓自跑另两支守卫
-  （rider `self-caller-guards`）。
-- basis: 用户裁决 2026-08-19（对话：批预览卡「ok」· B 类「降成名字」· 「继续躺 bank」）·
-  supersedes `HD-48`
-
-### HD-47 · `dtw init` 立为第七个命令；`split-design` §1 的「六命令原样」是搬迁指令、不是命令数上限
-- 2026-08-18 · user · scope: standing · status: **live**（已签的 `split-design.md` §1 仍写着「六命令原样」、
-  rider `RA` 的裁决叙述仍是 2026-08-17 那个答案；两处都按旧读法说话，本条是唯一说出新读法的地方。
-  **要转 `implemented`** 须有一次对 §1 的重签（`HD-40` 要求实质修改重签），或一个设计轮把命令面的增删
-  判据写进指令层，二者任一）
-- 裁决：`dtw` 可以有第七个命令 `init`，承担新调用者 onboarding 的**机械那半**。`split-design.md` §1 的
-  「v3 命令组整块搬新仓……六命令原样」是**搬迁时不得顺手改设计**的指令，**不是**对命令数的永久上限；
-  今后增不增命令按 `R5` 逐案归用户，一次「不加」不锁死下一次。
-- 与 `RA` 的关系：**不推翻、不消耗**。`RA` 问的是「把 run 目录里的机检引擎接上 CLI」，用户判为便利性
-  而非正确性、明写「不为此推翻 §1」；本条问的是「新调用者怎么把仪器装起来」——不同的案子、不同的答案。
-  `RA` 行的 redeem-when 一个字未动，只加了一句指向本条的指针。
-- 后果：`init` 只做机械的四件（建 `.harness/` · 追 gitignore 条目 · 逐字节拷两个模板 · 逐文件拒绝覆盖），
-  并打印它**故意不做**的五件；判断性的那些留在 `document-harness/ONBOARDING.md` 由人做。命令面自此为七，
-  `cli.py` 的操作枚举与 `test_cli_entry.py` 的手写 `OPERATIONS` 元组同步。
-- basis: 用户裁决 **2026-08-18**（对话；三形态里取「甲 + 给 `dtw` 加 `init`」）。**日期只能从对话核，仓里查不到**
-  ——本条初稿写 2026-08-19，与同轮 `cli.py:8`、轮 journal `:44` 的 08-18 相抵，由 VERIFY `v3-review-verify-4029b43.md`
-  `V-1` 点出、用户 2026-08-19 裁作记录更正改回。这个天花板照记（`R2`：只活在对话里的载重材料是 finding）：
-  08-18 之所以为准，是因为本轮 instruction（写于当日）即以该日期陈述该裁决，两个 08-18 站点都由它派生· 轮 `CALLER-ONBOARDING`
-  的候选 `2026a14` · 其 FULL `v3-review-full-2026a14.md` `L-3`（指出该裁决当时只活在 commit 正文里、
-  与已签文本相抵，本条即其答案）· `document-harness/split-design.md` §1 · rider `RA`
-
 ### HD-44 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写，不欠裁决
 - 2026-08-18 · user · scope: standing · status: **live**（`E2` 正文只说「三个 blob 加一个目录，
   都由 inspection 可判」，没说这些路径必须留在哪个仓；跨仓之后这个歧义第一次咬人，而层里无承载。
@@ -195,6 +153,30 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-47 · `dtw init` 立为第七个命令；`split-design` §1 的「六命令原样」是搬迁指令、不是命令数上限
+- 2026-08-18 · user · scope: standing · status: **implemented**（转条件「一个设计轮把命令面的增删判据写进指令层」
+  已由轮 `INIT-SURFACE`（2026-08-20/21）满足：判据落 `document-harness/README.md` onboarding 行
+  （candidate `7f6e7f0`、量词修正 `84dea06`）——树里那半接线可进 `init`、机器那半不进；`--into`
+  处置同行承载（不加选项、根目录 default 非 requirement、挪位走 `HD-34` 通道），`HD-48` ③ 就此
+  了结。`split-design` §1 未重签，仍按本条读法读）
+- 裁决：`dtw` 可以有第七个命令 `init`，承担新调用者 onboarding 的**机械那半**。`split-design.md` §1 的
+  「v3 命令组整块搬新仓……六命令原样」是**搬迁时不得顺手改设计**的指令，**不是**对命令数的永久上限；
+  今后增不增命令按 `R5` 逐案归用户，一次「不加」不锁死下一次。
+- 与 `RA` 的关系：**不推翻、不消耗**。`RA` 问的是「把 run 目录里的机检引擎接上 CLI」，用户判为便利性
+  而非正确性、明写「不为此推翻 §1」；本条问的是「新调用者怎么把仪器装起来」——不同的案子、不同的答案。
+  `RA` 行的 redeem-when 一个字未动，只加了一句指向本条的指针。
+- 后果：`init` 只做机械的四件（建 `.harness/` · 追 gitignore 条目 · 逐字节拷两个模板 · 逐文件拒绝覆盖），
+  并打印它**故意不做**的五件；判断性的那些留在 `document-harness/ONBOARDING.md` 由人做。命令面自此为七，
+  `cli.py` 的操作枚举与 `test_cli_entry.py` 的手写 `OPERATIONS` 元组同步。
+- basis: 用户裁决 **2026-08-18**（对话；三形态里取「甲 + 给 `dtw` 加 `init`」）。**日期只能从对话核，仓里查不到**
+  ——本条初稿写 2026-08-19，与同轮 `cli.py:8`、轮 journal `:44` 的 08-18 相抵，由 VERIFY `v3-review-verify-4029b43.md`
+  `V-1` 点出、用户 2026-08-19 裁作记录更正改回。这个天花板照记（`R2`：只活在对话里的载重材料是 finding）：
+  08-18 之所以为准，是因为本轮 instruction（写于当日）即以该日期陈述该裁决，两个 08-18 站点都由它派生· 轮 `CALLER-ONBOARDING`
+  的候选 `2026a14` · 其 FULL `v3-review-full-2026a14.md` `L-3`（指出该裁决当时只活在 commit 正文里、
+  与已签文本相抵，本条即其答案）· `document-harness/split-design.md` §1 · rider `RA` ·
+  用户裁决 2026-08-20/21（三选卡：不加 `--into`、判据与分工 home 均落治理层 README；
+  次日「确认是治理层的readme」；轮 `INIT-SURFACE`）
 
 ### HD-46 · orchestrator charter 立为第十成员；charter 走收窄形（九条只指路）；`E1` 充分条件句按 `R1` 重写
 - 2026-08-18 · user · scope: standing · status: **implemented**（承载三处，同 commit：新成员
