@@ -1,4 +1,4 @@
-"""Executor-side dispatch derivation — the counterpart to `read_control_plane`.
+"""Dispatch derivation — every dispatched role's cold entry, from committed state.
 
 The reviewer side has a cold entry: `review_subject.read_control_plane` derives spec, plan
 and CandidateRecord from an evidence commit, so a fresh session needs nothing but the SHA.
@@ -7,7 +7,10 @@ runs and the hand-written `W2/W2-dispatch-*.md` — was composed by hand from va
 off a screen, which makes the facts a reviewer is anchored by the *dispatcher's* rather than
 the *repository's*. That is avoidable: role, subject, control root, boundary, accepted
 findings and result schema are all derivable from committed state
-(`issue-p3-corr-no-dispatch-generator`, routed CORE_CANDIDATE 2026-07-25).
+(`issue-p3-corr-no-dispatch-generator`, routed CORE_CANDIDATE 2026-07-25). Four dispatch
+families live here — product review, construction review, layer read, and, since round
+EXECUTOR-CHARTER (2026-08-22 ruling), the executor's own charter; each family's section
+below carries its reasoning.
 
 **What this module deliberately does not generate.** An earlier version emitted a marked gap
 for the dispatcher to fill with what *this* round was worth hunting for. That is gone: once
@@ -726,24 +729,276 @@ def render_read_derivation(dispatch: ReadDispatch) -> str:
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------------------
+# Executor dispatches — the fourth family: the work side's own charter
+# ---------------------------------------------------------------------------
+#
+# Until round EXECUTOR-CHARTER (user ruling 2026-08-22) every dispatch above was
+# review-side, and ORCHESTRATION.md said so in as many words. A cold executor session held
+# an instruction and a subject and had no way to learn that EXECUTION.md exists; the gap
+# was papered over by an authoring rule requiring every product instruction to hand-copy a
+# pointer to the standing discipline into its Context section — N instructions each
+# restating one sentence, the drift surface this module exists to remove, while the
+# reviewer's pointer was generated identically every time. These two modes close that
+# asymmetry, and the authoring rule is deleted with them.
+#
+# The PRODUCT mode emits three facts and nothing more: the run id, the frozen
+# instruction's path and revision, and the charter pointer. The timing is what makes that
+# the whole of what is honest: the executor is dispatched at the START of a run, when the
+# run directory holds a frozen instruction.md and little else — the WorkSpec is authored
+# by the executor afterwards (HD-35), so no obligation, boundary or check exists yet to
+# derive, and a "what to do" section composed here would be the shadow WorkSpec the
+# rendering section above refuses, ex post and approved by nobody. What CAN be refused is
+# refused: a directory outside the repository, a missing instruction, an instruction no
+# commit has frozen, and worktree bytes that drifted from the frozen blob — each a real
+# mis-route the dispatcher cannot see, each one git call.
+#
+# The CONSTRUCTION mode emits one sentence — the charter pointer — and derives nothing. A
+# construction round has no control plane to derive from (its range is "the one thing no
+# control plane records"), and feeding the round's name or boundary in by hand would
+# reproduce exactly what this module exists to abolish. The charter it names is the
+# construction checklist itself, whose *Execution side* heading already binds the role by
+# name, so the sentence points at an existing obligation rather than creating one.
+#
+# Neither mode writes the freeze marker: that marker opens E9's REVIEW window, and an
+# executor dispatch starts precisely the work that window would freeze. The CLI holds
+# that split.
+
+#: The product-run executor's fixed role instruction. Named, never quoted — one live copy.
+#: Instrument-relative; `ExecutorDispatch.charter` carries it resolved for the subject
+#: repository.
+EXECUTOR_ROLE_INSTRUCTION = "document-harness/EXECUTION.md"
+
+#: The construction-round executor's charter. Distinct from CONSTRUCTION_ROLE_INSTRUCTION
+#: above, which is the REVIEW side's contract stub — two roles, two documents, and the
+#: recorded incident about citing the other side's charter is why neither constant serves
+#: both.
+CONSTRUCTION_EXECUTOR_CHARTER = "document-harness/CONSTRUCTION-CHECKLIST.md"
+
+#: The whole product-executor prompt. One constant, four substitutions — the test asserts
+#: the emitted document equals it exactly, the shape that catches an added, missing or
+#: reordered line alike.
+EXECUTOR_PROMPT = """\
+You are the executor for a product run of Document Work Assurance Harness v3.
+
+Your role instruction is `{charter}`;
+read it before anything else. It governs your work in this run.
+This prompt does not — it exists only to hand you the run.
+
+**Run: `{run_id}`**
+**Instruction: `{instruction_path}`, frozen at `{revision}`**
+
+Everything else you derive from the repository, and the WorkSpec is yours to
+author — nothing here says what to do or what to check, because such a list
+would be a WorkSpec nobody approved. A fact you were handed is a fact you did
+not check.
+"""
+
+#: The whole construction-executor prompt: one sentence, one substitution.
+CONSTRUCTION_EXECUTOR_PROMPT = """\
+You are the executor for a construction round of Document Work Assurance
+Harness v3: your standing instructions are `{charter}`, whose *Execution side*
+heading already binds this role by name — read it, and the counterpart it
+names, before anything else.
+"""
+
+
+@dataclasses.dataclass(frozen=True)
+class ExecutorDispatch:
+    """The three facts a product executor is handed. `None` means see report."""
+
+    run_dir: str
+    run_id: str | None
+    instruction_path: str | None
+    revision: str | None
+    report: Report
+    #: The executor charter, resolved for THIS subject repository.
+    charter: str = ""
+
+
+@dataclasses.dataclass(frozen=True)
+class ConstructionExecutorDispatch:
+    """The charter and nothing else — a construction round derives nothing."""
+
+    report: Report
+    charter: str = ""
+
+
+def executor_dispatch_of(
+    repo_root: pathlib.Path | str, run_dir: pathlib.Path | str
+) -> ExecutorDispatch:
+    """Derive the product executor's dispatch from the run directory's committed state.
+
+    The run id is the run directory's own name — the run template's layout
+    (`assurance/runs/<run-id>/`) makes the name part of the one committed path that exists
+    at dispatch time — and the revision is the last commit touching the instruction, which
+    is its freeze. Drift between the worktree bytes and that frozen blob is refused, not
+    smoothed: an executor reading bytes nobody froze is the mis-route this mode can see.
+    """
+    repo_root = pathlib.Path(repo_root)
+    charter = instrument_relative(repo_root, EXECUTOR_ROLE_INSTRUCTION)
+
+    def refused(issue: Issue) -> ExecutorDispatch:
+        return ExecutorDispatch(str(run_dir), None, None, None, report_of([issue]), charter)
+
+    root = pathlib.Path(run_dir)
+    if not root.is_absolute():
+        root = repo_root / root
+    try:
+        rel = root.resolve().relative_to(repo_root.resolve())
+    except ValueError:
+        return refused(
+            Issue(
+                f"{CODE}-RUN-OUTSIDE-REPO",
+                f"{run_dir} does not resolve inside {repo_root}, so no committed fact "
+                "about it can be derived",
+                "run_dir",
+            )
+        )
+    instruction_rel = (rel / "instruction.md").as_posix()
+    if not (root / "instruction.md").is_file():
+        return refused(
+            Issue(
+                f"{CODE}-INSTRUCTION-MISSING",
+                f"{instruction_rel} does not exist; an executor is dispatched from a run "
+                "directory holding its frozen instruction, and this one holds none",
+                "run_dir",
+            )
+        )
+    logged = subprocess.run(
+        ["git", "-C", str(repo_root), "log", "-1", "--format=%H", "--", instruction_rel],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    revision = logged.stdout.decode("utf-8", errors="replace").strip()
+    if logged.returncode != 0 or len(revision) != 40:
+        return refused(
+            Issue(
+                f"{CODE}-INSTRUCTION-UNFROZEN",
+                f"no commit touches {instruction_rel}, so the instruction is not frozen; "
+                "freeze it first, then dispatch",
+                "instruction",
+            )
+        )
+    # Blob-id equality, filters applied — a byte comparison would false-positive on eol
+    # conversion, and `git hash-object` hashes the file as an add would stage it.
+    frozen = subprocess.run(
+        ["git", "-C", str(repo_root), "rev-parse", f"{revision}:{instruction_rel}"],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    on_disk = subprocess.run(
+        ["git", "-C", str(repo_root), "hash-object", instruction_rel],
+        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+    if (
+        frozen.returncode != 0
+        or on_disk.returncode != 0
+        or frozen.stdout.strip() != on_disk.stdout.strip()
+    ):
+        return refused(
+            Issue(
+                f"{CODE}-INSTRUCTION-DRIFTED",
+                f"{instruction_rel} on disk differs from its frozen bytes at "
+                f"{revision[:12]}; an executor dispatched now would read bytes nobody "
+                "froze",
+                "instruction",
+            )
+        )
+    return ExecutorDispatch(
+        run_dir=str(run_dir),
+        run_id=rel.name,
+        instruction_path=instruction_rel,
+        revision=revision,
+        report=report_of([]),
+        charter=charter,
+    )
+
+
+def render_executor_dispatch(dispatch: ExecutorDispatch) -> str:
+    """The executor-facing prompt: the charter and the three facts. Nothing else."""
+    if not dispatch.report.ok:
+        lines = [
+            "# NOT DISPATCHABLE",
+            "",
+            "The run directory given does not hand an executor a frozen instruction, so",
+            "no dispatch was produced. Resolve the following, then re-run.",
+            "",
+        ]
+        lines += [f"- {issue.render()}" for issue in dispatch.report.issues]
+        return "\n".join(lines) + "\n"
+    return EXECUTOR_PROMPT.format(
+        charter=dispatch.charter or EXECUTOR_ROLE_INSTRUCTION,
+        run_id=dispatch.run_id,
+        instruction_path=dispatch.instruction_path,
+        revision=dispatch.revision,
+    )
+
+
+def render_executor_derivation(dispatch: ExecutorDispatch) -> str:
+    """The dispatcher's view: which run, which frozen instruction."""
+    lines = [
+        f"derived run       : {_value(dispatch.run_id)} (executor dispatch)",
+        f"  instruction     : {_value(dispatch.instruction_path)} @ {_value(dispatch.revision)}",
+    ]
+    for issue in dispatch.report.issues:
+        lines.append("  ! " + issue.render())
+    return "\n".join(lines)
+
+
+def construction_executor_dispatch_of(
+    repo_root: pathlib.Path | str,
+) -> ConstructionExecutorDispatch:
+    """Resolve the construction executor's charter. Nothing else exists to derive."""
+    return ConstructionExecutorDispatch(
+        report=report_of([]),
+        charter=instrument_relative(pathlib.Path(repo_root), CONSTRUCTION_EXECUTOR_CHARTER),
+    )
+
+
+def render_construction_executor_dispatch(dispatch: ConstructionExecutorDispatch) -> str:
+    """One sentence: the charter pointer."""
+    return CONSTRUCTION_EXECUTOR_PROMPT.format(
+        charter=dispatch.charter or CONSTRUCTION_EXECUTOR_CHARTER
+    )
+
+
+def render_construction_executor_derivation(dispatch: ConstructionExecutorDispatch) -> str:
+    """One line for the dispatcher; the mode derives nothing, and this says so."""
+    return (
+        f"derived charter   : {dispatch.charter or CONSTRUCTION_EXECUTOR_CHARTER} "
+        "(construction executor — nothing else is derived)"
+    )
+
+
 __all__ = [
+    "CONSTRUCTION_EXECUTOR_CHARTER",
+    "CONSTRUCTION_EXECUTOR_PROMPT",
     "CONSTRUCTION_ROLE_INSTRUCTION",
     "DISPATCHABLE_STATUS",
     "ConstructionDispatch",
+    "ConstructionExecutorDispatch",
     "Dispatch",
+    "EXECUTOR_PROMPT",
+    "EXECUTOR_ROLE_INSTRUCTION",
+    "ExecutorDispatch",
     "READ_PROMPT",
     "RESULT_SCHEMA",
     "ROLE_INSTRUCTION",
     "ReadDispatch",
     "VERDICTS",
     "construction_dispatch_of",
+    "construction_executor_dispatch_of",
     "control_root_of",
     "dispatch_of",
+    "executor_dispatch_of",
     "read_dispatch_of",
     "render_construction_derivation",
     "render_construction_dispatch",
+    "render_construction_executor_derivation",
+    "render_construction_executor_dispatch",
     "render_derivation",
     "render_dispatch",
+    "render_executor_derivation",
+    "render_executor_dispatch",
     "render_read_derivation",
     "render_read_dispatch",
     "resolve_subject",

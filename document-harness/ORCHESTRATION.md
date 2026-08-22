@@ -10,10 +10,10 @@ files, whether it orchestrates the round or executes it".
 
 **This file is deliberately thin, and that is the design.** Most of what the orchestrator owes
 is already written in this layer; this file names the owner and points at the rule rather than
-restating it. `E10` forbids re-typing member text "with the same content" and `HD-5` records
-transcription as a drift surface, so a second copy of a rule is a second thing that has to
-stay true. Where a line below cites a rule, **that rule is the text**. Three obligations had
-no text anywhere in this layer before this file existed; those are written out.
+restating it. `HD-5` records transcription as a drift surface, so a second copy of a rule is a
+second thing that has to stay true. Where a line below cites a rule, **that rule is the
+text**. Three obligations had no text anywhere in this layer before this file existed; those
+are written out.
 
 ## The three roles
 
@@ -23,13 +23,16 @@ no text anywhere in this layer before this file existed; those are written out.
 | **executor** | takes the instruction, decomposes it, does the work, produces the candidate | a full session |
 | **reviewer** | starts cold from one dispatch, works alone, writes the record | a full session **or** a subagent — what decides independence is who set the question (`R1`), not the form |
 
-Why this role had no charter until now: the **reviewer and the reader** start cold from a
-dispatch, so something must hand them one at startup, and `dtw dispatch` does — its three
-modes are review-side by construction, and **none of them dispatches an executor**. The
-orchestrator is the session already in the conversation, so nothing ever had to hand it a
-file. Nothing dispatches the orchestrator, and this file does not change that: no dispatch
-prompt names it, and none should. Who puts an executor's charter in front of an executor is
-not answered here, and no rule in this layer answers it either.
+Why this role had no charter until now: the **reviewer, the reader and — since round
+`EXECUTOR-CHARTER` (2026-08-22 ruling) — the executor** start cold, so something must hand
+each its charter at startup, and `dtw dispatch` does: three review-side modes, and two
+executor-side modes, one per side of the work — the product-run executor's charter is
+[EXECUTION.md](EXECUTION.md), the construction-round executor's is
+[CONSTRUCTION-CHECKLIST.md](CONSTRUCTION-CHECKLIST.md), whose *Execution side* heading
+already binds that role by name, and what each mode may emit is the dispatch module's to
+state, not this file's. The orchestrator is the session already in the conversation, so
+nothing ever had to hand it a file. Nothing dispatches the orchestrator, and this file does
+not change that: no dispatch prompt names it, and none should.
 
 ## The nine obligations that are already law elsewhere
 
@@ -51,12 +54,15 @@ This table assigns them. It does not restate them — read the rule.
 
 ### Handing the executor its instruction
 
-The orchestrator delivers the round's **instruction and subject**, and stops there. It does
-not hand over a decomposition: since the three-role model (`HD-35`) the WorkSpec author is the
-executor of that run, and a decomposition supplied from outside is an answer the executor
-would be checking instead of writing. What the orchestrator does with the result is render it
-for the user's approval — the START card for a product run, the preview card for a
-construction round (`E11`).
+The orchestrator delivers the round's **instruction and subject**, and stops there. Since
+round `EXECUTOR-CHARTER` the delivery opens with a generated half: `dtw dispatch --executor`
+(product run) or `dtw dispatch --construction-executor` (construction round) hands the
+executor its charter at startup — the orchestrator runs the command rather than hand-copying
+the pointer. It does not hand over a decomposition: since the three-role model (`HD-35`) the
+WorkSpec author is the executor of that run, and a decomposition supplied from outside is an
+answer the executor would be checking instead of writing. What the orchestrator does with
+the result is render it for the user's approval — the START card for a product run, the
+preview card for a construction round (`E11`).
 
 ### Reading the caller's policy file
 
@@ -67,9 +73,9 @@ if harness code did, the boundary between an instrument and its caller would be 
 
 Three properties, none of them optional. The file belongs to the caller, so this layer does
 not say where it lives or what it is called — the caller's own agent-facing entry file points
-at it, and that pointer is the only discovery path a cold orchestrator has. It has **no
-authority over any rule here**: where it conflicts with this layer, this layer governs and the
-policy file is what is wrong. And a caller that has not written one is not defective — the
+at it, and that pointer is the only discovery path this layer gives a cold orchestrator. It
+has **no authority over any rule here**: where it conflicts with this layer, this layer
+governs and the policy file is what is wrong. And a caller that has not written one is not defective — the
 absence is a fact to state at closeout, not a gap to fill by inventing policy.
 
 ### The executor's report back

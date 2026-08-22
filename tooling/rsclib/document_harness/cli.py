@@ -2,8 +2,10 @@
 """The command line of the Document Work Assurance v3 harness.
 
 Eight operations: `governance-scan` / `status` / `flow` / `dispatch` / `disposition` /
-`review` / `init` / `preview`. Six are read-only. `dispatch` writes the freeze marker
-`.harness/review-pending.json` (E9's review window) in the repository it is run against, and
+`review` / `init` / `preview`. Six are read-only. `dispatch`'s review-side modes write the
+freeze marker `.harness/review-pending.json` (E9's review window) in the repository it is
+run against — its executor-side modes write nothing, an executor dispatch opening no
+review window — and
 `init` writes into a target repository being onboarded — the mechanical four of onboarding's
 nine items, and nothing else (`init_target.py`; the user ruled on 2026-08-18 that a seventh
 command may exist, overriding the reading of `split-design.md` §1 under which the six
@@ -131,12 +133,15 @@ def _cmd_v3_flow(args: argparse.Namespace) -> int:
 
 
 def _cmd_v3_dispatch(args: argparse.Namespace) -> int:
-    """Derive a review dispatch from an evidence commit — the executor's cold entry.
+    """Derive a dispatch from committed state — the cold entry for every dispatched role.
 
-    The mirror of `read_control_plane`, which lets a reviewer start from nothing but the
-    SHA. Until this existed the executor side had no such entry, so every dispatch was
-    hand-composed and its facts were the dispatcher's rather than the repository's
-    (`issue-p3-corr-no-dispatch-generator`).
+    Three review-side modes (product evidence commit, construction range, E10 layer read)
+    hand a cold reviewer or reader its subject, and — since round EXECUTOR-CHARTER, the
+    2026-08-22 ruling — two executor-side modes hand a cold executor its charter. Until the
+    review-side modes existed every dispatch was hand-composed and its facts were the
+    dispatcher's rather than the repository's (`issue-p3-corr-no-dispatch-generator`);
+    until the executor-side modes existed the executor had no dispatch at all, and every
+    product instruction hand-copied a charter pointer into its Context section instead.
 
     A dispatch that could not be derived cleanly is still printed, with its issues, and
     exits 1: the dispatcher needs to see what is wrong more than they need a success.
@@ -168,6 +173,24 @@ def _cmd_v3_dispatch(args: argparse.Namespace) -> int:
             render, render_derivation = (
                 v3_dispatch.render_read_dispatch,
                 v3_dispatch.render_read_derivation,
+            )
+        elif getattr(args, "executor", None):
+            # A PRODUCT run's executor: three facts from the run directory's committed
+            # state — run id, frozen instruction path and revision, charter pointer —
+            # and nothing more (dispatch.py's executor section).
+            derived = v3_dispatch.executor_dispatch_of(repo_root, args.executor)
+            render, render_derivation = (
+                v3_dispatch.render_executor_dispatch,
+                v3_dispatch.render_executor_derivation,
+            )
+        elif getattr(args, "construction_executor", False):
+            # A CONSTRUCTION round's executor: the charter pointer, deriving nothing —
+            # a construction round has no control plane, and hand-fed round facts would
+            # reproduce what this command exists to abolish.
+            derived = v3_dispatch.construction_executor_dispatch_of(repo_root)
+            render, render_derivation = (
+                v3_dispatch.render_construction_executor_dispatch,
+                v3_dispatch.render_construction_executor_derivation,
             )
         else:
             derived = v3_dispatch.dispatch_of(repo_root, args.subject)
@@ -204,7 +227,14 @@ def _cmd_v3_dispatch(args: argparse.Namespace) -> int:
     # print a display line — and `R2` forbids a reviewer trusting anything handed to them, so
     # a value no code consumes and no reviewer may rely on can only ever mislead. The subject
     # itself says which family it is: a `..` range, or one 40-hex commit.
-    if derived.report.ok:
+    #
+    # An EXECUTOR dispatch writes no marker: the marker opens E9's review window, inside
+    # which only the returned record may land — and an executor dispatch starts precisely
+    # the work that window would freeze.
+    executor_side = bool(
+        getattr(args, "executor", None) or getattr(args, "construction_executor", False)
+    )
+    if derived.report.ok and not executor_side:
         import datetime
         import json as _json
 
@@ -544,19 +574,30 @@ def build_parser() -> argparse.ArgumentParser:
 
     dispatch_cmd = sub.add_parser(
         "dispatch",
-        help="derive a review dispatch from an evidence commit (the executor's cold entry)",
+        help="derive a dispatch from committed state: a review subject, a layer read, "
+             "or an executor's charter",
     )
     dispatch_mode = dispatch_cmd.add_mutually_exclusive_group(required=True)
     dispatch_mode.add_argument(
-        "--subject", help="PRODUCT run: the evidence commit — the only input needed"
+        "--subject", help="PRODUCT run review: the evidence commit — the only input needed"
     )
     dispatch_mode.add_argument(
         "--range",
-        help="CONSTRUCTION round: BASE..TIP, the one thing no control plane records",
+        help="CONSTRUCTION round review: BASE..TIP, the one thing no control plane records",
     )
     dispatch_mode.add_argument(
         "--read",
         help="E10 layer read: the commit whose instruction layer is the subject",
+    )
+    dispatch_mode.add_argument(
+        "--executor",
+        metavar="RUN",
+        help="PRODUCT run executor: the run directory holding the frozen instruction.md",
+    )
+    dispatch_mode.add_argument(
+        "--construction-executor",
+        action="store_true",
+        help="CONSTRUCTION round executor: one sentence naming the charter; nothing derived",
     )
     dispatch_cmd.add_argument("--repo-root", help="repository root (default: current directory)")
     dispatch_cmd.set_defaults(func=_cmd_v3_dispatch)

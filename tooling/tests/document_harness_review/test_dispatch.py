@@ -552,6 +552,164 @@ class ReadDispatchesGenerateToo(unittest.TestCase):
         self.assertNotIn("Subject:", doc)
 
 
+class ExecutorDispatchesGenerateToo(unittest.TestCase):
+    """The fourth family (round EXECUTOR-CHARTER, 2026-08-22 ruling): the executor's own
+    charter, delivered instead of hand-copied.
+
+    Three facts and nothing more — run id, frozen instruction path and revision, charter
+    pointer. The executor is dispatched at the START of a run, when the run directory
+    holds a frozen instruction.md and little else; the WorkSpec is authored by the
+    executor afterwards, so nothing else committed exists to derive, and an enumeration of
+    what to do would be the shadow WorkSpec the module's rendering section refuses.
+    """
+
+    FIXTURE = pathlib.Path(__file__).parents[1] / "fixtures" / "expected-executor-prompt.txt"
+
+    #: Hand-written, never read back from the module (`E5`): the charter a subject
+    #: repository that does NOT contain the instrument gets.
+    CHARTER_OUTSIDE = "document-harness/EXECUTION.md"
+
+    RUN_DIR = "assurance/runs/run-one"
+
+    def _run_repo(self) -> TempRepo:
+        return TempRepo({f"{self.RUN_DIR}/instruction.md": "# Task\n\nDo the thing.\n"})
+
+    def test_the_prompt_is_exactly_the_golden_file(self):
+        """Added, missing and reordered lines all fail here, in one comparison."""
+        with self._run_repo() as repo:
+            d = D.executor_dispatch_of(repo.root, self.RUN_DIR)
+            self.assertTrue(d.report.ok, codes(d.report))
+            expected = self.FIXTURE.read_text(encoding="utf-8").format(
+                charter=self.CHARTER_OUTSIDE,
+                run_id="run-one",
+                instruction_path=f"{self.RUN_DIR}/instruction.md",
+                revision=repo.base,
+            )
+            self.assertEqual(D.render_executor_dispatch(d), expected)
+
+    def test_the_three_facts_come_out_of_the_committed_state(self):
+        with self._run_repo() as repo:
+            d = D.executor_dispatch_of(repo.root, self.RUN_DIR)
+            self.assertEqual(d.run_id, "run-one")
+            self.assertEqual(d.instruction_path, f"{self.RUN_DIR}/instruction.md")
+            self.assertEqual(d.revision, repo.base)
+            self.assertEqual(len(d.revision), 40)
+
+    def test_an_absolute_run_dir_derives_the_same_dispatch(self):
+        with self._run_repo() as repo:
+            relative = D.executor_dispatch_of(repo.root, self.RUN_DIR)
+            absolute = D.executor_dispatch_of(repo.root, repo.root / self.RUN_DIR)
+            self.assertTrue(absolute.report.ok, codes(absolute.report))
+            self.assertEqual(
+                (absolute.run_id, absolute.instruction_path, absolute.revision),
+                (relative.run_id, relative.instruction_path, relative.revision),
+            )
+
+    def test_a_run_directory_outside_the_repository_is_refused(self):
+        with self._run_repo() as repo, tempfile.TemporaryDirectory() as elsewhere:
+            d = D.executor_dispatch_of(repo.root, elsewhere)
+            self.assertIn(f"{D.CODE}-RUN-OUTSIDE-REPO", codes(d.report))
+
+    def test_a_directory_without_an_instruction_is_refused(self):
+        with self._run_repo() as repo:
+            (repo.root / "assurance/runs/run-two").mkdir(parents=True)
+            d = D.executor_dispatch_of(repo.root, "assurance/runs/run-two")
+            self.assertIn(f"{D.CODE}-INSTRUCTION-MISSING", codes(d.report))
+
+    def test_an_uncommitted_instruction_is_not_frozen(self):
+        with self._run_repo() as repo:
+            repo.write({"assurance/runs/run-three/instruction.md": "# Task\n"})
+            d = D.executor_dispatch_of(repo.root, "assurance/runs/run-three")
+            self.assertIn(f"{D.CODE}-INSTRUCTION-UNFROZEN", codes(d.report))
+
+    def test_a_worktree_that_drifted_from_the_frozen_bytes_is_refused(self):
+        with self._run_repo() as repo:
+            repo.write({f"{self.RUN_DIR}/instruction.md": "# Task\n\nEdited after the freeze.\n"})
+            d = D.executor_dispatch_of(repo.root, self.RUN_DIR)
+            self.assertIn(f"{D.CODE}-INSTRUCTION-DRIFTED", codes(d.report))
+
+    def test_a_refusal_is_not_a_prompt_and_restates_no_run(self):
+        """So a broken dispatch cannot be routed by pasting past the warning."""
+        with self._run_repo() as repo:
+            repo.write({f"{self.RUN_DIR}/instruction.md": "# Task\n\nEdited after the freeze.\n"})
+            doc = D.render_executor_dispatch(D.executor_dispatch_of(repo.root, self.RUN_DIR))
+            self.assertIn("NOT DISPATCHABLE", doc)
+            self.assertNotIn("Run:", doc)
+            self.assertNotIn("Instruction:", doc)
+
+    def test_no_enumeration_of_work_reaches_the_executor(self):
+        """The shadow-WorkSpec refusal, inherited: no hunt list, no obligations, no `§`."""
+        with self._run_repo() as repo:
+            prompt = D.render_executor_dispatch(D.executor_dispatch_of(repo.root, self.RUN_DIR))
+            self.assertIn(self.CHARTER_OUTSIDE, prompt)
+            self.assertNotIn("hunt", prompt.lower())
+            self.assertNotIn("FILL IN", prompt)
+            self.assertNotIn("obligation", prompt.lower())
+            self.assertNotIn("§", prompt)
+
+    def test_the_dispatchers_view_carries_the_derivation(self):
+        with self._run_repo() as repo:
+            derivation = D.render_executor_derivation(
+                D.executor_dispatch_of(repo.root, self.RUN_DIR)
+            )
+            self.assertIn("run-one", derivation)
+            self.assertIn(repo.base, derivation)
+
+
+class ConstructionExecutorDispatchGeneratesToo(unittest.TestCase):
+    """The construction-side executor mode: one sentence, the charter, nothing derived.
+
+    A construction round has no control plane, and hand-fed round facts would reproduce
+    the anchoring this module exists to abolish — so the mode's whole honesty is that it
+    emits the charter pointer and refuses to know anything else.
+    """
+
+    FIXTURE = (
+        pathlib.Path(__file__).parents[1]
+        / "fixtures"
+        / "expected-construction-executor-prompt.txt"
+    )
+
+    #: Hand-written (`E5`); distinct from the review side's contract stub — two roles,
+    #: two charters, and citing the other side's is the module's recorded incident.
+    CHARTER_OUTSIDE = "document-harness/CONSTRUCTION-CHECKLIST.md"
+
+    def test_the_prompt_is_exactly_the_golden_file(self):
+        scn = build_scenario()
+        d = D.construction_executor_dispatch_of(scn.repo.root)
+        self.assertTrue(d.report.ok, codes(d.report))
+        expected = self.FIXTURE.read_text(encoding="utf-8").format(charter=self.CHARTER_OUTSIDE)
+        self.assertEqual(D.render_construction_executor_dispatch(d), expected)
+
+    def test_nothing_is_derived_beyond_the_charter(self):
+        scn = build_scenario()
+        d = D.construction_executor_dispatch_of(scn.repo.root)
+        prompt = D.render_construction_executor_dispatch(d)
+        self.assertIn(self.CHARTER_OUTSIDE, prompt)
+        self.assertNotIn("Subject:", prompt)
+        self.assertNotIn("Everything else you derive", prompt)
+        self.assertIn(
+            "nothing else is derived", D.render_construction_executor_derivation(d)
+        )
+
+    def test_the_charter_is_not_the_review_sides(self):
+        scn = build_scenario()
+        prompt = D.render_construction_executor_dispatch(
+            D.construction_executor_dispatch_of(scn.repo.root)
+        )
+        self.assertNotIn("v3-harness-review-contract.md", prompt)
+        self.assertNotIn("REVIEW.md", prompt)
+
+    def test_a_caller_that_mounts_the_instrument_gets_the_path_through_the_mount(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp).resolve()
+            instrument = root / "ResearchSystem" / "harness"
+            instrument.mkdir(parents=True)
+            with mock.patch("rsclib.document_harness.RS_ROOT", instrument):
+                d = D.construction_executor_dispatch_of(root)
+                self.assertEqual(d.charter, "ResearchSystem/harness/" + self.CHARTER_OUTSIDE)
+
+
 class NamedIssueReachability(unittest.TestCase):
     """Every code `dispatch.py` can raise is asserted by name in this file."""
 
@@ -568,7 +726,7 @@ class NamedIssueReachability(unittest.TestCase):
             set(),
             "codes declared in dispatch.py with no test asserting them by name",
         )
-        self.assertEqual(len(declared), 11, f"code surface moved: {sorted(declared)}")
+        self.assertEqual(len(declared), 15, f"code surface moved: {sorted(declared)}")
 
 
 if __name__ == "__main__":

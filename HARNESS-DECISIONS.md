@@ -27,23 +27,6 @@
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 
-### HD-52 · START 卡由脚本渲染这条裁决**对所有 run 都算**，不限编号态；`HD-51` 的范围澄清
-- 2026-08-22 · user · scope: standing · status: **live**（已裁未落实：指令层里唯一说「START 卡
-  怎么产生」的那句话仍关在只管编号态的段落里（`EXECUTION.md:244-247` 的 SIMP-C4 bullet），拓宽
-  它是 design、`E10` 的自由通道对它关闭，须开轮执行。**要转 `implemented` 须有一个轮次把那句
-  话移出编号态范围、或补一句盖住散文态**；执行前不需再问范围，本条即答案。承载同时记在 rider
-  `startcard-form`，但那是债务台账不是裁决载体，故本条建条）
-- 裁决：`HD-51` 记的「产品 run 的授权本体＝冻结的 control plane，其人类可读渲染由 `dtw preview`
-  确定性产出」**适用于每一个产品 run**，与指令取编号态还是散文态无关。
-- 判据（用户 2026-08-22 提出，实测后据以裁定）：**散文态本来就能脚本渲染**。`preview.py:178,182`
-  读 `declared_form` 后照常渲染，无声明就打印 `form: (undeclared)`；全文唯一的拒绝在 `:120`，
-  条件是控制面缺文件，与形态无关。既然脚本不挑形态，把裁决限缩到编号态就没有依据。
-- 后果：散文态 run 的 orchestrator 不再是「持着 `ORCHESTRATION.md:58` 的出卡义务却无处可指」。
-  这一半尤其要紧，因为散文态是那一节自陈的**默认与兜底**——声明了编号态而结构不符的 run 会落回
-  散文态，恰在其指令最不可信的时刻。
-- basis: 用户裁决 2026-08-22（对话）· cold read `v3-cold-read-39e395e.md` `L-1` 提出两读法并按
-  `R5` 归口用户 · 轮 `TEMPLATE-LIB-ROOT` 的 journal 收批段 · 先例 `HD-47`（命令面的按案裁决）
-
 ### HD-44 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写，不欠裁决
 - 2026-08-18 · user · scope: standing · status: **live**（`E2` 正文只说「三个 blob 加一个目录，
   都由 inspection 可判」，没说这些路径必须留在哪个仓；跨仓之后这个歧义第一次咬人，而层里无承载。
@@ -150,6 +133,24 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-52 · START 卡由脚本渲染这条裁决**对所有 run 都算**，不限编号态；`HD-51` 的范围澄清
+- 2026-08-22 · user · scope: standing · status: **implemented**（转条件「一个轮次把那句话移出编号态
+  范围、或补一句盖住散文态」已由轮 `EXECUTOR-CHARTER` 满足：`EXECUTION.md` 把「Since round
+  PREVIEW-RENDER…」句从 SIMP-C4 bullet 内移出，立为形态之上的独立段落（"However the form
+  resolves, the START card of every product run is rendered by `dtw preview` …"），随该轮
+  candidate 落地、状态同 commit 翻（`HD-2`）；rider `startcard-form` 同 commit 兑付删行）
+- 裁决：`HD-51` 记的「产品 run 的授权本体＝冻结的 control plane，其人类可读渲染由 `dtw preview`
+  确定性产出」**适用于每一个产品 run**，与指令取编号态还是散文态无关。
+- 判据（用户 2026-08-22 提出，实测后据以裁定）：**散文态本来就能脚本渲染**。`preview.py:178,182`
+  读 `declared_form` 后照常渲染，无声明就打印 `form: (undeclared)`；全文唯一的拒绝在 `:120`，
+  条件是控制面缺文件，与形态无关。既然脚本不挑形态，把裁决限缩到编号态就没有依据。
+- 后果：散文态 run 的 orchestrator 不再是「持着 `ORCHESTRATION.md:58` 的出卡义务却无处可指」。
+  这一半尤其要紧，因为散文态是那一节自陈的**默认与兜底**——声明了编号态而结构不符的 run 会落回
+  散文态，恰在其指令最不可信的时刻。
+- basis: 用户裁决 2026-08-22（对话）· cold read `v3-cold-read-39e395e.md` `L-1` 提出两读法并按
+  `R5` 归口用户 · 轮 `TEMPLATE-LIB-ROOT` 的 journal 收批段 · 先例 `HD-47`（命令面的按案裁决）·
+  承载 = 轮 `EXECUTOR-CHARTER` candidate 的 `EXECUTION.md` 独立段落
 
 ### HD-51 · `dtw preview` 立为第八个命令；产品 run 的 START 卡由其从冻结 control plane 确定性渲染
 - 2026-08-21 · user · scope: standing · status: **implemented**（承载与建条同批：`cli.py` 第八命令 +

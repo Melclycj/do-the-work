@@ -74,5 +74,35 @@ class TheDispatchWritesTheFreezeMarker(unittest.TestCase):
             self.assertFalse((repo.root / MARKER).exists())
 
 
+class AnExecutorDispatchOpensNoReviewWindow(unittest.TestCase):
+    """The marker is E9's REVIEW window; an executor dispatch starts precisely the work
+    that window would freeze, so a successful executor dispatch must write nothing
+    (round EXECUTOR-CHARTER, 2026-08-22 ruling). The range test above is this class's
+    positive control: the same command, review-side, does write the marker.
+    """
+
+    def test_a_product_executor_dispatch_writes_no_marker(self) -> None:
+        with TempRepo({"assurance/runs/run-one/instruction.md": "# Task\n"}) as repo:
+            completed = run_dispatch(
+                "--executor", "assurance/runs/run-one", "--repo-root", str(repo.root)
+            )
+            output = (completed.stdout or "") + (completed.stderr or "")
+            self.assertEqual(completed.returncode, 0, output)
+            self.assertFalse(
+                (repo.root / MARKER).exists(),
+                "a product executor dispatch opened a review window",
+            )
+
+    def test_a_construction_executor_dispatch_writes_no_marker(self) -> None:
+        with TempRepo({"a.md": "one\n"}) as repo:
+            completed = run_dispatch("--construction-executor", "--repo-root", str(repo.root))
+            output = (completed.stdout or "") + (completed.stderr or "")
+            self.assertEqual(completed.returncode, 0, output)
+            self.assertFalse(
+                (repo.root / MARKER).exists(),
+                "a construction executor dispatch opened a review window",
+            )
+
+
 if __name__ == "__main__":
     unittest.main()

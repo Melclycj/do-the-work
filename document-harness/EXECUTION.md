@@ -231,9 +231,9 @@ Two authoring consequences:
 - **The preamble is split, not demoted** (SIMP-C3). A normative preamble is exactly the
   defect w1-r1 and p4-bridge each paid for, so under the enumerated form it stops
   existing: the round-specific normative sentences become **`R0`**, an ordinary numbered
-  section with an ordinary obligation, and the standing discipline goes back to Context
-  *by reference* — the rule this file already carries under *Instruction authoring
-  rules*. Today's typical preamble splits cleanly: "isolated branch / nothing merged
+  section with an ordinary obligation, and the standing discipline is not written into
+  the instruction at all — the executor receives it with its dispatch (*Instruction
+  authoring rules*). Today's typical preamble splits cleanly: "isolated branch / nothing merged
   before FINAL" is standing discipline, "do not activate `P5B-CLAIMS-v1`" is this round's
   and becomes R0. This applies to instructions written after the ruling; closed rounds are
   not retrofitted.
@@ -241,10 +241,13 @@ Two authoring consequences:
   form the WorkSpec is a transcript, so asking the user to read it is asking them to
   proof-read a mechanical copy. They approve the `R0…Rn` list — the bytes they were going
   to be bound by anyway — and the transcript check is what says the WorkSpec matches it.
-  Since round PREVIEW-RENDER (2026-08-21 ruling) the card is rendered by `dtw preview`
-  from the frozen control plane — deterministic, re-derivable at any time and therefore
-  never stored — so what the user reads is the plane's own bytes, not a session's
-  transcription of them.
+
+However the form resolves, **the START card of every product run is rendered by
+`dtw preview` from the frozen control plane** (round PREVIEW-RENDER, 2026-08-21 ruling;
+scope ruled form-independent by `HD-52`, 2026-08-22) — deterministic, re-derivable at any
+time and therefore never stored — so what the user reads is the plane's own bytes, not a
+session's transcription of them. What differs by form is only what those bytes contain:
+under the enumerated form the card presents the `R0…Rn` list itself, per the bullet above.
 
 ## Authoring gate (W2-A5 + M11)
 
@@ -269,6 +272,18 @@ form only — see *Instruction form* above):
   paragraph has a unit anchoring into it), and unit map ⟷ instruction bytes (no
   dangling anchors). A paragraph can be misclassified but never silently absent;
   whether a *classification* is right stays a review question.
+
+One standing observation rides each run past this gate, until its reading moment arrives
+(C4 `O-1` observation clause, 2026-08-01; reading moment set by user ruling 2026-08-22):
+the run's review/closeout records one line comparing the two maps' classifications —
+paragraph map against unit map — naming who or which session filled each; same-source
+filling is not independent and joins no sample. At the **next product run's closeout** the
+collected lines are read in full and the three-branch re-ruling recorded in
+`CONSTRUCTION-LEDGER.md`'s conversation-only list falls due; collection does not continue
+past that reading un-re-ruled. The obligation is written here because standing run-conduct
+arrives with the executor's dispatch (*Instruction authoring rules*), never from an
+instruction's Context section — this one spent four runs hand-copied there for want of a
+home.
 
 ## Audit cadence — pre-START rounds (2026-08-02 ruling)
 
@@ -417,15 +432,25 @@ to exercise.
 
 ## Instruction authoring rules (routed from run findings)
 
-- **Standing run-conduct discipline appears by reference, in the Context section only**
-  (p4-bridge finding f1, routed WORKFLOW_FIX by
-  `user-decision-triage-conduct-prose-in-normative-preamble`, 2026-08-01): the rules the
-  session runs under — gap banking, first-run obligations, map-filling disclosures — live
-  in `EXECUTION.md` and the governing plans; the instruction references them from its
-  non-normative Context section, covered by a context-unit rationale, and never restates
-  them inside normative preamble prose. A restated conduct sentence sits in no obligation
-  and no context-unit, and narrows the START approval surface invisibly — p4-bridge's
-  same-source maps both missed exactly that, and only the independent FULL caught it.
+- **Standing run-conduct discipline arrives with the dispatch, never inside the
+  instruction** (round `EXECUTOR-CHARTER`, user ruling 2026-08-22 — a partial supersession
+  of p4-bridge finding f1's routed WORKFLOW_FIX,
+  `user-decision-triage-conduct-prose-in-normative-preamble`, 2026-08-01, which had the
+  instruction carry the reference from its Context section): the rules the session runs
+  under — gap banking, first-run obligations, map-filling disclosures — live in this file,
+  and `dtw dispatch --executor` names this file to the executor at startup, so the
+  instruction no longer carries even the reference. What survives of the 2026-08-01
+  decision is strengthened, not replaced: conduct prose still never enters normative
+  preamble — a restated conduct sentence sits in no obligation and no context-unit, and
+  narrows the START approval surface invisibly, the defect p4-bridge's same-source maps
+  both missed — and the Context section now carries **background only**: anything
+  demand-shaped in Context is a defect on sight, whether it restates standing discipline
+  or originates a demand of its own, because a demand written there anchors no instruction
+  unit, is representable as no obligation, and therefore reaches no check, no review
+  disposition and no evidence. The half replaced is "reference it from Context"; that
+  delivery job is the dispatch's now. One rendering consequence follows and is settled
+  here: `dtw preview`'s elision of the Context body from the START card is correct, not
+  merely honest — nothing normative may legitimately sit in the elided span.
 - **The dispatch paragraph gets a standing context-unit**: a work order's opening
   "produce, and route for signature" paragraph carries an imperative; give it a
   context-unit whose rationale names where each half is carried (the obligations
