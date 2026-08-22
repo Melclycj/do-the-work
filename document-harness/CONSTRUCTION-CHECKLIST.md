@@ -33,10 +33,15 @@
   `R1` decides, and it decides on four holdings — dispatched by, prompted by, scoped by,
   reported through. All four in the executor's hands is a self-check whatever it is called;
   none of them there is independence that holds structurally rather than as a discipline
-  kept against oneself. Between those, the round **states which of the four the executor
+  kept against oneself. Between those lies this rule's **exception channel**, and since
+  `HD-55` that is all it is: the norm is two sessions, stated by `ORCHESTRATION.md`'s
+  three-roles table, and a round standing in the middle has departed from it — typically by
+  merging the two work-side roles. Standing there, the round **states which of the four the executor
   held** — in the commit body or the round journal, the carriers `E3` names, and the
   statement is the orchestrator's to make, that being the role whose commits carry it —
-  and does not call the result structurally independent. The line one
+  and does not call the result structurally independent. The mechanics are unchanged by the
+  narrowing; what changed is that taking this channel is now a deviation to account for
+  rather than a shape to disclose. The line one
   session may not cross is the one between the **work side** and the **review side**:
   orchestrator and executor are both the work side — the heading above binds them in one
   breath — so work out at the start which side this session is on, and a request that

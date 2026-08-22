@@ -23,6 +23,14 @@ are written out.
 | **executor** | takes the instruction, decomposes it, does the work, produces the candidate | a full session |
 | **reviewer** | starts cold from one dispatch, works alone, writes the record | a full session **or** a subagent — what decides independence is who set the question (`R1`), not the form |
 
+**Independent is the norm; one session holding both work-side roles is the exception.** This
+sentence is the layer's carrier for the 2026-08-22 ruling `HD-55`, and it belongs to this table
+because the table's subject is which session carries which role. The carrier column already read
+two full sessions before that ruling; what the ruling settles is that they are also two sessions
+*in fact* — the orchestrator dispatches a cold executor rather than becoming one, since two roles
+that see the same context are two names for one role. A round that merges them is a deviation,
+disclosed through `E1`'s exception channel, and the disclosure mechanics are `E1`'s to state.
+
 Why this role had no charter until now: the **reviewer, the reader and — since round
 `EXECUTOR-CHARTER` (2026-08-22 ruling) — the executor** start cold, so something must hand
 each its charter at startup, and `dtw dispatch` does: three review-side modes, and two
@@ -54,15 +62,26 @@ This table assigns them. It does not restate them — read the rule.
 
 ### Handing the executor its instruction
 
-The orchestrator delivers the round's **instruction and subject**, and stops there. Since
-round `EXECUTOR-CHARTER` the delivery opens with a generated half: `dtw dispatch --executor`
-(product run) or `dtw dispatch --construction-executor` (construction round) hands the
-executor its charter at startup — the orchestrator runs the command rather than hand-copying
-the pointer. It does not hand over a decomposition: since the three-role model (`HD-35`) the
-WorkSpec author is the executor of that run, and a decomposition supplied from outside is an
-answer the executor would be checking instead of writing. What the orchestrator does with
-the result is render it for the user's approval — the START card for a product run, the
-preview card for a construction round (`E11`).
+The orchestrator delivers the round's **instruction, subject and governing plans**, and stops
+there. Since round `EXECUTOR-CHARTER` the delivery opens with a generated half: `dtw dispatch
+--executor` (product run) or `dtw dispatch --construction-executor` (construction round) hands
+the executor its charter at startup — the orchestrator runs the command rather than
+hand-copying the pointer. It does not hand over a decomposition: since the three-role model
+(`HD-35`) the WorkSpec author is the executor of that run, and a decomposition supplied from
+outside is an answer the executor would be checking instead of writing. What the orchestrator
+does with the result is render it for the user's approval — the START card for a product run,
+the preview card for a construction round (`E11`).
+
+The plans joined that list on 2026-08-22 (round `PRERUN-RIDERS`) for two reasons that arrive
+together. Standing discipline lives in them, and since round `EXECUTOR-CHARTER` closed the
+Context route the instruction may no longer carry even the reference — so a plan nobody hands
+over reaches a cold executor by no path at all. And they are the caller's extension point on
+the work side: rules this instrument cannot know are written there rather than into an
+instrument the caller may not edit (`HD-34`). What may legitimately sit in a plan rather than
+in the instruction is
+[EXECUTION.md](EXECUTION.md)'s *Instruction authoring rules* to state — instruction first, the
+plan channel taking only what the instruction cannot carry — and this file does not re-type
+it.
 
 ### Reading the caller's policy file
 
@@ -93,8 +112,9 @@ what those words are answerable to.
 ## What the orchestrator may never do
 
 - **Review its own round's work.** Where exactly the line runs — work side against review
-  side, and what a session holding both work-side roles owes — is `E1`'s to state, and
-  this file does not re-type it. Read `E1`.
+  side — is `E1`'s to state, and this file does not re-type it. Read `E1`. What a session
+  that has merged both work-side roles owes is that rule's **exception channel**, reached
+  only by a round that has already deviated from the norm the three-roles table states above.
 - **Answer a question the rules route to the user.** `R5`, `R10` and `E11` each send a
   specific shape of question to the user; the orchestrator carries it and carries the answer
   back. Automating the transport is allowed. Automating the answer is signing for the user,

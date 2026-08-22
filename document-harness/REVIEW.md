@@ -23,19 +23,42 @@ check, run second.
 
 ## What is not in the subject: the run's own checkers
 
-*Added 2026-08-05 (SIMP-A5, recorded user ruling).* The subject is the work product — the
+*Added 2026-08-05 (SIMP-A5, recorded user ruling); the thin-check disposition and the routing
+of what this section removes from the verdict were settled 2026-08-22, round `PRERUN-RIDERS`.*
+The subject is the work product — the
 candidate, the control plane that binds it, and the pinned inputs. A run-local checker is
 machinery that produced evidence *about* the work; it is not the work. Its weaknesses are
-not findings against the candidate and never move a verdict: a checker whose assertion is
-thinner than the demand it serves is a **`HarnessIssue`**, raised through that channel and
-triaged after the run.
+not findings against the candidate and never move a verdict.
+
+**A check that decides almost nothing is a control-plane finding.** Where a `local_check`
+obligation's bound check is thinner than the demand it serves, the obligation's disposition
+is untouched — `local_check` means that check decides it, and substituting your own judgement
+of the checker for the disposition is the co-ownership the mode was collapsed to end — and the
+thinness is reported as a **finding against the check spec and the WorkSpec that declared the
+mode**. That is the exact mirror of *The `review_only` question* below: script-decidable but
+declared `review_only` is a finding about the WorkSpec, and bound-but-deciding-nothing is a
+finding about the same document from the other side. Both land inside the subject, because the
+control plane is inside it by this section's own first sentence.
+
+**Where an observation this section removes from the verdict goes** — codifying what reviewers
+have in fact done. Record it as an **observation finding in your own review record**, which is
+one of the two artifacts you already persist and commit; a `HarnessIssue` is not the reviewer's
+to file mid-run, and the schema makes that structural rather than remembered (`observed_after`
+admits only the two terminal statuses, so an issue claiming a mid-run observation is
+unrepresentable). At closeout the orchestrator routes it under the caller's policy
+([ORCHESTRATION.md](ORCHESTRATION.md), *Reading the caller's policy file*): a row in the
+caller's own rider bank, or a `HarnessIssue` filed after the run by whoever observed it. The
+record is the carrier in every case, so the observation survives the round that could not act
+on it.
 
 This is not licence to accept an unsupported claim. Where a `local_check` obligation's truth
 rests on a check you still establish that the check ran, that re-running it reproduces the
 recorded result, and that it observed the tree it was entitled to — that is evidence
-verification and it stays in scope. What leaves scope is the design question *should this
-checker assert more?*, which is `R5` (whether a thing should exist at all is not yours to
-conclude) applied to the checkers themselves.
+verification and it stays in scope. What leaves scope is the design question *what should this
+checker assert instead?*, which is `R5` (whether a thing should exist at all is not yours to
+conclude) applied to the checkers themselves. Measuring that a check decides less than its
+obligation demands is not that question and does not leave scope; it is the finding the
+paragraph above routes.
 
 The boundary is stateable only because the both-modes verification mode is gone
 (`EXECUTION.md`): a check now either decides its obligation or owns none of it. Under the
@@ -233,6 +256,13 @@ evidence **contradicts** the claim. `UNVERIFIABLE` means you could not establish
 way — **including when the evidence that would settle it is not reachable at the pinned
 revisions**. Unreachable-evidence was previously ambiguous between the two, and two real
 reviewers labelled the same state differently; it belongs here.
+
+One shape does not reach for it, and the two sections say one thing about it (2026-08-22
+ruling): a `local_check` obligation whose bound check decides almost nothing. The gap is real
+and it is reported — as a finding against the check spec and the WorkSpec, per *What is not in
+the subject* above — but it is not closed by moving the obligation's disposition, because under
+`local_check` that check is what disposes of it. The honest answer there is the finding, not a
+reviewer-substituted `UNVERIFIABLE` on an obligation the control plane already bound.
 
 This is the whole epistemic position of the product: the promise is **visibility, never
 guarantee** (V3-D3, V3-D5, contract §1). "Make X visible" is something a check can assert;

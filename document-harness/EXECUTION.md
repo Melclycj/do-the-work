@@ -444,7 +444,9 @@ to exercise.
   instruction carry the reference from its Context section): the rules the session runs
   under — gap banking, first-run obligations, map-filling disclosures — live in this file
   and the governing plans; `dtw dispatch --executor` names this file to the executor at
-  startup, the plans arriving with the instruction and subject the orchestrator delivers,
+  startup, the plans arriving with the instruction and subject the orchestrator delivers
+  ([ORCHESTRATION.md](ORCHESTRATION.md)'s *Handing the executor its instruction* is that
+  obligation's text, and since 2026-08-22 it enumerates the plans),
   so the instruction no longer carries even the reference. What survives of the 2026-08-01
   decision is strengthened, not replaced: conduct prose still never enters normative
   preamble — a restated conduct sentence sits in no obligation and no context-unit, and
@@ -457,6 +459,17 @@ to exercise.
   delivery job is the dispatch's now. One rendering consequence follows and is settled
   here: `dtw preview`'s elision of the Context body from the START card is correct, not
   merely honest — nothing normative may legitimately sit in the elided span.
+- **Instruction first: the plan channel is overflow, never a second instruction** (round
+  `PRERUN-RIDERS`, user ruling 2026-08-22, the bound the same ruling attached to making the
+  governing plans a delivered item). What an instruction **can** carry goes in the
+  instruction — obligations, the run's own data, the demands this run makes — because that
+  is the surface the freeze pins, the START card presents, the user approves, and a check, a
+  disposition and a review verdict all reach. The plans take only what the instruction
+  cannot: conduct prose, which the bullet above bars from preamble and from Context alike,
+  and stage-standing discipline that spans runs and so is no single instruction's to state.
+  The failure this bound exists against is a demand the instruction could have carried,
+  written into a plan instead: it is then outside the approved surface by a route the
+  executor has no reason to distrust and the reviewer has no reason to walk.
 - **The dispatch paragraph gets a standing context-unit**: a work order's opening
   "produce, and route for signature" paragraph carries an imperative; give it a
   context-unit whose rationale names where each half is carried (the obligations

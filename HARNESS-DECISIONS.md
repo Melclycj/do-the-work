@@ -27,33 +27,6 @@
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 
-### HD-55 · executor 与 orchestrator 自此为独立 session；单 session 兼任不再是常规形态
-- 2026-08-22 · user · scope: standing · status: **live**（`ORCHESTRATION.md` 三角色表写的本就是
-  两个 full session——executor "a full session"、orchestrator "the one the user is talking
-  to"——但「不得兼任」在层里无承载：`E1` 中间态披露句与 `HD-46` 的中间态 tiebreak 理由段仍把
-  兼任当可披露的日常形态写。要转 implemented 须一个设计轮把「独立为常规、兼任为例外」落进
-  `E1` 或三角色表）
-- 裁决：executor 与 orchestrator 是**独立 session**，产品 run 与构造轮同一形式——orchestrator
-  跑 `dtw dispatch --executor`（产品侧）/ `--construction-executor`（构造侧）派发**冷启动**的
-  executor，executor 的输入＝派发文档所载（charter 指针 + run 事实），不携带 orchestrator 的
-  会话上下文。理由（用户原话的实质）：两个角色行为不同，需要看见的 context 也理所当然不同——
-  role 之分若不带 context 之分，就只是称呼。
-- 后果：`R1` 四持有在正常派发下天然分离，review dispatch 的独立性不再靠单 session 对自己的
-  纪律；`ORCHESTRATION.md` 上报路由（executor → orchestrator → 用户）按原文可走通；`E1` 中间态
-  披露句降为**例外通道**——真发生兼任时照旧披露持有项，但兼任自此是偏离、须在轮记录里说明缘由
-  （`HD-46` 的披露规则本身不变，本条只收窄其适用面为例外，不 supersede）。rider
-  `one-session-roles` 之答即本条，行按其自载兑付条件同 commit 删除；其记的两处文本失配在独立
-  形态下不再咬人，剩余「层内落一句」由本条 status 行追踪。冷启动路径已实测（2026-08-22，
-  scratchpad 一次性调用者仓）：`dispatch --executor` 派发单正确（charter 经挂载点解析）、字节
-  漂移四类拒绝之一实测生效；`claude -p` 冷启动探针第一动作读 charter、自行复核冻结 commit 与
-  派发单、25 轮零越权写入——实测记录只活在本对话，照记天花板（`R2`：chat-only 载重材料）。
-- basis: 用户裁决 2026-08-22（对话：「我倾向独立跑。如果能分出 executor 和 orchestrator 两个
-  role，就说明他们有不一样的行为，需要看见的 context 也理所当然的不一样」+「现在把这个落了。
-  之后 executor 和 orchestrator 就是独立的」）· rider `one-session-roles`（FULL
-  `v3-review-full-83e3191.md` `O-3` · VERIFY `v3-review-verify-627df95.md` `V-3`，其 deadline
-  ＝本裁决，同 commit 兑付删行）· `HD-53`（两个执行者派发模式，本条的机制承载）· `HD-46`
-  中间态 tiebreak（适用面被本条收窄）
-
 ### HD-44 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写，不欠裁决
 - 2026-08-18 · user · scope: standing · status: **live**（`E2` 正文只说「三个 blob 加一个目录，
   都由 inspection 可判」，没说这些路径必须留在哪个仓；跨仓之后这个歧义第一次咬人，而层里无承载。
@@ -160,6 +133,35 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-55 · executor 与 orchestrator 自此为独立 session；单 session 兼任不再是常规形态
+- 2026-08-22 · user · scope: standing · status: **implemented**（轮 `PRERUN-RIDERS` 落 carrier，
+  三站同 commit——**home** ＝ `ORCHESTRATION.md` 三角色表下新增的一句「Independent is the norm; one
+  session holding both work-side roles is the exception」，该表的主题就是 role→session 指派，故
+  归它 · `E1` 中间态披露句改写为**例外通道**（披露机制一字未改，只按本条把适用面收窄为例外）·
+  `ORCHESTRATION.md` *What the orchestrator may never do* 首条指路句随改，不再把兼任写成常规。
+  第三站由开轮 cold read `v3-cold-read-3a6a10b.md` 的 `O-1` 补上——本条原 status 行只点了两站；
+  `HD-41` ④ 的扫类输出见 carrier commit 正文。挪节与状态翻转同 commit，按 `HD-2`）
+- 裁决：executor 与 orchestrator 是**独立 session**，产品 run 与构造轮同一形式——orchestrator
+  跑 `dtw dispatch --executor`（产品侧）/ `--construction-executor`（构造侧）派发**冷启动**的
+  executor，executor 的输入＝派发文档所载（charter 指针 + run 事实），不携带 orchestrator 的
+  会话上下文。理由（用户原话的实质）：两个角色行为不同，需要看见的 context 也理所当然不同——
+  role 之分若不带 context 之分，就只是称呼。
+- 后果：`R1` 四持有在正常派发下天然分离，review dispatch 的独立性不再靠单 session 对自己的
+  纪律；`ORCHESTRATION.md` 上报路由（executor → orchestrator → 用户）按原文可走通；`E1` 中间态
+  披露句降为**例外通道**——真发生兼任时照旧披露持有项，但兼任自此是偏离、须在轮记录里说明缘由
+  （`HD-46` 的披露规则本身不变，本条只收窄其适用面为例外，不 supersede）。rider
+  `one-session-roles` 之答即本条，行按其自载兑付条件同 commit 删除；其记的两处文本失配在独立
+  形态下不再咬人，剩余「层内落一句」由本条 status 行追踪。冷启动路径已实测（2026-08-22，
+  scratchpad 一次性调用者仓）：`dispatch --executor` 派发单正确（charter 经挂载点解析）、字节
+  漂移四类拒绝之一实测生效；`claude -p` 冷启动探针第一动作读 charter、自行复核冻结 commit 与
+  派发单、25 轮零越权写入——实测记录只活在本对话，照记天花板（`R2`：chat-only 载重材料）。
+- basis: 用户裁决 2026-08-22（对话：「我倾向独立跑。如果能分出 executor 和 orchestrator 两个
+  role，就说明他们有不一样的行为，需要看见的 context 也理所当然的不一样」+「现在把这个落了。
+  之后 executor 和 orchestrator 就是独立的」）· rider `one-session-roles`（FULL
+  `v3-review-full-83e3191.md` `O-3` · VERIFY `v3-review-verify-627df95.md` `V-3`，其 deadline
+  ＝本裁决，同 commit 兑付删行）· `HD-53`（两个执行者派发模式，本条的机制承载）· `HD-46`
+  中间态 tiebreak（适用面被本条收窄）· carrier ＝轮 `PRERUN-RIDERS`（本条 status 行三站）
 
 ### HD-54 · C4 `O-1` 采样义务定读数时刻：下一产品 run 的 closeout 一次读数改判；义务安家执行者 charter
 - 2026-08-22 · user · scope: one-shot（读数发生并改判后本条消耗；消耗前仍可 supersede）· status:
