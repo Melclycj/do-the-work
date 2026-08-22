@@ -3,8 +3,8 @@
 Nine items. They are the ones `HD-33` / `HD-34` and `io-design.md` §5–§7 imply, written out in
 the order they are actually done, each with **the command or edit**, **how the caller sees that
 it took**, and **which rule or decision owns it**. Ownership is by pointer: this file never
-re-types a rule, because a second copy is a second thing that has to stay true (`E10`'s edits
-are "never re-typed with the same content"; `HD-5` records transcription as a drift surface).
+re-types a rule, because a second copy is a second thing that has to stay true (`HD-5`
+records transcription as a drift surface).
 
 **This file is not an instruction-layer member.** It has authority over nothing: every "must"
 below belongs to the rule named in its Owner column, and where this file and that rule disagree

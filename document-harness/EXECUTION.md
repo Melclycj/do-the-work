@@ -280,10 +280,11 @@ paragraph map against unit map — naming who or which session filled each; same
 filling is not independent and joins no sample. At the **next product run's closeout** the
 collected lines are read in full and the three-branch re-ruling recorded in
 `CONSTRUCTION-LEDGER.md`'s conversation-only list falls due; collection does not continue
-past that reading un-re-ruled. The obligation is written here because standing run-conduct
-arrives with the executor's dispatch (*Instruction authoring rules*), never from an
-instruction's Context section — this one spent four runs hand-copied there for want of a
-home.
+past that reading un-re-ruled. The recording falls to the work side at the run's
+review/closeout — the orchestrator's station, reached through `CONSTRUCTION-LEDGER.md`'s
+conversation-only line rather than through this file's dispatch — and the obligation is
+written beside the gate that authors the map it samples, not in an instruction's Context
+section, where it spent five runs hand-copied for want of a home.
 
 ## Audit cadence — pre-START rounds (2026-08-02 ruling)
 
@@ -343,11 +344,15 @@ evidence pass and for a construction batch's pre-commit verification alike:
 - **Doc-only change set** (every changed path is prose/markdown outside the schema,
   tooling, and generated trees): run the batch-specific checks only; the full battery
   is not owed. Exception, and what it turns on is the **path**, not the prose: code and
-  tests pin the *paths* of certain doc files — `document-harness/README.md`
-  under `test_readme_enumeration.py`, and the member paths in the layer-path mirror,
-  `tooling/hooks/layer_path_check.py` — so a change that adds, removes or
-  renames one of those paths is tooling-load-bearing and the batch is tooling-touching,
-  while a change to the *content* of such a file, its path unchanged, stays doc-only.
+  tests pin the *paths* of certain doc files — today `document-harness/README.md`
+  under `test_readme_enumeration.py`, the member paths in the layer-path mirror,
+  `tooling/hooks/layer_path_check.py`, the two shipped instance templates under
+  `document-harness/templates/` that `tooling/rsclib/document_harness/init_target.py`
+  copies, and `contract/Document-Work-Assurance-Contract-v3.md` under
+  `tooling/rsclib/document_harness/__init__.py` — so a change that adds, removes or
+  renames **any doc path code or a test pins** is tooling-load-bearing and the batch is
+  tooling-touching, while a change to the *content* of such a file, its path unchanged,
+  stays doc-only.
   Two accepted rounds had already read it this way before any text said so (`838c413`,
   and batch B R4, which changed two enumerated members and took the doc-only tier);
   rider `tier-file-vs-clause` carried the gap, and the user ruled the clause reading into
@@ -437,9 +442,10 @@ to exercise.
   of p4-bridge finding f1's routed WORKFLOW_FIX,
   `user-decision-triage-conduct-prose-in-normative-preamble`, 2026-08-01, which had the
   instruction carry the reference from its Context section): the rules the session runs
-  under — gap banking, first-run obligations, map-filling disclosures — live in this file,
-  and `dtw dispatch --executor` names this file to the executor at startup, so the
-  instruction no longer carries even the reference. What survives of the 2026-08-01
+  under — gap banking, first-run obligations, map-filling disclosures — live in this file
+  and the governing plans; `dtw dispatch --executor` names this file to the executor at
+  startup, the plans arriving with the instruction and subject the orchestrator delivers,
+  so the instruction no longer carries even the reference. What survives of the 2026-08-01
   decision is strengthened, not replaced: conduct prose still never enters normative
   preamble — a restated conduct sentence sits in no obligation and no context-unit, and
   narrows the START approval surface invisibly, the defect p4-bridge's same-source maps

@@ -798,8 +798,7 @@ not check.
 CONSTRUCTION_EXECUTOR_PROMPT = """\
 You are the executor for a construction round of Document Work Assurance
 Harness v3: your standing instructions are `{charter}`, whose *Execution side*
-heading already binds this role by name — read it, and the counterpart it
-names, before anything else.
+heading already binds this role by name — read it before anything else.
 """
 
 
