@@ -44,8 +44,8 @@ control plane is inside it by this section's own first sentence.
 have in fact done. Record it as an **observation finding in your own review record**, which is
 one of the two artifacts you already persist and commit; a `HarnessIssue` is not the reviewer's
 to file mid-run, and the schema makes that structural rather than remembered (`observed_after`
-admits only the two terminal statuses, so an issue claiming a mid-run observation is
-unrepresentable). At closeout the orchestrator routes it under the caller's policy
+admits only the two terminal statuses, so an issue recorded while the run is still in flight
+is unrepresentable). At closeout the orchestrator routes it under the caller's policy
 ([ORCHESTRATION.md](ORCHESTRATION.md), *Reading the caller's policy file*): a row in the
 caller's own rider bank, or a `HarnessIssue` filed after the run by whoever observed it. The
 record is the carrier in every case, so the observation survives the round that could not act

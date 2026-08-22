@@ -288,7 +288,8 @@
   结构性独立」两句，中间态两句都不管。重写取的读法是：**全占＝失格 · 一项不占＝结构性独立 ·
   中间态＝独立但该轮在记录里写明 executor 占了哪几项，且不得自称结构性独立**。这条中间态处置是
   本轮新加的 bound（rider `E1-suff` 明写任何限定词都是 design），随本轮设计轮落地；它直接作用于
-  今天的实际形态——一个 session 同时持 orchestrator 与 executor 两个角色。同句另把「一个 session
+  当时的实际形态——一个 session 同时持 orchestrator 与 executor 两个角色——该形态自
+  `HD-55`（2026-08-22）起不再是常规，只余 `E1` 的例外通道。同句另把「一个 session
   一辈子一个角色」重述为**work side / review side 之分**，与 `Execution side` 节头「whether it
   orchestrates the round or executes it」一致，消掉字面读法下每一轮都违规的矛盾。
 - 后果：rider `E1-suff` 兑付删行；`E10-sync` 按 `HD-22` 不删行、deadline 顺延。`HD-19`（决策簿不进

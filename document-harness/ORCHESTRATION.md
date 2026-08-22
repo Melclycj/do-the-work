@@ -78,10 +78,8 @@ Context route the instruction may no longer carry even the reference — so a pl
 over reaches a cold executor by no path at all. And they are the caller's extension point on
 the work side: rules this instrument cannot know are written there rather than into an
 instrument the caller may not edit (`HD-34`). What may legitimately sit in a plan rather than
-in the instruction is
-[EXECUTION.md](EXECUTION.md)'s *Instruction authoring rules* to state — instruction first, the
-plan channel taking only what the instruction cannot carry — and this file does not re-type
-it.
+in the instruction is [EXECUTION.md](EXECUTION.md)'s *Instruction authoring rules* to state,
+and this file does not re-type it.
 
 ### Reading the caller's policy file
 
