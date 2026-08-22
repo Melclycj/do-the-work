@@ -1,6 +1,13 @@
 # Plan — round `EXECUTOR-CHARTER`
 
-> **Status: not started.** Written 2026-08-22 at the close of round `TEMPLATE-LIB-ROOT`, to
+> **Status: executed — round CLOSED 2026-08-22.** Three legs full: cold read `693b692`
+> (0 must-fix) → FULL `229f03f` `REVIEWED_NO_BLOCKER` (5 lows, all spent in the one
+> user-approved fix `3dd226b` together with the cold read's low) → VERIFY `3dd226b`
+> `REVIEWED_NO_BLOCKER`. Rulings registered as `HD-53` / `HD-54`; the open question below
+> was answered by `HD-54` (a reading moment). Narrative: journal
+> `executor-charter-2026-08-22.md`; records `v3-{cold-read-693b692,review-full-229f03f,review-verify-3dd226b}.md`.
+>
+> Originally written 2026-08-22 at the close of round `TEMPLATE-LIB-ROOT`, to
 > carry into a fresh session the four user rulings and one open question that otherwise exist
 > only in the conversation that produced them. A cold session reads this file, then
 > `CONSTRUCTION-LEDGER.md`'s current pointer, then opens the round.

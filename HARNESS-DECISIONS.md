@@ -134,6 +134,37 @@
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
 
+### HD-54 · C4 `O-1` 采样义务定读数时刻：下一产品 run 的 closeout 一次读数改判；义务安家执行者 charter
+- 2026-08-22 · user · scope: one-shot（读数发生并改判后本条消耗；消耗前仍可 supersede）· status:
+  **implemented**（承载：`EXECUTION.md` Authoring gate 段落——candidate `229f03f` 立段、修腿
+  `3dd226b` 修正行为主体句——+ `CONSTRUCTION-LEDGER.md` conversation-only 行收窄为「三分支+指针」
+  （随轮 closeout）；FULL `v3-review-full-229f03f.md` `O-6` 指出本裁决 chat-only 且 load-bearing，
+  本条即其登记，`O-5`(b) 之兑）
+- 裁决：C4 `O-1`（2026-08-01）的两 map 分类对照义务**不退役、也不无限收集**——每真 run 的
+  review/closeout 照记一行，至**下一个产品 run 的 closeout** 一次读全已收行、按原三分支改判；
+  读数前该义务作为 standing run-conduct 住执行者 charter（`EXECUTION.md`），不再靠指令 Context
+  手抄（它为此手抄了五个 run）。用户的范畴框架保留：仪器把自己的研究记账挂到被测工作指令面上
+  这件事，以「给研究一个 charter 之家 + 一个到期日」作答，不以留在 Context 作答。
+- basis: 用户裁决 2026-08-22（对话，预览卡三问之二）· plan `document-harness/plans/executor-charter.plan.md`
+  §Open question 三选项 · FULL `v3-review-full-229f03f.md` `O-6`/`O-5`(b) · journal
+  `document-harness/journal/executor-charter-2026-08-22.md`
+
+### HD-53 · `dtw dispatch` 收两个执行者模式；产品侧 charter=`EXECUTION.md`、构造侧=`CONSTRUCTION-CHECKLIST.md`
+- 2026-08-22 · user · scope: standing · status: **implemented**（承载随轮 `EXECUTOR-CHARTER`
+  candidate `229f03f` 落地：`dispatch.py` 第四 dispatch family 两常量两 prompt + `cli.py` 两模式
+  接线 + golden 整文档等式测试；条目按 `HD-51` 先例于 closeout 建）
+- 裁决：① 产品侧执行者模式发三件且仅三件——run id、冻结指令的 path 与 revision、charter 指针
+  `document-harness/EXECUTION.md`；不枚举「查什么」（shadow-WorkSpec 拒绝对执行者派发同样成立；
+  派发时点=START，WorkSpec 由执行者事后起草（`HD-35`），故亦无他物可派生）。② 构造侧模式发一句
+  ——charter 指针 `document-harness/CONSTRUCTION-CHECKLIST.md`（其 *Execution side* 标题本就点名
+  绑定该角色）、零推导（构造轮无 control plane；手喂轮名与边界即重造本模块要废除之物）。③ 两
+  模式均不写 freeze marker——那是 `E9` 评审窗口，executor 派发启动的正是窗口要冻的工作。随其
+  落地，`EXECUTION.md` 的「Context 引用」写作规则删除（部分 supersede p4-bridge f1 的
+  2026-08-01 路由裁决，替换文本内命名；`ORCHESTRATOR-CHARTER` 轮未答问题①就此关闭）。
+- basis: 用户裁决 2026-08-22（对话 + plan `document-harness/plans/executor-charter.plan.md`
+  §四条用户裁决为其载体）· 先例 `HD-47`/`HD-51`（命令面按案裁决）· candidate `229f03f` ·
+  FULL `v3-review-full-229f03f.md`
+
 ### HD-52 · START 卡由脚本渲染这条裁决**对所有 run 都算**，不限编号态；`HD-51` 的范围澄清
 - 2026-08-22 · user · scope: standing · status: **implemented**（转条件「一个轮次把那句话移出编号态
   范围、或补一句盖住散文态」已由轮 `EXECUTOR-CHARTER` 满足：`EXECUTION.md` 把「Since round
