@@ -1,6 +1,16 @@
 # Plan — round `PRERUN-RIDERS`
 
-> **Status: open.** Written 2026-08-22 at round open, after the opening cold read
+> **Status: executed — round CLOSED 2026-08-23.** Three legs full, all by independent
+> sessions per `HD-55` (the round was itself the form's first exercise): cold read `3a6a10b`
+> (0 must-fix) → FULL `7cb7213` `REVIEWED_NO_BLOCKER` (5 lows + 4 observations, the all-in
+> fix `860729f` user-approved) → VERIFY `860729f` `REVIEWED_NO_BLOCKER` (its `V-1` banked as
+> rider `hi-schema-gloss` — `E2`-frozen bytes wait for a recorded ruling). Ruling 5 was
+> re-ruled within the day (word list untouched) — §5 below records both the initial ruling
+> and the overturn. `HD-55` flipped implemented with its carrier. Records
+> `v3-{cold-read-3a6a10b,review-full-7cb7213,review-verify-860729f}.md`; journal
+> `prerun-riders-2026-08-22.md`.
+>
+> Originally: **Status: open.** Written 2026-08-22 at round open, after the opening cold read
 > (`v3-cold-read-3a6a10b.md`, 0 must-fix / 0 low / 4 observations) landed at `ee3e05f`. This
 > file is the carrier of the **seven user rulings of 2026-08-22** below until the round records
 > them; a cold session reads this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then
