@@ -27,6 +27,28 @@
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 
+### HD-56 · 契约 v4 已签署：单文件操作契约 + v4 入层 + 三源文件退役
+- 2026-08-23 · user · scope: standing · status: **live**（本条即签字记录本身——v4 按
+  governance-scan 判据不携带自身审批状态，签字住这里，形状比照 `HD-35`/`HD-40`；`E2` 名单的
+  v4 blob 字面量与本条互为印证）
+- 裁决①（签字本体）：用户签署 `contract/Document-Work-Assurance-Contract-v4.md`（轮
+  `CONTRACT-V4`，经 FULL `28852a6` `CHANGES_REQUIRED` → 一次用户批准的修 `d0f185c` → VERIFY
+  `REVIEWED_NO_BLOCKER`，用户自述通读全文后签署）。**签字绑定字节 blob
+  `614932de40b841ec9777719aea88de04864eb67b`、sha256（blob 内容，LF，`git cat-file blob <id> |
+  sha256sum` 口径，按 `HD-40` 的更正）`1b1061cb…7a23fa`，339 行**。v4 自此为唯一操作契约文本，
+  合并取代三份已签源文件——v3（`b2dbdf75…`）· supersession-1（`68031fa2…`）· supersession-2
+  （`e1a2f26b…`）——三者按用户 2026-08-23 确认退役入 git 历史，字节按 `HD-44` 不可写。`E2`
+  冻结面自此 = v4 一件 + schema pack 十五件，共十六件。
+- 裁决②（v4 入层，落簿）：v4 为 `E10` 第九成员（用户 2026-08-23 裁，答 FULL `O-2` 经 `R5`
+  归口之问、履 `HD-21` 的记录义务；此前该裁决只活在修腿 commit `d0f185c` 正文，VERIFY 点名
+  欠簿，本条即其家）。v4 因此处于 `HD-20` 交叉——同时 `E2` 冻结与 `E10` 成员，其字节先欠
+  `E2` 的 recorded ruling。
+- 裁决③（豁免退役授权）：`governance-exemptions.json` 的契约条目（blob `b2dbdf75…`）退役；
+  该文件 retired 块所引的「removing decision」即本条。
+- basis: 用户签字 2026-08-23（对话「签字」，签前确认两次评审均实读 v4）· plan
+  `document-harness/plans/contract-v4.plan.md` D1–D10 · 记录
+  `v3-review-full-5f849da.md` · `v3-review-verify-d0f185c.md`
+
 ### HD-44 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写，不欠裁决
 - 2026-08-18 · user · scope: standing · status: **live**（`E2` 正文只说「三个 blob 加一个目录，
   都由 inspection 可判」，没说这些路径必须留在哪个仓；跨仓之后这个歧义第一次咬人，而层里无承载。
@@ -105,6 +127,10 @@
   **独立策略文件**（本机 `ResearchSystem/HARNESS-POLICY.md` + `CLAUDE.md`/`AGENTS.md` 各一行
   指针；依据 = 实测 CLAUDE.md 113 行、镜像双写、其 :68 push-detail-down 规则）；§5/§6/§8 三处
   随裁更新。重签绑定 blob `8f3c82c2`、sha256 `730fddf4…8157`（初签 `ef75b870` 留档）。
+- **重签 2026-08-23（第三次，轮 `CONTRACT-V4`，随 `HD-56` 签字一并）**：除锈两处——:99-100 的
+  `HI-route` 悬空指针改为成文化路由（rider `io-hiroute-stale` 兑付）+ 命令面重签标记（rider
+  `six-signed` 本文件半边兑付）。重签绑定 blob `a1594eb2…`、sha256 `6fc29c11…b9c2`（blob 内容，
+  LF），135 行；前签 `8f3c82c2` 留档。
 - basis: 用户签字 2026-08-12（对话）· `document-harness/io-design.md` @ `8f3c82c2`
 
 ### HD-34 · 调用者纪律：零升级、适配留痕；copy 仅为逃生口（`HD-29` 拆分后继 ②）
@@ -353,6 +379,10 @@
   **签字时仍开着的两件**（均不阻塞 R1，记明以免被读成已闭）：① 新仓 remote 由用户自建；
   ② 删除范围 **139→171** 的差额欠 R1 动手前的最后确认——用户的「删」是对 139 口径给的，
   32 件的补测发生在其后（`HD-39` 与 §7 均已照记）。
+- **重签 2026-08-23（第三次，轮 `CONTRACT-V4`，随 `HD-56` 签字一并）**：除锈两处重签标记——
+  §1 六命令句的读法注（`HD-47`/`HD-51`，rider `six-signed` 本文件半边兑付）+ §2 EXCLUDE 提议的
+  未走路标（rider `design-route` 兑付）。重签绑定 blob `a078ea31…`、sha256 `fb9e6822…5332`
+  （blob 内容，LF），358 行；前签 `3140faf1` 留档。
 - basis: 用户签字 2026-08-14（对话）· `document-harness/split-design.md` @ `3f4d2b0a`
 
 
@@ -497,7 +527,8 @@
 ### HD-20 · `E2` 冻结优先于 `E10` 自由通道（rider `E2-FC` 兑付）
 - 2026-08-08 · user · scope: standing · status: implemented（`E10` 自由通道句的 `E2` 例外承载，
   同 commit；rider 行同 commit 删）
-- 裁决：同时被 `E2` 冻结又是 `E10` 成员的路径（现仅 `paragraph-map.schema.json`），其字节**先欠
+- 裁决：同时被 `E2` 冻结又是 `E10` 成员的路径（2026-08-08 建条时仅 `paragraph-map.schema.json`；
+  2026-08-23 起共两件——`HD-56` 使 contract v4 亦入此交叉），其字节**先欠
   `E2` 的 recorded ruling**——自由通道与 must-fix 通道都不写它，供了字节的 finding 在裁决存在前
   bank。理由：若一条 low finding 就能写冻结字节，`E2` 整条被绕开——冻结的意义就在「必须有裁决」。
 - basis: rider `E2-FC`（`v3-checkpoint-read-838c413.md` L-1）

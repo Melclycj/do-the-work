@@ -44,7 +44,7 @@
       "blob": "b2dbdf752d8c155e4c65b14b5f420b880b8184a1",
       "path_hint": "contract/Document-Work-Assurance-Contract-v3.md",
       "retired_at": "round CONTRACT-V4, 2026-08-23",
-      "why": "The v3 contract left the tree when contract v4 (which carries no self-approval field) superseded it as the operative text; a blob no longer in the tree meets no scan, so the entry grandfathers nothing. Kept here as a retired record rather than deleted silently: the register's own note reserves adding an entry to a user decision, and removal follows the same authority — the removing decision is round CONTRACT-V4's signature entry in HARNESS-DECISIONS.md, owed at the signing checkpoint and not yet written."
+      "why": "The v3 contract left the tree when contract v4 (which carries no self-approval field) superseded it as the operative text; a blob no longer in the tree meets no scan, so the entry grandfathers nothing. Kept here as a retired record rather than deleted silently: the register's own note reserves adding an entry to a user decision, and removal follows the same authority — the removing decision is round CONTRACT-V4's signature entry in HARNESS-DECISIONS.md, recorded as HD-56 (2026-08-23)."
     }
   ]
 }
