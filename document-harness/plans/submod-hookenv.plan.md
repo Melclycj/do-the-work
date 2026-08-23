@@ -38,6 +38,29 @@ No FULL of its own. The **shared FULL** dispatched after this batch's candidate 
 budget for the combined subject: that one FULL, at most one user-approved fix, one targeted
 VERIFY.
 
+## Fix-gate ruling of 2026-08-24 (after shared FULL `3d5c705`, record `0732620` — this section is its carrier)
+
+The shared FULL returned `CHANGES_REQUIRED` (2 blockers, 4 lows, 5 observations; the code
+half verified good). The user approved the fix leg **all-in** ("全包吧") — `E9`'s one
+user-approved fix for the combined subject, obliging the targeted VERIFY. Boundary, exactly
+these, nothing else:
+
+1. **B-1** — the README quickstart gains the missing tracked-hook step (write
+   `.githooks/pre-commit` invoking the mounted guard, `--chmod=+x`, placed **before** the
+   `core.hooksPath` step), then the quickstart sequence is re-walked end to end and the
+   pasted output lands in the record channel the FULL names.
+2. **B-2** — errata for the falsified mutation-signature claims: real per-test output
+   pasted, the both-controls-stayed-green sentence retracted, the plain-branch mechanism
+   (`return listed or None`) explained.
+3. **L-1** — the paths.py class-scan line-number drift (+3) corrected in the same errata.
+4. **L-2** — the ONBOARDING long-path threshold off-by-one corrected.
+5. **L-3** — the README three-hats absolute quantifier aligned to the layer's
+   norm-plus-`E1`-exception reading.
+
+Outside the fix boundary: **L-4** (the homeless memory-deletion ruling) is the
+orchestrator's closeout journal note, already owed; commit `0133d1b` stays as ruled
+(path 1, disclosure via `e620b43`); the five observations stand recorded.
+
 ## Expectations the shared FULL can hold this batch to
 
 - The hook-environment test fails on the pre-fix tree and passes after (output pasted), with
