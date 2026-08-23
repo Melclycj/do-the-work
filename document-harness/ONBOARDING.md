@@ -14,10 +14,24 @@ The round that created this file recorded that question and its answer —
 
 **Read once before starting:** `README.md` beside this file (the instrument's navigation
 surface) and `../HARNESS-DECISIONS.md`'s `§live`. Onboarding is not a round and spends no
-review budget; what it produces is a repository in which a round can be opened. One command
-convention: `python` in the commands below means whichever of `python3` / `python` this
-machine actually runs — stock Ubuntu ships only `python3` (measured 2026-08-23), Windows
-typically `python` — and `.githooks/pre-commit` resolves the same choice by probing.
+review budget; what it produces is a repository in which a round can be opened.
+
+**Install the instrument's runtime dependencies first, for the interpreter the hook will
+use.** `python -m pip install "jsonschema>=4.18" referencing` — every `dtw` command and both
+caller-side guards import `jsonschema` through `rsclib.document_harness`, so without it item
+1's own `--help` check exits 1 on `ModuleNotFoundError` and item 9 ends with a hook that
+fails every commit. Measured 2026-08-24 on the second caller's walk, which is where this step
+was found missing. The instrument's own hook never revealed it: that hook runs
+`layer_path_check.py` alone, which is the one guard with no third-party import.
+
+One command convention: `python` in the commands below means whichever of `python3` /
+`python` this machine actually runs — stock Ubuntu ships only `python3` (measured
+2026-08-23), Windows typically `python`. `.githooks/pre-commit` probes `python3` first and
+`python` second, so **on a machine that has both the two do not resolve alike** — measured
+2026-08-24, where the probe took a Python 3.12 with no site-packages while a reader typing
+`python` got a 3.13 that had them, and nothing said so until a guard tried to import. Install
+into whichever the probe picks, or make the caller's own hook name one interpreter and record
+that choice in the caller's decision log.
 
 ## What a clone carries, and what it does not
 
@@ -80,7 +94,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 
 | | |
 |---|---|
-| **Do** | `dtw init` copies `templates/decision-log.md` verbatim to `HARNESS-DECISIONS.md` at the caller's root. Move it if the caller wants it elsewhere; record that in the file itself, since it is the log of exactly such decisions. |
+| **Do** | `dtw init` copies `templates/decision-log.md` verbatim to `HARNESS-DECISIONS.md` at the caller's root. Move it if the caller wants it elsewhere; record that in the file itself, since it is the log of exactly such decisions. **A move costs something, and the cost is silent:** `init` takes no placement option (`HD-47` ruled `--into` not worth adding), so it only ever looks at the root, and a later run writes a *fresh empty log* there beside the moved one — measured 2026-08-24 on the second caller's walk, exit 0, reported as `created`. Two logs then exist and the empty one is the one at the path every convention names, so a cold read discharging `E10`'s `§live` obligation reads no rulings at all. If the log is moved, either do not re-run `init`, or delete what it recreates; the caller's policy file is where to say which. |
 | **See** | The file exists and has no entries, and its header carries `io-design.md` §6's five — the state machine, the four scopes, the three admission questions, **inheritance** (the block beginning *"Who reads it"*, which carries the `§live` required-reading rule and the verbatim-inheritance rule), and the deletion discipline — plus narrowing (`HD-30`), which the template ships as an extra. `dtw init` refuses to overwrite an existing one and names it in its report — a second run cannot clobber rulings. |
 | **Owner** | `io-design.md` §6 (this file ships as an empty instance, header included). The rules of the log live **in that header**, not in the instruction layer: `HD-19` ruled the decision log is not an instruction-layer member, while `E10`'s tail makes its `§live` required reading at every round's opening. The harness's own instance, `../HARNESS-DECISIONS.md`, is a filled example of the same shape. |
 
@@ -88,7 +102,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 
 | | |
 |---|---|
-| **Do** | `dtw init` copies `templates/rider-bank.md` verbatim to `HARNESS-RIDERS.md` at the caller's root. |
+| **Do** | `dtw init` copies `templates/rider-bank.md` verbatim to `HARNESS-RIDERS.md` at the caller's root. Moving it carries item 3's cost unchanged — measured on the same walk, both files recreated at the root by one `init` run — and the same two answers apply. |
 | **See** | The file exists, carries the four-column table header and no rows, and points at the rule rather than restating it. |
 | **Owner** | `io-design.md` §6 for the empty instance; `R10` in `CONSTRUCTION-CHECKLIST.md` for the rules — what banks here rather than becoming a `HarnessIssue` or a round, the row format, and what redemption is. Note which bank: `R10`'s last clause reserves the construction side's bank for construction findings, so a caller's product-run observations belong in the caller's own bank, which is this file. |
 
@@ -175,6 +189,34 @@ remote is private and this run had no network, so the submodule source was a loc
 carrying this round's uncommitted work — the run exercised these bytes, not a published
 revision; the procedure was executed by its own author on the machine that grew the harness, so
 it is not evidence that a stranger can follow it; and nine items were confirmed executable and
-sufficient *for this run*, which is not evidence that a tenth is not missing. A real second
-caller is what would close the last two. The run, its command outputs, and the membership
+sufficient *for this run*, which is not evidence that a tenth is not missing. A real second caller was what
+would close the last two; the section below is that run, and closes one of them. The run, its command outputs, and the membership
 question this round was obliged to record are in `journal/caller-onboarding-2026-08-19.md`.
+
+## Second execution — 2026-08-24, a second caller on a different layout
+
+Walked again, end to end, against a fresh repository outside both trees, on a layout chosen to
+share nothing with the first: the mount three directories deep at `lib/vendor/assurance-harness`
+rather than two, the entry file `AGENTS.md` rather than `CLAUDE.md`, the policy file, ledger,
+decision log and returned records all under `docs/policy/` rather than at the root, and the
+scan-surface declaration edited away from the shipped defaults because of it. The full record —
+every command, its pasted output, and whether each item's own *See* check held — is
+`journal/stranger-proof-walk-2026-08-24.md`.
+
+**What that run changed in this file.** Three of the nine items were wrong or short as written,
+and all three are fixed above: the runtime dependencies were never installed by any item (item
+1's own `--help` check exits 1 without them, and item 9 ends with a hook that fails every
+commit); the interpreter convention claimed the hook's probe and a reader typing `python`
+resolve alike, which is false on a machine that has both; and item 3's offer to move the
+decision log did not say that a later `init` silently recreates an empty one at the root, where
+a cold read then finds no rulings.
+
+**What it closes, and what it does not.** The first ceiling above is closed: the submodule source
+was the published remote at revision `1a0a200`, not a local clone of uncommitted work. The third
+is answered rather than closed — a tenth item *was* missing, it is now written, and that is still
+not proof an eleventh is not. The second stands: same machine, and the walker was an agent
+following the file, not a human stranger meeting it cold. Windows long paths remain a caveat and
+were measured rather than assumed — the longest path under the mount came to 182 characters
+against the 260 limit, so a caller whose repository root exceeds 130 characters still needs
+`-c core.longpaths=true`. Nothing here was executed on POSIX; the CI matrix covers the test
+suite there, not this procedure.
