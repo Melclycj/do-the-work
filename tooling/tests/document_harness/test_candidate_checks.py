@@ -520,7 +520,7 @@ VALID_CONFIGS = {
     "json_schema": {"subject_path": "docs/subject.json", "schema_path": "docs/schema.json"},
     "markdown_link": {"subject_paths": ["docs/guide.md"]},
     "locator_exists": {"locator": {"path": "docs/guide.md", "anchor": "## Anchored Section"}},
-    "command_exit": {"argv": ["python", "-c", "pass"], "cwd": ".", "allowed_exit_codes": [0]},
+    "command_exit": {"argv": [sys.executable, "-c", "pass"], "cwd": ".", "allowed_exit_codes": [0]},
     "git_diff_boundary": None,
 }
 

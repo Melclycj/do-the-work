@@ -1,5 +1,7 @@
 # do-the-work
 
+![CI](https://github.com/Melclycj/do-the-work/actions/workflows/ci.yml/badge.svg)
+
 A document-work assurance harness: an instrument that makes a piece of document work
 reviewable — a frozen instruction, a candidate, machine-checked evidence, and an independent
 review whose verdict nobody in the loop can grant themselves.
@@ -52,16 +54,15 @@ and two of this extraction's three review legs were spent falsifying sentences t
 | Do the pre-commit guards bind? | stage a path that resolves nowhere into an instruction-layer file, then run each of `tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py` and read the exit codes |
 | Is a hook wired in THIS checkout? | `git config --get core.hooksPath` — exit 1 means nothing runs, whatever the tree carries; then `ls .githooks/pre-commit` for what would run |
 | How do I onboard a repository that has never seen this? | `document-harness/ONBOARDING.md` — nine items, each with its command, its check, and the rule that owns it |
-| Is there a CLI? | `ls tooling/dtw.py` |
+| Is there a CLI? | `ls tooling/dtw.py`; `python tooling/dtw.py --help` lists its commands — a count written here went stale twice (rider `RA`), so none is written |
+| What does the suite need? | Python ≥ 3.12 and `python -m pip install pytest "jsonschema>=4.18" referencing` — the floor is measured, not decorative: Ubuntu 24.04's system jsonschema 4.10.3 fails 571 of these tests |
 | Which files travelled and which stayed? | `document-harness/split-travel-manifest.md` — it carries the rule, not just the list |
 
 What stays true of this repository regardless of when you read it:
 
-- **The CLI is not here.** `rsc.py` is the caller's by design; extracting the six v3 commands
-  into `do-the-work` (alias `dtw`) is R2's work, riders `RA` / `CLI-hist`.
-- **Some travelled tests read the caller's tree**, so the CLI extraction alone will not make the
-  suite green. Whether an instrument's test may depend on its caller's content, and what
-  replaces it if not, is R2's design question — this README does not settle it.
+- **The CLI is `tooling/dtw.py`** (alias `dtw`), extracted from the caller's `rsc.py` by the
+  split batch's R2 on 2026-08-17. What commands it has is `--help`'s answer, never this
+  file's: two sentences here counted them and both went stale.
 - **Guard wiring is per-machine, and that half is all of it.** Since 2026-08-19 this
   repository carries a tracked `.githooks/pre-commit` running the instruction layer's path
   check — the extraction installed none, and the re-homing that closed that gap put the script
@@ -79,7 +80,9 @@ What stays true of this repository regardless of when you read it:
   `tooling/tests/document_harness/test_precommit_checks.py`. Whether
   they resolve *today* is the third row of the table above; do not take this paragraph's word
   for it.
-- **No remote.** The caller creates it.
+- **Licensed MIT** (`LICENSE`, user ruling 2026-08-23). The remote is whatever `git remote -v`
+  prints in your checkout — a predecessor of this bullet asserted "No remote" and was the
+  fourth of four false claims rider `readme-cli-stale` recorded against this section.
 
 > This section previously asserted the guard state twice and got it wrong both times — once in
 > each direction. Both corrections cost a review leg. The table replaced the assertions rather

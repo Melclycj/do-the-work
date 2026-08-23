@@ -26,8 +26,28 @@
 # "Local enforcement" row).
 
 CHK=tooling/hooks/layer_path_check.py
+
+# python3 first, python second, and each candidate must actually RUN, not merely exist:
+# POSIX systems ship `python3` and often no `python` at all — measured 2026-08-23 on a wired
+# Ubuntu clone, where the bare `python` this hook used to call failed every commit (exit 127)
+# with the check never running. Windows Git Bash is the opposite (`python`, usually no
+# `python3`), hence a fallback rather than a rename; and a name on PATH can be a Microsoft
+# Store alias stub that resolves but does not run — the same measurement met one through WSL
+# interop — hence the `-c pass` probe rather than `command -v` alone.
+PY=""
+for CAND in python3 python; do
+  if command -v "$CAND" >/dev/null 2>&1 && "$CAND" -c "pass" >/dev/null 2>&1; then
+    PY="$CAND"
+    break
+  fi
+done
+if [ -z "$PY" ]; then
+  echo "pre-commit: no working python3 or python on PATH — the layer path check did NOT run."
+  exit 1
+fi
+
 if [ -f "$CHK" ]; then
-  python "$CHK"
+  "$PY" "$CHK"
   status=$?
   if [ "$status" -ne 0 ]; then
     exit "$status"
