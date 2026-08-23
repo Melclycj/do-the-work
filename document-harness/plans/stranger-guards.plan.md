@@ -91,6 +91,46 @@ sentence (untouched → no `E10-sync` due); the second-caller proof and the audi
 (round `STRANGER-PROOF`); the §10.5 pair (ruling 3); the caller-side `decited-paths` sites
 (cross-repo, after this round); any `git push` (`E8`).
 
+## Fix-gate rulings of 2026-08-23 (after FULL `c2e955b`, record `18bb2bf` — this section is their carrier)
+
+The FULL returned `REVIEWED_NO_BLOCKER` with two lows; per `R10` the spend-or-bank choice
+on each, plus the pending register questions, went to the user, who ruled five things:
+
+1. **The fix leg is approved** (`E9`'s one user-approved fix, a late activation after a
+   no-blocker FULL — it still obliges the targeted VERIFY). Boundary, exactly two items,
+   nothing else: **(a)** FULL Low-1 — trailing-slash normalization where the record /
+   specification surface groups build their matching, so both guards read one declaration
+   one way, plus the must-fire test the finding names; **(b)** the README terminus — the
+   user **rejected** the request-access proposal ("不写，thesis 就是 private"): the
+   `github.com/Melclycj/Thesis-Work` URL and the "durable address to request access"
+   sentence are removed; the terminus returns to the single-machine historical form
+   (`D:/Thesis`, worktree, commit — recorded history), with at most one plain clause that
+   the caller's repository is private and its history is not publicly reachable. No door
+   is offered, closed or otherwise.
+2. **FULL Low-2 takes no code change.** The dispatch-range lesson (subject base = the last
+   reviewed tip, so bookkeeping commits are covered rather than excluded; riders-only
+   commits land after the candidate) is recorded in the closeout ledger entry and the
+   round journal; this round's own VERIFY dispatch already applies it (base `c2e955b`).
+3. **`HD-44` correction lands** (user: 落) — the consequence line's eighteen becomes
+   sixteen with a dated note, and the ledger's repetition of the signature commit's
+   unperformed-edit claim is corrected in the same act. Register class (decision log is
+   the user's register, orchestrator lands the ruled edit; ledger correction per the
+   2026-08-03 ledger-batch ruling), outside the fix boundary, landed before the VERIFY
+   dispatch so it falls inside the reviewed range (the 2026-08-04 ruling's condition).
+4. **The ledger's "public 仓" sentence is corrected** (user: 改) — the caller repository
+   measured private on 2026-08-23 (anonymous API 404, anonymous `ls-remote` challenged);
+   same register commit.
+5. **The `E2` stale-literal class may be fixed** (user: 可以改) — one recorded ruling
+   covering the five sites: contract v4's §5 Verification-mode row, v4's plan-digest
+   provenance sentence, the two WorkSpec schema titles (rider `wspec-owner`), and
+   `harness-issue.schema.json`'s `observed_after` gloss (rider `hi-schema-gloss`). The
+   ruling enters the decision log in the same register commit as ruling 3; the **byte
+   application is scheduled after this round's closeout** as its own reported application
+   batch — rider rows (`v4-verifmode`, `v4-plan-digest`, `wspec-owner`,
+   `hi-schema-gloss`) redeem in that commit, the `E2` clause's v4 blob literal updates in
+   the same act, and the member edits owe their independent read at the next opening
+   (`STRANGER-PROOF`'s cold read).
+
 ## Expectations the FULL can hold the candidate to
 
 - Battery green at the candidate revision, new tests included, with mutation evidence and
