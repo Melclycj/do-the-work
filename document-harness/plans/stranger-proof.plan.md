@@ -1,6 +1,13 @@
 # Plan — round `STRANGER-PROOF` (publicization batch C, second of two rounds)
 
-> **Status: open.** Written 2026-08-24 at round open, on the user's word ("做 STRANGER-PROOF").
+> **Status: executed — closed 2026-08-24, jointly with batch `SUBMOD-HOOKENV`** (one shared
+> FULL over both units by user ruling; `CHANGES_REQUIRED` → all-in fix `3149581` → VERIFY
+> `REVIEWED_NO_BLOCKER`). Records
+> `v3-{cold-read-21dad76,checkpoint-read-153302a,review-full-3d5c705,review-verify-3149581}.md`;
+> closeout journal `stranger-proof-2026-08-24.md`; walk record
+> `stranger-proof-walk-2026-08-24.md`.
+>
+> Originally: **Status: open.** Written 2026-08-24 at round open, on the user's word ("做 STRANGER-PROOF").
 > The round's content was ruled at the batch C opening (2026-08-23, recorded in
 > `stranger-guards.plan.md` ruling 1): the second-caller ONBOARDING proof and the
 > audience-facing root README rewrite. The §10.5 pair (submodule-vs-plugin distribution,

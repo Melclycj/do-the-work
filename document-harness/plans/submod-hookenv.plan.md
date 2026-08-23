@@ -1,6 +1,11 @@
 # Plan — batch `SUBMOD-HOOKENV` (paths.py hook-environment fix; shares one FULL with `STRANGER-PROOF`)
 
-> **Status: open.** Written 2026-08-24 on the user's approval ("批开小批修"). Queue position:
+> **Status: executed — closed 2026-08-24, jointly with round `STRANGER-PROOF`** (shared FULL;
+> the code fix verified good and harder than claimed; fix leg and VERIFY per the fix-gate
+> section below). Closeout journal `stranger-proof-2026-08-24.md`; batch journal
+> `submod-hookenv-2026-08-24.md`.
+>
+> Originally: **Status: open.** Written 2026-08-24 on the user's approval ("批开小批修"). Queue position:
 > immediately after round `STRANGER-PROOF`'s candidate (`e620b43`, complete, unreviewed) and
 > **before** the shared review — the user postponed `STRANGER-PROOF`'s FULL (2026-08-24) so
 > that **one FULL covers both work units** in a single subject range, base at the last
