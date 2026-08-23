@@ -1,6 +1,21 @@
 # Plan — round `CONTRACT-V4` (publicization batch B: the re-signing / packaging batch)
 
-> **Status: open.** Written 2026-08-23 at round open, after the opening layer read
+> **Status: executed — round CLOSED 2026-08-23, contract v4 SIGNED (`HD-56`).** All legs
+> walked by independent sessions: opening read `b8df15a` (0 must-fix, two rounds' owed
+> member reads paid) → FULL `5f849da` `CHANGES_REQUIRED` (B-1: four sites asserted a
+> signature not yet given — the class D1 removed from the frontmatter, reappearing around
+> it) → the one user-approved fix `d0f185c` (four rulings folded: the fix, O-5's three
+> statements restored, v3 retirement confirmed, and **v4 admitted to the instruction layer**
+> — nine members, the user's call against the recommendation) → VERIFY `d0f185c`
+> `REVIEWED_NO_BLOCKER` (its V-1 fifth site deleted via the free channel, `f112135`).
+> Signature `3b25f3c`: blob `614932de…`, sha256 `1b1061cb…7a23fa`, after the user's stated
+> full read; `HD-35`/`HD-40` third signings ride it; riders `frozen-path-prefix` /
+> `design-route` / `io-hiroute-stale` / `six-signed` redeemed, `wspec-owner` half-redeemed,
+> `fixleg-scan-raw` self-redeemed, `read-name-split` added. Records
+> `v3-{cold-read-b8df15a,review-full-5f849da,review-verify-d0f185c}.md`; journal
+> `contract-v4-2026-08-23.md`.
+>
+> Originally: **Status: open.** Written 2026-08-23 at round open, after the opening layer read
 > (`v3-cold-read-b8df15a.md`: 0 must-fix / 1 low / 5 observations; the member reads owed
 > since `PRERUN-RIDERS` are paid by it; its `L-1` banks as rider `read-name-split` in this
 > plan's commit). This file is the carrier of the **four user rulings of 2026-08-23 (batch
