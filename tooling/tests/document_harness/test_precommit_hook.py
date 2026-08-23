@@ -95,7 +95,10 @@ def _run_hook(root: pathlib.Path) -> subprocess.CompletedProcess:
     # errors="replace", the same tolerance layer_path_check itself applies to git's output:
     # on a Windows console locale the check's own findings print in the ANSI codepage, and a
     # strict decode here turns a correctly blocking hook into a crashed reader thread. The
-    # asserted lines are ASCII, which every candidate encoding preserves.
+    # asserted lines survive for two different reasons: BLOCKED_LINE is pure ASCII, and
+    # MISSING_LINE — which carries an em dash — is echoed by the shell as the hook file's own
+    # UTF-8 bytes, never through the check's locale-encoded stdout (measured,
+    # v3-review-verify-71e1f24.md V-1).
     return subprocess.run(
         ["sh", ".githooks/pre-commit"],
         cwd=root,

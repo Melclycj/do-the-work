@@ -48,7 +48,7 @@ and two of this extraction's three review legs were spent falsifying sentences t
 
 One convention before the commands: `python` below means whichever of `python3` / `python`
 this platform actually runs — stock Ubuntu ships only `python3` (every `python` row below
-fails there verbatim, measured 2026-08-23), stock Windows only `python`. Substitute
+fails there verbatim, measured 2026-08-23), Windows typically `python`. Substitute
 accordingly; `.githooks/pre-commit` resolves the same choice by probing.
 
 | Question | Command |

@@ -16,8 +16,8 @@ The round that created this file recorded that question and its answer —
 surface) and `../HARNESS-DECISIONS.md`'s `§live`. Onboarding is not a round and spends no
 review budget; what it produces is a repository in which a round can be opened. One command
 convention: `python` in the commands below means whichever of `python3` / `python` this
-machine actually runs — stock Ubuntu ships only `python3` (measured 2026-08-23), stock
-Windows only `python` — and `.githooks/pre-commit` resolves the same choice by probing.
+machine actually runs — stock Ubuntu ships only `python3` (measured 2026-08-23), Windows
+typically `python` — and `.githooks/pre-commit` resolves the same choice by probing.
 
 ## What a clone carries, and what it does not
 
