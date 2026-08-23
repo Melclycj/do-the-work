@@ -3,8 +3,11 @@
   "owner": "V3-N1 administrative record",
   "authority": "V3-N0 administrative record §9 residual R4, constraint (c)",
   "note": [
-    "Two documents in this repository permanently carry a self-referential approval field in",
-    "their own frontmatter and can never be brought into compliance, because the rules that",
+    "One grandfathered document remains (round CONTRACT-V4 retired the contract entry, below):",
+    "the v3 plan, blob-keyed from the caller's tree this harness was extracted from — the",
+    "in-tree copy under document-harness/plans/ is a different blob, and nothing scans it.",
+    "It permanently carries a self-referential approval field in",
+    "its own frontmatter and can never be brought into compliance, because the rules that",
     "forbid editing them are the same rules the check exists to protect. Without an enumerated",
     "exemption the R4 check could never go green against the repository's own constitution,",
     "and the only alternatives would be to relax a correct check or to hide an undocumented",
@@ -41,7 +44,7 @@
       "blob": "b2dbdf752d8c155e4c65b14b5f420b880b8184a1",
       "path_hint": "contract/Document-Work-Assurance-Contract-v3.md",
       "retired_at": "round CONTRACT-V4, 2026-08-23",
-      "why": "The v3 contract left the tree when contract v4 (which carries no self-approval field) superseded it as the operative text; a blob no longer in the tree meets no scan, so the entry grandfathers nothing. Kept here as a retired record rather than deleted silently, because the register's own note says entries are added and removed only by user decision — the removing decision is the CONTRACT-V4 signature entry in HARNESS-DECISIONS.md."
+      "why": "The v3 contract left the tree when contract v4 (which carries no self-approval field) superseded it as the operative text; a blob no longer in the tree meets no scan, so the entry grandfathers nothing. Kept here as a retired record rather than deleted silently: the register's own note reserves adding an entry to a user decision, and removal follows the same authority — the removing decision is round CONTRACT-V4's signature entry in HARNESS-DECISIONS.md, owed at the signing checkpoint and not yet written."
     }
   ]
 }

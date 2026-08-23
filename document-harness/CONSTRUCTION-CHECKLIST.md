@@ -47,10 +47,10 @@
   breath — so work out at the start which side this session is on, and a request that
   belongs to the other side is flagged for the user to route, never absorbed.
 - **E2** Frozen bytes are **not written without a recorded user ruling**, and the list is
-  exactly this: contract v4 `a775e28f…` (`contract/Document-Work-Assurance-Contract-v4.md`;
+  exactly this: contract v4 `614932de…` (`contract/Document-Work-Assurance-Contract-v4.md`;
   its merged sources — the v3 contract `b2dbdf75…` and the two supersessions
-  `68031fa2…` / `e1a2f26b…` — left the tree with round `CONTRACT-V4` and stay frozen as
-  history at those blobs), and every file the
+  `68031fa2…` / `e1a2f26b…` — left the tree with round `CONTRACT-V4`; their bytes are
+  immutable in history at those blobs and are not what this list governs), and every file the
   `schema/document-assurance-v3/` pack held
   at the 2026-08-03 re-baseline (fifteen files: the fourteen of the 2026-07-29 entry plus
   `schema/document-assurance-v3/paragraph-map.schema.json`, which joined
@@ -98,17 +98,20 @@
   the cap was a renamed round. A dispatched FULL, VERIFY or read has occurred only when its
   record's commit lands; from dispatch to that commit the branch takes no commit but the
   record itself.
-- **E10** The instruction layer is exactly these eight paths and nothing else:
+- **E10** The instruction layer is exactly these nine paths and nothing else:
   `document-harness/CONSTRUCTION-CHECKLIST.md` (this file),
   `document-harness/README.md`,
   `document-harness/EXECUTION.md`,
   `document-harness/REVIEW.md`,
   `document-harness/ORCHESTRATION.md`, the two retired contracts' stubs
   `migration/document-work-assurance-v3/v3-harness-operating-contract.md`
-  and `migration/document-work-assurance-v3/v3-harness-review-contract.md`, and
-  `schema/document-assurance-v3/paragraph-map.schema.json` (the two contract
-  supersessions, members until round `CONTRACT-V4` as prose successors to signed text,
-  merged into the signed contract v4 and left the tree with it). Its
+  and `migration/document-work-assurance-v3/v3-harness-review-contract.md`,
+  `contract/Document-Work-Assurance-Contract-v4.md` — the operative contract, a member by
+  the user's 2026-08-23 ruling as the prose successor to the three signed texts it
+  merges — and
+  `schema/document-assurance-v3/paragraph-map.schema.json`. The two contract supersessions
+  were members until round `CONTRACT-V4`, as prose successors to signed text; they merged
+  into contract v4 and left the tree with it. Its
   edits are additive or subtractive, never re-typed "with the same content"; each amendment
   passes an independent read before any round relies on it — that read's subject is the
   amendment text itself, never the work it governs, and it is never banked as the round's

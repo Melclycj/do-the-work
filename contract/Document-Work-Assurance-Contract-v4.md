@@ -280,7 +280,7 @@ state machines.
   packages as **pinned v1 history**: no migration, no re-freeze, no retroactive script
   fixes; `review.schema.json` and the v1 checker functions stay frozen for reading that
   history (§13 above: a live run pins exact schema versions; later changes never mutate it).
-- Digest-strength disclosure: v1 package members carried SHA-256 digests; the successor
+- Digest-strength disclosure (wave-2 design §9): v1 package members carried SHA-256 digests; the successor
   rests member binding on git content addressing, whose object format in this repository is
   SHA-1. Acceptable under §1's threat model (single writer, workflow protocol rather than
   OS guarantee) — a real strength change, stated rather than glossed.
@@ -315,8 +315,9 @@ state machines.
   this policy). **The `digestRef` side is untouched** — the plan's `work_spec_ref` binding
   and the review/summary/profile digest comparisons continue to require and check a digest;
   those refs require `[path, digest_sha256]` by schema and are outside this statement
-  entirely; `instruction_ref` is a `frozenFileRef`, required as `[path, revision]`, and is
-  outside this statement for a different reason. **Detection strength**: the surviving
+  entirely; `instruction_ref` is **not** among them — it is a `frozenFileRef`, required as
+  `[path, revision]`, and nothing requires or checks a digest on it; it was named here in
+  error and is outside this statement for a different reason. **Detection strength**: the surviving
   digests detect an uninformed mis-write; they do **not** detect a consistent rewrite of
   file and digest together, and they never did — the limit is recorded, not narrowed.
   **Coverage of the narrowing is partial and named**: `assurance_state.pointer(path,

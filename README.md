@@ -55,7 +55,7 @@ accordingly; `.githooks/pre-commit` resolves the same choice by probing.
 |---|---|
 | Does the suite pass? | `python -m pytest -q` |
 | Why does a test fail? | `python -m pytest -q --tb=line` |
-| Do the instruction layer's eight members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
+| Do the instruction layer's nine members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
 | Do the pre-commit guards bind? | stage a path that resolves nowhere into an instruction-layer file, then run each of `tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py` and read the exit codes |
 | Is a hook wired in THIS checkout? | `git config --get core.hooksPath` — exit 1 means nothing runs, whatever the tree carries; then `ls .githooks/pre-commit` for what would run |
 | How do I onboard a repository that has never seen this? | `document-harness/ONBOARDING.md` — nine items, each with its command, its check, and the rule that owns it |
@@ -79,8 +79,8 @@ What stays true of this repository regardless of when you read it:
   per-touch checklist item; the 2026-08-18 charter round was one such moment, and round
   `DE-PREFIX`'s re-rooting was another — the act that stopped all ten of that day's members
   from resolving is exactly why that round changed all three mirrors in the commit that
-  re-rooted (the count is eight since round `CONTRACT-V4` merged the two supersessions into
-  the signed contract). The eight
+  re-rooted (the count is nine since round `CONTRACT-V4` merged the two supersessions into
+  contract v4 and admitted v4 as a member). The nine
   member paths are hard-coded in three places — the `E10` membership sentence in
   `document-harness/CONSTRUCTION-CHECKLIST.md`, the `LAYER` constant in
   `tooling/hooks/layer_path_check.py`, and the `EXPECTED` tuple in
