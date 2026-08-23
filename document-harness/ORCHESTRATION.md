@@ -21,7 +21,7 @@ are written out.
 |---|---|---|
 | **orchestrator** | transport and flow: starts the executor, dispatches the reviewer, keeps the budget and the review window, takes questions to the user | a full session — the one the user is talking to |
 | **executor** | takes the instruction, decomposes it, does the work, produces the candidate | a full session |
-| **reviewer** | starts cold from one dispatch, works alone, writes the record | a full session **or** a subagent — what decides independence is who set the question (`R1`), not the form |
+| **reviewer** | starts cold from one dispatch, works alone, writes the record | a full session, in the form `E1` requires — what decides independence is who set the question (`R1`) |
 
 **Independent is the norm; one session holding both work-side roles is the exception.** This
 sentence is the layer's carrier for the 2026-08-22 ruling `HD-55`, and it belongs to this table
