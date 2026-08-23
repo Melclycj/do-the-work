@@ -1,6 +1,15 @@
 # Plan — round `STRANGER-GUARDS` (publicization batch C, first of two rounds)
 
-> **Status: open.** Written 2026-08-23 at round open. This file is the carrier of the **four
+> **Status: executed — round CLOSED 2026-08-23.** All three `E9` legs walked: FULL `c2e955b`
+> `REVIEWED_NO_BLOCKER` (2 lows) → the one user-approved fix `54f7fa7` (Low-1 trailing-slash
+> normalization + README terminus per the user's rejection of the request-access proposal) →
+> VERIFY `REVIEWED_NO_BLOCKER` (2 observations, record `v3-review-verify-53ec1a6.md`).
+> Registers `53ec1a6` (`HD-44` correction, ledger private-repo correction, `HD-57` entry);
+> the `HD-57` byte-application batch follows closeout. Records
+> `v3-{cold-read-cf54a79,review-full-c2e955b,review-verify-53ec1a6}.md`; journal
+> `stranger-guards-2026-08-23.md`.
+>
+> Originally: **Status: open.** Written 2026-08-23 at round open. This file is the carrier of the **four
 > user rulings of 2026-08-23** below until the round records them; a cold session reads this
 > file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works. Queue note: batch C
 > (陌生人可用性) became the queue head when round `CONTRACT-V4` closed batch B
