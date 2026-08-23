@@ -27,6 +27,26 @@
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 
+### HD-57 · `E2` 冻结面陈旧字面五处：recorded ruling，准予更正
+- 2026-08-23 · user · scope: standing · status: **live**（转 implemented 条件＝五处字节的应用批
+  落地；本条即 `HD-20` 所要求的那个 recorded ruling）
+- 裁决：用户裁「可以改」——以下五处「签署/冻结时为真、后续裁决后变陈旧」的字面，准予在
+  `E2`/`HD-20` 意义下写入更正，一次裁决盖五处：① contract v4 §5 Verification-mode 行的
+  `local_check_and_review`（single home 自 SIMP-A1 起两值；`v3-cold-read-cf54a79.md` `L-1`
+  供字节）② v4 `:34-36` plan digest 句补「digest 绑 caller-era 签署字节」的 provenance 说明
+  （同 read `L-2`）③④ `document-work-spec.schema.json` 与 `document-work-spec.v2.schema.json`
+  的 title「sole owner: stage author / planning agent」按 v4 §3 的 executor 读法改写（rider
+  `wspec-owner`）⑤ `harness-issue.schema.json:45` `observed_after` description 第二句改严读法
+  （rider `hi-schema-gloss`，字节在 `v3-review-verify-860729f.md` `V-1`）。
+- 后果：应用批排在轮 `STRANGER-GUARDS` closeout 之后独立落；四 rider 行（`v4-verifmode` /
+  `v4-plan-digest` / `wspec-owner` / `hi-schema-gloss`）同 commit 兑付删行；`E2` 条款的 v4
+  blob 字面量同 commit 更新；v4 与 checklist 的成员编辑欠独立 read，随下一轮开轮冷读。
+  `HD-56` 签字绑定的原 blob `614932de…` 留档为签署对象不变；更正后的 v4 blob 由应用批
+  commit 记录。
+- basis: 用户裁决 2026-08-23（对话「5 可以改」）· plan
+  `document-harness/plans/stranger-guards.plan.md` fix-gate 节 ruling 5 ·
+  `v3-cold-read-cf54a79.md` `L-1`/`L-2` · riders `wspec-owner`/`hi-schema-gloss`
+
 ### HD-56 · 契约 v4 已签署：单文件操作契约 + v4 入层 + 三源文件退役
 - 2026-08-23 · user · scope: standing · status: **live**（本条即签字记录本身——v4 按
   governance-scan 判据不携带自身审批状态，签字住这里，形状比照 `HD-35`/`HD-40`；`E2` 名单的
@@ -59,7 +79,10 @@
   反读法（冻的是「本仓的这些路径」，故删除是一次未经裁决的写）**被否**。
 - 后果：**冻结面自 2026-08-17 起住在 harness 仓**，与命名它的那条规则同仓——这是本条要留下的
   那个事实，因为拆分后「`E2` 说的那些字节在哪」不再不言自明。调用者仓以 gitlink 钉住哪个
-  revision，冻结面就是那个 revision 上的这十八件。今后任何调用者删掉自己那份副本，按本条同样
+  revision，冻结面就是那个 revision 上的那些件——本条建条日（2026-08-18）为十八件；自 `HD-56`
+  （2026-08-23）合并三源为 v4 后为十六件（v4 一件 + schema pack 十五件）。（此句更正落于
+  2026-08-23，依用户当日「落」裁决——签字 commit `3b25f3c` 曾声称同批更新此句而其 diff 未含，
+  见 `v3-cold-read-cf54a79.md` `L-3`。）今后任何调用者删掉自己那份副本，按本条同样
   不欠裁决；**真的改动那些字节仍然照旧欠裁决**，本条一个字都没放宽那一半。
 - basis: 用户裁决 2026-08-18（对话）· FULL `v3-review-full-2d148f3.md` `B-4` 提出两读法并按 `R5`
   归口用户 · 先例 `HD-39`（删除轮把 `E2` 的理由写出来）与 `HD-20`（冻结的意义就在必须有裁决）
