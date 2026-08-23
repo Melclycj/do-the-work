@@ -66,6 +66,22 @@ owed from `STRANGER-GUARDS`, the `HD-57` application and the `E1` amendment — 
 is the read's job, editing them is not this round's); `E2`'s sixteen frozen files; the
 §10.5 pair (batch closeout); the caller-side `decited-paths` sites; any `git push` (`E8`).
 
+## Dispatch economy (2026-08-24, mid-round — user feedback made carrier here)
+
+The opening-read chain ran about an hour of wall-clock, and the user called it out. The
+avoidable part: the `M-1` paired re-read was over-scoped — `E10`'s channel words are
+*"re-read of **the amended text**"*, the amendment was one table cell, and the dispatch
+framed the whole layer as subject (1640 lines re-read, battery re-run). Two operating rules,
+binding on this round's remaining dispatches and rolled into the ledger at closeout as
+standing lessons beside the dispatch-range lesson:
+
+1. **A must-fix paired re-read is dispatched with its subject narrowed to the amendment
+   text the pair answers** — not a layer read, no battery re-run. The channel's own wording
+   already says so; this records that the dispatch wrapper must say so too.
+2. **Dispatches overlap where the freeze discipline allows**: a quick read may run inside
+   the executor's no-commit window provided its record lands before the candidate; serial
+   stays only where output feeds input or commit windows collide.
+
 ## Expectations the FULL can hold the candidate to
 
 - The walk record carries a pasted, re-runnable command per item — no item summarized from
