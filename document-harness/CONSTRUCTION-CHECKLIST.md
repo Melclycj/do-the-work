@@ -30,9 +30,10 @@
 
 - **E1** Never review, verify, or sign your own work. A subagent the executor dispatches is a
   self-check: no verdict words on its output, no review budget consumed. What disqualifies it
-  is who set the question (`R1`), never the subagent form — a reviewer the orchestrator
-  dispatches under the standing review contract may run as a subagent or as its own session,
-  and the form changes nothing. Orchestrator dispatch is necessary and **not sufficient**:
+  is who set the question (`R1`), never the subagent form — yet a reviewer or executor the
+  orchestrator dispatches runs as its own session (`claude -p` or a separately launched
+  session), never as an in-process subagent: a subagent does not load the system config, so
+  the forms are not equivalent (user ruling 2026-08-24). Orchestrator dispatch is necessary and **not sufficient**:
   `R1` decides, and it decides on four holdings — dispatched by, prompted by, scoped by,
   reported through. All four in the executor's hands is a self-check whatever it is called;
   none of them there is independence that holds structurally rather than as a discipline
