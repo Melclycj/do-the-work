@@ -106,9 +106,8 @@
   `document-harness/ORCHESTRATION.md`, the two retired contracts' stubs
   `migration/document-work-assurance-v3/v3-harness-operating-contract.md`
   and `migration/document-work-assurance-v3/v3-harness-review-contract.md`,
-  `contract/Document-Work-Assurance-Contract-v4.md` — the operative contract, a member by
-  the user's 2026-08-23 ruling as the prose successor to the three signed texts it
-  merges — and
+  `contract/Document-Work-Assurance-Contract-v4.md` — a member by the user's 2026-08-23
+  ruling, as the prose successor to the three signed texts it merges — and
   `schema/document-assurance-v3/paragraph-map.schema.json`. The two contract supersessions
   were members until round `CONTRACT-V4`, as prose successors to signed text; they merged
   into contract v4 and left the tree with it. Its
