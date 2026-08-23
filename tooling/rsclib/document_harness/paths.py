@@ -45,13 +45,18 @@ UNRESOLVED and is reported.
   filesystem fallback — a fallback would let an untracked scratch file resolve for whoever
   wrote it and for nobody else, which is the failure the index rule exists to prevent.
 * A submodule mount whose own index cannot be listed — not initialised in this checkout,
-  or not a work tree of its own — is `OUT_OF_INDEX` for everything under it, never
-  `UNRESOLVED`: this checkout cannot confirm those paths, and a typo under such a mount
-  passes unseen. Only the mount's *direct* prefix is covered; a relative token that lands
-  under it through the containing file's directory is not, and stays `UNRESOLVED`.
+  not a work tree of its own, or listing nothing at all — is `OUT_OF_INDEX` for everything
+  under it, never `UNRESOLVED`: this checkout cannot confirm those paths, and a typo under
+  such a mount passes unseen. Only the mount's *direct* prefix is covered; a relative token
+  that lands under it through the containing file's directory is not, and stays
+  `UNRESOLVED`. The third case joined the list in round SUBMOD-HOOKENV, where an empty
+  listing turned out to be what a wrong environment produces (see `_submodule_files`), not
+  what an empty submodule does.
 """
 from __future__ import annotations
 
+import functools
+import os
 import pathlib
 import posixpath
 import re
@@ -105,18 +110,67 @@ def path_like_tokens(text: str) -> tuple[str, ...]:
     return tuple(token for token in _TOKEN.findall(text) if _is_citation_shaped(token))
 
 
+@functools.lru_cache(maxsize=1)
+def _repo_local_env_names() -> tuple[str, ...] | None:
+    """The variables that scope git to ONE repository — asked of git, never listed here.
+
+    Git publishes the set it clears for itself before running in another repository, and
+    asking is the only form that cannot go stale: a list copied into this file would be
+    right until a git release added a variable, and the failure it would then permit is
+    silent (see `_submodule_files`). None when git cannot answer, which is a git that
+    answers nothing.
+    """
+    out = subprocess.run(
+        ["git", "rev-parse", "--local-env-vars"],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if out.returncode != 0:
+        return None
+    names = tuple(
+        line.strip()
+        for line in out.stdout.decode("utf-8", errors="replace").splitlines()
+        if line.strip()
+    )
+    return names or None
+
+
 def _submodule_files(mount: pathlib.Path) -> list[str] | None:
     """The submodule's own tracked files, or None when its index cannot answer.
 
     `git -C` climbs: pointed at the empty directory of an uninitialised mount it finds the
     SUPERPROJECT and happily lists nothing, so the toplevel git reports is checked to be
     the mount itself before any listing is trusted.
+
+    **The environment is cleared of the caller's repository, because the caller is usually
+    a hook** (round SUBMOD-HOOKENV; the only context these guards run in, and the one every
+    test of the STRANGER-GUARDS fix skipped). Git runs a pre-commit hook with the
+    superproject's `GIT_INDEX_FILE` exported, and both spellings of it corrupt this
+    listing in opposite directions — measured on one scratch tree, neither raising:
+    `git commit` exports it *relative* (`.git/index`), which under the mount names nothing
+    and returns zero lines at exit 0; `git commit -a` and `git commit -- <path>` export it
+    *absolute*, which opens the superproject's own index and returns the SUPERPROJECT's
+    file list as the submodule's. The second is the worse half — `mount/<superproject
+    file>` then resolves while the mount's real files do not — and it is invisible to any
+    amount of distrusting the listing's size.
+
+    An empty listing is therefore not read as *this submodule tracks nothing*: that is
+    indistinguishable from an index that could not answer, it is the exact shape the defect
+    above wore, and a submodule tracking nothing has no internal path for anyone to cite.
+    None, and the mount becomes `OUT_OF_INDEX` — the fail-open this module already prefers
+    to a confident wrong answer.
     """
+    local = _repo_local_env_names()
+    if local is None:
+        return None
+    env = {name: value for name, value in os.environ.items() if name not in local}
     top = subprocess.run(
         ["git", "-C", str(mount), "rev-parse", "--show-toplevel"],
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        env=env,
     )
     if top.returncode != 0:
         return None
@@ -130,12 +184,14 @@ def _submodule_files(mount: pathlib.Path) -> list[str] | None:
         ["git", "-C", str(mount), "-c", "core.quotepath=off", "ls-files"],
         check=False,
         stdout=subprocess.PIPE,
+        env=env,
     )
     if out.returncode != 0:
         return None
-    return [
+    listed = [
         line for line in out.stdout.decode("utf-8", errors="replace").splitlines() if line
     ]
+    return listed or None
 
 
 class TrackedPaths:
@@ -175,6 +231,12 @@ class TrackedPaths:
 
         `-s` for the mode column: a `160000` entry is a gitlink, and each one's contents
         are pulled from the mounted submodule's own index — see the class docstring.
+
+        This call deliberately KEEPS the environment `_submodule_files` clears. Inside a
+        hook `GIT_INDEX_FILE` names the index this commit is building — under
+        `git commit -- <path>` a temporary one that `.git/index` is not — and that index is
+        precisely the subject of the sentence above. The asymmetry is the point: the
+        inherited environment is right for this repository and wrong for the submodule.
         """
         root = pathlib.Path(repo_root)
         out = subprocess.run(
