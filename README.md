@@ -46,6 +46,11 @@ This section deliberately carries commands instead of claims. Its only readers a
 an agent can run a command; a sentence about the state goes stale the day something changes,
 and two of this extraction's three review legs were spent falsifying sentences that lived here.
 
+One convention before the commands: `python` below means whichever of `python3` / `python`
+this platform actually runs — stock Ubuntu ships only `python3` (every `python` row below
+fails there verbatim, measured 2026-08-23), stock Windows only `python`. Substitute
+accordingly; `.githooks/pre-commit` resolves the same choice by probing.
+
 | Question | Command |
 |---|---|
 | Does the suite pass? | `python -m pytest -q` |
