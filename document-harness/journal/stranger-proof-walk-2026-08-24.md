@@ -451,3 +451,84 @@ One machine-level side effect, disclosed: `jsonschema` and `referencing` were in
 user-site of the Python 3.12 that `python3` resolves to on this machine, as F-2's fix. It is
 reversible with `python3 -m pip uninstall jsonschema referencing`, and leaving it installed is the
 state a caller following the corrected procedure would be in.
+
+## Candidate commit — the disclosures `E1`, `E3` and `HD-41` owe, and why they are here
+
+These belong in the candidate's commit body. They are in the journal instead, which is the other
+carrier `E1` names, because of what happened to the candidate commit — stated first, since it is
+the thing a reviewer attributing this round would otherwise have to work out.
+
+**How this round's work came to be committed.** The executor staged its four declared paths and
+was composing the candidate commit when `0133d1b`, `V3-LEDGER-DISPATCH-ECONOMY-BACKLOG-v1`,
+landed from the orchestrator and swept all four into itself. That commit's body declares it
+`Kind: ledger-only bookkeeping` and describes two backlog lines; it in fact carries this round's
+entire work product — 592 insertions across five files, of which 587 across four are the
+candidate. The content is intact and byte-correct (verified against the worktree after
+normalising the CRLF checkout artefact: all four SAME). What was lost is attribution and the
+body: `E8` requires a commit to name its kind so the review side can attribute it without asking,
+and a reviewer handed `001816f..HEAD` sees no candidate commit at all. Two further consequences
+worth naming: the 2026-08-04 ruling that ledger-only fixes spend no fix leg turns on whether what
+changed is the reviewed work product, and a commit holding both cannot be sorted by that test on
+inspection; and the `STRANGER-GUARDS` lesson that riders-only commits land *after* the candidate
+is inverted here. The executor did not rewrite it — `E8` forbids amending, and another session's
+commit is not the executor's to redo. It is reported to the orchestrator for the user to route.
+
+**`E1` disclosure.** `R1`'s four holdings — dispatched by, prompted by, scoped by, reported
+through — are all the orchestrator's. The executor held **none** of the four, so the independence
+is structural rather than a discipline kept against itself, and this ran as its own session in the
+`HD-55` norm form the plan declared, not as an in-process subagent.
+
+**What was deliberately not fixed.** F-1's repair is in `tooling/rsclib/document_harness/paths.py`,
+outside the plan's declared change surface. It was not taken silently: it is reported and banked
+as `submod-hookenv`. F-4's second site is `document-harness/README.md` line 28, `E10` member two,
+also declared out of boundary, banked as `move-cost-member-site`. `onboarding-labels` was examined
+and not redeemed — its fix site is that same member, and its touch condition names the item
+enumeration, which stays at nine.
+
+**`E3` measurements, each re-run immediately before the candidate was staged.**
+
+```
+battery              844 passed in 119.08s          exit 0   (unchanged, correctly — zero code changes)
+layer_path_check     the guard this repo's hook runs  exit 0   on the staged candidate
+git status           HARNESS-RIDERS.md · README.md · document-harness/ONBOARDING.md
+                     · document-harness/journal/stranger-proof-walk-2026-08-24.md — and nothing else
+members / frozen     git status over the nine members and the sixteen frozen files: empty
+```
+
+**Advisory guard, disclosed rather than left for discovery.** `candidate_path_check` — which this
+repository's hook deliberately does not run (rider `self-caller-guards`) — reports 8 unresolved
+tokens on this candidate: 1 in ONBOARDING and 7 in this record. All are the second caller's real
+paths. That is the same class as the 3 `ResearchSystem/` tokens the committed ONBOARDING already
+carried, unchanged by this round, and the same accepted state FULL `7f6e7f0` `O-6` measured on
+this repository's own record commits.
+
+**Machine-level side effect**, repeated here because it leaves this repository: `jsonschema` and
+`referencing` were installed into the user-site of the Python 3.12 that `python3` resolves to on
+this machine, as F-2's verification. Reversible with `python3 -m pip uninstall`.
+
+**Class scans**, run on the final candidate as `HD-41` ④ requires, output pasted:
+
+```
+SCAN 1 (F-2 class: reader-facing instrument commands needing the deps) scope=ONBOARDING.md+README.md whole files
+$ grep -c 'dtw.py\|dtw ' document-harness/ONBOARDING.md README.md
+document-harness/ONBOARDING.md:10
+README.md:3
+  -> both files now carry a dependency statement covering the whole file:
+document-harness/ONBOARDING.md:20:use.** `python -m pip install "jsonschema>=4.18" referencing` — every `dtw` command and both
+README.md:63:python -m pip install "jsonschema>=4.18" referencing
+README.md:141:| What do the CLI, the guards and the suite need? | Python ≥ 3.12 and `python -m pip install pytest "jsonschema>=4.18" referencing` — not the suite's alone: every `dtw` command and both caller-side guards import `jsonschema` too, so without it a wired hook fails every commit (measured 2026-08-24). The floor is measured, not decorative: Ubuntu 24.04's system jsonschema 4.10.3 fails 571 of these tests |
+
+SCAN 2 (F-3 class: the python/python3 resolve-alike claim) scope=all tracked *.md minus migration/ journal/ ledger
+$ grep -rn 'resolves the same choice\|resolve the same choice' --include='*.md' .
+  (0 hits — the falsified clause is gone from every site)
+  all three convention sites now carry the both-present case (first pattern missed ONBOARDING's
+  own wording; re-run with 'both'):
+./document-harness/ONBOARDING.md:30:`python` second, so **on a machine that has both the two do not resolve alike**
+./README.md:58:`python` means whichever of `python3` / `python` your machine runs — and if it has both, ...
+./README.md:126:... Windows typically `python`. If **both** are present they need not be the same interpreter
+
+SCAN 3 (F-4 class: relocation offers for the init-written instance files) scope=all tracked *.md minus migration/ journal/ ledger/decisions
+$ grep -rn 'wants it elsewhere\|wanting them elsewhere' --include='*.md' .
+./document-harness/ONBOARDING.md:97:| **Do** | `dtw init` copies `templates/decision-log.md` verbatim to `HARNESS-DECISIONS.md` at the caller's...
+./document-harness/README.md:28:| Onboarding a repository that has never used this harness (nine items: mount, instance files, policy file,...
+```
