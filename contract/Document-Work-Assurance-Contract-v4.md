@@ -33,7 +33,10 @@ Where wording differs from those sources, the change is one of the enumerated de
 
 Authored under the user-approved plan
 [[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]] (plan SHA-256
-`9B08CD0038FA0C36E76674B7CE386129D9797EFFE5CEC7FABBF69699811F171F`). Plan §2 decisions V3-D1–D10 are
+`9B08CD0038FA0C36E76674B7CE386129D9797EFFE5CEC7FABBF69699811F171F`; the digest binds the plan
+bytes at the caller-era signing of 2026-07-20 — this repository's history begins 2026-08-15 and
+the plan file has been moved and re-rooted since, so the digest verifies against no blob here,
+`HD-57`). Plan §2 decisions V3-D1–D10 are
 the locked design authority; a genuine conflict between this contract and the plan is a `SPEC_GAP`,
 not a reinterpretation opportunity.
 
@@ -130,7 +133,7 @@ control root E(C), outside C's payload identity
 | FINAL decisions | `ACCEPT · ACCEPT_WITH_LIMITATIONS · REJECT · REPLAN` |
 | ISSUE_TRIAGE decisions | `WORKFLOW_FIX · DOCUMENT_ASSURANCE_PROFILE_CANDIDATE · VERIFIER_FIX · CORE_CANDIDATE · DEFER · DISMISS` |
 | LocalCheckSpec kinds | `file_exists · json_schema · markdown_link · locator_exists · git_diff_boundary · command_exit` (full schema at N1; unknown kind = `SPEC_GAP`) |
-| Verification mode | `local_check · review_only · local_check_and_review` |
+| Verification mode | `local_check · review_only` |
 
 Every ReviewResult carries `residual_uncertainty` as data; nonblocking uncertainty is never a fourth
 control verdict. `REVIEWED_NO_BLOCKER` means only "no blocking discrepancy found within the frozen

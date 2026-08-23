@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "researchsystem/schema/document-assurance-v3/document-work-spec.v2.schema.json",
-  "title": "DocumentWorkSpec v2 — authored intent (sole owner: stage author / planning agent)",
+  "title": "DocumentWorkSpec v2 — authored intent (sole owner: the run's executor, its WorkSpec author)",
   "description": "Versioned successor to the N0-signed document-work-spec.schema.json, per the user-adjudicated special-case bucket design (2026-07-22, wave 1). The v1 file is signed and is never modified; this file supersedes it for newly authored WorkSpecs only — existing records stay valid against pinned v1. Delta over v1, and nothing else: (1) root schema_version const '2' — the instance names its own schema, and the loader keys on it explicitly with no cross-version fallback; (2) verification_mode 'review_only' additionally requires review_only_rationale (why no deterministic check is possible) and not_supported_when (the condition under which the obligation's disposition would be NOT_SUPPORTED — the authoring-time mutation question); deterministic modes forbid both fields. Presence is mechanical; truth is reviewable: a hollow sentence passes this schema and is challenged at FULL review. Everything else is byte-for-byte the v1 design (V3-D5, V3-D7).",
   "type": "object",
   "additionalProperties": false,

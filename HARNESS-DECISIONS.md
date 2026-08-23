@@ -26,27 +26,6 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
-
-### HD-57 · `E2` 冻结面陈旧字面五处：recorded ruling，准予更正
-- 2026-08-23 · user · scope: standing · status: **live**（转 implemented 条件＝五处字节的应用批
-  落地；本条即 `HD-20` 所要求的那个 recorded ruling）
-- 裁决：用户裁「可以改」——以下五处「签署/冻结时为真、后续裁决后变陈旧」的字面，准予在
-  `E2`/`HD-20` 意义下写入更正，一次裁决盖五处：① contract v4 §5 Verification-mode 行的
-  `local_check_and_review`（single home 自 SIMP-A1 起两值；`v3-cold-read-cf54a79.md` `L-1`
-  供字节）② v4 `:34-36` plan digest 句补「digest 绑 caller-era 签署字节」的 provenance 说明
-  （同 read `L-2`）③④ `document-work-spec.schema.json` 与 `document-work-spec.v2.schema.json`
-  的 title「sole owner: stage author / planning agent」按 v4 §3 的 executor 读法改写（rider
-  `wspec-owner`）⑤ `harness-issue.schema.json:45` `observed_after` description 第二句改严读法
-  （rider `hi-schema-gloss`，字节在 `v3-review-verify-860729f.md` `V-1`）。
-- 后果：应用批排在轮 `STRANGER-GUARDS` closeout 之后独立落；四 rider 行（`v4-verifmode` /
-  `v4-plan-digest` / `wspec-owner` / `hi-schema-gloss`）同 commit 兑付删行；`E2` 条款的 v4
-  blob 字面量同 commit 更新；v4 与 checklist 的成员编辑欠独立 read，随下一轮开轮冷读。
-  `HD-56` 签字绑定的原 blob `614932de…` 留档为签署对象不变；更正后的 v4 blob 由应用批
-  commit 记录。
-- basis: 用户裁决 2026-08-23（对话「5 可以改」）· plan
-  `document-harness/plans/stranger-guards.plan.md` fix-gate 节 ruling 5 ·
-  `v3-cold-read-cf54a79.md` `L-1`/`L-2` · riders `wspec-owner`/`hi-schema-gloss`
-
 ### HD-56 · 契约 v4 已签署：单文件操作契约 + v4 入层 + 三源文件退役
 - 2026-08-23 · user · scope: standing · status: **live**（本条即签字记录本身——v4 按
   governance-scan 判据不携带自身审批状态，签字住这里，形状比照 `HD-35`/`HD-40`；`E2` 名单的
@@ -182,6 +161,28 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-57 · `E2` 冻结面陈旧字面五处：recorded ruling，准予更正
+- 2026-08-23 · user · scope: standing · status: **implemented**（应用批 2026-08-23 落地——五站点
+  同 commit 写入、四 rider 行同 commit 兑付删行、`E2` 条款的 v4 blob 字面量同 commit 更新为
+  `dfc983d2…`；本条即 `HD-20` 所要求的那个 recorded ruling，建条与挪节同日，挪节与状态翻转
+  同 commit 按 `HD-2`）
+- 裁决：用户裁「可以改」——以下五处「签署/冻结时为真、后续裁决后变陈旧」的字面，准予在
+  `E2`/`HD-20` 意义下写入更正，一次裁决盖五处：① contract v4 §5 Verification-mode 行的
+  `local_check_and_review`（single home 自 SIMP-A1 起两值；`v3-cold-read-cf54a79.md` `L-1`
+  供字节）② v4 `:34-36` plan digest 句补「digest 绑 caller-era 签署字节」的 provenance 说明
+  （同 read `L-2`）③④ `document-work-spec.schema.json` 与 `document-work-spec.v2.schema.json`
+  的 title「sole owner: stage author / planning agent」按 v4 §3 的 executor 读法改写（rider
+  `wspec-owner`）⑤ `harness-issue.schema.json:45` `observed_after` description 第二句改严读法
+  （rider `hi-schema-gloss`，字节在 `v3-review-verify-860729f.md` `V-1`）。
+- 后果：应用批排在轮 `STRANGER-GUARDS` closeout 之后独立落；四 rider 行（`v4-verifmode` /
+  `v4-plan-digest` / `wspec-owner` / `hi-schema-gloss`）同 commit 兑付删行；`E2` 条款的 v4
+  blob 字面量同 commit 更新；v4 与 checklist 的成员编辑欠独立 read，随下一轮开轮冷读。
+  `HD-56` 签字绑定的原 blob `614932de…` 留档为签署对象不变；更正后的 v4 blob＝`dfc983d2…`
+  （staged blob，应用批 commit 可核）。
+- basis: 用户裁决 2026-08-23（对话「5 可以改」）· plan
+  `document-harness/plans/stranger-guards.plan.md` fix-gate 节 ruling 5 ·
+  `v3-cold-read-cf54a79.md` `L-1`/`L-2` · riders `wspec-owner`/`hi-schema-gloss`
 
 ### HD-55 · executor 与 orchestrator 自此为独立 session；单 session 兼任不再是常规形态
 - 2026-08-22 · user · scope: standing · status: **implemented**（轮 `PRERUN-RIDERS` 落 carrier，

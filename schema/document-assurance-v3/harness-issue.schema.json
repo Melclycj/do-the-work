@@ -42,7 +42,7 @@
     "observed_after": {
       "$ref": "common.schema.json#/$defs/assuranceStatus",
       "enum": ["CLOSED", "STOPPED_REPLAN"],
-      "description": "The terminal status the run had reached when this was recorded. Narrowed from the shared status enum to the two terminal values, which makes 'post-run only' a property of the document rather than a rule someone has to remember: an issue claiming to be observed mid-run is unrepresentable, so it cannot be used to influence a run in flight (N2-A10)."
+      "description": "The terminal status the run had reached when this was recorded. Narrowed from the shared status enum to the two terminal values, which makes 'post-run only' a property of the document rather than a rule someone has to remember: an issue recorded while the run is still in flight is unrepresentable, so it cannot be used to influence a run in flight (N2-A10)."
     },
     "observed_by": { "$ref": "common.schema.json#/$defs/actorName" },
     "observed_at": { "$ref": "common.schema.json#/$defs/isoDate" }
