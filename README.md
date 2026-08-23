@@ -31,8 +31,9 @@ submodule and pins to a revision.
 
 ## What using it looks like
 
-Three roles, and the discipline is that **they are three different sessions**, never one wearing
-three hats:
+Three roles, and the discipline is that **they are three different sessions** — independent is
+the norm, and a round that merges the two work-side roles is the exception, disclosed rather
+than silent:
 
 | role | does | may never do |
 |---|---|---|
@@ -52,8 +53,12 @@ which is why the instruction text keeps citing incidents rather than principles.
 
 ## Quickstart — mounting it in a repository that has never seen it
 
-Every command below was run end to end against a fresh repository on 2026-08-24; the full record,
-with each command's output, is
+Every command below was run end to end against a fresh repository on 2026-08-24, twice: the
+block below as one sequence — its first form shipped without step 3, so following it left a
+hook that never ran, and a review executing the block verbatim caught it — with the re-walk's
+full output in
+[`document-harness/journal/submod-hookenv-2026-08-24.md`](document-harness/journal/submod-hookenv-2026-08-24.md),
+and the nine-item onboarding walk behind it in
 [`document-harness/journal/stranger-proof-walk-2026-08-24.md`](document-harness/journal/stranger-proof-walk-2026-08-24.md).
 `python` means whichever of `python3` / `python` your machine runs — and if it has both, see the
 note in the onboarding file, because they can resolve differently.
@@ -69,15 +74,36 @@ git submodule status          # prints the pinned SHA and the mount path
 # 2. the mechanical half of onboarding: .harness/, its ignore entry, two instance files
 python <mount-path>/tooling/dtw.py init --repo-root .
 
-# 3. wire a pre-commit hook — this half is per checkout, and a clone does not carry it
+# 3. the tracked half of hook wiring: a hook script IN THE TREE, committed executable.
+#    Nothing writes this file for you — `dtw init` prints that it does not — and without it
+#    step 4 points git at a directory holding no hook, and every commit passes unchecked.
+mkdir .githooks
+cat > .githooks/pre-commit <<'HOOK'
+#!/bin/sh
+# python3 first, python second; the candidate must actually run (see the onboarding file)
+PY=python3; "$PY" -c "pass" >/dev/null 2>&1 || PY=python
+for CHK in <mount-path>/tooling/hooks/candidate_path_check.py \
+           <mount-path>/tooling/hooks/review_freeze_check.py; do
+  if [ ! -f "$CHK" ]; then
+    echo "pre-commit: $CHK is missing — the mount is not initialised"; exit 1
+  fi
+  "$PY" "$CHK" || exit 1
+done
+HOOK
+git add .githooks/pre-commit
+git update-index --chmod=+x .githooks/pre-commit
+git ls-files -s .githooks/pre-commit    # must print 100755 — without the x-bit git skips it
+
+# 4. the per-machine half — one git config, per checkout, and a clone does not carry it
 git config core.hooksPath .githooks
 
-# 4. prove the guard fires, rather than believing it does:
+# 5. prove the guard fires, rather than believing it does:
 #    name a file that does not exist in something you commit, and watch it refuse
 ```
 
-That is four of the nine items. The other five are judgment — which revision to pin, what your
-policy file says, what your ledger holds — and
+That is five of the nine items — the mechanical ones. The other four are judgment — what your
+policy file says, what your ledger holds, the entry-file pointer that makes the policy
+discoverable, and the journal no round has earned yet — and
 [`document-harness/ONBOARDING.md`](document-harness/ONBOARDING.md) walks all nine, each with its
 command, how you see it took, and which rule owns it.
 

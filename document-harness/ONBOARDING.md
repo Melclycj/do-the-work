@@ -217,6 +217,6 @@ is answered rather than closed — a tenth item *was* missing, it is now written
 not proof an eleventh is not. The second stands: same machine, and the walker was an agent
 following the file, not a human stranger meeting it cold. Windows long paths remain a caveat and
 were measured rather than assumed — the longest path under the mount came to 182 characters
-against the 260 limit, so a caller whose repository root exceeds 130 characters still needs
+against the 260 limit, so a caller whose repository root reaches 130 characters still needs
 `-c core.longpaths=true`. Nothing here was executed on POSIX; the CI matrix covers the test
 suite there, not this procedure.
