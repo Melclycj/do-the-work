@@ -54,17 +54,32 @@ DEFAULT_SPECIFICATION_SURFACE = ("assurance/runs/",)
 class ScanSurfaces:
     """The three caller-declarable surfaces, as prefix strings from the repository root.
 
-    An entry ending in `/` is a whole tree; any other entry matches by leading string, the
-    same rule the guards have always applied. `record` may quote broken paths and is not
-    scanned by the candidate lint; `review_record_dirs` is where the four `v3-*` record
-    families land, admitted by the freeze guard and likewise unscanned; `specification` is
-    the runs tree — instructions there name files that cannot exist at freeze time, and a
-    run's returned ReviewResult JSONs live under it.
+    A `record` entry ending in `/` is a whole tree; any other matches by leading string —
+    the field holds file entries (`HARNESS-RIDERS.md`) as well as trees. The other two
+    fields name whole trees only, so their entries are normalized to `/`-terminated here,
+    where the groups are built: every matcher either guard composes from them then reads
+    one declaration one way. Before that (FULL `c2e955b` L-1) a slash-less entry was
+    accepted by the loader yet read divergently — the candidate lint exempted the tree by
+    leading string while the freeze guard's result matcher required the slash
+    structurally, blocking the run's returned ReviewResult during `E9`'s window.
+
+    `record` may quote broken paths and is not scanned by the candidate lint;
+    `review_record_dirs` is where the four `v3-*` record families land, admitted by the
+    freeze guard and likewise unscanned; `specification` is the runs tree — instructions
+    there name files that cannot exist at freeze time, and a run's returned ReviewResult
+    JSONs live under it.
     """
 
     record: tuple[str, ...]
     review_record_dirs: tuple[str, ...]
     specification: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        for field in ("review_record_dirs", "specification"):
+            entries = getattr(self, field)
+            normalized = tuple(e if e.endswith("/") else e + "/" for e in entries)
+            if normalized != entries:
+                object.__setattr__(self, field, normalized)
 
 
 DEFAULTS = ScanSurfaces(

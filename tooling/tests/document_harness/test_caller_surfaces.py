@@ -213,6 +213,71 @@ class TheFreezeGuardReadsTheDeclaration(unittest.TestCase):
             self.assertEqual(review_freeze_check.check(repo.root), 0)
 
 
+class ASlashlessDirectoryEntryReadsTheSameToBothGuards(unittest.TestCase):
+    """FULL `c2e955b` L-1, tested as the class (E7): a directory-kind declaration entry
+    without a trailing slash was accepted by the loader yet read divergently — the
+    candidate lint exempted the tree while the freeze guard's result matcher required the
+    slash structurally, so the caller's returned ReviewResult was blocked during `E9`'s
+    window, the deadlock the declaration exists to end. The fix: `review_record_dirs` and
+    `specification` entries are normalized to `/`-terminated where the groups are built
+    (`ScanSurfaces`), so every matcher either guard composes reads one declaration one
+    way; `record` keeps the leading-string rule — it holds file entries."""
+
+    def test_a_slashless_specification_entry_admits_the_result(self):  # must fire
+        # The reviewer's probe verbatim: valid per the loader, marker present, the run's
+        # returned ReviewResult staged — the one commit the window admits.
+        with TempRepo() as repo:
+            write_marker(repo)
+            declare(repo, {"specification_surface": ["work/runs"]})
+            stage(repo, {"work/runs/p9/evidence/review-full.json": "{}\n"})
+            self.assertEqual(review_freeze_check.check(repo.root), 0)
+
+    def test_a_slashless_record_dir_entry_admits_the_record(self):
+        # The sibling group of the same class. Not a must-fire: the record-family group's
+        # `startswith` already admitted this pre-fix (leading string happens to agree with
+        # the tree here) — this pins that normalization keeps the admission.
+        with TempRepo() as repo:
+            write_marker(repo)
+            declare(repo, {"review_record_dirs": ["audits"]})
+            stage(repo, {"audits/v3-review-full-0123abc.md": "record\n"})
+            self.assertEqual(review_freeze_check.check(repo.root), 0)
+
+    def test_the_candidate_guard_reads_the_slashless_entry_as_the_same_tree(self):  # must fire
+        # One way means one tree for both guards: `work/runs` is `work/runs/`, so the
+        # sibling directory `work/runsx/` is scanned again — under the old leading-string
+        # reading the candidate lint exempted it while the freeze guard refused it.
+        with TempRepo() as repo:
+            declare(repo, {"specification_surface": ["work/runs"]})
+            stage(repo, {"work/runsx/p9/instruction.md": f"naming `{BROKEN}`\n"})
+            self.assertEqual(candidate_path_check.check(repo.root), 1)
+
+    def test_a_non_result_under_the_slashless_tree_still_blocks(self):  # negative control
+        with TempRepo() as repo:
+            write_marker(repo)
+            declare(repo, {"specification_surface": ["work/runs"]})
+            stage(repo, {"work/runs/p9/evidence/coverage.json": "{}\n"})
+            self.assertEqual(review_freeze_check.check(repo.root), 1)
+
+    def test_a_result_in_the_sibling_directory_still_blocks(self):  # negative control
+        # Normalization narrows to the tree; it never widens to the leading string.
+        with TempRepo() as repo:
+            write_marker(repo)
+            declare(repo, {"specification_surface": ["work/runs"]})
+            stage(repo, {"work/runsx/p9/evidence/review-full.json": "{}\n"})
+            self.assertEqual(review_freeze_check.check(repo.root), 1)
+
+    def test_record_entries_are_not_normalized(self):
+        # `record` holds file entries; `HARNESS-RIDERS.md/` would exempt nothing.
+        surfaces = caller.ScanSurfaces(
+            record=("HARNESS-RIDERS.md",),
+            review_record_dirs=("audits",),
+            specification=("work/runs",),
+        )
+        self.assertEqual(surfaces.record, ("HARNESS-RIDERS.md",))
+        self.assertEqual(surfaces.review_record_dirs, ("audits/",))
+        self.assertEqual(surfaces.specification, ("work/runs/",))
+
+
 class TheFirstCallersEntriesSurviveAsItsDeclaration(unittest.TestCase):
     """The plan's ruling verbatim: the old constants become the first caller's declaration,
     not universal truth. Every path exempt under the old tuples is exempt under the

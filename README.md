@@ -14,16 +14,9 @@ work.
 ## Where the bytes came from
 
 The 254 files in this repository's first commit were copied byte-for-byte out of
-`https://github.com/Melclycj/Thesis-Work`, branch `document-work-assurance-v3` — the
-historical record names it by its single-machine paths, `D:/Thesis` (worktree
-`D:/Thesis-stage-control-refactor`), which are where the work happened and stay as
-recorded — at commit `e4ffa2b`, from under its `ResearchSystem/` directory. Both that
-commit and `7011916`, the other id this repository's instruction layer sends readers
-there for, are on the branch as pushed (verified 2026-08-23, `git merge-base
---is-ancestor` against `origin/document-work-assurance-v3`). That repository answers
-anonymous access with an authentication challenge — private, as measured the same day —
-so the name is a durable address to request access to, not an open door; whether it opens
-is its owner's, not this file's. **History was deliberately
+`D:/Thesis` (worktree `D:/Thesis-stage-control-refactor`, branch `document-work-assurance-v3`)
+at commit `e4ffa2b`, from under its `ResearchSystem/` directory; that repository is
+private, and its history is not publicly reachable. **History was deliberately
 not carried across** (`HD-40`, design §4): the caller's repository keeps every commit that
 built these bytes — 335 of them touching this material — and `git log` there remains the way
 to ask *why* any line reads as it does. The reasons live in commit bodies, which is this
