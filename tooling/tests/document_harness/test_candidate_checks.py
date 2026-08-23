@@ -1718,14 +1718,16 @@ class SchemaVocabularyGuardTests(unittest.TestCase):
 # ===========================================================================
 
 
-CONTRACT_PATH = "contract/Document-Work-Assurance-Contract-v3.md"
+CONTRACT_PATH = "contract/Document-Work-Assurance-Contract-v4.md"
 #: The caller's `.goals/plans/document-work-assurance-harness-v3.plan.md` was the second
 #: real document here until the split batch's R2. It does not travel with the instrument
 #: (`HD-28`), and a test that reads the caller's tree passes in one repository and fails in
 #: the other — which is a statement about who checked out what, not about the scan. The
-#: contract is the real, immutable, `E2`-frozen sample that travels; the plan's own shape
-#: (`approval_status_owner` present, `status` carried) stays covered by the in-memory cases
-#: above, which is where a fixture belongs.
+#: contract is the real, `E2`-frozen sample that travels. Until round `CONTRACT-V4` the
+#: in-tree contract (v3) carried a frontmatter `status:` and was the real flagged-then-
+#: exempted sample; v4 carries no self-approval field, so the real document now proves the
+#: PASSING side on its own merit, and the flagged/exempted behaviours stay covered by the
+#: in-memory cases above, which is where a fixture belongs.
 
 
 class GovernanceFrontmatterScopeTests(unittest.TestCase):
@@ -1974,31 +1976,22 @@ class GovernanceRealDocumentTests(unittest.TestCase):
                 self.reader.read(path), f"governance document not readable at {REPO_ROOT / path}"
             )
 
-    def test_r4_real_governance_documents_are_flagged_without_an_exemption(self):
-        """It carries a top-level `status:`, so it must be reported when unexempted."""
-        scan = governance_scan(self.reader, self.paths)
-        self.assertEqual(codes(scan.report), ["V3-GOVERNANCE-SELF-APPROVAL"])
-        self.assertEqual(sorted(issue.where for issue in scan.report.issues), sorted(self.paths))
-        for issue in scan.report.issues:
-            self.assertIn("status", issue.message)
+    def test_r4_the_real_contract_passes_on_its_own_merit(self):
+        """v4 carries no self-approval field, so the scan passes it with ZERO exemptions.
 
-    def test_r4_real_governance_documents_pass_with_an_in_memory_exemption(self):
-        """Blobs are computed at test time from the files themselves, so nothing rots."""
-        exemptions = {}
+        This is the inverse of the sample v3 provided (flagged until its blob-keyed
+        exemption): the operative contract now demonstrates that a governance document can
+        simply be written correctly — the exemption register's own note says the register
+        is not for documents that could have been. The flagged and exempted behaviours keep
+        their coverage in the in-memory fixture classes above.
+        """
         for path in self.paths:
             raw = self.reader.read(path)
             offending = tuple(key for key in frontmatter_keys(raw) if key in SELF_APPROVAL_FIELDS)
-            self.assertEqual(offending, ("status",), f"{path} carries {offending}")
-            blob = git_blob_id(raw)
-            exemptions[blob] = Exemption(
-                blob=blob,
-                path_hint=path,
-                fields=offending,
-                immutability_rule="immutable governance document; approval lives in the V3-N0 record",
-            )
-        scan = governance_scan(self.reader, self.paths, exemptions)
+            self.assertEqual(offending, (), f"{path} carries {offending}")
+        scan = governance_scan(self.reader, self.paths)
         self.assertTrue(scan.report.ok, scan.report.rendered())
-        self.assertEqual(sorted(scan.exempted), sorted(self.paths))
+        self.assertEqual(list(scan.exempted), [])
 
     def test_r4_owner_delegating_fields_in_the_real_documents_are_not_flagged(self):
         """The contract's `signature_owner` names WHO approves without carrying approval."""

@@ -38,7 +38,7 @@ from referencing import Registry, Resource
 RS_ROOT = pathlib.Path(__file__).resolve().parents[3]
 SCHEMA_DIR = RS_ROOT / "schema" / "document-assurance-v3"
 SCHEMA_URI_BASE = "researchsystem/schema/document-assurance-v3/"
-CONTRACT_PATH = RS_ROOT / "contract" / "Document-Work-Assurance-Contract-v3.md"
+CONTRACT_PATH = RS_ROOT / "contract" / "Document-Work-Assurance-Contract-v4.md"
 
 #: The resolver identity stamped into every ResolvedAssurancePlan. A plan is rebuildable
 #: only against the resolver version that produced it (§5.2).

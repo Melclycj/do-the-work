@@ -43,6 +43,9 @@ rider `CLI-hist`）· **`:850`**（共用错误出口，无归宿）。
 - `rsc.py` **留调用者仓**——`inventory` / `compile` 是产品编译器命令，`rsc` 这个名字是产品的。
 - **v3 命令组整块搬新仓**，成为新仓自己的 CLI 入口（六命令原样：`governance-scan` / `status` /
   `flow` / `dispatch` / `disposition` / `review`）。零耦合已实测，搬动不需重新设计。
+  （重签标记 2026-08-23，轮 `CONTRACT-V4`：「六命令原样」自 `HD-47` 起读作**搬迁指令而非命令数
+  上限**——`init`（`HD-47`，2026-08-19）与 `preview`（`HD-51`，2026-08-21）其后加入，命令面以
+  `--help` 为准；本行是签字时的提议原文，rider `six-signed` 的本文件半边在此兑付。）
 - v1 `stage` 组与 v2 `harness` 组**随各自的树删除**（**已裁 `HD-39`**——初稿此处写的是「随各自的树
   travel」，依据 `HD-24`；`HD-24` 已被 `HD-39` 取代）。`rsc.py:48` 的 `stage_control`/`stage_close`
   与 `:50` 的 `harness_cli` 两条 import 同批剪掉——rider `CLI-hist` 在此兑付，**且剪完两个组连同
@@ -63,6 +66,9 @@ hook 也靠 existence guard 挂着。
 - `repo-audit.py` 是**调用者的**（已在 `Thesis/Work/Tooling/`，`HD-31` 之后归属明确）。ROOT 维持
   仓库根，**`EXCLUDE` 新增 submodule 目录**——否则仪器文档会被当论文内容审（今日 246 条 orphan
   噪声里已有一大半来自 harness 树）。
+  （重签标记 2026-08-23，轮 `CONTRACT-V4`：R3 实施**没有走这条路**——`EXCLUDE` 未动，改用独立的
+  路径式常量，当时已在 commit 正文与 plan 披露；本句是提议原文，此标记即缺失的路标，rider
+  `design-route` 在此兑付。）
 - harness 新仓**不自带 repo-audit**（`E6`：需要新机器的修是重新质疑被守之物的信号）。新仓的
   markdown 完整性由其 pytest 电池与每轮独立评审承担。
 - **三个 harness hook 的路径前缀在 R3 显式更新**，并在调用者策略文件（`HARNESS-POLICY.md`）里

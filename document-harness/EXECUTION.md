@@ -98,9 +98,10 @@ dispositions left are `STOPPED_REPLAN` or a user `ACCEPT_WITH_LIMITATIONS` that 
 still open.
 
 *Stage marker (W2, 2026-07-23): under a **successor run** — one dispatched as a single
-evidence commit SHA rather than a package file, governed only once the user signs
-[`Document-Work-Assurance-Contract-v3-supersession-1.md`](../contract/Document-Work-Assurance-Contract-v3-supersession-1.md)
-at the wave-2 gate — the sentence above reads the same with one substitution and one
+evidence commit SHA rather than a package file, governed by
+[`Document-Work-Assurance-Contract-v4.md`](../contract/Document-Work-Assurance-Contract-v4.md)
+§13.1 (the commit-bound boundary; merged from supersession 1, signed 2026-07-24) — the
+sentence above reads the same with one substitution and one
 addition: there is no review package to regenerate, and the repair must land a **new
 evidence commit**. Reusing round 0's is the same defect in a new place: the subject would
 name a control plane that describes the candidate the repair replaced. Until that
@@ -348,7 +349,7 @@ evidence pass and for a construction batch's pre-commit verification alike:
   under `test_readme_enumeration.py`, the member paths in the layer-path mirror,
   `tooling/hooks/layer_path_check.py`, the two shipped instance templates under
   `document-harness/templates/` that `tooling/rsclib/document_harness/init_target.py`
-  copies, and `contract/Document-Work-Assurance-Contract-v3.md` under
+  copies, and `contract/Document-Work-Assurance-Contract-v4.md` under
   `tooling/rsclib/document_harness/__init__.py` — so a change that adds, removes or
   renames **any doc path code or a test pins** is tooling-load-bearing and the batch is
   tooling-touching, while a change to the *content* of such a file, its path unchanged,

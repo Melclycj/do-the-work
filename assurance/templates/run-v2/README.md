@@ -1,7 +1,8 @@
 # Run template v2 — commit-first review subject (wave 2)
 
-The successor run shape for document-assurance runs, per contract supersession-1
-(`contract/Document-Work-Assurance-Contract-v3-supersession-1.md`) and the
+The successor run shape for document-assurance runs, per contract v4 §13.1
+(`contract/Document-Work-Assurance-Contract-v4.md`, the commit-bound review-subject
+boundary merged from supersession 1) and the
 adjudicated wave-2 design. Instantiate at `ResearchSystem/assurance/runs/<run-id>/`; as of
 the shared-core round (A2-R3, `HD-11` part two, 2026-08-09) that no longer means copying
 the step scripts in. The six shared scripts — `run_evidence_v2.py`, `run_bind_v2.py`,

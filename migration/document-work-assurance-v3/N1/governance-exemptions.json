@@ -34,14 +34,14 @@
       "carried_value": "status: candidate-plan",
       "immutability_rule": "Plan §0 binds user approval to this exact Git blob (SHA-256 9B08CD0038FA0C36E76674B7CE386129D9797EFFE5CEC7FABBF69699811F171F) and §13 states the approved plan bytes remain unchanged; §11 forbids amending approved governance bytes in place. Editing the frontmatter would break the approval binding recorded at V3-N0 §1.",
       "recorded_at": "V3-N1"
-    },
+    }
+  ],
+  "retired": [
     {
       "blob": "b2dbdf752d8c155e4c65b14b5f420b880b8184a1",
-      "path_hint": "ResearchSystem/contract/Document-Work-Assurance-Contract-v3.md",
-      "fields": ["status"],
-      "carried_value": "status: candidate-awaiting-user-signature",
-      "immutability_rule": "Contract v3 §13 — a signed contract is never amended in place; corrections create a versioned successor. The V3-N0 record §8 errata ruled explicitly that this frontmatter residue is authoring residue, that the N0 record is authoritative for the contract's approval state, and that the residue is NOT grounds to modify contract bytes. The signature at V3-N0 binds this exact blob.",
-      "recorded_at": "V3-N1"
+      "path_hint": "contract/Document-Work-Assurance-Contract-v3.md",
+      "retired_at": "round CONTRACT-V4, 2026-08-23",
+      "why": "The v3 contract left the tree when contract v4 (which carries no self-approval field) superseded it as the operative text; a blob no longer in the tree meets no scan, so the entry grandfathers nothing. Kept here as a retired record rather than deleted silently, because the register's own note says entries are added and removed only by user decision — the removing decision is the CONTRACT-V4 signature entry in HARNESS-DECISIONS.md."
     }
   ]
 }

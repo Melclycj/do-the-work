@@ -11,8 +11,8 @@
 # and in document-harness/ONBOARDING.md for a caller doing the same on its side.
 #
 # What it runs: layer_path_check.py, which blocks a repository path newly written into one of
-# the instruction layer's ten members when that path does not resolve from this repository's
-# root. Those ten members live here, so this is the repository where the check can resolve
+# the instruction layer's eight members when that path does not resolve from this repository's
+# root. Those eight members live here, so this is the repository where the check can resolve
 # them; it was unwired from the caller on 2026-08-17, when the caller's duplicate copy of the
 # instrument was deleted and 0 of the 9 it then had resolved there.
 #

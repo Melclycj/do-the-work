@@ -42,8 +42,6 @@ LAYER = (
     "document-harness/ORCHESTRATION.md",
     "migration/document-work-assurance-v3/v3-harness-operating-contract.md",
     "migration/document-work-assurance-v3/v3-harness-review-contract.md",
-    "contract/Document-Work-Assurance-Contract-v3-supersession-1.md",
-    "contract/Document-Work-Assurance-Contract-v3-supersession-2.md",
     "schema/document-assurance-v3/paragraph-map.schema.json",
 )
 

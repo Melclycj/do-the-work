@@ -96,8 +96,12 @@ audit ref）：START 驳回则拆解白做。变的只是**谁**拆（executor �
 | ledger | **harness 不提供任何模板** | 调用者策略文件（本机 `ResearchSystem/HARNESS-POLICY.md`） |
 
 产品侧小债有家：**调用者自己的 rider bank**。`HarnessIssue` 的 **kind 枚举**不改——它只收
-`HARNESS_DEFECT` / `PROCESS_BURDEN`（仪器问题），这一半本来就对；其**路由与 `observed_after`
-窗口**的未解问题仍挂在 rider `HI-route`，不因本设计关闭。
+`HARNESS_DEFECT` / `PROCESS_BURDEN`（仪器问题），这一半本来就对；其**路由**已于 2026-08-22
+（轮 `PRERUN-RIDERS` 裁决 3）成文化关闭——评审员的界外观察记为评审记录里的 observation
+finding，closeout 由 orchestrator 按调用者 policy 归口，承载在 `REVIEW.md` *What is not in
+the subject* 节；rider `HI-route` 已同批兑付删除。（重签更正 2026-08-23，轮 `CONTRACT-V4`：
+原句写「其路由与 `observed_after` 窗口的未解问题仍挂在 rider `HI-route`，不因本设计关闭」，
+两半均已不再为真，rider `io-hiroute-stale` 在此兑付。）
 
 ## 7. 调用模型（submodule）
 
@@ -115,6 +119,9 @@ audit ref）：START 驳回则拆解白做。变的只是**谁**拆（executor �
   跨仓显式传；**独立 CLI**——今日 v3 只是产品 CLI `rsc.py` 的子命令组，六个命令中五个纯读、
   `dispatch` 唯一写盘（只写调用者 `.harness/` 下的 freeze marker），「跑这一轮」住在 run 目录
   脚本里——归拆分批，与 rider `CLI-hist` 同批。
+  （重签标记 2026-08-23，轮 `CONTRACT-V4`：此句是 2026-08-12 签字时的事实；其后 `init`
+  （`HD-47`）与 `preview`（`HD-51`）加入——`init` 亦写盘（目标仓的装配件），`preview` 纯读，
+  命令数以 `--help` 为准；rider `six-signed` 的本文件半边在此兑付。）
 
 ## 8. 待处理清单（本设计产生的后续工作）
 

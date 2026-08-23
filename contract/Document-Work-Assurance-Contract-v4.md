@@ -1,23 +1,35 @@
 ---
-title: Document Work Assurance Contract v3
+title: Document Work Assurance Contract v4
 tags:
   - research-system
   - harness
   - contract
   - document-work
-status: candidate-awaiting-user-signature
-created: 2026-07-20
-document_role: signed-contract-candidate
-signature_owner: V3-N0 administrative record
+created: 2026-08-23
+signature_owner: HARNESS-DECISIONS.md (the v4 signature entry)
 ---
 
-# Document Work Assurance Contract v3
+# Document Work Assurance Contract v4
 
 > [!warning] Signature semantics
-> This contract becomes binding only when the user signs it at the V3-N0 stop gate. The signature is
-> recorded append-only in the [V3-N0 administrative record](../migration/document-work-assurance-v3/N0/N0-record.md),
-> binding this file's exact Git blob — this file never carries its own approval status or digest
+> This contract becomes binding only when the user signs it. The signature is recorded
+> append-only as an `HD` entry in [`HARNESS-DECISIONS.md`](../HARNESS-DECISIONS.md), binding
+> this file's exact Git blob — this file never carries its own approval status or digest
 > (signed contracts are never amended in place; corrections create a versioned successor).
+
+This file is the **versioned successor merging the signed v3 contract and its two signed
+supersessions into one operative text**, under v3's own §13 rule. The merged sources are
+reachable in git history at their recorded blobs, each with its signature record still in
+this tree: `Document-Work-Assurance-Contract-v3.md`
+(`b2dbdf752d8c155e4c65b14b5f420b880b8184a1`; signed 2026-07-20, approval state at
+[N0 record §8](../migration/document-work-assurance-v3/N0/N0-record.md)), supersession 1 —
+commit-bound review subject (`68031fa2ca31272e31da0d42a9a02189d28fcc21`; signed 2026-07-24,
+record [W2-record](../migration/document-work-assurance-v3/W2/W2-record.md)), and
+supersession 2 — narrowed state-pointer digests
+(`e1a2f26b1d8d323d11e900f8137dea222b6571c1`; signed 2026-07-30, record
+[supersession-2-signature](../migration/document-work-assurance-v3/supersession-2-signature.md)).
+Where wording differs from those sources, the change is one of the enumerated deltas in
+`document-harness/plans/contract-v4.plan.md`; nothing else was rewritten.
 
 Authored under the user-approved plan
 [[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]] (plan SHA-256
@@ -59,7 +71,7 @@ any named external orchestrator.
 
 | Logical object | Sole owner | Schema file (this node) |
 |---|---|---|
-| `DocumentWorkSpec` | stage author / planning agent | [document-work-spec.schema.json](../schema/document-assurance-v3/document-work-spec.schema.json) |
+| `DocumentWorkSpec` | the run's executor (its WorkSpec author) | [document-work-spec.schema.json](../schema/document-assurance-v3/document-work-spec.schema.json) |
 | `DocumentAssuranceProfile` | profile publisher | [document-assurance-profile.schema.json](../schema/document-assurance-v3/document-assurance-profile.schema.json) |
 | `InstructionCoverageAudit` | instruction auditor | [instruction-coverage-audit.schema.json](../schema/document-assurance-v3/instruction-coverage-audit.schema.json) |
 | `ResolvedAssurancePlan` | resolver (generated) | [resolved-assurance-plan.schema.json](../schema/document-assurance-v3/resolved-assurance-plan.schema.json) |
@@ -88,7 +100,7 @@ base B
 control root E(C), outside C's payload identity
   -> WorkSpec / ResolvedAssurancePlan / AssuranceWorkState
   -> FulfillmentReport / manifest / checks / coverage
-  -> frozen ReviewPackage / ReviewResult
+  -> evidence commit (control plane committed; subject = one SHA) / ReviewResult
   -> AssuranceCandidate -> UserDecision -> one final AssuranceSummary
 ```
 
@@ -150,11 +162,17 @@ completeness against the raw instruction.
 6. Any out-of-boundary delta is `NONCONFORMANT`.
 7. Every expected artifact exists in the manifest or is explicitly missing.
 8. Every deterministic obligation binds an exact CheckResult; raw evidence remains authoritative.
-9. ReviewPackage logically includes raw instruction/sources, plan, actual candidate artifacts,
-   fulfillment, manifest, checks and coverage; membership uses exact revision + locator + digest and
-   never byte-copies every source. The executor summary is supplemental only.
+9. The review subject is one **evidence commit**: before dispatch the controller commits
+   the run's control root — plan, fulfillment, manifest, one file per CheckResult, and
+   coverage — so the commit content-addresses every member byte, and the raw instruction,
+   sources and actual candidate artifacts are read at the exact revisions the WorkSpec and
+   CandidateRecord pin. The member enumeration is **derived from the committed tree**,
+   never hand-authored. The evidence commit's changed-path set must lie inside the run's
+   control root (checked, not hoped). The executor summary is supplemental only.
 10. ReviewResult explicitly rechecks instruction completeness and covers every obligation.
-11. Repair regenerates manifest, fulfillment mapping, checks, coverage and package for C2.
+11. Repair regenerates manifest, fulfillment mapping, checks and coverage for C2, and
+    commits a **new evidence commit**; no round-1 subject may reuse the round-0 evidence
+    commit.
 12. AssuranceCandidate exists before FINAL; exactly one AssuranceSummary is generated after FINAL.
 13. `REJECT`/`REPLAN` never promotes payload; accepted promotion is explicit and recorded.
 
@@ -170,7 +188,9 @@ product centre and never substitutes for source inspection or instruction covera
 4 one InstructionCoverageAudit -> user START or REPLAN
 5 executor writes isolated payload candidate C + FulfillmentReport
 6 diff verifier generates manifest; local verifiers run closed checks
-7 controller freezes actual-subject ReviewPackage; reviewer runs one FULL
+7 controller commits the control plane and verifies the evidence commit
+  (`check_subject`); the dispatched review subject is that commit's SHA; reviewer runs one
+  FULL, re-deriving from pinned revisions
 8 optional user REPAIR -> C2 -> regenerate evidence -> one VERIFY
 9 controller generates AssuranceCandidate
 10 user FINAL decision -> explicit promotion/no-promotion -> one AssuranceSummary
@@ -247,9 +267,72 @@ state machines.
 - Hard enforcement, tools/security/compliance, observability dashboards and artifact UI are separate
   projects; v3 neither models their schemas nor claims their guarantees.
 
+### 13.1 Review-subject version boundary (merged from supersession 1, adjudicated 2026-07-23)
+
+- A successor **ReviewResult declares its own version**: root `schema_version` const `"2"`
+  (`schema/document-assurance-v3/review.v2.schema.json`), binding
+  `subject = { evidence_commit, candidate_ref, base_revision, control_root, repair_round }`
+  in place of `package_ref`. A result with no `schema_version` key is a v1 result and is
+  validated against pinned v1 semantics; `"2"` selects v2; a present-but-null or any other
+  value is a `SPEC_GAP`, fail closed — **no cross-version fallback in either direction**
+  (the W1 keying pattern, `_ABSENT` sentinel included).
+- Newly opened runs author v2 results. Closed runs and shadow rounds keep their frozen
+  packages as **pinned v1 history**: no migration, no re-freeze, no retroactive script
+  fixes; `review.schema.json` and the v1 checker functions stay frozen for reading that
+  history (§13 above: a live run pins exact schema versions; later changes never mutate it).
+- Digest-strength disclosure: v1 package members carried SHA-256 digests; the successor
+  rests member binding on git content addressing, whose object format in this repository is
+  SHA-1. Acceptable under §1's threat model (single writer, workflow protocol rather than
+  OS guarantee) — a real strength change, stated rather than glossed.
+
+### 13.2 State-pointer digest policy (merged from supersession 2, adjudicated 2026-07-29)
+
+- A state pointer carries the **BYTES digest** of the pointed-at file **when, and only
+  when, its field is one the executor may not author the current version of**:
+  `work_spec_ref`, `start_decision_ref`, `repair_decision_ref`, `final_decision_ref` and
+  `review_ref` (`assurance_state.DIGEST_PROTECTED_FIELDS`). Every other state pointer
+  carries the path alone; `pointerRef` requires only `path`, so this needs no schema
+  change. The documented authoring path is the `assurance_state.pointer_for` helper, which
+  applies the field policy and delegates to `pointer_to` for the digest; `pointer_to`
+  remains correct for what it does and is **no longer the authoring path for a newly opened
+  run** — closed-run scripts (held in the caller's run directories) and the helper's own
+  tests still call it directly, and nothing here asks them to change. **When a digest is
+  present it is still of the pointed-at file's bytes and is still verified** — the w1-r1
+  pointer-digest-kind lesson is unchanged, and a wrong digest on any field remains
+  `POINTER-STALE`. What changed is the obligation to write one, never the meaning of one
+  that is written.
+- Version boundary: a state pointer is authored under this policy when it is written by
+  `assurance_state.pointer_for`; one written by `pointer_to` or `pointer` directly is under
+  the prior text where the two texts differ; for an unprotected field written as a bare
+  `pointer(path)` they do not. The boundary is the authoring call, not a date, and the unit
+  is the pointer — a single run may author some pointers each way, which is the shape to
+  expect. Closed runs and shadow rounds keep the digests they were written with as **pinned
+  history**: no migration, no re-write, no retroactive removal — a record edited to match a
+  later rule stops being a record of what happened. Existing digests on closed runs remain
+  verifiable exactly as before.
+- Five bounded properties, stated rather than glossed: **no schema byte changes**
+  (`pointerRef` already made `digest_sha256` optional; nothing in `schema/` is amended by
+  this policy). **The `digestRef` side is untouched** — the plan's `work_spec_ref` binding
+  and the review/summary/profile digest comparisons continue to require and check a digest;
+  those refs require `[path, digest_sha256]` by schema and are outside this statement
+  entirely; `instruction_ref` is a `frozenFileRef`, required as `[path, revision]`, and is
+  outside this statement for a different reason. **Detection strength**: the surviving
+  digests detect an uninformed mis-write; they do **not** detect a consistent rewrite of
+  file and digest together, and they never did — the limit is recorded, not narrowed.
+  **Coverage of the narrowing is partial and named**: `assurance_state.pointer(path,
+  digest)` still accepts a caller-supplied digest and is used directly by hand-written run
+  scripts, so a run authored by copying an existing precedent will keep writing digests on
+  unprotected fields; the obligation removed is on the documented authoring path. **Only
+  one protected field has a live write path**: of the five, only `review_ref` is authored
+  by `assurance/templates/run-v2/` (`run_bind_v2.py`); the other four are written by
+  hand-authored run scripts, which this policy governs but no shipped template exercises —
+  end-to-end demonstration covers one field, unit tests the rest.
+
 ## 14. Signature
 
-User signature at the V3-N0 gate means: this contract's interfaces, enums, invariants and
-dependency map are frozen for v3 construction, and V3-N1 may be authorized. The signature record
-(exact contract blob + candidate SHA + date) lives in the N0 administrative record, appended after
-review — never inside this file.
+User signature means: this contract's interfaces, enums, invariants, version boundaries and
+dependency map are frozen as the operative text for v3-family construction, and this file
+supersedes the v3 contract and its two supersessions as one operative document. The
+signature record (exact contract blob + date) lives as an `HD` entry in
+[`HARNESS-DECISIONS.md`](../HARNESS-DECISIONS.md), appended after review — never inside
+this file.

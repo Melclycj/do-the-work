@@ -83,8 +83,9 @@ binds what the reviewer produced.
 ## When the subject is one commit
 
 *Stage marker (W2, 2026-07-23): this section addresses the **reviewer of a successor run** —
-one whose dispatch is a single evidence commit SHA rather than a package file.
-[`Document-Work-Assurance-Contract-v3-supersession-1.md`](../contract/Document-Work-Assurance-Contract-v3-supersession-1.md)
+one whose dispatch is a single evidence commit SHA rather than a package file. Supersession
+1 — merged since round `CONTRACT-V4` into
+[`Document-Work-Assurance-Contract-v4.md`](../contract/Document-Work-Assurance-Contract-v4.md) §13.1 —
 **signed 2026-07-24** — recorded at
 [W2-record §log](../migration/document-work-assurance-v3/W2/W2-record.md) (`ac1b383`);
 this section governs newly opened runs, and the package-bound sections moved to
