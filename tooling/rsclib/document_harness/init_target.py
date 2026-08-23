@@ -4,9 +4,12 @@
 Onboarding a repository that has never seen this harness is nine items
 (`ONBOARDING.md` beside this package's `document-harness/` docs). Five of them are
 judgment: what the caller's policy file says, where its pointer line goes, which guards its
-hook runs, which revision the submodule pins, and when its first journal is written. Four are
-mechanical, and mechanical work done by hand is work done differently every time — so this
-command does exactly those four and says, in its own output, that it did not do the rest.
+hook runs, which revision the submodule pins, and when its first journal is written. The
+mechanical slice — and mechanical work done by hand is work done differently every time —
+is this command's whole job: `.harness/` with the default scan-surface declaration inside
+it (round STRANGER-GUARDS; the guards read `.harness/scan-surfaces.json` and this write is
+how a caller discovers the schema to edit), the ignore entry, the two template instances,
+and refusal to overwrite. It says, in its own output, that it did not do the rest.
 
 Two design points, both deliberate:
 
@@ -27,6 +30,8 @@ from __future__ import annotations
 
 import dataclasses
 import pathlib
+
+from rsclib.document_harness import caller
 
 #: Source name -> the name it takes in the target. The destination names are a default, not a
 #: requirement: a caller that wants them elsewhere moves them and records that in its own
@@ -121,6 +126,18 @@ def init_target(repo_root: pathlib.Path) -> InitResult:
     else:
         runtime.mkdir(parents=True)
         created.append(RUNTIME_DIR + "/")
+
+    # The default scan-surface declaration, so the guards' surfaces are editable where
+    # they are read (`caller.load_scan_surfaces`). Absent it the guards use the same
+    # defaults, so this write changes nothing until the caller edits it — what it buys is
+    # the schema being discoverable. Never overwritten: a caller's declared surfaces are
+    # exactly the adaptation `HD-34` tells them to keep.
+    declaration = runtime / "scan-surfaces.json"
+    if declaration.is_file():
+        already.append(caller.DECLARATION)
+    else:
+        declaration.write_text(caller.render_declaration(), encoding="utf-8")
+        created.append(caller.DECLARATION)
 
     copied, present = _copy_templates(target)
     created += copied

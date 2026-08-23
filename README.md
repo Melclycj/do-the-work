@@ -14,8 +14,16 @@ work.
 ## Where the bytes came from
 
 The 254 files in this repository's first commit were copied byte-for-byte out of
-`D:/Thesis` (worktree `D:/Thesis-stage-control-refactor`, branch `document-work-assurance-v3`)
-at commit `e4ffa2b`, from under its `ResearchSystem/` directory. **History was deliberately
+`https://github.com/Melclycj/Thesis-Work`, branch `document-work-assurance-v3` — the
+historical record names it by its single-machine paths, `D:/Thesis` (worktree
+`D:/Thesis-stage-control-refactor`), which are where the work happened and stay as
+recorded — at commit `e4ffa2b`, from under its `ResearchSystem/` directory. Both that
+commit and `7011916`, the other id this repository's instruction layer sends readers
+there for, are on the branch as pushed (verified 2026-08-23, `git merge-base
+--is-ancestor` against `origin/document-work-assurance-v3`). That repository answers
+anonymous access with an authentication challenge — private, as measured the same day —
+so the name is a durable address to request access to, not an open door; whether it opens
+is its owner's, not this file's. **History was deliberately
 not carried across** (`HD-40`, design §4): the caller's repository keeps every commit that
 built these bytes — 335 of them touching this material — and `git log` there remains the way
 to ask *why* any line reads as it does. The reasons live in commit bodies, which is this
@@ -36,9 +44,12 @@ registers beside this file. Until round `DE-PREFIX` (batch DTW-INDEPENDENCE R3, 
 tree — the split's first round moved bytes only, because moving and re-rooting at once would
 have made a byte move indistinguishable from a content change. The byte-identity claim
 against the caller's `e4ffa2b` therefore holds at this repository's first commit, not at
-`HEAD`; `git log --follow` crosses the rename. The instrument still resolves its own roots
-**by directory depth**, not by name (`RS_ROOT = parents[3]`), and that depth survived the
-re-rooting because each resolving file moved up together with its target.
+`HEAD`; `git log --follow` crosses the rename. The instrument still locates its **own
+files** by directory depth from `__file__`, not by name, and that depth survived the
+re-rooting because each resolving file moved up together with its target; the repository a
+command *targets* stopped being depth- or cwd-guessed in round `STRANGER-GUARDS` — it is
+the git toplevel of where the command is pointed, or a loud refusal, never a wrong root
+taken quietly.
 
 ## State of this repository — run these, do not trust a sentence
 

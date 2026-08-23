@@ -39,6 +39,7 @@ import json
 import pathlib
 import shutil
 import sys
+import subprocess
 import tempfile
 import unittest
 
@@ -184,6 +185,11 @@ class BindTemplateCase(unittest.TestCase):
                  evidence_files=None, state=None):
         root = pathlib.Path(tempfile.mkdtemp(prefix="m9-bind-"))
         self.addCleanup(shutil.rmtree, root, ignore_errors=True)
+        # A real repository, because the default repo-root derivation asks git for
+        # the toplevel (round STRANGER-GUARDS) and this file exercises that default.
+        subprocess.run(
+            ["git", "-C", str(root), "init", "-q"], check=True, stdout=subprocess.DEVNULL
+        )
         control = root / CONTROL_ROOT / "control"
         evidence = root / CONTROL_ROOT / "evidence"
         control.mkdir(parents=True)
@@ -206,8 +212,9 @@ class BindTemplateCase(unittest.TestCase):
         """The command line a run is driven by: the run directory, then the round's refs.
 
         No ``--repo-root`` is passed anywhere in this file on purpose — the default
-        derivation (the run directory's fourth parent) is itself under test, and supplying
-        the root by hand would let a broken derivation pass.
+        derivation (the git toplevel of the run directory, round STRANGER-GUARDS) is
+        itself under test, and supplying the root by hand would let a broken
+        derivation pass.
         """
         return [str(root / CONTROL_ROOT), "--evidence-commit", EVIDENCE_COMMIT,
                 "--bound-at", BOUND_AT, *extra]

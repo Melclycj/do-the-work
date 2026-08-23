@@ -6,7 +6,7 @@ Eight operations: `governance-scan` / `status` / `flow` / `dispatch` / `disposit
 freeze marker `.harness/review-pending.json` (E9's review window) in the repository it is
 run against — its executor-side modes write nothing, an executor dispatch opening no
 review window — and
-`init` writes into a target repository being onboarded — the mechanical four of onboarding's
+`init` writes into a target repository being onboarded — the mechanical slice of onboarding's
 nine items, and nothing else (`init_target.py`; the user ruled on 2026-08-18 that a seventh
 command may exist, overriding the reading of `split-design.md` §1 under which the six
 travelled as they were; `preview` joined as the eighth by the ruling of 2026-08-21, round
@@ -29,6 +29,31 @@ import pathlib
 import sys
 
 
+def _rooted(args: argparse.Namespace) -> pathlib.Path | None:
+    """The repository a command targets: `--repo-root` as given, else discovered.
+
+    Never the bare cwd (round STRANGER-GUARDS): six commands used to default to
+    `Path.cwd()`, which is the repository root only when the operator happens to stand
+    there — one directory down it silently mis-derived every root-relative path, the
+    freeze marker's home included. `caller.discover_repo_root` asks git for the toplevel
+    instead and refuses loudly outside a work tree; a `None` return here is that refusal,
+    already printed, and the command exits 2 with it.
+    """
+    if args.repo_root:
+        return pathlib.Path(args.repo_root).resolve()
+
+    from rsclib.document_harness import SpecGap
+    from rsclib.document_harness import caller as v3_caller
+
+    try:
+        root = v3_caller.discover_repo_root(pathlib.Path.cwd())
+    except SpecGap as exc:
+        print(f"FATAL: {exc}", file=sys.stderr)
+        return None
+    print(f"repo root discovered: {root}", file=sys.stderr)
+    return root
+
+
 def _cmd_v3_governance_scan(args: argparse.Namespace) -> int:
     """Reject a governance document that carries its own approval status (V3-N1, R4).
 
@@ -42,7 +67,9 @@ def _cmd_v3_governance_scan(args: argparse.Namespace) -> int:
     from rsclib.document_harness import candidate as v3_candidate
     from rsclib.document_harness import checks as v3_checks
 
-    repo_root = pathlib.Path(args.repo_root).resolve() if args.repo_root else pathlib.Path.cwd().resolve()
+    repo_root = _rooted(args)
+    if repo_root is None:
+        return 2
     try:
         if args.tree == "candidate_commit":
             if not args.revision:
@@ -79,7 +106,9 @@ def _cmd_v3_status(args: argparse.Namespace) -> int:
     from rsclib.document_harness import AssuranceFault, SpecGap
     from rsclib.document_harness import assurance_state as v3_state
 
-    repo_root = pathlib.Path(args.repo_root).resolve() if args.repo_root else pathlib.Path.cwd().resolve()
+    repo_root = _rooted(args)
+    if repo_root is None:
+        return 2
     try:
         point = v3_state.resume(args.state, repo_root)
     except (SpecGap, AssuranceFault) as exc:
@@ -149,7 +178,9 @@ def _cmd_v3_dispatch(args: argparse.Namespace) -> int:
     from rsclib.document_harness import AssuranceFault, SpecGap
     from rsclib.document_harness import dispatch as v3_dispatch
 
-    repo_root = pathlib.Path(args.repo_root).resolve() if args.repo_root else pathlib.Path.cwd().resolve()
+    repo_root = _rooted(args)
+    if repo_root is None:
+        return 2
     try:
         if args.range:
             # A CONSTRUCTION round: no control plane declares where it began, so the two
@@ -356,7 +387,9 @@ def _cmd_v3_review_subject(args: argparse.Namespace) -> int:
         )
         return 2
 
-    repo_root = pathlib.Path(args.repo_root).resolve() if args.repo_root else pathlib.Path.cwd().resolve()
+    repo_root = _rooted(args)
+    if repo_root is None:
+        return 2
     subject_checked = True
     try:
         evidence_commit, report = v3_dispatch.resolve_subject(repo_root, args.subject)
@@ -441,7 +474,9 @@ def _cmd_v3_review(args: argparse.Namespace) -> int:
         )
         return 2
 
-    repo_root = pathlib.Path(args.repo_root).resolve() if args.repo_root else pathlib.Path.cwd().resolve()
+    repo_root = _rooted(args)
+    if repo_root is None:
+        return 2
     try:
         package = v3_review.load_package(args.package)
         spec = v3_spec.load_spec(args.spec)
@@ -489,7 +524,9 @@ def _cmd_v3_init(args: argparse.Namespace) -> int:
     """
     from rsclib.document_harness import init_target as v3_init
 
-    repo_root = pathlib.Path(args.repo_root).resolve() if args.repo_root else pathlib.Path.cwd().resolve()
+    repo_root = _rooted(args)
+    if repo_root is None:
+        return 2
     try:
         result = v3_init.init_target(repo_root)
     except (FileNotFoundError, NotADirectoryError, OSError) as exc:
@@ -548,7 +585,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     gov.add_argument("--path", action="append", required=True, help="repo-relative document (repeatable)")
     gov.add_argument("--exemptions", help="blob-keyed grandfather register (JSON)")
-    gov.add_argument("--repo-root", help="repository root (default: current directory)")
+    gov.add_argument("--repo-root", help="repository root (default: the git toplevel of the current directory, or a loud refusal)")
     gov.add_argument(
         "--tree",
         choices=["worktree", "candidate_commit"],
@@ -560,7 +597,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     status = sub.add_parser("status", help="cold resume from an AssuranceWorkState")
     status.add_argument("--state", required=True, help="path to the AssuranceWorkState document")
-    status.add_argument("--repo-root", help="repository root (default: current directory)")
+    status.add_argument("--repo-root", help="repository root (default: the git toplevel of the current directory, or a loud refusal)")
     status.set_defaults(func=_cmd_v3_status)
 
     # V3-N2 read-only surfaces. A check nobody can invoke is a check that will eventually
@@ -599,7 +636,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="CONSTRUCTION round executor: one sentence naming the charter; nothing derived",
     )
-    dispatch_cmd.add_argument("--repo-root", help="repository root (default: current directory)")
+    dispatch_cmd.add_argument("--repo-root", help="repository root (default: the git toplevel of the current directory, or a loud refusal)")
     dispatch_cmd.set_defaults(func=_cmd_v3_dispatch)
 
     disposition = sub.add_parser(
@@ -636,14 +673,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--executor",
         help="the executor's identity; omitted, reviewer distinctness is reported as UNVERIFIED",
     )
-    review_cmd.add_argument("--repo-root", help="repository root (default: current directory)")
+    review_cmd.add_argument("--repo-root", help="repository root (default: the git toplevel of the current directory, or a loud refusal)")
     review_cmd.set_defaults(func=_cmd_v3_review)
 
     init_cmd = sub.add_parser(
         "init",
         help="onboard a target repository: .harness/, its ignore entry, the two templates",
     )
-    init_cmd.add_argument("--repo-root", help="repository root (default: current directory)")
+    init_cmd.add_argument("--repo-root", help="repository root (default: the git toplevel of the current directory, or a loud refusal)")
     init_cmd.set_defaults(func=_cmd_v3_init)
 
     preview_cmd = sub.add_parser(

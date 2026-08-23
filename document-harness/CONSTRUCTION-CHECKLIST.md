@@ -15,7 +15,10 @@
 > instruction-layer member (`E10`) that this repository does not have — `7011916` included —
 > is a commit of the repository this one was extracted from; the root
 > [`README.md`](../README.md)'s *Where the bytes came from* names that repository and says
-> why the history stayed there. A citation naming its own repository is read as written; a
+> why the history stayed there. A citation naming its own repository **by name** is read as
+> written; a role word — *caller*, *instrument* — is not such a name and routes like
+> silence, by the first sentence's test, so `EXECUTION.md`'s "caller `6fd0ae3`" reaches the
+> extraction-source repository for every reader, not whichever repository is reading; a
 > silent one means that one.
 >
 > Rationale is deliberately absent: every rule below was paid for by a recorded incident, and

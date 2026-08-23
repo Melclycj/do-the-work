@@ -72,7 +72,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 
 | | |
 |---|---|
-| **Do** | `python <mount-path>/tooling/dtw.py init --repo-root .` from the caller's root — it creates `.harness/`, appends `.harness/` to `.gitignore` (creating that file if absent), and does items 3 and 4. By hand it is `mkdir .harness` plus one line in `.gitignore`. |
+| **Do** | `python <mount-path>/tooling/dtw.py init --repo-root .` from the caller's root — it creates `.harness/` with the default scan-surface declaration `scan-surfaces.json` inside it (the file both caller-side guards read — the second note under item 9 says what it declares), appends `.harness/` to `.gitignore` (creating that file if absent), and does items 3 and 4. By hand it is `mkdir .harness` plus one line in `.gitignore`; the declaration is only needed once the caller's layout leaves the defaults. |
 | **See** | `git check-ignore -v .harness/x` names the `.gitignore` line that ignores it. `dtw init` prints every path it created and every one it left alone. |
 | **Owner** | `io-design.md` §7: the run directory and the freeze marker `.harness/review-pending.json` belong to the caller and may be gitignored; `HD-33` rules the same. The marker is written by `dtw dispatch` and is `E9`'s review window — not `E2`'s byte freeze, which is a different thing with a similar name. Which of these nine items `init` may absorb at all is bounded by the criterion in the onboarding row of `README.md` beside this file: the tree half may enter `init`, the machine half never does. |
 
@@ -141,13 +141,16 @@ Two things worth knowing before wiring, both measured rather than argued:
   instead, at a price paid in the 2026-08-19 run: a fresh clone with `core.hooksPath` set but
   the submodule not yet initialised cannot commit at all until it runs
   `git submodule update --init`. Pick one deliberately; the failure modes are opposite.
-- **`candidate_path_check.py` exempts record and specification surfaces by hard-coded
-  prefixes** (`RECORD_SURFACE` / `SPECIFICATION_SURFACE` in that file), and those prefixes are
-  the ones the caller that grew this harness uses. A caller whose records live elsewhere will
-  have its own records scanned as work products, and a record quoting the broken path it
-  reports is then blocked from landing. Adding a prefix is an edit to the instrument, which
-  `HD-34` forbids a caller to make in place; the route is a rider or a round here, not a local
-  patch there.
+- **Both guards read their surfaces from the caller's `.harness/scan-surfaces.json`**
+  (round STRANGER-GUARDS; item 2's `init` writes the defaults). `candidate_path_check.py`
+  exempts the declared record and specification surfaces from the work-product scan, and
+  `review_freeze_check.py` admits returned records only in the declared directories — so a
+  caller whose records live off the defaults edits that declaration, a file in its own
+  tree, which is exactly the adaptation `HD-34` tells it to record rather than the
+  in-place instrument edit `HD-34` forbids. Until then its records are scanned as work
+  products, and a record quoting the broken path it reports is blocked from landing — the
+  deadlock the declaration exists to end. A declaration with a typo blocks loudly and
+  never silently falls back to the defaults; the guards' refusal names the file.
 
 ## When the nine are done
 

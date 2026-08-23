@@ -112,7 +112,37 @@ class FreshTarget(unittest.TestCase):
                 for p in root.rglob("*")
             )
             self.assertEqual(
-                written, [".gitignore", ".harness", "HARNESS-DECISIONS.md", "HARNESS-RIDERS.md"]
+                written,
+                [
+                    ".gitignore",
+                    ".harness",
+                    ".harness/scan-surfaces.json",
+                    "HARNESS-DECISIONS.md",
+                    "HARNESS-RIDERS.md",
+                ],
+            )
+
+    def test_the_declaration_carries_the_default_surfaces(self):
+        """E5: the expected bytes are this hand-written literal, never the module's own
+        renderer — a default silently dropped from the declaration `init` writes would
+        re-scan the records of every caller that trusted `init`'s output as its schema."""
+        with Target() as root:
+            result = init_target.init_target(root)
+            self.assertIn(".harness/scan-surfaces.json", result.created)
+            self.assertEqual(
+                (root / ".harness" / "scan-surfaces.json").read_text(encoding="utf-8"),
+                "{\n"
+                ' "record_surface": [\n'
+                '  "HARNESS-RIDERS.md",\n'
+                '  "journal/"\n'
+                " ],\n"
+                ' "review_record_dirs": [\n'
+                '  "migration/document-work-assurance-v3/"\n'
+                " ],\n"
+                ' "specification_surface": [\n'
+                '  "assurance/runs/"\n'
+                " ]\n"
+                "}\n",
             )
 
 
@@ -184,6 +214,20 @@ class RefusesToOverwrite(unittest.TestCase):
             result = init_target.init_target(root)
             self.assertIn("HARNESS-RIDERS.md", result.created)
             self.assertTrue((root / "HARNESS-RIDERS.md").is_file())
+
+    def test_an_edited_declaration_keeps_its_bytes(self):  # must fire
+        """A caller's declared surfaces are exactly the adaptation `HD-34` tells them to
+        keep; a re-run that reset them to defaults would silently re-scan its records."""
+        with Target() as root:
+            (root / ".harness").mkdir()
+            (root / ".harness" / "scan-surfaces.json").write_text(SENTINEL, encoding="utf-8")
+            result = init_target.init_target(root)
+            self.assertEqual(
+                (root / ".harness" / "scan-surfaces.json").read_text(encoding="utf-8"),
+                SENTINEL,
+            )
+            self.assertIn(".harness/scan-surfaces.json", result.already_present)
+            self.assertNotIn(".harness/scan-surfaces.json", result.created)
 
     def test_a_second_run_creates_nothing(self):  # must fire — idempotence is the re-run case
         with Target() as root:

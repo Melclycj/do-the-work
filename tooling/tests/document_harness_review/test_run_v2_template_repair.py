@@ -45,6 +45,7 @@ import json
 import pathlib
 import shutil
 import sys
+import subprocess
 import tempfile
 import unittest
 
@@ -155,16 +156,22 @@ class RepairTemplateCase(unittest.TestCase):
         self.template = load_template()
 
     def make_run(self, *, decision=None, state=None,
-                 under=("ResearchSystem", "assurance", "runs")):
+                 under=("ResearchSystem", "assurance", "runs"), git=True):
         """The real run layout under a throwaway root.
 
-        `under` is the path from the repository root down to the run's parent, and it exists
-        for one test only: the default repo-root derivation counts a fixed number of parents,
-        so a run planted at another depth is how that count is shown to be load-bearing
-        rather than incidental to these fixtures.
+        `under` is the path from the repository root down to the run's parent: the default
+        repo-root derivation asks git for the toplevel (round STRANGER-GUARDS), so a run
+        planted at another depth is how the derivation is shown to be discovery rather
+        than the depth count it used to be. `git=False` withholds the repository, for the
+        one test that drives the refusal.
         """
         root = pathlib.Path(tempfile.mkdtemp(prefix="l1-repair-"))
         self.addCleanup(shutil.rmtree, root, ignore_errors=True)
+        if git:
+            subprocess.run(
+                ["git", "-C", str(root), "init", "-q"],
+                check=True, stdout=subprocess.DEVNULL,
+            )
         run_dir = root.joinpath(*under, RUN_ID)
         control = run_dir / "control"
         evidence = run_dir / "evidence"
@@ -264,8 +271,11 @@ class TheStateMovesOnlyWhenEmitSaysSo(RepairTemplateCase):
         )
 
 
-class TheRepoRootIsFourParentsUp(RepairTemplateCase):
-    """M13: the default derivation, and what it is for — a repository-relative control root.
+class TheRepoRootIsTheRunDirectorysToplevel(RepairTemplateCase):
+    """M13's successor: the default derivation, and what it is for — a repository-relative
+    control root. Round STRANGER-GUARDS replaced the fourth-parent count with the git
+    toplevel of the run directory, or a loud refusal — a depth count was the first
+    caller's layout, silently wrong anywhere else.
 
     No test in this class passes ``--repo-root`` where the derivation is the subject: supplying
     the root by hand is exactly what would let a broken derivation pass.
@@ -294,22 +304,38 @@ class TheRepoRootIsFourParentsUp(RepairTemplateCase):
             f"ResearchSystem/assurance/runs/{RUN_ID}/control/user-decision-repair.json",
         )
 
-    def test_a_run_planted_at_another_depth_takes_a_root_that_is_not_the_repository(self):
-        """The count is load-bearing, and it is a count of parents, not of names.
+    def test_a_run_planted_at_another_depth_still_takes_the_repository_root(self):
+        """The derivation is discovery, not a count of parents — the old bound is gone.
 
-        A run one segment shallower than the layout — `<repo>/b/c/runs/<id>` instead of
-        `<repo>/ResearchSystem/assurance/runs/<id>` — makes the fourth parent `<repo>/b`, so
-        the control root written into the state starts inside the repository rather than at
-        it. Asserted as the whole wrong path rather than as a refusal, because the derivation
-        cannot refuse this: any run directory with four ancestors has a fourth parent. That
-        is the honest bound on M13 — the template is depth-sensitive and detects nothing.
+        A run at `<repo>/a/b/c/runs/<id>` instead of the first caller's
+        `<repo>/ResearchSystem/assurance/runs/<id>`: the fourth-parent count this class
+        used to pin took `<repo>/a` here and wrote a control root that started inside the
+        repository — asserted then as "the template is depth-sensitive and detects
+        nothing". Discovery answers the toplevel at any depth, so the whole path below
+        starts at the repository; a regression to depth counting fails on the missing
+        leading segment.
         """
         run_dir = self.make_run(under=("a", "b", "c", "runs"))
         code, out = run_main(self.template, [str(run_dir), "--emit"])
         self.assertEqual(code, 0, out)
         self.assertEqual(
             self.saved_state()["repair_decision_ref"]["path"],
-            f"b/c/runs/{RUN_ID}/control/user-decision-repair.json",
+            f"a/b/c/runs/{RUN_ID}/control/user-decision-repair.json",
+        )
+
+    def test_outside_any_repository_the_default_refuses_rather_than_guesses(self):
+        """The other half of the contract: no toplevel to discover means SPEC_GAP, exit 2.
+
+        The old default could not refuse — any directory has a fourth parent — which is
+        exactly how a wrong root was taken quietly. The refusal line is asserted whole.
+        """
+        run_dir = self.make_run(git=False)
+        code, out = run_main(self.template, [str(run_dir)])
+        self.assertEqual(code, 2, out)
+        self.assertIn(
+            f"SPEC_GAP: no repository root was given and {run_dir.resolve()} is not "
+            "inside a git work tree; pass --repo-root explicitly",
+            out.splitlines(),
         )
 
     def test_a_root_that_is_not_an_ancestor_refuses_rather_than_guesses(self):

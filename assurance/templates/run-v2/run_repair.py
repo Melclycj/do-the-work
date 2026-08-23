@@ -46,21 +46,35 @@ RS_ROOT = HERE.parents[2]
 sys.path.insert(0, str(RS_ROOT / "tooling"))
 
 from rsclib.document_harness import load_json  # noqa: E402
+from rsclib.document_harness import SpecGap  # noqa: E402
+from rsclib.document_harness.caller import discover_repo_root  # noqa: E402
 from rsclib.document_harness import assurance_state, flow  # noqa: E402
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("run_dir", type=pathlib.Path,
-                        help="the run's control root, e.g. ResearchSystem/assurance/runs/<run-id>")
+                        help="the run's control root, e.g. assurance/runs/<run-id>")
     parser.add_argument("--repo-root", type=pathlib.Path, default=None,
-                        help="repository root; defaults to the run directory's fourth parent")
+                        help="repository root; defaults to the git toplevel of the run directory (loud refusal outside a work tree)")
     parser.add_argument("--emit", action="store_true",
                         help="write the state transition; without it the step only reports")
     args = parser.parse_args(argv)
 
     run_dir = args.run_dir.resolve()
-    REPO = args.repo_root.resolve() if args.repo_root else run_dir.parents[3]
+    if args.repo_root:
+        REPO = args.repo_root.resolve()
+    else:
+        # The run directory lives in the CALLER's repository at whatever depth that
+        # caller keeps it — the old `parents[3]` default was the first caller's layout,
+        # silently wrong anywhere else (round STRANGER-GUARDS). Discover, or refuse
+        # loudly; never a wrong root taken quietly.
+        try:
+            REPO = discover_repo_root(run_dir)
+        except SpecGap as exc:
+            print(f"SPEC_GAP: {exc}")
+            return 2
+        print(f"repo root discovered: {REPO}", file=sys.stderr)
     RUN_ID = run_dir.name
     CONTROL = run_dir / "control"
     EVIDENCE = run_dir / "evidence"

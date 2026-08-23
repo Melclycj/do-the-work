@@ -25,6 +25,7 @@ import json
 import pathlib
 import shutil
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -191,6 +192,11 @@ class TheRunIsRefusedNotMerelyReported(unittest.TestCase):
         self.template = load_template()
         root = pathlib.Path(tempfile.mkdtemp(prefix="v2-evidence-run-"))
         self.addCleanup(shutil.rmtree, root, ignore_errors=True)
+        # A real repository: the default repo-root derivation asks git for the
+        # toplevel (round STRANGER-GUARDS), and these fixtures pass no --repo-root.
+        subprocess.run(
+            ["git", "-C", str(root), "init", "-q"], check=True, stdout=subprocess.DEVNULL
+        )
         self.run_dir = root / CONTROL_ROOT
         self.control = self.run_dir / "control"
         self.control.mkdir(parents=True)
@@ -305,27 +311,34 @@ class TheEvidenceStepDerivesRepoRootAndControlRootFromRunDir(unittest.TestCase):
     REPO and CONTROL_ROOT off two literals a human wrote and a freeze reviewed onto a
     derivation from `run_dir` alone, and the derivation itself shipped with no test.
     `v3-review-full-eec4171.md` L-2 names the two mutations that prove it, both surviving
-    the full 649-test battery: M11 (`run_dir.parents[3]` -> `parents[2]`) and M12
-    (`CONTROL_ROOT` hard-coded to a different run's name).
+    the full 649-test battery: M11 (then `run_dir.parents[3]` -> `parents[2]`) and M12
+    (`CONTROL_ROOT` hard-coded to a different run's name). Round STRANGER-GUARDS replaced
+    the depth count with the git toplevel of the run directory — a count of parents was
+    the first caller's layout, silently wrong at any other depth — so M11's regression
+    shape is now *any depth-counting default*, caught below by a run planted at a depth
+    the old count mis-rooted.
 
     Both properties are observed the same way: a `wraps` spy on `cand.build_record`, whose
-    `control_root=` keyword is the derivation's first externally visible trace (set at the
-    template's :124, ahead of every Git operation). `cand.observe_manifest` is stubbed out
-    so the fixture needs no real Git history at all — only the path arithmetic under test
-    has to be real, and everything downstream of the spy is allowed to fail (a bare
-    directory is not a Git repository), because the assertions never depend on it.
+    `control_root=` keyword is the derivation's first externally visible trace (set ahead
+    of every downstream Git operation). `cand.observe_manifest` is stubbed out so the
+    fixture needs no real Git history — the root is a bare `git init` so the derivation
+    has a toplevel to discover, and everything downstream of the spy is allowed to fail,
+    because the assertions never depend on it.
     """
 
     def setUp(self):
         self.template = load_template()
 
-    def _run_and_capture_control_root(self, run_id: str) -> str:
-        """Build a run at the true nested depth and return the `control_root` build_record saw."""
+    def _run_and_capture_control_root(
+        self, run_id: str, under: tuple[str, ...] = ("ResearchSystem", "assurance", "runs")
+    ) -> str:
+        """Build a run at `under`'s depth and return the `control_root` build_record saw."""
         root = pathlib.Path(tempfile.mkdtemp(prefix="v2-evidence-deriv-"))
         self.addCleanup(shutil.rmtree, root, ignore_errors=True)
-        # The real layout every run lives at: <repo-root>/ResearchSystem/assurance/runs/<id>
-        # — four levels below repo-root, matching `run_dir.parents[3]` in the template.
-        run_dir = root / "ResearchSystem" / "assurance" / "runs" / run_id
+        subprocess.run(
+            ["git", "-C", str(root), "init", "-q"], check=True, stdout=subprocess.DEVNULL
+        )
+        run_dir = root.joinpath(*under, run_id)
         control = run_dir / "control"
         control.mkdir(parents=True)
         # Zero obligations: the fulfillment guard (M8/M9/M10, tested above) passes vacuously,
@@ -336,14 +349,15 @@ class TheEvidenceStepDerivesRepoRootAndControlRootFromRunDir(unittest.TestCase):
         (control / "resolved-plan.json").write_text(
             json.dumps({"effective_change_boundary": {"write_scope": [], "out": []}}),
             encoding="utf-8")
+        prefix = "/".join(under)
         (control / "state.json").write_text(
             json.dumps({
                 "work_id": "w-deriv", "run_id": run_id, "status": "EXECUTING",
                 "repair_round": 0,
                 "work_spec_ref": {
-                    "path": f"ResearchSystem/assurance/runs/{run_id}/control/work-spec.json"},
+                    "path": f"{prefix}/{run_id}/control/work-spec.json"},
                 "resolved_plan_ref": {
-                    "path": f"ResearchSystem/assurance/runs/{run_id}/control/resolved-plan.json"},
+                    "path": f"{prefix}/{run_id}/control/resolved-plan.json"},
             }),
             encoding="utf-8")
 
@@ -379,21 +393,24 @@ class TheEvidenceStepDerivesRepoRootAndControlRootFromRunDir(unittest.TestCase):
             "fixture broke before the derivation under test ever ran")
         return spy_build_record.call_args.kwargs["control_root"]
 
-    def test_repo_root_defaults_to_the_run_directorys_fourth_parent(self):
-        """M11: no --repo-root on argv, so REPO must come from `run_dir.parents[3]`.
+    def test_repo_root_defaults_to_the_git_toplevel_of_the_run_directory(self):
+        """M11's successor shape: no --repo-root on argv, so REPO must come from git.
 
-        A regression to `parents[2]` makes REPO one level too shallow, which drops the
-        leading `ResearchSystem/` segment from `control_root` (`run_dir.relative_to(REPO)`
-        starts one directory later) — caught here by the wrong VALUE, exactly the shape M11
-        currently survives silently rather than by any exception.
+        Two depths, one repository root. At the first caller's depth a depth-counting
+        default happens to agree with discovery, so the second run is planted three
+        segments shallower — there a `parents[3]` default lands above the repository, and
+        the control root it derives carries the temp directory's own segments — while
+        discovery still answers the toplevel. Caught by the wrong VALUE, never silently.
 
         What the assertion observes is `control_root` alone, so it binds REPO only while
-        `CONTROL_ROOT = run_dir.relative_to(REPO)` stands — replace that derivation and the
-        `parents[3]` default is unguarded again (FULL `7dd027e` L-1, its M13: a per-run
-        hard-coded prefix plus `parents[2]` passes the whole suite).
+        `CONTROL_ROOT = run_dir.relative_to(REPO)` stands — replace that derivation and
+        the default is unguarded again (FULL `7dd027e` L-1, its M13: a per-run hard-coded
+        prefix passes the whole suite).
         """
-        control_root = self._run_and_capture_control_root("tr-deriv-one")
-        self.assertEqual(control_root, "ResearchSystem/assurance/runs/tr-deriv-one")
+        deep = self._run_and_capture_control_root("tr-deriv-one")
+        self.assertEqual(deep, "ResearchSystem/assurance/runs/tr-deriv-one")
+        shallow = self._run_and_capture_control_root("tr-deriv-two", under=("runs",))
+        self.assertEqual(shallow, "runs/tr-deriv-two")
 
     def test_control_root_is_derived_per_run_not_a_shared_constant(self):
         """M12: `CONTROL_ROOT` hard-coded to a different run's name.

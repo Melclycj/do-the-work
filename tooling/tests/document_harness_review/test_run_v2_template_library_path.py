@@ -31,11 +31,12 @@ caller's own run directory — on ``ImportError: cannot import name 'load_json' 
 the tree being reached into still holds an ``rsclib`` package at all. The same invocations
 at HEAD exit 0.
 
-Out of scope, deliberately: the ``run_dir.parents[3]`` default each script falls back to
-when no repository root is given. That depth assumption is the remainder of the re-rooting
-item and is not this round's subject, and nothing below reaches it: the two invocations
-that resolve a root pass one explicitly, the four ``--help`` calls exit at argparse before
-root resolution, and the probe is a standalone file taking no arguments at all.
+Out of scope, deliberately: the repository-root default each script falls back to when no
+root is given. It was ``run_dir.parents[3]`` when this suite was written and became git
+discovery in round STRANGER-GUARDS; its suite is ``test_run_v2_template_repo_root.py``
+beside this one, and nothing below reaches it: the two invocations that resolve a root
+pass one explicitly, the four ``--help`` calls exit at argparse before root resolution,
+and the probe is a standalone file taking no arguments at all.
 """
 from __future__ import annotations
 

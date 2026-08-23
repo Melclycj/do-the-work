@@ -17,10 +17,7 @@ here — it was "six" from `SIMP-A4` until 2026-08-19 and went stale the moment
 `O-2`). Compute it instead:
 `[p for p in layer_path_check.LAYER if candidate_path_check.scanned(p)]` — 7 at
 `2026a14`; 9 at `2538893`, the schema member being the only one `scanned()`'s `.md` test
-drops — round DE-PREFIX removed the `ResearchSystem/` prefix from this repository while
-`NOT_SCANNED` still names it, so on this repository these prefixes exempt nothing and a
-record here would be scanned. The caller trees this lint actually runs against keep the
-prefix, which is why the constants were left alone.
+drops.
 
 Measured before it was written — four real product candidates, 47 added path tokens, 4
 resolving nowhere: three shorthand, and `Thesis/literature-analysis/sota-comparison.md`
@@ -31,19 +28,24 @@ other findings, and signed. One fire, no false positives, on the sample that exi
 places.** The first shipped form got the choosing wrong: the scope was defined by subtracting
 a blacklist from "every staged Markdown file", which is wider than the *candidate* SIMP-A4
 named, and the blacklist was built from a two-way split when this tree holds three kinds of
-document. See `NOT_SCANNED`.
+document. See `not_scanned`.
 
-**The list is the implementation, and it is maintained by hand — that is stated here because
-this file used to claim otherwise.** A document that IS a record but lives outside these
-prefixes is scanned, and the failure is a *false block*: loud, not silent, but loud is the
-shape that earns a hook bypass, which is this file's own argument for the specification
-surface. Measured instance (2026-08-06, run `p5b-claims`): the P5B batch inventory record
-under `ResearchSystem/inventory/amendments/` drew four blocks — three control-plane documents
-correctly absent from the candidate branch, and one the non-existent path the record exists to
-report. That prefix was already carrying records of the same kind when this list was drawn
-(`2026-08-02-p5a-shells.md`), so the omission was an oversight rather than an unforeseeable
-location; it is added rather than answered with new machinery, per E6. Adding a record kind in
-a new place owes an entry here.
+**The record and specification surfaces are the CALLER's declaration, not this file's
+list** (round STRANGER-GUARDS; rider `chk-caller-prefixes`). Until then they were two
+hard-coded tuples of the first caller's directory names, so any caller whose records lived
+elsewhere had them scanned as work products — and a record quoting the broken path it
+reports is then *blocked*: loud, not silent, but loud is the shape that earns a hook
+bypass, which is this file's own argument for the specification surface. The surfaces now
+come from `.harness/scan-surfaces.json` (`rsclib.document_harness.caller`; `dtw init`
+writes the defaults), and a caller with no declaration gets defaults covering the layout
+`init` creates. The maintenance lesson stands under the new carrier — measured instance
+(2026-08-06, run `p5b-claims`): the P5B batch inventory record under the first caller's
+`inventory/amendments/` tree drew four blocks — three control-plane documents correctly
+absent from the candidate branch, and one the non-existent path the record exists to
+report. That tree was already carrying records of the same kind when the then-list was
+drawn, so the omission was an oversight rather than an unforeseeable location; it was added
+rather than answered with new machinery, per E6. Adding a record kind in a new place owes
+the caller's declaration an entry.
 
 Advisory and per-machine, bypassable with --no-verify (README "Local enforcement" row).
 """
@@ -55,55 +57,71 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
+from rsclib.document_harness.caller import (  # noqa: E402
+    DEFAULTS,
+    ScanSurfaces,
+    SurfaceDeclarationError,
+    load_scan_surfaces,
+)
 from rsclib.document_harness.paths import (  # noqa: E402
     TrackedPaths,
     staged_added_lines,
     unresolved_path_tokens,
 )
 
-#: A **record** reports on other text, so it quotes the broken path it is reporting.
-#: Scanning one blocks the returned review record, and `E9`'s freeze window admits only that
-#: record — leaving no legal commit ordering, which is the deadlock rider `freeze-audit`
-#: banks.
-RECORD_SURFACE = (
-    "ResearchSystem/migration/",
-    "ResearchSystem/document-harness/journal/",
-    "ResearchSystem/inventory/amendments/",
-    "ResearchSystem/HARNESS-LEDGER.md",
-    "ResearchSystem/HARNESS-LEDGER-archive.md",
-    "ResearchSystem/HARNESS-RIDERS.md",
-    "ResearchSystem/HARNESS-DECISIONS-archive.md",
-    ".goals/LEDGER.md",
-    ".goals/LEDGER-archive.md",
-)
-
-#: A **specification** names the files the candidate is *required to create*, so at freeze
-#: time they cannot exist — a run's instruction and its control plane. This is the class the
-#: first form missed, and it is not a near-miss: replayed over this repository's history, 5
-#: of the 6 instruction freezes would have been blocked, on the ordinary R1 sentence "A new
-#: file `…` exists". The harness already draws the line elsewhere — run-v2's pre-freeze
-#: reconciliation checks an instruction's enumerations against the tree **and** the
-#: WorkSpec's `write_scope`, and in-write-scope-but-not-yet-in-tree is the legitimate cell.
-#: A lint that blocks the normal opening move of every run is one that gets `--no-verify`'d
-#: on first contact, after which it protects nothing.
-SPECIFICATION_SURFACE = ("ResearchSystem/assurance/runs/",)
-
-#: Vendored documentation, skipped for the ordinary reason: its `folder/note.md`
-#: placeholders are not this repository's paths to resolve.
+#: The three surface kinds and why each is exempt — the semantics live here, their
+#: *locations* in the caller's declaration (`caller.ScanSurfaces`):
+#:
+#: * A **record** reports on other text, so it quotes the broken path it is reporting.
+#:   Scanning one blocks the returned review record, and `E9`'s freeze window admits only
+#:   that record — leaving no legal commit ordering, which is the deadlock rider
+#:   `freeze-audit` banks.
+#: * A **specification** names the files the candidate is *required to create*, so at
+#:   freeze time they cannot exist — a run's instruction and its control plane. This is the
+#:   class the first form missed, and it is not a near-miss: replayed over the first
+#:   caller's history, 5 of the 6 instruction freezes would have been blocked, on the
+#:   ordinary R1 sentence "A new file `…` exists". The harness already draws the line
+#:   elsewhere — run-v2's pre-freeze reconciliation checks an instruction's enumerations
+#:   against the tree **and** the WorkSpec's `write_scope`, and
+#:   in-write-scope-but-not-yet-in-tree is the legitimate cell. A lint that blocks the
+#:   normal opening move of every run is one that gets `--no-verify`'d on first contact,
+#:   after which it protects nothing.
+#:
+#: Vendored documentation stays this file's own constant — its `folder/note.md`
+#: placeholders are not any repository's paths to resolve, whoever the caller is.
 VENDORED = (".claude/", ".agents/")
 
-#: Prefixes match by path start; an entry ending in `/` is a whole tree. What remains after
-#: these three is the **work product** — a candidate, an amendment, a design note — where a
-#: path resolving nowhere is a defect and this guard is the point.
-NOT_SCANNED = RECORD_SURFACE + SPECIFICATION_SURFACE + VENDORED
+
+def not_scanned(surfaces: ScanSurfaces = DEFAULTS) -> tuple[str, ...]:
+    """The exempt prefixes: the caller's three surfaces plus vendored documentation.
+
+    Prefixes match by path start; an entry ending in `/` is a whole tree. What remains
+    after them is the **work product** — a candidate, an amendment, a design note — where a
+    path resolving nowhere is a defect and this guard is the point.
+    """
+    return (
+        surfaces.record
+        + surfaces.review_record_dirs
+        + surfaces.specification
+        + VENDORED
+    )
 
 
-def scanned(path: str) -> bool:
-    """Every staged Markdown file outside the three surfaces of `NOT_SCANNED`."""
-    return path.endswith(".md") and not path.startswith(NOT_SCANNED)
+def scanned(path: str, surfaces: ScanSurfaces = DEFAULTS) -> bool:
+    """Every staged Markdown file outside the surfaces of `not_scanned`."""
+    return path.endswith(".md") and not path.startswith(not_scanned(surfaces))
 
 
 def check(repo_root: pathlib.Path) -> int:
+    try:
+        surfaces = load_scan_surfaces(repo_root)
+    except SurfaceDeclarationError as exc:
+        print(f"pre-commit BLOCKED: {exc}")
+        print(
+            "Fix the declaration as declared; this guard never falls back to defaults "
+            "silently."
+        )
+        return 1
     # `core.quotepath=off`: git otherwise C-quotes any path with a byte outside ASCII, so
     # `Thesis/笔记/note.md` arrives as `"Thesis/\347\254\224\350\256\260/note.md"` — quotes
     # included, no longer ending in `.md`, silently dropped by `scanned()` along with every
@@ -114,7 +132,9 @@ def check(repo_root: pathlib.Path) -> int:
         check=False,
         stdout=subprocess.PIPE,
     ).stdout.decode("utf-8", errors="replace")
-    targets = [line.strip() for line in staged.splitlines() if scanned(line.strip())]
+    targets = [
+        line.strip() for line in staged.splitlines() if scanned(line.strip(), surfaces)
+    ]
     if not targets:
         return 0
     tracked = TrackedPaths.from_index(repo_root)

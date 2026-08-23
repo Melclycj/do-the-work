@@ -16,7 +16,11 @@ discarded with it would repeat the shape SIMP-A1 deleted.
 containing file's own directory, or under `ResearchSystem/` — the caller trees this lint
 scans keep that directory, so the third branch stays meaningful here (how this lint and the
 instruction-layer guard divide the work is stated once, in the *Local enforcement* row of
-`document-harness/README.md`, not here). On work products a token resolving nowhere *may be
+`document-harness/README.md`, not here). "Git tracks it" reaches through a gitlink since
+round STRANGER-GUARDS: a mounted submodule's own index answers for the paths under its
+mount (`TrackedPaths`), because a repository that consumes this instrument as a submodule
+writes such paths in ordinary documents and a false block is the shape that earns
+`--no-verify`. On work products a token resolving nowhere *may be
 illustrative*, and that exemption is this lint's whole subject. Measured on the four real product candidates (p4-doc, p5a-firewall,
 p5a-shells, p5b-firewall), that exemption is where the defects live — 47 added path tokens,
 4 resolving nowhere, of which three are shorthand for exactly one tracked file
@@ -40,6 +44,11 @@ UNRESOLVED and is reported.
   trees git never tracks *by design* are exempted by name (`UNTRACKABLE`) rather than by a
   filesystem fallback — a fallback would let an untracked scratch file resolve for whoever
   wrote it and for nobody else, which is the failure the index rule exists to prevent.
+* A submodule mount whose own index cannot be listed — not initialised in this checkout,
+  or not a work tree of its own — is `OUT_OF_INDEX` for everything under it, never
+  `UNRESOLVED`: this checkout cannot confirm those paths, and a typo under such a mount
+  passes unseen. Only the mount's *direct* prefix is covered; a relative token that lands
+  under it through the containing file's directory is not, and stays `UNRESOLVED`.
 """
 from __future__ import annotations
 
@@ -96,15 +105,59 @@ def path_like_tokens(text: str) -> tuple[str, ...]:
     return tuple(token for token in _TOKEN.findall(text) if _is_citation_shaped(token))
 
 
+def _submodule_files(mount: pathlib.Path) -> list[str] | None:
+    """The submodule's own tracked files, or None when its index cannot answer.
+
+    `git -C` climbs: pointed at the empty directory of an uninitialised mount it finds the
+    SUPERPROJECT and happily lists nothing, so the toplevel git reports is checked to be
+    the mount itself before any listing is trusted.
+    """
+    top = subprocess.run(
+        ["git", "-C", str(mount), "rev-parse", "--show-toplevel"],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if top.returncode != 0:
+        return None
+    reported = top.stdout.decode("utf-8", errors="replace").strip()
+    try:
+        if not reported or not pathlib.Path(reported).resolve().samefile(mount.resolve()):
+            return None
+    except OSError:
+        return None
+    out = subprocess.run(
+        ["git", "-C", str(mount), "-c", "core.quotepath=off", "ls-files"],
+        check=False,
+        stdout=subprocess.PIPE,
+    )
+    if out.returncode != 0:
+        return None
+    return [
+        line for line in out.stdout.decode("utf-8", errors="replace").splitlines() if line
+    ]
+
+
 class TrackedPaths:
     """Every path git tracks, as files plus the directories implied by them.
 
     Git tracks files, not directories, so a directory token can only be answered by asking
     whether any tracked file lives under it. Both sets are built once per process: the
     caller scans many files against one index.
+
+    A mounted submodule appears in the superproject's index as one gitlink, so its
+    contents come from the submodule's own index (rider `submod-index`: real
+    submodule-internal paths were reported as resolving nowhere — the false block that
+    earns `--no-verify` — measured live when the first caller's policy file cited a hooks
+    directory inside its mount). A mount whose index cannot be listed is kept in
+    `unlistable_mounts`, and `classify_path_token` answers `OUT_OF_INDEX` under it: the
+    index cannot answer there, and this module says so instead of pretending — the
+    `UNTRACKABLE` precedent.
     """
 
-    def __init__(self, entries: Iterable[str]) -> None:
+    def __init__(
+        self, entries: Iterable[str], unlistable_mounts: Iterable[str] = ()
+    ) -> None:
         self.files = frozenset(entry for entry in entries if entry)
         directories: set[str] = set()
         for entry in self.files:
@@ -112,16 +165,38 @@ class TrackedPaths:
             for depth in range(1, len(parts)):
                 directories.add("/".join(parts[:depth]) + "/")
         self.directories = frozenset(directories)
+        self.unlistable_mounts = tuple(
+            mount if mount.endswith("/") else mount + "/" for mount in unlistable_mounts
+        )
 
     @classmethod
     def from_index(cls, repo_root: pathlib.Path | str) -> "TrackedPaths":
-        """The index, not `HEAD`: a file added by the very commit being linted resolves."""
+        """The index, not `HEAD`: a file added by the very commit being linted resolves.
+
+        `-s` for the mode column: a `160000` entry is a gitlink, and each one's contents
+        are pulled from the mounted submodule's own index — see the class docstring.
+        """
+        root = pathlib.Path(repo_root)
         out = subprocess.run(
-            ["git", "-C", str(repo_root), "-c", "core.quotepath=off", "ls-files"],
+            ["git", "-C", str(root), "-c", "core.quotepath=off", "ls-files", "-s"],
             check=False,
             stdout=subprocess.PIPE,
         )
-        return cls(out.stdout.decode("utf-8", errors="replace").splitlines())
+        entries: list[str] = []
+        unlistable: list[str] = []
+        for line in out.stdout.decode("utf-8", errors="replace").splitlines():
+            meta, _, path = line.partition("\t")
+            if not path:
+                continue
+            entries.append(path)
+            if meta.split(" ", 1)[0] != "160000":
+                continue
+            inside = _submodule_files(root / path)
+            if inside is None:
+                unlistable.append(path + "/")
+            else:
+                entries.extend(f"{path}/{inner}" for inner in inside)
+        return cls(entries, unlistable_mounts=unlistable)
 
     def holds(self, path: str) -> bool:
         if path.endswith("/"):
@@ -148,6 +223,8 @@ def classify_path_token(token: str, containing_dir: str, tracked: TrackedPaths) 
     `DIRECT` / `SHORTHAND` / `OUT_OF_INDEX` / `UNRESOLVED`; only the last is ever reported.
     """
     if token.startswith(UNTRACKABLE):
+        return OUT_OF_INDEX
+    if tracked.unlistable_mounts and token.startswith(tracked.unlistable_mounts):
         return OUT_OF_INDEX
     if tracked.holds(token):
         return DIRECT

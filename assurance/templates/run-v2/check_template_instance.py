@@ -192,7 +192,22 @@ def main(argv: list[str]) -> int:
         print(__doc__)
         return 2
     run_dir = pathlib.Path(argv[1])
-    repo_root = pathlib.Path(argv[2]) if len(argv) > 2 else run_dir.parents[3]
+    if len(argv) > 2:
+        repo_root = pathlib.Path(argv[2])
+    else:
+        # The run directory lives in the CALLER's repository at whatever depth that
+        # caller keeps it — the old `parents[3]` default was the first caller's layout,
+        # silently wrong anywhere else (round STRANGER-GUARDS). Discover, or refuse
+        # loudly; never a wrong root taken quietly.
+        from rsclib.document_harness import SpecGap
+        from rsclib.document_harness.caller import discover_repo_root
+
+        try:
+            repo_root = discover_repo_root(run_dir)
+        except SpecGap as exc:
+            print(f"SPEC_GAP: {exc}")
+            return 2
+        print(f"repo root discovered: {repo_root}", file=sys.stderr)
     from rsclib.document_harness import load_json, validate  # noqa: E402
     from rsclib.document_harness.instruction import (  # noqa: E402
         FORM_ENUMERATED,

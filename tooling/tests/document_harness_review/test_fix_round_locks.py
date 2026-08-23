@@ -347,9 +347,17 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
     #: `tests/document_harness/test_preview.py`, beside the tests that name its one code —
     #: the same shape as `dispatch.py`'s: read the codes out of the source, require each
     #: asserted by name, and pin the count so a code surface that moves announces itself.
+    #: `caller.py` joined 2026-08-23 (round STRANGER-GUARDS): repository-root discovery and
+    #: the scan-surface declaration both pre-commit guards read. Fourth member with NO code
+    #: sweep, `init_target.py`'s reason: it raises plain `SpecGap` /
+    #: `SurfaceDeclarationError` prose and names no coded issue. What stands in its place:
+    #: `tests/document_harness/test_caller_surfaces.py` (declaration loading, loud refusal,
+    #: both guards driven under declared surfaces) and
+    #: `tests/document_harness/test_repo_root_discovery.py` (discovery and refusal, unit
+    #: and through the CLI), each must-fire case paired with a control.
     SUCCESSOR_ROUND_MODULES = (
         "review_subject.py", "review_result_v2.py", "dispatch.py", "enumerations.py",
-        "paths.py", "cli.py", "init_target.py", "preview.py",
+        "paths.py", "cli.py", "init_target.py", "preview.py", "caller.py",
     )
 
     def named_codes(self) -> dict[str, set[str]]:

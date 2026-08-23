@@ -31,6 +31,7 @@ import json
 import pathlib
 import shutil
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -82,6 +83,11 @@ class EvidenceRunFixture(unittest.TestCase):
         self.template = load_template()
         root = pathlib.Path(tempfile.mkdtemp(prefix="v2-evidence-order-"))
         self.addCleanup(shutil.rmtree, root, ignore_errors=True)
+        # A real repository: the default repo-root derivation asks git for the
+        # toplevel (round STRANGER-GUARDS), and these fixtures pass no --repo-root.
+        subprocess.run(
+            ["git", "-C", str(root), "init", "-q"], check=True, stdout=subprocess.DEVNULL
+        )
         self.run_id = "tr-order"
         self.run_dir = root / "ResearchSystem" / "assurance" / "runs" / self.run_id
         self.control = self.run_dir / "control"

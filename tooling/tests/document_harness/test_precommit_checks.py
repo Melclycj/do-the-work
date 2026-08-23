@@ -22,16 +22,20 @@ from hooks import (
     layer_path_check,
     review_freeze_check,
 )
-from rsclib.document_harness import paths
+from rsclib.document_harness import caller, paths
 
-RECORD = "ResearchSystem/migration/document-work-assurance-v3/v3-cold-read-0123abc.md"
-DISPATCH_NOTE = "ResearchSystem/migration/document-work-assurance-v3/v3-dispatch-foo.md"
+# Since round STRANGER-GUARDS both guards read their surfaces from the caller's
+# declaration, defaulting to the `dtw init` layout — so this matrix drives the DEFAULTS.
+# The first caller's `ResearchSystem/…`-prefixed layout is exercised as a declaration in
+# `test_caller_surfaces.py`, which is where these paths' old spellings went.
+RECORD = "migration/document-work-assurance-v3/v3-cold-read-0123abc.md"
+DISPATCH_NOTE = "migration/document-work-assurance-v3/v3-dispatch-foo.md"
 # Hand-written product-run paths (E5): the returned record of a product run is two
 # artifacts — the migration record md AND the run's ReviewResult JSON (triage decision
 # user-decision-triage-e9-guard-record-vocabulary, 2026-08-01).
-PRODUCT_FULL = "ResearchSystem/assurance/runs/p4-bridge/evidence/review-full.json"
-PRODUCT_VERIFY = "ResearchSystem/assurance/runs/p4-bridge/evidence/review-verify.json"
-PRODUCT_NON_RESULT = "ResearchSystem/assurance/runs/p4-bridge/evidence/coverage.json"
+PRODUCT_FULL = "assurance/runs/p4-bridge/evidence/review-full.json"
+PRODUCT_VERIFY = "assurance/runs/p4-bridge/evidence/review-verify.json"
+PRODUCT_NON_RESULT = "assurance/runs/p4-bridge/evidence/coverage.json"
 # Hand-written, never the guarded module's own constant (E5; v3-review-full-8ec4c60.md B2):
 CHECKLIST = "document-harness/CONSTRUCTION-CHECKLIST.md"
 # A work-product path outside every excluded surface — the shape the A3 defect was written
@@ -402,22 +406,18 @@ class CandidateScanScope(unittest.TestCase):
     """The record surface must stay unscanned, or rider `freeze-audit` reappears.
 
     E5: the expectation is this hand-written list, never the module's own tuple. A surface
-    silently dropped from `NOT_SCANNED` would start blocking returned review records, and
-    `E9`'s freeze window admits only the record — leaving no legal commit ordering, which is
-    exactly the deadlock the rider banks.
+    silently dropped from the default exemptions would start blocking returned review
+    records, and `E9`'s freeze window admits only the record — leaving no legal commit
+    ordering, which is exactly the deadlock the rider banks. Since round STRANGER-GUARDS
+    the surfaces are the caller's declaration; this class pins the DEFAULTS a caller with
+    no declaration gets, and `test_caller_surfaces.py` drives the declared path.
     """
 
     EXPECTED_NOT_SCANNED = (
-        "ResearchSystem/migration/",
-        "ResearchSystem/document-harness/journal/",
-        "ResearchSystem/inventory/amendments/",
-        "ResearchSystem/HARNESS-LEDGER.md",
-        "ResearchSystem/HARNESS-LEDGER-archive.md",
-        "ResearchSystem/HARNESS-RIDERS.md",
-        "ResearchSystem/HARNESS-DECISIONS-archive.md",
-        ".goals/LEDGER.md",
-        ".goals/LEDGER-archive.md",
-        "ResearchSystem/assurance/runs/",
+        "HARNESS-RIDERS.md",
+        "journal/",
+        "migration/document-work-assurance-v3/",
+        "assurance/runs/",
         ".claude/",
         ".agents/",
     )
@@ -425,27 +425,23 @@ class CandidateScanScope(unittest.TestCase):
     #: One concrete path per excluded surface — the equality above pins the set, these
     #: prove each entry is actually reached by the scan filter.
     RECORD_PATHS = (
-        "ResearchSystem/migration/document-work-assurance-v3/v3-review-full-abc1234.md",
-        "ResearchSystem/document-harness/journal/some-round-2026-08-06.md",
-        "ResearchSystem/HARNESS-LEDGER.md",
-        "ResearchSystem/HARNESS-LEDGER-archive.md",
-        "ResearchSystem/HARNESS-RIDERS.md",
-        "ResearchSystem/HARNESS-DECISIONS-archive.md",
-        ".goals/LEDGER.md",
-        ".goals/LEDGER-archive.md",
-        "ResearchSystem/assurance/runs/p5b-claims/instruction.md",
+        "HARNESS-RIDERS.md",
+        "journal/stranger-guards-2026-08-23.md",
+        "migration/document-work-assurance-v3/v3-review-full-abc1234.md",
+        "assurance/runs/p5b-claims/instruction.md",
         ".claude/skills/vendored/SKILL.md",
         ".agents/skills/vendored/SKILL.md",
     )
 
     def test_not_scanned_equals_the_hand_written_list(self):
-        self.assertEqual(tuple(candidate_path_check.NOT_SCANNED), self.EXPECTED_NOT_SCANNED)
+        self.assertEqual(tuple(candidate_path_check.not_scanned()), self.EXPECTED_NOT_SCANNED)
 
     def test_the_three_kinds_partition_not_scanned(self):
-        """The grouping is the reason; a surface added to none of the three is unexplained."""
+        """The grouping is the reason; a surface added to none of the kinds is unexplained."""
         self.assertEqual(
-            tuple(candidate_path_check.RECORD_SURFACE)
-            + tuple(candidate_path_check.SPECIFICATION_SURFACE)
+            tuple(caller.DEFAULTS.record)
+            + tuple(caller.DEFAULTS.review_record_dirs)
+            + tuple(caller.DEFAULTS.specification)
             + tuple(candidate_path_check.VENDORED),
             self.EXPECTED_NOT_SCANNED,
         )
@@ -460,12 +456,12 @@ class CandidateScanScope(unittest.TestCase):
     def test_an_instruction_may_name_the_file_it_requires(self):  # the 5-of-6 defect
         # The ordinary R1 sentence, verbatim in shape from p5a-firewall:22 and
         # p5b-firewall:25. At freeze time the named file cannot exist — that is what the
-        # requirement is for. Five of the six freezes in this repository's history would
+        # requirement is for. Five of the six freezes in the first caller's history would
         # have been blocked by the first form of this guard.
         with TempRepo() as repo:
             stage(repo, {
-                "ResearchSystem/assurance/runs/p5b-claims/instruction.md":
-                    "A new file `ResearchSystem/inventory/amendments/"
+                "assurance/runs/p5b-claims/instruction.md":
+                    "A new file `inventory/amendments/"
                     "2026-08-07-p5b-claims.md` exists, accounting for every unit.\n",
             })
             self.assertEqual(candidate_path_check.check(repo.root), 0)
@@ -473,7 +469,7 @@ class CandidateScanScope(unittest.TestCase):
     def test_a_work_product_naming_the_same_missing_file_still_blocks(self):  # must fire
         with TempRepo() as repo:
             stage(repo, {
-                CANDIDATE: "hosted in `ResearchSystem/inventory/amendments/"
+                CANDIDATE: "hosted in `inventory/amendments/"
                            "2026-08-07-p5b-claims.md`\n",
             })
             self.assertEqual(candidate_path_check.check(repo.root), 1)
@@ -486,10 +482,92 @@ class CandidateScanScope(unittest.TestCase):
     def test_a_scanned_surface_next_to_an_excluded_one_still_blocks(self):  # must fire
         with TempRepo() as repo:
             stage(repo, {
-                "ResearchSystem/HARNESS-RIDERS.md": "quoting `Thesis/no/such/file.md`\n",
+                "HARNESS-RIDERS.md": "quoting `Thesis/no/such/file.md`\n",
                 CANDIDATE: "hosted in `Thesis/no/such/file.md`\n",
             })
             self.assertEqual(candidate_path_check.check(repo.root), 1)
+
+
+class SubmoduleInternalPaths(unittest.TestCase):
+    """Rider `submod-index`: a path under a gitlink answers to the submodule's own index.
+
+    The measured defect: the superproject's `git ls-files` holds one gitlink where a
+    submodule is mounted, so every real submodule-internal path a document cited was
+    reported as resolving nowhere — the false block that earns `--no-verify`, seen live
+    when the first caller's policy file named a hooks directory inside its mount. The
+    class, not the instance (E7): internal paths resolve, a typo under the mount still
+    blocks, and a mount whose index cannot be listed is disclosed as unanswerable
+    (`OUT_OF_INDEX`) rather than guessed either way.
+    """
+
+    def mounted(self):
+        """A superproject with a real submodule at `vendor/dtw`, wiring committed."""
+        super_repo = TempRepo()
+        sub = TempRepo({"tooling/hooks/pre-commit": "#!/bin/sh\n", "docs/note.md": "n\n"})
+        git(super_repo.root, "-c", "protocol.file.allow=always",
+            "submodule", "add", str(sub.root), "vendor/dtw")
+        git(super_repo.root, "commit", "-qm", "mount")
+        return super_repo, sub
+
+    def test_a_real_submodule_internal_path_passes(self):
+        super_repo, sub = self.mounted()
+        with super_repo, sub:
+            stage(super_repo, {CANDIDATE: "run `vendor/dtw/tooling/hooks/pre-commit`\n"})
+            self.assertEqual(candidate_path_check.check(super_repo.root), 0)
+
+    def test_a_typo_under_the_mounted_submodule_still_blocks(self):  # must fire
+        super_repo, sub = self.mounted()
+        with super_repo, sub:
+            stage(super_repo, {CANDIDATE: "run `vendor/dtw/tooling/no-such-hook.py`\n"})
+            self.assertEqual(candidate_path_check.check(super_repo.root), 1)
+
+    def test_the_mount_itself_resolves_as_file_and_as_tree(self):
+        super_repo, sub = self.mounted()
+        with super_repo, sub:
+            stage(super_repo, {CANDIDATE: "mounted at `vendor/dtw` — see `vendor/dtw/docs/`\n"})
+            self.assertEqual(candidate_path_check.check(super_repo.root), 0)
+
+    def test_classification_is_direct_not_merely_unreported(self):
+        # Distinguishes DIRECT from OUT_OF_INDEX, which the exit codes above cannot: a
+        # regression that stops listing the mounted index and calls everything under a
+        # mount unanswerable would keep every check() verdict green.
+        super_repo, sub = self.mounted()
+        with super_repo, sub:
+            tracked = paths.TrackedPaths.from_index(super_repo.root)
+            self.assertEqual(tracked.unlistable_mounts, ())
+            self.assertEqual(
+                paths.classify_path_token(
+                    "vendor/dtw/tooling/hooks/pre-commit", "", tracked),
+                paths.DIRECT,
+            )
+            self.assertEqual(
+                paths.classify_path_token(
+                    "vendor/dtw/tooling/no-such-hook.py", "", tracked),
+                paths.UNRESOLVED,
+            )
+
+    def test_an_unlistable_mount_is_out_of_index_not_a_block(self):
+        # A gitlink with no work tree behind it — the shape every fresh clone has before
+        # `git submodule update --init`. This checkout cannot confirm paths under it, so
+        # the lint says so instead of blocking legitimate references (the `UNTRACKABLE`
+        # precedent), at the disclosed price that a typo under it passes unseen.
+        with TempRepo() as repo:
+            git(repo.root, "update-index", "--add",
+                "--cacheinfo", f"160000,{repo.base},pin/mount")
+            tracked = paths.TrackedPaths.from_index(repo.root)
+            self.assertEqual(tracked.unlistable_mounts, ("pin/mount/",))
+            self.assertEqual(
+                paths.classify_path_token("pin/mount/inner/file.md", "", tracked),
+                paths.OUT_OF_INDEX,
+            )
+            stage(repo, {CANDIDATE: "see `pin/mount/inner/file.md`\n"})
+            self.assertEqual(candidate_path_check.check(repo.root), 0)
+
+    def test_a_path_beside_the_mount_is_still_judged_normally(self):  # negative control
+        super_repo, sub = self.mounted()
+        with super_repo, sub:
+            stage(super_repo, {CANDIDATE: "see `vendor/no-such-dir/thing.md`\n"})
+            self.assertEqual(candidate_path_check.check(super_repo.root), 1)
 
 
 class NonAsciiFilenames(unittest.TestCase):
