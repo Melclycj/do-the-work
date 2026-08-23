@@ -1,6 +1,17 @@
 # Plan — round `PUB-FACADE` (publicization batch A: the facade pieces)
 
-> **Status: open.** Written 2026-08-23 at round open. This file is the carrier of the **four
+> **Status: executed — round CLOSED 2026-08-23.** Lightweight form per ruling 3, all three
+> `E9` legs walked: FULL `28dd80b` `CHANGES_REQUIRED` (B-1 the round's own defect class
+> unswept in its doc files, B-2 the new test pinning less than it claimed) → the one
+> user-approved fix `71e1f24` → VERIFY `71e1f24` `REVIEWED_NO_BLOCKER` (7 mutations, both
+> platforms at 793). VERIFY `V-1`/`O-3` bytes applied via the free channel (`a3ef5ee`);
+> `V-2` banked as rider `fixleg-scan-raw`, `O-1` as `py-convention`, `O-2` noted on
+> `E10-sync`. Riders `readme-cli-stale` and `posix-mode-wording` redeemed by deletion in the
+> candidate. Records `v3-{review-full-28dd80b,review-verify-71e1f24}.md`; journal
+> `pub-facade-2026-08-23.md`. Still owed outside the round: the user's first push (CI has
+> never run), and the member reads owed since `PRERUN-RIDERS` ride the next opening read.
+>
+> Originally: **Status: open.** Written 2026-08-23 at round open. This file is the carrier of the **four
 > user rulings of 2026-08-23** below until the round records them; a cold session reads this
 > file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works. Queue note: the queue
 > head became the publicization batches by user direction of 2026-08-23 (ledger commit
