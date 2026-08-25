@@ -1,6 +1,13 @@
 # Plan — round `RIDER-SETTLEMENT` (bank settlement: redeem ten, retire four)
 
-> **Status: open.** Written 2026-08-25 on the user's direction ("先把 rider 结算一下吧，有点太多了").
+> **Status: executed — closed 2026-08-25.** Bank thirty rows to sixteen; the one real defect
+> fixed and independently unbreakable; `E9`'s three legs all spent (FULL `CHANGES_REQUIRED` →
+> one all-in user-approved fix `5873840` → VERIFY `REVIEWED_NO_BLOCKER`), and the VERIFY's five
+> residuals applied through the `E10` free channel `6a73c79` on the user's ruling rather than
+> banked. Closeout journal `rider-settlement-2026-08-25.md`; records
+> `v3-{review-full-8aa9f6e,review-verify-5873840}.md`.
+>
+> Originally: **Status: open.** Written 2026-08-25 on the user's direction ("先把 rider 结算一下吧，有点太多了").
 > Queue position: head, taken directly after round `README-BILINGUAL` was recorded as
 > exempted. A cold session reads this file, then `CONSTRUCTION-LEDGER.md`'s current pointer,
 > then works. Role form: `E1` as amended — the executor is a cold `claude -p` session; the
