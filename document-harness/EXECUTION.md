@@ -106,8 +106,9 @@ addition: there is no review package to regenerate, and the repair must land a *
 evidence commit**. Reusing round 0's is the same defect in a new place: the subject would
 name a control plane that describes the candidate the repair replaced. Until that
 signature, every run is package-bound and the paragraph above stands unqualified.
-Signature state: **signed 2026-07-24** — recorded at
-[W2-record §log](../migration/document-work-assurance-v3/W2/W2-record.md) (`ac1b383`);
+Signature state: **signed 2026-07-24** — recorded at `ac1b383` in the W2 record's §log
+(`W2-record.md`, held by this instrument's own construction record and not by a repository
+that runs against it);
 newly opened runs are successor runs, and the package-bound form is pre-wave-2 history.*
 
 ## Authoring obligations under WorkSpec v2 — what the two sentences are for
