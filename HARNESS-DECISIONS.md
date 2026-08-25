@@ -162,6 +162,25 @@
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
 
+### HD-58 · C4 `O-1` 采样义务两分：产品 run 只记一行；读数与三分支改判归构造轮（`HD-54` 的收窄后继）
+- 2026-08-26 · user · scope: one-shot（读数发生并改判后本条消耗；消耗前仍可 supersede）· status:
+  **implemented**（承载两处，与本条同 commit 落地于轮 `CORE-SET-LAYER`：`EXECUTION.md`
+  Authoring gate 段落——产品侧只剩「每 run 记一行」——+ `CONSTRUCTION-LEDGER.md` 的
+  conversation-only 行，现为三分支与读数归属的唯一的家）
+- 裁决：C4 `O-1`（2026-08-01）的两 map 分类对照义务**不退役、也不无限收集**——每真 run 的
+  review/closeout 照记一行（paragraph map 对 unit map 的分类对照，点名谁或哪个 session 填的；
+  同源填写不独立、不入样本），**产品 run 的义务到此为止**。读全已收行、按原三分支改判——分歧恒零
+  或恒 paragraph 侧对 → 议 (c) 段落诞生义务；恒 unit 侧对 → 议 classification 列去留；两侧各有
+  贡献 → 转常设——是**构造轮**的活，不再挂在「下一个产品 run 的 closeout」上：产品 run 既不执行
+  它也不等它，收集不因它未做而停。读数前该记录义务作为 standing run-conduct 住执行者 charter
+  （`EXECUTION.md`），不再靠指令 Context 手抄（它为此手抄了五个 run）。用户的范畴框架保留：仪器
+  把自己的研究记账挂到被测工作指令面上这件事，以「给研究一个 charter 之家 + 一个到期日」作答，
+  不以留在 Context 作答；本条改的只是那个到期日由谁走到，不是有没有到期日。
+- 本条对 `HD-54` 的收窄**只有读数时刻归属一处**，其余全文承接：记录义务的形状与措辞、三分支的
+  内容、两处载体、one-shot 的消耗条件（读数发生并改判即 retire）均不变。
+- basis: 用户裁决 2026-08-25（批 `CORE-SET` 的第 4 条裁决，载体
+  `document-harness/plans/core-set.plan.md`）· `HD-30` 部分收窄机制 · supersedes `HD-54`
+
 ### HD-57 · `E2` 冻结面陈旧字面五处：recorded ruling，准予更正
 - 2026-08-23 · user · scope: standing · status: **implemented**（应用批 2026-08-23 落地——五站点
   同 commit 写入、四 rider 行同 commit 兑付删行、`E2` 条款的 v4 blob 字面量同 commit 更新为
@@ -212,21 +231,6 @@
   `v3-review-full-83e3191.md` `O-3` · VERIFY `v3-review-verify-627df95.md` `V-3`，其 deadline
   ＝本裁决，同 commit 兑付删行）· `HD-53`（两个执行者派发模式，本条的机制承载）· `HD-46`
   中间态 tiebreak（适用面被本条收窄）· carrier ＝轮 `PRERUN-RIDERS`（本条 status 行三站）
-
-### HD-54 · C4 `O-1` 采样义务定读数时刻：下一产品 run 的 closeout 一次读数改判；义务安家执行者 charter
-- 2026-08-22 · user · scope: one-shot（读数发生并改判后本条消耗；消耗前仍可 supersede）· status:
-  **implemented**（承载：`EXECUTION.md` Authoring gate 段落——candidate `229f03f` 立段、修腿
-  `3dd226b` 修正行为主体句——+ `CONSTRUCTION-LEDGER.md` conversation-only 行收窄为「三分支+指针」
-  （随轮 closeout）；FULL `v3-review-full-229f03f.md` `O-6` 指出本裁决 chat-only 且 load-bearing，
-  本条即其登记，`O-5`(b) 之兑）
-- 裁决：C4 `O-1`（2026-08-01）的两 map 分类对照义务**不退役、也不无限收集**——每真 run 的
-  review/closeout 照记一行，至**下一个产品 run 的 closeout** 一次读全已收行、按原三分支改判；
-  读数前该义务作为 standing run-conduct 住执行者 charter（`EXECUTION.md`），不再靠指令 Context
-  手抄（它为此手抄了五个 run）。用户的范畴框架保留：仪器把自己的研究记账挂到被测工作指令面上
-  这件事，以「给研究一个 charter 之家 + 一个到期日」作答，不以留在 Context 作答。
-- basis: 用户裁决 2026-08-22（对话，预览卡三问之二）· plan `document-harness/plans/executor-charter.plan.md`
-  §Open question 三选项 · FULL `v3-review-full-229f03f.md` `O-6`/`O-5`(b) · journal
-  `document-harness/journal/executor-charter-2026-08-22.md`
 
 ### HD-53 · `dtw dispatch` 收两个执行者模式；产品侧 charter=`EXECUTION.md`、构造侧=`CONSTRUCTION-CHECKLIST.md`
 - 2026-08-22 · user · scope: standing · status: **implemented**（承载随轮 `EXECUTOR-CHARTER`

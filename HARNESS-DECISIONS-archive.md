@@ -4,8 +4,9 @@
 > 原文照搬、不改写。不在任何必读范围内，grep 可达。本文件**超过 100 行**时询问用户一次
 > 要不要清（删除双条件合取 + 默认不删 + superseded 链永不可删，见主文件头部 HD-6）。
 >
-> **`HD-6` 的询问第三次已付：2026-08-21（`HD-50` 移入、290 行），用户未答；按「默认不删」
-> 执行——不清。下次触发点仍是下一次有条目移入本档时。**
+> **`HD-6` 的询问第四次已付：2026-08-26（`HD-54` 移入、移入后 309 行），执行者按纪律触发并转呈
+> orchestrator，本轮内未得答复；按「默认不删」执行——不清。下次触发点仍是下一次有条目移入本档时。**
+> **第三次：2026-08-21（`HD-50` 移入、290 行），用户未答；按「默认不删」执行——不清。**
 > **第二次：2026-08-14（`HD-24` 移入、128 行），用户未答；同按默认不删。**
 > **第一次：2026-08-13（104 行触发），用户裁「不清」。** 判据实测：
 > 七条全部仍被外部援引（`HD-11` 46 · `HD-14` 42 · `HD-16` 40 · `HD-12` 33 · `HD-17` 22 ·
@@ -289,3 +290,20 @@
   （rider `self-caller-guards`）。
 - basis: 用户裁决 2026-08-19（对话：批预览卡「ok」· B 类「降成名字」· 「继续躺 bank」）·
   supersedes `HD-48`
+
+### HD-54 · C4 `O-1` 采样义务定读数时刻：下一产品 run 的 closeout 一次读数改判；义务安家执行者 charter
+- 2026-08-22 · user · scope: one-shot（读数发生并改判后本条消耗；消耗前仍可 supersede）· status:
+  **superseded**（2026-08-26 由 `HD-58` 取代——按 `HD-30` 机制：只收窄「读数时刻」一处，从下一个
+  产品 run 的 closeout 改为构造轮；记录义务、三分支、载体、one-shot 消耗条件由 `HD-58` 全文承接。
+  原 status：implemented，承载＝`EXECUTION.md` Authoring gate 段落——candidate `229f03f` 立段、
+  修腿 `3dd226b` 修正行为主体句——+ `CONSTRUCTION-LEDGER.md` conversation-only 行；FULL
+  `v3-review-full-229f03f.md` `O-6` 指出本裁决 chat-only 且 load-bearing，本条即其登记，
+  `O-5`(b) 之兑）
+- 裁决：C4 `O-1`（2026-08-01）的两 map 分类对照义务**不退役、也不无限收集**——每真 run 的
+  review/closeout 照记一行，至**下一个产品 run 的 closeout** 一次读全已收行、按原三分支改判；
+  读数前该义务作为 standing run-conduct 住执行者 charter（`EXECUTION.md`），不再靠指令 Context
+  手抄（它为此手抄了五个 run）。用户的范畴框架保留：仪器把自己的研究记账挂到被测工作指令面上
+  这件事，以「给研究一个 charter 之家 + 一个到期日」作答，不以留在 Context 作答。
+- basis: 用户裁决 2026-08-22（对话，预览卡三问之二）· plan `document-harness/plans/executor-charter.plan.md`
+  §Open question 三选项 · FULL `v3-review-full-229f03f.md` `O-6`/`O-5`(b) · journal
+  `document-harness/journal/executor-charter-2026-08-22.md` · superseded by `HD-58`

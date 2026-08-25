@@ -108,10 +108,10 @@
   追认，`0f2ab2c` 的 dispatch 依此撤销）；规则变更批照旧走轮 · **ledger/riders-only 的 finding 修
   不算 `E9` 的「一次用户批准的修」（2026-08-04）**：判据＝改的是不是被评审的 work product，不消耗
   修腿、不欠 targeted VERIFY——`HD-23` 明写它是本条的外延，故本条不可搬 · **C4 `O-1`（2026-08-01）：
-  (a)+观察条款——记录义务与读数时刻自 2026-08-22 住 `EXECUTION.md` Authoring gate 段（`HD-54`；
-  读数=下一产品 run 的 closeout），本行只留改判三分支**（层内句为此指回本行）：分歧恒零或恒
-  paragraph 侧对 → 议 (c) 段落诞生义务，恒 unit 侧对 → 议 classification 列去留，两侧各有贡献 →
-  转常设 ·
+  (a)+观察条款——记录义务住 `EXECUTION.md` Authoring gate 段（每个产品 run 的 closeout 记一行，
+  到此为止）；读数与改判 2026-08-25 裁归构造轮，本行是它唯一的家（`HD-58`，收窄 `HD-54`）**：
+  分歧恒零或恒 paragraph 侧对 → 议 (c) 段落诞生义务，恒 unit 侧对 → 议 classification 列去留，
+  两侧各有贡献 → 转常设 ·
   **`F-4` 模板守卫不加、等真 run**（条件未到）· **`E10` 收敛循环第五圈若再出 must-fix 则考虑整删
   digest**（瞄准 C1.5 那五个字段，不是 `E2`；条件未触发）。
 - **bank** → [HARNESS-RIDERS.md](HARNESS-RIDERS.md)（2026-07-29 迁出，一行一 rider；兑付=同 commit 删行）。

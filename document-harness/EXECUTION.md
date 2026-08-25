@@ -274,18 +274,18 @@ form only — see *Instruction form* above):
   dangling anchors). A paragraph can be misclassified but never silently absent;
   whether a *classification* is right stays a review question.
 
-One standing observation rides each run past this gate, until its reading moment arrives
-(C4 `O-1` observation clause, 2026-08-01; reading moment set by user ruling 2026-08-22):
-the run's review/closeout records one line comparing the two maps' classifications —
-paragraph map against unit map — naming who or which session filled each; same-source
-filling is not independent and joins no sample. At the **next product run's closeout** the
-collected lines are read in full and the three-branch re-ruling recorded in
-`CONSTRUCTION-LEDGER.md`'s conversation-only list falls due; collection does not continue
-past that reading un-re-ruled. The recording falls to the work side at the run's
-review/closeout — the orchestrator's station, reached through `CONSTRUCTION-LEDGER.md`'s
-conversation-only line rather than through this file's dispatch — and the obligation is
-written beside the gate that authors the map it samples, not in an instruction's Context
-section, where it spent five runs hand-copied for want of a home.
+One standing observation rides each run past this gate (C4 `O-1` observation clause,
+2026-08-01; obligation sited by user ruling 2026-08-22, cut in two by user ruling
+2026-08-25): the run's review/closeout records one line comparing the two maps'
+classifications — paragraph map against unit map — naming who or which session filled
+each; same-source filling is not independent and joins no sample. **That one line is the
+whole of it.** Reading the collected lines and taking the three-branch re-ruling is a
+construction round's work, and it is stated where this instrument keeps construction-side
+rulings; a product run neither performs that reading nor waits on it, and collection does
+not stop because it has not happened yet. The recording falls to the work side at the run's
+review/closeout — the orchestrator's station — and the obligation is written beside the gate
+that authors the map it samples, not in an instruction's Context section, where it spent five
+runs hand-copied for want of a home.
 
 ## Audit cadence — pre-START rounds (2026-08-02 ruling)
 
