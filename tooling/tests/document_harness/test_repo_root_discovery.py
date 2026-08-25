@@ -111,7 +111,12 @@ class Discovery(unittest.TestCase):
             with mock.patch.object(caller, "env_without_repo_scope", return_value=None):
                 with self.assertRaises(SpecGap) as caught:
                     caller.discover_repo_root(repo.root)
-        self.assertIn("--local-env-vars", str(caught.exception))
+        self.assertEqual(
+            str(caught.exception),
+            "git cannot name its own repository-scoping variables "
+            "(`git rev-parse --local-env-vars` failed), so the repository holding "
+            f"{repo.root} cannot be asked for safely; pass --repo-root explicitly",
+        )
 
     def test_outside_a_work_tree_the_refusal_is_a_spec_gap(self):  # must fire
         outside = outside_any_repository(self)

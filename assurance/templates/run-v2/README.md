@@ -12,9 +12,9 @@ are called **in place** from
 invocations below means whichever of `python3` / `python` the machine actually runs — stock
 Ubuntu ships only `python3`, Windows typically `python`. None
 of the six has **a CONFIG block to fill** (`HD-11` part one, R2): every one takes the run
-directory as its first argument, and the three round steps — `run_evidence_v2.py`,
-`run_bind_v2.py`, `run_repair.py` — additionally take the round's refs as CLI flags
-(`run_retire.py`, the fourth invocation below, takes none)
+directory as its first argument, and two of them — `run_evidence_v2.py` and
+`run_bind_v2.py` — additionally take the round's refs as CLI flags; `run_repair.py` takes
+only the `--emit` mode flag and `run_retire.py` nothing beyond the run directory
 (`python assurance/templates/run-v2/run_evidence_v2.py <run-dir> --base
 --candidate --candidate-branch`;
 `python assurance/templates/run-v2/run_bind_v2.py <run-dir> --evidence-commit

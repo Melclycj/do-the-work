@@ -81,10 +81,13 @@ CONTROL_ROOT = f"ResearchSystem/assurance/runs/{RUN_ID}"
 CHECK_ORDER = ("chk-a", "chk-b", "chk-c")
 PRESENT_IDS = ("chk-a", "chk-b")
 #: Raw outputs exist for SOME ordered checks, never all of them (rider `retire-suite`): a
-#: `command_exit` check writes one and other check kinds do not. A fixture giving every
-#: ordered id an `out.txt` made the kept count agree with `check_order` by accident, so
-#: deleting the template's `.is_file()` predicate left all twelve tests green.
-RAW_IDS = ("chk-a", "chk-b")
+#: `command_exit` check writes one and other check kinds do not. The count they produce (1)
+#: must equal neither `len(check_order)` (3) nor the size of the deletion set (2), or a kept
+#: count derived from either list agrees with the filesystem by accident and the template's
+#: `.is_file()` predicate binds nothing — measured twice, both wrong implementations green.
+#: `chk-c` also carries the HD-12 property the docstring below states: its per-result JSON is
+#: already gone while its raw output survives, the two moving independently.
+RAW_IDS = ("chk-c",)
 ALREADY_GONE_IDS = ("chk-c",)
 
 
@@ -201,7 +204,7 @@ class SurvivorsAreLeftAlone(CloseoutTemplateCase):
         run_dir = self.make_run()
         _, out = run_main(self.template, [str(run_dir)])
         self.assertIn(
-            "kept                   : 1 aggregate (check-results.json) + 2 raw output(s) "
+            "kept                   : 1 aggregate (check-results.json) + 1 raw output(s) "
             "(<check_id>.out.txt)",
             out.splitlines(),
         )
