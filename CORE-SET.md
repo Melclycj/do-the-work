@@ -11,7 +11,7 @@
 > and this file claims authority over nothing: it says which files travel, and every rule about
 > what those files *require* belongs to the file that states it. The product tier below is
 > deliberately **not** the `E10` member set — `E10` governs the amendment machinery, which is a
-> construction-side question, not what a caller has to carry. Two members sit outside the
+> construction-side question, not what a caller has to carry. Three members sit outside the
 > product tier for that reason, and one non-member sits inside it.
 >
 > **Both tiers are measurements, and they go stale.** Re-run the commands rather than citing
@@ -19,15 +19,27 @@
 
 ## Product-run tier — what a caller mounts
 
-A repository that mounts this instrument needs these and nothing else to open, run and close a
-round. Eight entries, **59 files, 0.730 MB**, measured 2026-08-26 at round `CORE-SET-LAYER`
-against a repository of 386 tracked files and 6.33 MB (`git ls-files` scope, summed `stat -c%s`).
+These eight entries are what a repository copies when it mounts this instrument, and nothing
+outside them travels. **They are not a closed set, and the gap is measured**: all five
+product-tier documents point back into the construction checklist below, which does not travel
+— 6 pointers into it (in `document-harness/`: `README.md:23` · `EXECUTION.md:13` ·
+`REVIEW.md:8` · `ORCHESTRATION.md:7` and `:39` · `ONBOARDING.md:109`) and 35 backticked
+`E1`–`E12` / `R1`–`R10` rule citations over 26 lines, measured 2026-08-26 over those five files.
+On a tree carrying the product tier alone they reach nothing. **No round of batch `CORE-SET`
+settles it**: each way out — moving the checklist's product-run half across, amending the header
+sentence that disclaims the product runs citing it, or overturning ruling 11 — changes what a
+rule requires and is therefore design, so it is banked as rider `checklist-cited-not-carried`
+and redeemed by the round that opens on it.
+
+Measured 2026-08-26 at round `CORE-SET-LAYER`: **59 files, 0.730 MiB**, against a repository of
+389 tracked files and 6.37 MiB. Scope of every figure here: `git ls-files` at the tree this
+round's fix commit writes, worktree bytes summed by `stat -c%s` under `core.autocrlf=true`.
 
 | # | What travels | Why it has to |
 |---|---|---|
 | 1 | `contract/Document-Work-Assurance-Contract-v4.md` (1 file) | The operative contract: one file merging the signed v3 contract and both signed supersessions. `E2` freezes its bytes |
 | 2 | `schema/document-assurance-v3/` (15 files) | Every schema a run validates against, including `paragraph-map.schema.json`, which is also an instruction-layer member. `E2` freezes all fifteen |
-| 3 | `document-harness/README.md` · `EXECUTION.md` · `REVIEW.md` · `ORCHESTRATION.md` (4 files) | The navigation surface plus the three role charters — executor, reviewer, orchestrator. Instruction-layer members, and the ones a product run is actually governed by |
+| 3 | `document-harness/README.md` · `EXECUTION.md` · `REVIEW.md` · `ORCHESTRATION.md` (4 files) | The navigation surface plus the three role charters — executor, reviewer, orchestrator. Instruction-layer members, and the documents a product run is conducted from — not the whole of what governs it, because their `E*`/`R*` citations reach the construction checklist, which stays below |
 | 4 | `document-harness/ONBOARDING.md` (1 file) | The nine items that take a repository from never having seen this harness to being able to open a round. Not a member and it says so; a caller needs it exactly once, and needs it before anything else works |
 | 5 | `document-harness/templates/` (2 files) | The decision log and the rider bank a caller gets, verbatim, from `dtw init`. The decision log's own header is where the log's rules live (`HD-19`), so this template is the carrier of a rule, not a convenience |
 | 6 | `tooling/dtw.py` · `tooling/do-the-work.py` (2 files) | The CLI entry points a caller invokes |

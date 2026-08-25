@@ -10,7 +10,11 @@
 >
 > **Who reads it.** Every cold read MUST read `§live`, and only `§live`. A plan author reads
 > all live entries and inherits them **verbatim** — never by transcription, which is a drift
-> surface. Anything unplanned met mid-round is found by grepping this file and its archive.
+> surface. **The obligation is the round's opening, not the cold read**: `§live` is owed at
+> that opening whether or not the instruction layer's cold read was waived, because that
+> waiver is of that layer's members and this log is not one of them, so a waived opening
+> still reads it. Anything unplanned met mid-round is found by grepping this file and its
+> archive.
 >
 > **Admission — three questions; any yes admits.** Does it bind the next round and beyond? ·
 > Does it overturn or narrow an existing ruling? · Is it a user ruling with no home outside

@@ -3,8 +3,11 @@
 > **What this is.** The navigation surface for the material that belongs to *building* this
 > harness rather than to *running* it: the construction-batch plans, the node administrative
 > records, the journals, the contract fixtures, and the three governance registers
-> (decision log, rider bank, construction ledger). It holds pointers only — every row's
-> target is the thing that speaks, and this file restates none of them.
+> (decision log, rider bank, construction ledger). It holds pointers, and two rows restate
+> part of what they point at: the decision-log row carries the `§live` reading obligation and
+> the verbatim-inheritance rule, the journals row the one-file-per-round shape. Everywhere,
+> restated or not, the row's target is the thing that speaks — on the terms *What it is not*
+> below sets.
 >
 > **Why it exists.** These nine rows sat in `document-harness/README.md`, which is a
 > product-facing file a caller mounts. Each of them pointed out of the instruction layer

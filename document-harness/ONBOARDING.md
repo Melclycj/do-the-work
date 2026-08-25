@@ -114,7 +114,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 |---|---|
 | **Do** | Nothing, now. Create `journal/<round>-<date>.md` when the first round has something to record. There is no template and `dtw init` does not make the directory. |
 | **See** | Nothing to see, which is the point: an empty journal directory would assert that a journal is owed before any round exists. |
-| **Owner** | `io-design.md` §6 states the non-creation; `HD-1` states what a journal is for and its one-file-per-round shape (narrowed 2026-08-08; SIMP-D1 added the cross-round design-judgment kind). Why not pre-create: a journal holds a round's analysis, reasoning and measurement, so a file with none of those is a file that will be filled to justify its existence. |
+| **Owner** | `io-design.md` §6 states the non-creation; `HD-1` states what a journal is for — analysis, reasoning and measurement (narrowed 2026-08-08; SIMP-D1 added the cross-round design-judgment kind). **It does not state the one-file-per-round shape.** Over the whole tracked tree that shape has three carriers outside the review records — the instrument's construction index and its two front-door READMEs — and the core set puts all three on the construction side, so a caller carries none of them and the *Do* row above is where a caller gets the shape. Why not pre-create: a journal holds a round's analysis, reasoning and measurement, so a file with none of those is a file that will be filled to justify its existence. |
 
 ### 6 — The ledger (deliberately without a template)
 
