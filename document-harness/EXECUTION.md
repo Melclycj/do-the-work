@@ -396,7 +396,8 @@ evidence pass and for a construction batch's pre-commit verification alike:
   recorded (commit body or CandidateRecord), so review can re-classify it.
 
 Witnessed cost, **corrected 2026-08-03 under `E3`** by the 保障面二期复盘 (journal
-`document-harness/journal/retro-2026-08-03.md` §3): the battery is **~85% of an
+`retro-2026-08-03.md` §3, held by this instrument's own construction history and not by a
+repository that runs against it): the battery is **~85% of an
 evidence pass, and a pass is ~2.4 minutes, not ~10**. Measured — the p5a-shells pass ran
 its 17 checks in 2m22s (`chk-*.out.txt` mtimes `00:08:34`→`00:10:56`), the pytest leg
 alone ~108s of it; the battery run directly totalled 130s **at the p5a-shells revision**
