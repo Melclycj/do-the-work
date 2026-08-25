@@ -144,12 +144,12 @@
   验收全在
   [`document-harness/plans/core-set.plan.md`](document-harness/plans/core-set.plan.md)——本 commit
   落之前它们只活在对话与仓外 briefing（按 `R2` 是 chat-only 载重材料），本行不复述。
-  **裁决自八条增至十四条**（开批当日续裁六条：三轮切法 · v4 签字随载体保全不重签 · 核心集走**显式
+  **裁决自八条增至十七条**（开批当日续裁六条：三轮切法 · v4 签字随载体保全不重签 · 核心集走**显式
   两层清单**且**不等于 `E10` 成员集** · 引建造史按**谁在引**判而非引向哪（构造侧允许、产品侧不允许）·
   `document-harness/history/` 即刻删除且 `REVIEW.md:92` 断链照留 · 三条到期 rider 只兑 `waiver-live`），
   全部落在该 plan，本行不复述（卡上又续裁第十五条：`io-design.md` 留构造层，轮 1 把 `ONBOARDING.md`
   指着它的 Owner 格改指真正的 owner，**无别家者不得现造 owner**、报回入 bank——即 item L）。
-  **状态：轮 1 `CORE-SET-LAYER` 已开**（item A–E + I/J/K/L）。开轮冷读走**窄形态**（用户裁；实收
+  **状态：轮 1 `CORE-SET-LAYER` 已开**（item A–E + I/J/K/L/M）。开轮冷读走**窄形态**（用户裁；实收
   七件可引、两件真欠，读者当场更正派发的算法 `O-1`），记录 `9f1de08`——**0 must-fix / 1 low / 3 观察**，
   无 verdict、`E9` 未花；该 low 的字节按 `E10` 自由通道当场套、按 `HD-38` 自带 commit `0420d99`
   （`onboarding-labels` 那行当初只关了三实例中的一个就删行，本次是整类关闭，故不重新入 bank）。

@@ -17,7 +17,9 @@ because the rule names exactly this reflex, and the round tripped it before it a
 **Method.** `git archive <commit>` into a scratch tree, then delete what a caller does not carry —
 `document-harness/journal/`, `document-harness/plans/`, all of `migration/` except the two
 retired-contract stubs that are `E10` members, and the five root registers plus
-`CONSTRUCTION-INDEX.md`. 124 files before, 125 after (`CORE-SET.md` is the addition). Then
+`CONSTRUCTION-INDEX.md`. **124 files on both trees** — item I's deletion of the history file
+exactly offsets `CORE-SET.md`, and the two trees differ by that pair alone. (This sentence first
+read "124 before, 125 after"; the FULL's `L-2` measured both at 124 and it was right.) Then
 `git init && git add -A && commit` so the sweep's `git ls-files` basename resolution works, then
 run the sweep and count **only `LINK` and `PATHTOK`**. `NAMETOK` is a backticked bare filename,
 which since round `XREPO-REFS` is the *compliant* form for a caller-held artifact — counting it as
@@ -110,9 +112,20 @@ sentence `E3` already contains.
 
 - **`CONSTRUCTION-LEDGER.md` stands at exactly 180 lines, its own declared bound.** The header
   says to move the oldest closed material into the archive when the bound is reached; the archive
-  is marked *read-only, do not continue writing*. The two instructions cannot both be followed.
-  The round did not resolve it and did not grow the file — item E's edit was net-neutral — but the
-  next write to that file owes an answer.
+  is marked *read-only, do not continue writing*. **This journal first called those two
+  instructions contradictory, and that was wrong** — the archive forbids *appending narrative*,
+  giving its own reason (a round's narrative belongs in its review record and commit body), while
+  the header prescribes *moving closed material*, which is not authoring narrative and is exactly
+  how the archive came to exist ("Moved verbatim, nothing deleted, nothing retyped"). The header's
+  remedy is available.
+  **What the measurement did show is worse than a contradiction: the bound does not measure what
+  it is for.** The file is 180 lines and 53,607 bytes, and **one line — the CLOSED roll — is
+  26,110 characters, 49% of the file**. Across the 17 top-level entries the same line holds 57% of
+  all entry content, the next largest being 2,405 characters. A line-count bound cannot see growth
+  that happens *inside* an existing line, which is where all of it happened; the header's own
+  stated target is "the 20-to-300-line session, not line 181". The user ruled on 2026-08-26 that
+  the bound changes its unit — bytes or entry count rather than lines. That change is not this
+  round's and lands as its own commit, so the round's diff stays what the FULL reviewed.
 - **Four `ONBOARDING.md` Owner cells were not re-pointed**, banked as rider
   `onboarding-io-design-owners`. Their decisions live nowhere but `io-design.md`: the empty-instance
   shape, *deliberately not pre-created*, *the harness provides no template*, and the §5 carrier
