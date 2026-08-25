@@ -421,16 +421,25 @@ Sites are at `5425fa2`.
   were applied through `E10`'s free channel in their own commit at `0420d99` per `HD-38`, closing
   the class rather than reducing it, so no rider was re-banked. The `E11` card was rendered
   carrying item K's two-tier list and approved; ruling 15 came off it.
-- [ ] 4. Execute items A+D in one commit; B+C in one commit; E in one commit with the `HD-54`
+- [x] 4. **DONE.** Landed as `c0b9316` (A+D) · `c39536b` (B+C) · `4f4dc4b` (E, with `HD-54`
+  superseded and successor `HD-58` in the same commit) · `60d668f` (I+J) · `806efca` (K) ·
+  `eba47ad` (L) · `c5f00f6` (M, pre-submission correction). Original text: execute items A+D in one commit; B+C in one commit; E in one commit with the `HD-54`
   successor entry in the same commit as its carrier; I+J in one commit; K in one commit with the
   `HD-21` question and answer recorded in its body; L in one commit; M in one commit, its body
   naming itself a pre-submission correction under `E9`.
-- [ ] 5. Redeem rider `waiver-live` in the item-A commit, deleting its row in that same commit.
+- [x] 5. **DONE.** `waiver-live` deleted in `c0b9316`; bank stays at 16 rows, the new
+  `onboarding-io-design-owners` row replacing it. Original text: redeem rider `waiver-live` in the item-A commit, deleting its row in that same commit.
   `charter-qualifiers` and `e1-table` take a touch note only and stay with dispatch-economy
   (ruling 14); the note goes in the same commit that touches their surface.
-- [ ] 6. Re-run the stripped-tree measurement — the mechanical end-to-end run this session
-  inherited rather than re-ran, and the reference count — and record both in the round's journal.
-- [ ] 7. Dispatch the FULL, walk the `E9` budget, land the record unchanged, close round 1.
+- [x] 6. **DONE — partly, and the shortfall is stated.** The reference count was re-run by the
+  orchestrator with `sweep_refs.py` on `git archive` trees at `cc3b3ab` and `c5f00f6`: **31 → 13**
+  real breaks over the nine members, `ONBOARDING.md` separately **2 → 0** by grep since the sweep
+  does not scan non-members, every residual accounted. Recorded in
+  `document-harness/journal/core-set-layer-2026-08-26.md`. **Not re-run**: the briefing's
+  end-to-end mechanical check on a *stripped* tree; `dtw init` was exercised on the full tree
+  only. Named as an honesty cap rather than implied.
+- [ ] 7. Dispatch the FULL over `cc3b3ab..HEAD`, walk the `E9` budget, land the record unchanged,
+  close round 1. The fix leg is **unspent**: item M was a pre-submission correction, not a fix.
 - [ ] 8. Open rounds 2 and 3 per the ruling from step 2, each with its own plan file if their
   shape has changed by then.
 
@@ -470,11 +479,11 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: step 4 — round 1 is open, the card is approved, and the next action is
-`dtw dispatch --construction-executor`: a cold executor session writes the six candidate commits
-(A+D · B+C · E · I+J · K · L). Then step 6's stripped-tree measurement with `sweep_refs.py`, then
-the FULL. Fifteen rulings recorded; the opening read is discharged (`9f1de08`) and its one low
-applied (`0420d99`).
+当前指针: step 7 — the candidate is complete (seven commits, `c0b9316`..`c5f00f6`), the
+measurement is recorded in the round journal, and the next action is
+`dtw dispatch --range cc3b3ab..HEAD` to an independent FULL. Nothing waits on the user. `E9` going
+in: one FULL available, the fix leg **unspent**, one targeted VERIFY owed only if a fix is
+approved.
 
 ## Notes
 
