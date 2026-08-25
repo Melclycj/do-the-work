@@ -1,8 +1,7 @@
 # ONBOARDING — taking a repository that has never seen this harness to one that can run a round
 
-Nine items. They are the ones `HD-33` / `HD-34` and `io-design.md` §5–§7 imply, written out in
-the order they are actually done, each with **the command or edit**, **how the caller sees that
-it took**, and **which rule or decision owns it**. Ownership is by pointer: this file never
+Nine items, written out in the order they are actually done, each with **the command or
+edit**, **how the caller sees that it took**, and **which rule or decision owns it**. Ownership is by pointer: this file never
 re-types a rule, because a second copy is a second thing that has to stay true (`HD-5`
 records transcription as a drift surface).
 
@@ -73,7 +72,7 @@ does when it is assumed away.
 |---|---|
 | **Do** | `git submodule add <instrument-url> <mount-path>` in the caller's repository root, then commit the gitlink and `.gitmodules`. On the caller that grew this harness the mount path is `ResearchSystem/harness`; any path works — nothing in the instrument reads its own mount point, and the 2026-08-19 execution mounted it at `vendor/dtw` to test exactly that (`init` finds its templates from `__file__`, and the guards resolve the repository root from the cwd git gives a hook). |
 | **See** | `git submodule status` prints one line: the pinned SHA and the mount path. `ls <mount-path>/tooling/dtw.py` finds the CLI, and `python <mount-path>/tooling/dtw.py --help` lists the operations. After a later `git clone` of the caller, that directory is **empty** until `git submodule update --init`, which is the clone-carries line above. |
-| **Owner** | `HD-33` (the calling model is a submodule; the gitlink is what makes "which version of the instrument checked this round" answerable) and `io-design.md` §7. `HD-34` adds the caller's side of the discipline: a caller never edits or upgrades the instrument in place, and any adaptation is recorded in the caller's own decision log — item 3. A copy instead of a submodule is the escape hatch `HD-34` names, at the price it names. |
+| **Owner** | `HD-33` (the calling model is a submodule; the gitlink is what makes "which version of the instrument checked this round" answerable). `HD-34` adds the caller's side of the discipline: a caller never edits or upgrades the instrument in place, and any adaptation is recorded in the caller's own decision log — item 3. A copy instead of a submodule is the escape hatch `HD-34` names, at the price it names. |
 
 An upgrade is a gitlink change: `cd <mount-path> && git fetch && git checkout <rev>`, then commit
 the pointer in the caller. That commit is the whole record of the upgrade, which is the point.
@@ -91,15 +90,15 @@ an artefact of testing without a network, not a step a caller with a real remote
 |---|---|
 | **Do** | `python <mount-path>/tooling/dtw.py init --repo-root .` from the caller's root — it creates `.harness/` with the default scan-surface declaration `scan-surfaces.json` inside it (the file both caller-side guards read — the second note under item 9 says what it declares), appends `.harness/` to `.gitignore` (creating that file if absent), and does items 3 and 4. By hand it is `mkdir .harness` plus one line in `.gitignore`; the declaration is only needed once the caller's layout leaves the defaults. |
 | **See** | `git check-ignore -v .harness/x` names the `.gitignore` line that ignores it. `dtw init` prints every path it created and every one it left alone. |
-| **Owner** | `io-design.md` §7: the run directory and the freeze marker `.harness/review-pending.json` belong to the caller and may be gitignored; `HD-33` rules the same. The marker is written by `dtw dispatch` and is `E9`'s review window — not `E2`'s byte freeze, which is a different thing with a similar name. Which of these nine items `init` may absorb at all is bounded by the criterion in the onboarding row of `README.md` beside this file: the tree half may enter `init`, the machine half never does. |
+| **Owner** | `HD-33`: the run directory and the freeze marker `.harness/review-pending.json` belong to the caller and may be gitignored. The marker is written by `dtw dispatch` and is `E9`'s review window — not `E2`'s byte freeze, which is a different thing with a similar name. Which of these nine items `init` may absorb at all is bounded by the criterion in the onboarding row of `README.md` beside this file: the tree half may enter `init`, the machine half never does. |
 
 ### 3 — The decision log
 
 | | |
 |---|---|
 | **Do** | `dtw init` copies `templates/decision-log.md` verbatim to `HARNESS-DECISIONS.md` at the caller's root. **The root is the only supported placement, and it is not a default to be overridden** (ruled 2026-08-25): the instruction layer names the log by bare name and expects it at the root of the repository the round runs in, and `init` takes no placement option (`HD-47` ruled `--into` not worth adding), so the root is the only path any convention here names and the only one `init` ever looks at. **What moving it costs, which is why the placement is pinned rather than merely recommended:** a later `init` run finds nothing at the root and writes a *fresh empty log* there beside the moved one — measured 2026-08-24 on the second caller's walk, exit 0, reported as `created`. Two logs then exist and the empty one is the one at the path every convention names, so a cold read discharging `E10`'s `§live` obligation reads no rulings at all. |
-| **See** | The file exists and has no entries, and its header carries `io-design.md` §6's five — the state machine, the four scopes, the three admission questions, **inheritance** (the block beginning *"Who reads it"*, which carries the `§live` required-reading rule and the verbatim-inheritance rule), and the deletion discipline — plus narrowing (`HD-30`), which the template ships as an extra. `dtw init` refuses to overwrite an existing one and names it in its report — a second run cannot clobber rulings. |
-| **Owner** | `io-design.md` §6 (this file ships as an empty instance, header included). The rules of the log live **in that header**, not in the instruction layer: `HD-19` ruled the decision log is not an instruction-layer member, while `E10`'s tail makes its `§live` required reading at every round's opening. The harness's own instance — the `HARNESS-DECISIONS.md` at the instrument's own repository root, which a caller does not read — is a filled example of the same shape. |
+| **See** | The file exists and has no entries, and its header is `templates/decision-log.md`'s header verbatim — the state machine, the four scopes, the three admission questions, **inheritance** (the block beginning *"Who reads it"*, which carries the `§live` required-reading rule and the verbatim-inheritance rule), the deletion discipline, narrowing (`HD-30`), the invariants and the entry shape. `dtw init` refuses to overwrite an existing one and names it in its report — a second run cannot clobber rulings. |
+| **Owner** | `HD-19` ruled the decision log is not an instruction-layer member, while `E10`'s tail makes its `§live` required reading at every round's opening. The rules of the log live **in the log's own header**, not in the instruction layer, and that header is `templates/decision-log.md` beside this file, which is what the Do cell copies verbatim. The harness's own instance — the `HARNESS-DECISIONS.md` at the instrument's own repository root, which a caller does not read — is a filled example of the same shape. |
 
 ### 4 — The rider bank
 
@@ -115,7 +114,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 |---|---|
 | **Do** | Nothing, now. Create `journal/<round>-<date>.md` when the first round has something to record. There is no template and `dtw init` does not make the directory. |
 | **See** | Nothing to see, which is the point: an empty journal directory would assert that a journal is owed before any round exists. |
-| **Owner** | `io-design.md` §6 states the non-creation; the journal row of `README.md` beside this file states what a journal is for and its one-file-per-round shape (`HD-1`, narrowed 2026-08-08; SIMP-D1 added the cross-round design-judgment kind). Why not pre-create: a journal holds a round's analysis, reasoning and measurement, so a file with none of those is a file that will be filled to justify its existence. |
+| **Owner** | `io-design.md` §6 states the non-creation; `HD-1` states what a journal is for and its one-file-per-round shape (narrowed 2026-08-08; SIMP-D1 added the cross-round design-judgment kind). Why not pre-create: a journal holds a round's analysis, reasoning and measurement, so a file with none of those is a file that will be filled to justify its existence. |
 
 ### 6 — The ledger (deliberately without a template)
 
@@ -139,7 +138,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 |---|---|
 | **Do** | Add one line to the file an agent reads first in that repository — `CLAUDE.md`, `AGENTS.md`, or whatever plays that role — naming the policy file and what it is for. If the repository keeps mirrored entry files, both change in the same edit. |
 | **See** | Grep the entry file for the policy file's name and find it. The real test is colder: a session that starts in this repository knowing nothing about the harness reaches the policy file by reading only the entry file. |
-| **Owner** | `io-design.md` §5 (the pointer is what makes the policy file discoverable) and `ORCHESTRATION.md`, same section — the caller's entry file points at it, and a cold orchestrator has no other stated discovery path. Nothing enforces this line; it is the one item whose failure is silent, because a missing pointer looks exactly like a caller that never onboarded. |
+| **Owner** | `ORCHESTRATION.md`, *Reading the caller's policy file* — the caller's entry file points at it, and that pointer is the only discovery path this layer gives a cold orchestrator. Nothing enforces this line; it is the one item whose failure is silent, because a missing pointer looks exactly like a caller that never onboarded. |
 
 ### 9 — Hook wiring
 
