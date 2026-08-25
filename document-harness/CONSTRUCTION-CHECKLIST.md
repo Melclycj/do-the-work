@@ -150,8 +150,14 @@
   id of each member it read, because citation depends on it; one file outside this layer is
   nonetheless owed at that same opening — `HARNESS-DECISIONS.md`'s `§live`,
   the user's standing rulings, which this text expands under and which outrank it on
-  conflict. It is not a member: no amendment machinery here reaches it, its own bytes are
-  discipline (`HD-7`), and it is cited by section, never by blob; a file that appears
+  conflict. The file meant is the one in the repository the round runs in, at that
+  repository's root: a caller reads its own log there, never the instrument's copy of
+  that name under the mount, which holds this instrument's rulings and is a filled
+  example of the shape, nobody else's standing rulings. And it is owed whether or not
+  the cold read above was waived — that waiver is of this layer's members, `§live` is
+  not one of them, and a waived opening still reads it. It is not a member: no amendment
+  machinery here reaches it, its own bytes are discipline (`HD-7`), and it is cited by
+  section, never by blob; a file that appears
   later and claims authority over any rule here is not a member until the membership
   sentence names it, and the round that creates one records the question and its answer;
   a caller-held path is named, never written as a path token — a member's path tokens

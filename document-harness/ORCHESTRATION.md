@@ -48,7 +48,7 @@ This table assigns them. It does not restate them — read the rule.
 
 | the obligation | where the text is |
 |---|---|
-| open the round with the layer's cold read, and with [HARNESS-DECISIONS.md](../HARNESS-DECISIONS.md)'s `§live` | `E10` |
+| open the round with the layer's cold read, and with `HARNESS-DECISIONS.md`'s `§live` | `E10` |
 | render the preview card before the round, and wait for the user | `E11` |
 | hand the reviewer one commit SHA or range and no per-acceptance argument | `E12` |
 | keep the budget — one FULL, at most one user-approved fix, one targeted VERIFY — and never self-classify what consumed it | `E9` |
