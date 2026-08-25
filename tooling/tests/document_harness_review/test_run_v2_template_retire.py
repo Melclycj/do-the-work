@@ -78,16 +78,18 @@ RUN_ID = "tc-closeout"
 CONTROL_ROOT = f"ResearchSystem/assurance/runs/{RUN_ID}"
 #: Three checks the plan ordered; the third's per-result file is already gone when the
 #: fixture is built, standing in for "a prior closeout pass already retired it".
-CHECK_ORDER = ("chk-a", "chk-b", "chk-c")
-PRESENT_IDS = ("chk-a", "chk-b")
+CHECK_ORDER = ("chk-a", "chk-b", "chk-c", "chk-d")
+PRESENT_IDS = ("chk-a", "chk-b", "chk-c")
 #: Raw outputs exist for SOME ordered checks, never all of them (rider `retire-suite`): a
-#: `command_exit` check writes one and other check kinds do not. The count they produce (1)
-#: must equal neither `len(check_order)` (3) nor the size of the deletion set (2), or a kept
-#: count derived from either list agrees with the filesystem by accident and the template's
-#: `.is_file()` predicate binds nothing — measured twice, both wrong implementations green.
-#: `chk-c` also carries the HD-12 property the docstring below states: its per-result JSON is
-#: already gone while its raw output survives, the two moving independently.
-RAW_IDS = ("chk-c",)
+#: `command_exit` check writes one and other check kinds do not. The count they produce **must
+#: differ from every count the template could derive without asking the filesystem** — with
+#: three ordered checks that was impossible, because every non-zero raw count collided with
+#: `check_order` (3), the deletion set (2) or `already_gone` (1), and each collision in turn
+#: left a wrong implementation green (measured three times, three disguises). A fourth ordered
+#: check breaks the tie: 2 against 4 / 3 / 1, and against a directory glob (3, the stray
+#: included). `chk-d` carries the HD-12 property the docstring below states — per-result JSON
+#: already gone, raw output surviving — and `chk-a` carries its mirror image.
+RAW_IDS = ("chk-a", "chk-d")
 ALREADY_GONE_IDS = ("chk-c",)
 
 
@@ -169,13 +171,13 @@ class ClosedRunRetiresPresentFiles(CloseoutTemplateCase):
     def test_the_summary_names_what_it_deleted(self):
         run_dir = self.make_run()
         _, out = run_main(self.template, [str(run_dir)])
-        self.assertIn("deleted                : 2 (chk-a, chk-b)", out.splitlines())
+        self.assertIn("deleted                : 3 (chk-a, chk-b, chk-c)", out.splitlines())
 
     def test_an_already_absent_check_result_is_reported_not_raised(self):
         run_dir = self.make_run()
         code, out = run_main(self.template, [str(run_dir)])
         self.assertEqual(code, 0, out)
-        self.assertIn("already-retired        : 1 (chk-c)", out.splitlines())
+        self.assertIn("already-retired        : 1 (chk-d)", out.splitlines())
 
 
 class SurvivorsAreLeftAlone(CloseoutTemplateCase):
@@ -204,7 +206,7 @@ class SurvivorsAreLeftAlone(CloseoutTemplateCase):
         run_dir = self.make_run()
         _, out = run_main(self.template, [str(run_dir)])
         self.assertIn(
-            "kept                   : 1 aggregate (check-results.json) + 1 raw output(s) "
+            "kept                   : 1 aggregate (check-results.json) + 2 raw output(s) "
             "(<check_id>.out.txt)",
             out.splitlines(),
         )

@@ -24,7 +24,8 @@ fails every commit. Measured 2026-08-24 on the second caller's walk, which is wh
 was found missing. The instrument's own hook never revealed it: that hook runs
 `layer_path_check.py` alone, which is the one guard with no third-party import.
 
-One command convention: `python` in the commands below means whichever of `python3` /
+One command convention: `python` anywhere in this file — item 1's install command above
+included — means whichever of `python3` /
 `python` this machine actually runs — stock Ubuntu ships only `python3` (measured
 2026-08-23), Windows typically `python`. `.githooks/pre-commit` probes `python3` first and
 `python` second, so **on a machine that has both the two do not resolve alike** — measured

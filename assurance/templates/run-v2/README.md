@@ -13,8 +13,9 @@ invocations below means whichever of `python3` / `python` the machine actually r
 Ubuntu ships only `python3`, Windows typically `python`. None
 of the six has **a CONFIG block to fill** (`HD-11` part one, R2): every one takes the run
 directory as its first argument, and two of them — `run_evidence_v2.py` and
-`run_bind_v2.py` — additionally take the round's refs as CLI flags; `run_repair.py` takes
-only the `--emit` mode flag and `run_retire.py` nothing beyond the run directory
+`run_bind_v2.py` — additionally take the round's refs as CLI flags, while `run_repair.py`
+takes the `--emit` mode flag and `run_retire.py` no flag of its own (`--repo-root` is
+common to all six and elided throughout this paragraph)
 (`python assurance/templates/run-v2/run_evidence_v2.py <run-dir> --base
 --candidate --candidate-branch`;
 `python assurance/templates/run-v2/run_bind_v2.py <run-dir> --evidence-commit
