@@ -21,8 +21,8 @@
 > question and its answer, as `E10`'s tail requires; the record is in this round's commit
 > bodies.
 >
-> **Which side it sits on.** The construction side: a caller does not carry this file, and
-> nothing a caller does depends on it.
+> **Which side it sits on.** The construction side of [CORE-SET.md](CORE-SET.md): a caller
+> does not carry this file, and nothing a caller does depends on it.
 
 | What | Where |
 |---|---|
