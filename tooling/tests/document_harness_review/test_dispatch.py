@@ -655,6 +655,23 @@ class ExecutorDispatchesGenerateToo(unittest.TestCase):
             self.assertIn("run-one", derivation)
             self.assertIn(repo.base, derivation)
 
+    def test_a_caller_that_mounts_the_instrument_gets_the_path_through_the_mount(self):
+        """Rider `exec-mount-test`: the construction side had this pin, the product side did not.
+
+        The product mode is the one a caller actually dispatches from, and a caller mounts
+        the instrument as a submodule — so the charter it is handed has to travel through
+        the mount, not name a path that resolves nowhere in the subject repository.
+        """
+        with self._run_repo() as repo:
+            instrument = repo.root / "ResearchSystem" / "harness"
+            instrument.mkdir(parents=True)
+            with mock.patch("rsclib.document_harness.RS_ROOT", instrument):
+                d = D.executor_dispatch_of(repo.root, self.RUN_DIR)
+                self.assertTrue(d.report.ok, codes(d.report))
+                self.assertEqual(
+                    d.charter, "ResearchSystem/harness/" + self.CHARTER_OUTSIDE
+                )
+
 
 class ConstructionExecutorDispatchGeneratesToo(unittest.TestCase):
     """The construction-side executor mode: one sentence, the charter, nothing derived.

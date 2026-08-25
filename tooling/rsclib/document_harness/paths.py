@@ -136,6 +136,20 @@ def _repo_local_env_names() -> tuple[str, ...] | None:
     return names or None
 
 
+def env_without_repo_scope() -> dict[str, str] | None:
+    """`os.environ` minus the variables that scope git to ONE repository — or None.
+
+    Every git query about a repository *other than the one the process was started in*
+    needs this: a hook runs with the superproject's location exported, and git obeys the
+    environment over `-C`. None when git cannot name the variables, which is a git that
+    answers nothing; each caller decides what that means for it.
+    """
+    local = _repo_local_env_names()
+    if local is None:
+        return None
+    return {name: value for name, value in os.environ.items() if name not in local}
+
+
 def _submodule_files(mount: pathlib.Path) -> list[str] | None:
     """The submodule's own tracked files, or None when its index cannot answer.
 
@@ -161,10 +175,9 @@ def _submodule_files(mount: pathlib.Path) -> list[str] | None:
     None, and the mount becomes `OUT_OF_INDEX` — the fail-open this module already prefers
     to a confident wrong answer.
     """
-    local = _repo_local_env_names()
-    if local is None:
+    env = env_without_repo_scope()
+    if env is None:
         return None
-    env = {name: value for name, value in os.environ.items() if name not in local}
     top = subprocess.run(
         ["git", "-C", str(mount), "rev-parse", "--show-toplevel"],
         check=False,

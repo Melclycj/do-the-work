@@ -365,7 +365,10 @@ evidence pass and for a construction batch's pre-commit verification alike:
   - *this repository, the instrument*: `python -m pytest -q` **run from
     `tooling`** (from a repository root that also carries the product,
     collection aborts — in the caller that grew this harness, the ExperimentLab papers tree
-    holds two same-named `smoke_test.py`). One command, and nothing fewer.
+    holds two same-named `smoke_test.py`). One command, and nothing fewer. `python` in this
+    file means whichever of `python3` / `python` the machine actually runs: stock Ubuntu
+    ships only `python3`, so an executor on a POSIX machine typing the command as written
+    finds nothing (measured 2026-08-23, round `PUB-FACADE`).
   - *the caller repository, the product tree* — five commands owed by the caller and not
     by this repository, **named here rather than written as paths** (`E10`) because their
     scripts live in the caller's tree: the P2 golden runner `run_tests.py` (P2 goldens

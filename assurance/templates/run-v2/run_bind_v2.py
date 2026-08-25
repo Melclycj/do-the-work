@@ -288,7 +288,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     # Read only on the branch that binds a candidate — the blocked round-0 branch above
     # returns without one and owes no declarations. Absence refuses rather than defaults:
     # see DECLARATIONS at the top of this file for what each key is and why neither has one.
-    declarations_path = CONTROL / "bind-declarations.json"
+    declarations_path = run_dir / DECLARATIONS
     if not declarations_path.is_file():
         print(f"STOP: {DECLARATIONS} does not exist; the governance-scan state and the run's "
               "disclosures are declarations, not derivations")

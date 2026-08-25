@@ -33,6 +33,7 @@ import pathlib
 import subprocess
 
 from rsclib.document_harness import SpecGap
+from rsclib.document_harness.paths import env_without_repo_scope
 
 #: The declaration's path inside a caller, shown in refusals. `.harness/` is the harness's
 #: caller-side directory and is conventionally gitignored; like every hook and the
@@ -160,14 +161,31 @@ def discover_repo_root(start: pathlib.Path | str) -> pathlib.Path:
     wrong root taken quietly mis-writes the freeze marker, mis-derives control roots, and
     mis-reads every root-relative path. git's answer is right at any depth and in either
     repository of a submodule mount; where git has none, `SpecGap` carries the refusal.
+
+    **The environment is cleared of the caller's repository first** (round SUBMOD-HOOKENV
+    closed the same class one site over, in `_submodule_files`): git obeys `GIT_WORK_TREE`
+    and `GIT_DIR` over `-C`, so under a hook — or any process git started — the answer is
+    about the *environment's* repository, not the probe's. Measured on one super+mount
+    tree: without the variable `discover_repo_root('mount')` answers `…/super/mount`, with
+    `GIT_WORK_TREE=…/super` it answers `…/super`, neither raising. A git that cannot name
+    those variables refuses here rather than asking uncleared, because an answer taken from
+    the wrong repository is exactly what this function exists to stop.
     """
     start = pathlib.Path(start)
     probe = start if start.is_dir() else start.parent
+    env = env_without_repo_scope()
+    if env is None:
+        raise SpecGap(
+            "git cannot name its own repository-scoping variables "
+            "(`git rev-parse --local-env-vars` failed), so the repository holding "
+            f"{probe} cannot be asked for safely; pass --repo-root explicitly"
+        )
     out = subprocess.run(
         ["git", "-C", str(probe), "rev-parse", "--show-toplevel"],
         check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        env=env,
     )
     top = out.stdout.decode("utf-8", errors="replace").strip()
     if out.returncode != 0 or not top:

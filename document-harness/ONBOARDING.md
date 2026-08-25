@@ -42,7 +42,7 @@ in the same place — both times on hooks.
 |---|---|
 | the gitlink: which revision of the instrument this caller pins | the instrument's **contents** — a plain `git clone` leaves the submodule directory empty until `git submodule update --init` |
 | the caller's hook **script**, if it is tracked (a file in the tree) | `git config core.hooksPath` — the pointer that makes git run that script. Config is not tracked |
-| the caller's `.gitignore` entry for `.harness/` | `.harness/` itself and everything in it: the freeze marker, the run log. Ignored on purpose, per checkout |
+| the caller's `.gitignore` entry for `.harness/` | `.harness/` itself and everything in it: the freeze marker, the run log, and `scan-surfaces.json`. Ignored on purpose, per checkout — so a fresh clone carries **no declaration**, and both guards fall back to the factory default *silently* (a missing declaration is not a malformed one; only the latter refuses loudly). A caller whose scanned surfaces are not the default re-runs `dtw init` in that checkout |
 | the four instance files, once committed | nothing about them is per-machine — but see item 5: the journal is not created until the first round writes one |
 
 Measured on 2026-08-19 by cloning the onboarded throwaway caller: the clone carried
@@ -69,7 +69,7 @@ does when it is assumed away.
 | | |
 |---|---|
 | **Do** | `git submodule add <instrument-url> <mount-path>` in the caller's repository root, then commit the gitlink and `.gitmodules`. On the caller that grew this harness the mount path is `ResearchSystem/harness`; any path works — nothing in the instrument reads its own mount point, and the 2026-08-19 execution mounted it at `vendor/dtw` to test exactly that (`init` finds its templates from `__file__`, and the guards resolve the repository root from the cwd git gives a hook). |
-| **See** | `git submodule status` prints one line: the pinned SHA and the mount path. `ls <mount-path>/tooling/dtw.py` finds the CLI, and `python <mount-path>/tooling/dtw.py --help` lists the eight operations. After a later `git clone` of the caller, that directory is **empty** until `git submodule update --init`, which is the clone-carries line above. |
+| **See** | `git submodule status` prints one line: the pinned SHA and the mount path. `ls <mount-path>/tooling/dtw.py` finds the CLI, and `python <mount-path>/tooling/dtw.py --help` lists the operations. After a later `git clone` of the caller, that directory is **empty** until `git submodule update --init`, which is the clone-carries line above. |
 | **Owner** | `HD-33` (the calling model is a submodule; the gitlink is what makes "which version of the instrument checked this round" answerable) and `io-design.md` §7. `HD-34` adds the caller's side of the discipline: a caller never edits or upgrades the instrument in place, and any adaptation is recorded in the caller's own decision log — item 3. A copy instead of a submodule is the escape hatch `HD-34` names, at the price it names. |
 
 An upgrade is a gitlink change: `cd <mount-path> && git fetch && git checkout <rev>`, then commit

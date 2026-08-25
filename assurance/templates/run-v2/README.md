@@ -8,10 +8,13 @@ the shared-core round (A2-R3, `HD-11` part two, 2026-08-09) that no longer means
 the step scripts in. The six shared scripts — `run_evidence_v2.py`, `run_bind_v2.py`,
 `run_repair.py`, `run_retire.py`, `check_template_instance.py`, `make_paragraph_map.py` —
 are called **in place** from
-`assurance/templates/run-v2/` against the run directory, zero copies. None
+`assurance/templates/run-v2/` against the run directory, zero copies. `python` in the
+invocations below means whichever of `python3` / `python` the machine actually runs — stock
+Ubuntu ships only `python3`, Windows typically `python`. None
 of the six has **a CONFIG block to fill** (`HD-11` part one, R2): every one takes the run
-directory as its first argument, and the three step scripts additionally take the round's
-refs as CLI flags
+directory as its first argument, and the three round steps — `run_evidence_v2.py`,
+`run_bind_v2.py`, `run_repair.py` — additionally take the round's refs as CLI flags
+(`run_retire.py`, the fourth invocation below, takes none)
 (`python assurance/templates/run-v2/run_evidence_v2.py <run-dir> --base
 --candidate --candidate-branch`;
 `python assurance/templates/run-v2/run_bind_v2.py <run-dir> --evidence-commit

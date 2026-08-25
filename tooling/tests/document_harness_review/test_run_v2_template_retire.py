@@ -80,6 +80,11 @@ CONTROL_ROOT = f"ResearchSystem/assurance/runs/{RUN_ID}"
 #: fixture is built, standing in for "a prior closeout pass already retired it".
 CHECK_ORDER = ("chk-a", "chk-b", "chk-c")
 PRESENT_IDS = ("chk-a", "chk-b")
+#: Raw outputs exist for SOME ordered checks, never all of them (rider `retire-suite`): a
+#: `command_exit` check writes one and other check kinds do not. A fixture giving every
+#: ordered id an `out.txt` made the kept count agree with `check_order` by accident, so
+#: deleting the template's `.is_file()` predicate left all twelve tests green.
+RAW_IDS = ("chk-a", "chk-b")
 ALREADY_GONE_IDS = ("chk-c",)
 
 
@@ -99,12 +104,14 @@ class CloseoutTemplateCase(unittest.TestCase):
 
     def make_run(
         self, *, status="CLOSED", check_order=CHECK_ORDER, present_ids=PRESENT_IDS,
+        raw_ids=RAW_IDS,
     ) -> pathlib.Path:
         """A committed run under `<repo>/ResearchSystem/assurance/runs/<run-id>/`.
 
-        Every check in `check_order` gets a raw `chk-<id>.out.txt` regardless of whether its
-        per-result JSON is present — the two survive or vanish independently in this harness,
-        exactly as HD-12 describes.
+        A check in `raw_ids` gets a raw `<check_id>.out.txt` whether or not its per-result
+        JSON is present — the two survive or vanish independently in this harness, exactly
+        as HD-12 describes. `raw_ids` is deliberately a proper subset of `check_order`, so
+        the kept count can only be right if the template asks the filesystem.
         """
         repo = TempRepo()
         self.addCleanup(repo.cleanup)
@@ -114,7 +121,7 @@ class CloseoutTemplateCase(unittest.TestCase):
             f"{CONTROL_ROOT}/evidence/check-results.json": json.dumps(
                 {"aggregate": True, "of": list(check_order)}),
         }
-        for check_id in check_order:
+        for check_id in raw_ids:
             files[f"{CONTROL_ROOT}/evidence/{check_id}.out.txt"] = f"raw output: {check_id}\n"
         # A stray raw output whose name matches the `chk-` id convention but belongs to no
         # check_order entry: the kept count must not include it (FULL d52f41b L-3 — the count
@@ -176,7 +183,7 @@ class SurvivorsAreLeftAlone(CloseoutTemplateCase):
         code, _ = run_main(self.template, [str(run_dir)])
         self.assertEqual(code, 0)
         self.assertTrue((run_dir / "evidence" / "check-results.json").is_file())
-        for check_id in CHECK_ORDER:
+        for check_id in RAW_IDS:
             self.assertTrue(
                 (run_dir / "evidence" / f"{check_id}.out.txt").is_file(),
                 f"{check_id}.out.txt should have survived",
@@ -186,7 +193,7 @@ class SurvivorsAreLeftAlone(CloseoutTemplateCase):
         run_dir = self.make_run()
         run_main(self.template, [str(run_dir)])
         staged = self.staged_deletions()
-        for check_id in CHECK_ORDER:
+        for check_id in RAW_IDS:
             self.assertNotIn(f"{CONTROL_ROOT}/evidence/{check_id}.out.txt", staged)
         self.assertNotIn(f"{CONTROL_ROOT}/evidence/check-results.json", staged)
 
@@ -194,7 +201,7 @@ class SurvivorsAreLeftAlone(CloseoutTemplateCase):
         run_dir = self.make_run()
         _, out = run_main(self.template, [str(run_dir)])
         self.assertIn(
-            "kept                   : 1 aggregate (check-results.json) + 3 raw output(s) "
+            "kept                   : 1 aggregate (check-results.json) + 2 raw output(s) "
             "(<check_id>.out.txt)",
             out.splitlines(),
         )

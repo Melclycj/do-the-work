@@ -19,12 +19,14 @@ Three layers, because each hides a different regression:
 """
 from __future__ import annotations
 
+import os
 import pathlib
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 import _harness
 from _harness import TempRepo
@@ -73,6 +75,43 @@ class Discovery(unittest.TestCase):
             self.assertEqual(
                 caller.discover_repo_root(repo.root / "README.md"), repo.root.resolve()
             )
+
+    def test_the_environment_cannot_redirect_the_answer(self):  # must fire
+        """Rider `discover-root-env`: git obeys `GIT_WORK_TREE` over `-C`.
+
+        The class round SUBMOD-HOOKENV closed one site over, in `_submodule_files`: a hook
+        — or any process git itself started — carries the *starting* repository's location
+        in its environment, and an uncleared query answers about that repository instead of
+        the probe. The negative control below is half the test: it proves the variable
+        really does redirect an uncleared query on this machine, so the positive assertion
+        is not passing for want of a live defect.
+        """
+        with TempRepo() as outer, TempRepo() as elsewhere:
+            probe = outer.root / "docs"
+            probe.mkdir()
+            pointed_elsewhere = {
+                "GIT_WORK_TREE": str(elsewhere.root),
+                "GIT_DIR": str(elsewhere.root / ".git"),
+            }
+            with mock.patch.dict(os.environ, pointed_elsewhere):
+                answered = caller.discover_repo_root(probe)
+                raw = subprocess.run(
+                    ["git", "-C", str(probe), "rev-parse", "--show-toplevel"],
+                    check=False, stdout=subprocess.PIPE,
+                )
+            uncleared = pathlib.Path(
+                raw.stdout.decode("utf-8", errors="replace").strip()
+            ).resolve()
+            self.assertEqual(uncleared, elsewhere.root.resolve())  # control: the env wins
+            self.assertEqual(answered, outer.root.resolve())       # the fix: the probe wins
+
+    def test_a_git_that_cannot_name_its_scoping_variables_refuses(self):  # must fire
+        """Refusing beats asking uncleared: an answer from the wrong repository is the class."""
+        with TempRepo() as repo:
+            with mock.patch.object(caller, "env_without_repo_scope", return_value=None):
+                with self.assertRaises(SpecGap) as caught:
+                    caller.discover_repo_root(repo.root)
+        self.assertIn("--local-env-vars", str(caught.exception))
 
     def test_outside_a_work_tree_the_refusal_is_a_spec_gap(self):  # must fire
         outside = outside_any_repository(self)
