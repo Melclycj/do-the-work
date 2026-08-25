@@ -1,17 +1,17 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
 > **Status: open.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
-> is the carrier of the fourteen user rulings of 2026-08-25/26** below — eight taken before the
-> batch opened and six at its opening: until they landed here they lived
+> is the carrier of the seventeen user rulings of 2026-08-25/26** below — eight taken before the
+> batch opened and nine while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
 > tree, which is chat-only load-bearing material and a finding under `R2`. A cold session reads
 > this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 >
-> **No round is open yet, and nothing is waiting on the user.** All fourteen rulings are taken;
-> what remains before round 1 is the `E10` cold read and the `E11` preview card, which is step 3
-> and not this file. The commits that carry this plan are orchestrator bookkeeping — a plan plus
-> a ledger pointer entry, the ledger batch shape of 2026-08-03, whose gate is the user ruling
-> rather than a round.
+> **Round 1 is open.** Its opening cold read is discharged (`9f1de08`, 0 must-fix) and the `E11`
+> card approved; the candidate is landing. The commits that carry *this file* are orchestrator
+> bookkeeping — a plan plus a ledger pointer entry, the ledger batch shape of 2026-08-03, whose
+> gate is the user ruling rather than a round; the candidate commits beside them are the cold
+> executor's.
 
 ## Goal (one line)
 
@@ -97,16 +97,17 @@ token — from `ORCHESTRATION.md`, `EXECUTION.md`, `CONSTRUCTION-CHECKLIST.md` o
 into the three registers. Bare names survive by design**, and `CONSTRUCTION-CHECKLIST.md:151`
 and `:206` are expected to still hold theirs when the round closes.
 
-## The six further rulings taken at batch open (2026-08-25/26)
+## The nine further rulings taken while the batch ran (2026-08-25/26)
 
-These were taken after the eight above, in the conversation that opened this batch, and this
-file is their carrier on the same terms.
+These were taken after the eight above — six at the batch's opening, ruling 15 off the `E11`
+card, and rulings 16 and 17 on the candidate the executor returned. This file is their carrier
+on the same terms.
 
-9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K L** — prose,
+9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K L M** — prose,
    one file deletion and two new files, no frozen bytes and no code; it is what delivers the
    goal. Round 2 `CORE-SET-SIGNATURE` = item **F** — frozen bytes plus a signature re-siting,
    its own `E2` ruling and its own review. Round 3 `CORE-SET-CODE` = items **G H** — code, a
-   large test surface, and a migration with a silent failure mode. (Items I, J and K did not
+   large test surface, and a migration with a silent failure mode. (Items I through M did not
    exist when the slicing was ruled; they are round 1's by the same test that put A–E there —
    no frozen bytes, no code.)
 10. **Moving contract v4's signature preserves it; v4 is not re-signed.** The signature object
@@ -153,6 +154,23 @@ file is their carrier on the same terms.
     with no other home look like: item 4's empty-instance shape, item 5's *deliberately not
     pre-created*, item 6's *the harness provides no template*, and the §5 carrier decision behind
     the standalone policy file. The executor re-derives that split rather than trusting this list.
+
+16. **The members' citations into `migration/`'s node records are collected in round 1** (item M).
+    Ruling 12 named `plans/` `journal/` `history/` and its enumeration missed a class its own test
+    already covers: `migration/`'s N0, W2 and supersession-2 records are administrative and review
+    records, which is the half of this batch's goal sentence reading *no review records*, and
+    `EXECUTION.md:110` and `REVIEW.md:90` are product-facing documents citing them. Five sites in
+    three members — `document-harness/README.md:16` ×3, `EXECUTION.md:110`, `REVIEW.md:90`; the
+    contract's four are round 2's, being frozen. Taken now rather than after the FULL because
+    `E9`'s own test — has a valid independent FULL already occurred? — answers no, making this a
+    **pre-submission correction that consumes no budget leg and owes no VERIFY**.
+17. **`HD-6`'s archive question is answered: do not clear.** The decision-log archive stands at
+    309 lines against the 100-line ask-the-user threshold, and item E's supersession of `HD-54`
+    moved another entry in. Deletion needs `HD-6`'s two conditions together — never cited again
+    **and** recoverable from a record — with the default being not to delete, and a `superseded`
+    chain may never be deleted at all, which is exactly where `HD-54` now sits. Recorded also
+    because this is the fourth time the threshold fired and **the first time the question actually
+    reached the user**: the previous three were sessions noting *no answer received* to themselves.
 
 Ruling 14 is recorded at length because the touch condition genuinely arrives in round 1 and the
 choice not to redeem is a deviation a reviewer will otherwise flag: item A edits
@@ -260,10 +278,13 @@ Sites are at `5425fa2`.
 - **`REVIEW.md:92`'s link is left dangling on purpose** and the round's commit body and journal
   say so, naming this ruling. Nothing is edited in `REVIEW.md` for it in round 1; item G retires
   the pointer in round 3.
-- Measured cost, and it is the reason this is recorded rather than assumed: `layer_path_check`
-  scans only the lines a staged diff adds (its own docstring says so), so the deletion fires no
-  guard and prints nothing. The dangling link is invisible to every machine in this repository
-  until a human cold read meets it.
+- Measured cost, corrected by the executor's own run rather than left as this plan first wrote
+  it. `layer_path_check` scans only the lines a staged diff adds, so the deletion fires no guard
+  and prints nothing — that half held. But `sweep_refs.py` reads standing text and **does** see
+  it, reporting `REVIEW.md:92` twice (LINK and PATHTOK) and moving the whole-tree count from 13
+  to 15. The sweep always exits 0 and blocks nothing, so there is no consequence; the plan's
+  original claim that the link was invisible to *every* machine was simply wrong, and the next
+  reader of that count needs to know those two entries are ruled, not rot.
 - This is the one exception to *Out of scope*'s "delete no history"; the user made it explicitly.
 
 ### J — the two product-facing citations into construction history *(ruling 12)*
@@ -319,6 +340,20 @@ Sites are at `5425fa2`.
   decision-log id first and `io-design` as bare attribution, so no reader has to follow them.
 - `io-design.md` itself is not edited, moved or deleted. It stays where it is, on the
   construction side of item K's list.
+
+### M — the members stop citing `migration/`'s node records *(ruling 16)*
+
+- Five sites, measured on the stripped tree at `eba47ad` with `sweep_refs.py`:
+  `document-harness/README.md:16` (three LINKs — the N0 record, the W2 record, the
+  supersession-2 signature record), `document-harness/EXECUTION.md:110` (the W2 record),
+  `document-harness/REVIEW.md:90` (the W2 record).
+- Same demotion as item J: the path form goes, the name and its holder stay. These records are
+  this instrument's own construction record and a caller does not carry them.
+- Contract v4's four sites of the same shape are **not** here — `E2`-frozen, so they ride round 2
+  beside item F, and the round states them as its declared residual rather than implying none.
+- This is a **pre-submission correction** under `E9`: no independent FULL has occurred on this
+  round yet, so it consumes no budget leg and owes no targeted VERIFY. The commit body says so,
+  because `E9` warns that every recorded escape from the cap was a renamed round.
 
 ### F — contract v4's signature moves out of the decision log *(round 2)*
 
@@ -388,7 +423,8 @@ Sites are at `5425fa2`.
   carrying item K's two-tier list and approved; ruling 15 came off it.
 - [ ] 4. Execute items A+D in one commit; B+C in one commit; E in one commit with the `HD-54`
   successor entry in the same commit as its carrier; I+J in one commit; K in one commit with the
-  `HD-21` question and answer recorded in its body; L in one commit.
+  `HD-21` question and answer recorded in its body; L in one commit; M in one commit, its body
+  naming itself a pre-submission correction under `E9`.
 - [ ] 5. Redeem rider `waiver-live` in the item-A commit, deleting its row in that same commit.
   `charter-qualifiers` and `e1-table` take a touch note only and stay with dispatch-economy
   (ruling 14); the note goes in the same commit that touches their surface.
