@@ -60,28 +60,21 @@ end-to-end measurement (a `git archive HEAD` tree with every history path delete
 session**; step 6 re-runs it. What this session did re-run: the nine members resolve **9/9** at
 `5425fa2` (`test -f` each).
 
-**What breaks when history is stripped**, measured by this session's own script (markdown link
-targets plus backtick path-shaped tokens, de-duplicated per site, resolved against a tree with
-`migration/` — less the two member stubs — `document-harness/{journal,plans,history}/` and the
-five root registers removed):
+**What breaks when history is stripped — and which instrument measures it.** This session first
+wrote a scratch script for the question and reported 38 newly broken / 29 already broken, against
+the briefing's 32 / 24 on a third tokenizer. **All three are superseded, and the scratch script is
+withdrawn**: `tooling/sweep_refs.py` already answers exactly this question, is committed, and
+imports `LAYER`, `PATHLIKE`, `RUNTIME_PREFIX` and `TOKEN` from `layer_path_check` rather than
+hand-copying them — which is what `E5` asks of an expectation and what `E6` says about writing new
+machinery for a thing the repository already has. **The round measures with `sweep_refs.py` and
+nothing else.**
 
-| member | newly broken by the strip | already broken at `5425fa2` |
-|---|---|---|
-| `document-harness/README.md` | 17 | 4 |
-| `contract/Document-Work-Assurance-Contract-v4.md` | 9 | 3 |
-| `document-harness/EXECUTION.md` | 4 | 18 |
-| `document-harness/CONSTRUCTION-CHECKLIST.md` | 3 | 0 |
-| `document-harness/REVIEW.md` | 2 | 4 |
-| the two retired-contract stubs | 1 each | 0 |
-| `document-harness/ORCHESTRATION.md` | 1 | 0 |
-| `schema/document-assurance-v3/paragraph-map.schema.json` | 0 | 0 |
-| **total** | **38** | **29** |
-
-The briefing reported 32 / 24 on its own tokenizer. **Neither figure is re-derived from the
-other and the difference is method, not disagreement** — the already-broken column here is
-inflated by design, since it counts run-time markers `E10` explicitly rules as resolving. The
-figure a reviewer should re-derive is the load-bearing subset below, which is method-independent
-because it is a fixed name list.
+At `ff4b749` on the unstripped tree it reports **13 non-resolving references over the nine
+members**, every one of them a NAMETOK — a backticked bare filename, which is the *compliant*
+form for a caller-held artifact and not a defect. Zero broken markdown links, zero broken path
+tokens. This matches the opening cold read's independent finding that the layer is clean at this
+commit. The stripped-tree figure is step 6's, run with the same instrument on a `git archive` tree
+with the history paths deleted; **no number from the withdrawn scripts is carried forward.**
 
 **The load-bearing subset — every site naming one of the three registers**, from
 `grep -n -o -E '(\.\./)?(HARNESS-DECISIONS|HARNESS-RIDERS|CONSTRUCTION-LEDGER(-archive)?)\.md'`:
@@ -109,7 +102,7 @@ and `:206` are expected to still hold theirs when the round closes.
 These were taken after the eight above, in the conversation that opened this batch, and this
 file is their carrier on the same terms.
 
-9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K** — prose,
+9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K L** — prose,
    one file deletion and two new files, no frozen bytes and no code; it is what delivers the
    goal. Round 2 `CORE-SET-SIGNATURE` = item **F** — frozen bytes plus a signature re-siting,
    its own `E2` ruling and its own review. Round 3 `CORE-SET-CODE` = items **G H** — code, a
@@ -147,6 +140,19 @@ file is their carrier on the same terms.
 14. **Of the three riders whose touch condition round 1 reaches, only `waiver-live` is
     redeemed.** `charter-qualifiers` and `e1-table` stay with the dispatch-economy batch and
     take a touch note.
+
+15. **`io-design.md` stays construction-side, and round 1 re-points `ONBOARDING.md`'s Owner cells
+    away from it** (item L). It is a construction round's deliverable — its own header says
+    "批 B R2 交付物" and that it is not a member and has authority over nothing — so a caller
+    should not have to carry it. Today six to seven of `ONBOARDING.md`'s Owner cells point at it,
+    which makes the ownership chain for those items end in a document that disclaims ownership.
+    **Bound, and it is the executor's hard limit**: re-point only the cells whose decision
+    already has a home elsewhere; where a decision lives nowhere but `io-design.md`, **do not
+    invent an owner** — inventing one adds a clause to a rule, which is design beyond the
+    approved card. Those cells are reported and banked instead. Measured at `ff4b749`, the ones
+    with no other home look like: item 4's empty-instance shape, item 5's *deliberately not
+    pre-created*, item 6's *the harness provides no template*, and the §5 carrier decision behind
+    the standalone policy file. The executor re-derives that split rather than trusting this list.
 
 Ruling 14 is recorded at length because the touch condition genuinely arrives in round 1 and the
 choice not to redeem is a deviation a reviewer will otherwise flag: item A edits
@@ -294,6 +300,26 @@ Sites are at `5425fa2`.
 - The list's exact membership is authored at round open and **shown on the `E11` card before it
   is written**, since it is the one item here whose content was ruled in shape but not in detail.
 
+### L — `ONBOARDING.md`'s Owner cells stop ending at `io-design.md` *(ruling 15)*
+
+- Ten citation lines at `ff4b749`, by `grep -n io-design document-harness/ONBOARDING.md`. Sort
+  them into two piles before editing anything.
+- **Re-point** every cell where `io-design.md` is named *alongside* an owner that already holds
+  the decision — the header sentence and item 1 (both already name `HD-33` / `HD-34`), item 2
+  (its own sentence says "`HD-33` rules the same"), item 3 (already names `HD-19` and `E10`'s
+  tail; its See cell describes what `templates/decision-log.md`'s own header carries, which is
+  the real holder), item 4's rules half (`R10`), item 8 (`ORCHESTRATION.md`). Dropping the
+  redundant pointer changes no obligation.
+- **Do not invent an owner** for a decision that lives nowhere else. That would add a clause to a
+  rule — design, and beyond the card the user approved. Report those cells and bank them as one
+  rider naming the surface. Expected members of that pile, to be re-derived rather than trusted:
+  item 4's empty-instance shape · item 5's *deliberately not pre-created* · item 6's *the harness
+  provides no template* · §5's carrier decision behind the standalone policy file.
+- `EXECUTION.md`'s two citations are **not** in scope: they read `(`HD-35`, io-design §4)`, the
+  decision-log id first and `io-design` as bare attribution, so no reader has to follow them.
+- `io-design.md` itself is not edited, moved or deleted. It stays where it is, on the
+  construction side of item K's list.
+
 ### F — contract v4's signature moves out of the decision log *(round 2)*
 
 - New file beside the contract, shaped like the retired supersession-2 signature record.
@@ -353,12 +379,16 @@ Sites are at `5425fa2`.
   the dispatch-economy batch). Until this is done the rulings are unreachable by any reviewer.
 - [x] 2. **DONE.** Put the open questions to the user and record the answers here — rulings 9–14
   above, taken 2026-08-25/26. Nothing is now waiting on the user before the round opens.
-- [ ] 3. Open round 1 under `HD-55` role form: cold layer read via `dtw dispatch --read`, then
-  render the `E11` preview card — carrying item K's proposed two-tier list, which ruling 11
-  requires be shown before it is written — and wait for the user.
+- [x] 3. **DONE.** Round 1 is open under `HD-55`. The opening cold read ran as its own `claude -p`
+  session, narrow form by user ruling — two members genuinely owed, seven citable, the reader
+  correcting the dispatch's own arithmetic (`O-1`) — and its record is committed unchanged at
+  `9f1de08`: **0 must-fix, 1 low, 3 observations**, no verdict, no budget spent. The low's bytes
+  were applied through `E10`'s free channel in their own commit at `0420d99` per `HD-38`, closing
+  the class rather than reducing it, so no rider was re-banked. The `E11` card was rendered
+  carrying item K's two-tier list and approved; ruling 15 came off it.
 - [ ] 4. Execute items A+D in one commit; B+C in one commit; E in one commit with the `HD-54`
   successor entry in the same commit as its carrier; I+J in one commit; K in one commit with the
-  `HD-21` question and answer recorded in its body.
+  `HD-21` question and answer recorded in its body; L in one commit.
 - [ ] 5. Redeem rider `waiver-live` in the item-A commit, deleting its row in that same commit.
   `charter-qualifiers` and `e1-table` take a touch note only and stay with dispatch-economy
   (ruling 14); the note goes in the same commit that touches their surface.
@@ -387,7 +417,12 @@ Each shown by its command, not by a sentence.
    names it. `document-harness/history/` no longer exists, and `REVIEW.md:92`'s link is
    dangling **by ruling 13** with the commit body saying so.
 2c. The core-set list exists, carries both tiers, and its commit body records the `HD-21`
-   question and answer — for it and for `CONSTRUCTION-INDEX.md`.
+   question and answer — for it and for `CONSTRUCTION-INDEX.md`. The product tier measures 59
+   files / 0.73 MB against the repository's 386 at `ff4b749`, `io-design.md` **not** among them
+   (ruling 15); re-measure rather than cite.
+2d. `grep -n io-design document-harness/ONBOARDING.md` returns only cells whose decision has no
+   other home, each of them named in the round's banked rider; every cell that had a real owner
+   beside `io-design.md` now names that owner alone. `io-design.md`'s own bytes are unchanged.
 3. `python -m pytest -q` green — report the run, not a remembered figure.
 4. `layer_path_check.py`, `candidate_path_check.py` and `review_freeze_check.py` each exit 0 on
    the staged tree, and the `E10` members resolve 9/9.
@@ -399,10 +434,11 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: step 3 — all fourteen rulings are recorded and nothing waits on the user. Next action
-is round 1's opening cold read of the layer, dispatched cold under `HD-55`, then the `E11`
-preview card carrying item K's proposed two-tier list. No candidate byte is written before that
-card is approved.
+当前指针: step 4 — round 1 is open, the card is approved, and the next action is
+`dtw dispatch --construction-executor`: a cold executor session writes the six candidate commits
+(A+D · B+C · E · I+J · K · L). Then step 6's stripped-tree measurement with `sweep_refs.py`, then
+the FULL. Fifteen rulings recorded; the opening read is discharged (`9f1de08`) and its one low
+applied (`0420d99`).
 
 ## Notes
 

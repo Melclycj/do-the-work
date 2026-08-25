@@ -134,7 +134,10 @@
 - **dispatch-economy 构造批候选**（用户 2026-08-24 裁「往后记」，排批 C 之后、无 deadline）：把派发省时纪律做实——① must-fix 结对复读的**窄 subject 出单形态**（`E10` 通道原文本就是 "re-read of the amended text"，而 `dtw dispatch --read` 只有全层形态；命令面改动按 `HD-47` 逐案归用户）② 快 read 并入 executor 无 commit 窗口的重叠纪律找承载。**本批已增列第三件（用户 2026-08-25 裁，轮 `RIDER-SETTLEMENT` 开批裁决 3）：bank 里 13 条 design rider 中的 9 条并入本批一次收**——六条在 checklist 的 `E9`/`E10`/`R9`/`R10` 措辞面（`wl-route` / `hd38-both-ways` / `e9-pair-budget` / `e10-cannot-see` / `read-name-split` / `waiver-live`），三条在 `ORCHESTRATION.md` 义务表面（`charter-qualifiers` / `e1-table` / `e1-reader`），与本批要动的正是同两个表面；余 4 条是机器题（`pin-drift` / `delta-prose` / `argv-cap` / `freeze-audit`）另候用户裁。**`R5` 观察一条**（FULL `8aa9f6e` `O-4`，用户 2026-08-25 裁「先记下」）：bank 现存 16 行中 13 行需开轮才可兑，该比例是否说明 bank 没在做它该做的事，**待本批收完 9 条、bank 降到 7 行时再评**。起因＝轮 `STRANGER-PROOF` 开轮读链约一小时 wall-clock，一个表格单元格的修被按全层复读（1640 行 + 电池重跑）；教训当轮曾写进该轮 plan 的 Dispatch economy 节，但**写于其所辖派发已跑完之后，用户指其无效**——本行才是排期载体。**与批 `CORE-SET` 的交叠（2026-08-25 记）**：本批领的九条 design rider 里有两条
   （`charter-qualifiers` / `e1-table`，`ORCHESTRATION.md` 义务表面）与一条（`waiver-live`，`E10`
   cold-read/`§live` 句）的触碰面，正是 `CORE-SET` 轮 1 item A 要改的两处；哪批兑付按 `CORE-SET`
-  plan 的开轮问题 4 归用户裁，未裁前三行留在 bank。
+  plan 的开轮问题 4 归用户裁：已裁**只兑 `waiver-live`**，另两行留 bank 待本批。**第一件（窄 subject
+  出单形态）新增第二笔实测成本**：`CORE-SET-LAYER` 开轮读因无窄形态而手工缩范围，把生成器**故意不给**
+  的成员名单又贴了回去（`dispatch.py` 注释记着为何不给——手写成员表错过一次）；本次未造成锚定错误
+  （派发标了「自己验」、读者独立重推），但按 `O-2` 挂在本件下（read `9f1de08` `O-2`）。
 
 - **批 `CORE-SET` —— 让核心集脱离本仪器自己的建造史**（用户方向 2026-08-25，同日即令推进，**自此
   为本仓队首**）：挂载本仪器的仓只带核心集就能开轮、跑轮、收轮。八条用户裁决、三轮拟切、量程与
@@ -144,8 +147,13 @@
   **裁决自八条增至十四条**（开批当日续裁六条：三轮切法 · v4 签字随载体保全不重签 · 核心集走**显式
   两层清单**且**不等于 `E10` 成员集** · 引建造史按**谁在引**判而非引向哪（构造侧允许、产品侧不允许）·
   `document-harness/history/` 即刻删除且 `REVIEW.md:92` 断链照留 · 三条到期 rider 只兑 `waiver-live`），
-  全部落在该 plan，本行不复述。**状态：无待裁项，未开轮**；下一动作＝轮 1 `CORE-SET-LAYER`
-  （item A–E + I/J/K）的开轮冷读与 `E11` 预览卡。**并记**：2026-08-24 的 §10.5 裁决（分发维持 submodule）经用户明示**不约束
+  全部落在该 plan，本行不复述（卡上又续裁第十五条：`io-design.md` 留构造层，轮 1 把 `ONBOARDING.md`
+  指着它的 Owner 格改指真正的 owner，**无别家者不得现造 owner**、报回入 bank——即 item L）。
+  **状态：轮 1 `CORE-SET-LAYER` 已开**（item A–E + I/J/K/L）。开轮冷读走**窄形态**（用户裁；实收
+  七件可引、两件真欠，读者当场更正派发的算法 `O-1`），记录 `9f1de08`——**0 must-fix / 1 low / 3 观察**，
+  无 verdict、`E9` 未花；该 low 的字节按 `E10` 自由通道当场套、按 `HD-38` 自带 commit `0420d99`
+  （`onboarding-labels` 那行当初只关了三实例中的一个就删行，本次是整类关闭，故不重新入 bank）。
+  `E11` 卡已渲染并经用户批准（构造轮卡不落盘，按本区 2026-08-21 裁）。**并记**：2026-08-24 的 §10.5 裁决（分发维持 submodule）经用户明示**不约束
   本批**——它答的是「submodule 还是 plugin」、不是「挂载里该有什么」，照记以免后来者读成推翻它。
 
 - **设计批 `ASSERT-OWNER` —— REVERTED 2026-08-15**（用户裁，依据 `E6`「a rule added about it is not the fix」）：它试图把 `HD-41` 写进指令层，装的过程中自身又出七个同类实例，FULL 返 `CHANGES_REQUIRED`；五个指令层文件已回 `ff05b01`、blob 逐一核对，checklist 回 204 行 / 12 条。诊断钉在 journal [`structure-vs-prose-2026-08-15.md`](document-harness/journal/structure-vs-prose-2026-08-15.md)；过程见 plan [`harness-assertion-owner-design.plan.md`](document-harness/plans/harness-assertion-owner-design.plan.md)。**四件未结已由用户 2026-08-16 一次裁完**：① 该轮 `E9` 预算＝撤回不消耗腿、不欠 VERIFY，该轮就此结账 ② rider `wl-route` 推迟（行不动、redeem-when 照旧，到期未兑的事实留在 FULL 记录里）③ `HD-41` **不再试**指令层承载，永久只住决策簿（用户裁不建条目，锚即本行；`HD-5` 的 §live 必读使其仍可达）④ 决策簿准入口径**维持**——构造批无 choice JSON，其裁决继续只活在 commit 正文，代价照记。
