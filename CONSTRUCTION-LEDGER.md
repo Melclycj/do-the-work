@@ -141,8 +141,11 @@
   验收全在
   [`document-harness/plans/core-set.plan.md`](document-harness/plans/core-set.plan.md)——本 commit
   落之前它们只活在对话与仓外 briefing（按 `R2` 是 chat-only 载重材料），本行不复述。
-  **状态：未开轮**，卡在该 plan 的四个待裁问题（切法 · 契约 v4 签字保全还是重签 · 核心集怎么定义 ·
-  三条 rider 归哪批）。**并记**：2026-08-24 的 §10.5 裁决（分发维持 submodule）经用户明示**不约束
+  **裁决自八条增至十四条**（开批当日续裁六条：三轮切法 · v4 签字随载体保全不重签 · 核心集走**显式
+  两层清单**且**不等于 `E10` 成员集** · 引建造史按**谁在引**判而非引向哪（构造侧允许、产品侧不允许）·
+  `document-harness/history/` 即刻删除且 `REVIEW.md:92` 断链照留 · 三条到期 rider 只兑 `waiver-live`），
+  全部落在该 plan，本行不复述。**状态：无待裁项，未开轮**；下一动作＝轮 1 `CORE-SET-LAYER`
+  （item A–E + I/J/K）的开轮冷读与 `E11` 预览卡。**并记**：2026-08-24 的 §10.5 裁决（分发维持 submodule）经用户明示**不约束
   本批**——它答的是「submodule 还是 plugin」、不是「挂载里该有什么」，照记以免后来者读成推翻它。
 
 - **设计批 `ASSERT-OWNER` —— REVERTED 2026-08-15**（用户裁，依据 `E6`「a rule added about it is not the fix」）：它试图把 `HD-41` 写进指令层，装的过程中自身又出七个同类实例，FULL 返 `CHANGES_REQUIRED`；五个指令层文件已回 `ff05b01`、blob 逐一核对，checklist 回 204 行 / 12 条。诊断钉在 journal [`structure-vs-prose-2026-08-15.md`](document-harness/journal/structure-vs-prose-2026-08-15.md)；过程见 plan [`harness-assertion-owner-design.plan.md`](document-harness/plans/harness-assertion-owner-design.plan.md)。**四件未结已由用户 2026-08-16 一次裁完**：① 该轮 `E9` 预算＝撤回不消耗腿、不欠 VERIFY，该轮就此结账 ② rider `wl-route` 推迟（行不动、redeem-when 照旧，到期未兑的事实留在 FULL 记录里）③ `HD-41` **不再试**指令层承载，永久只住决策簿（用户裁不建条目，锚即本行；`HD-5` 的 §live 必读使其仍可达）④ 决策簿准入口径**维持**——构造批无 choice JSON，其裁决继续只活在 commit 正文，代价照记。
