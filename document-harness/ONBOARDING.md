@@ -12,9 +12,11 @@ the rule governs. `E10`'s membership sentence names the members, and it does not
 The round that created this file recorded that question and its answer —
 `journal/caller-onboarding-2026-08-19.md`.
 
-**Read once before starting:** `README.md` beside this file (the instrument's navigation
-surface) and `../HARNESS-DECISIONS.md`'s `§live`. Onboarding is not a round and spends no
-review budget; what it produces is a repository in which a round can be opened.
+**Read once before starting:** `README.md` beside this file, the instrument's navigation
+surface. That is the whole of it — the decision log is not read here, because at this moment
+it does not exist: item 3 below is what creates it, and the `§live` obligation `E10` states
+falls at a round's opening, which is after onboarding ends. Onboarding is not a round and
+spends no review budget; what it produces is a repository in which a round can be opened.
 
 **Install the instrument's runtime dependencies first, for the interpreter the hook will
 use.** `python -m pip install "jsonschema>=4.18" referencing` — every `dtw` command and both
@@ -95,15 +97,15 @@ an artefact of testing without a network, not a step a caller with a real remote
 
 | | |
 |---|---|
-| **Do** | `dtw init` copies `templates/decision-log.md` verbatim to `HARNESS-DECISIONS.md` at the caller's root. Move it if the caller wants it elsewhere; record that in the file itself, since it is the log of exactly such decisions. **A move costs something, and the cost is silent:** `init` takes no placement option (`HD-47` ruled `--into` not worth adding), so it only ever looks at the root, and a later run writes a *fresh empty log* there beside the moved one — measured 2026-08-24 on the second caller's walk, exit 0, reported as `created`. Two logs then exist and the empty one is the one at the path every convention names, so a cold read discharging `E10`'s `§live` obligation reads no rulings at all. If the log is moved, either do not re-run `init`, or delete what it recreates; the caller's policy file is where to say which. |
+| **Do** | `dtw init` copies `templates/decision-log.md` verbatim to `HARNESS-DECISIONS.md` at the caller's root. **The root is the only supported placement, and it is not a default to be overridden** (ruled 2026-08-25): the instruction layer names the log by bare name and expects it at the root of the repository the round runs in, and `init` takes no placement option (`HD-47` ruled `--into` not worth adding), so the root is the only path any convention here names and the only one `init` ever looks at. **What moving it costs, which is why the placement is pinned rather than merely recommended:** a later `init` run finds nothing at the root and writes a *fresh empty log* there beside the moved one — measured 2026-08-24 on the second caller's walk, exit 0, reported as `created`. Two logs then exist and the empty one is the one at the path every convention names, so a cold read discharging `E10`'s `§live` obligation reads no rulings at all. |
 | **See** | The file exists and has no entries, and its header carries `io-design.md` §6's five — the state machine, the four scopes, the three admission questions, **inheritance** (the block beginning *"Who reads it"*, which carries the `§live` required-reading rule and the verbatim-inheritance rule), and the deletion discipline — plus narrowing (`HD-30`), which the template ships as an extra. `dtw init` refuses to overwrite an existing one and names it in its report — a second run cannot clobber rulings. |
-| **Owner** | `io-design.md` §6 (this file ships as an empty instance, header included). The rules of the log live **in that header**, not in the instruction layer: `HD-19` ruled the decision log is not an instruction-layer member, while `E10`'s tail makes its `§live` required reading at every round's opening. The harness's own instance, `../HARNESS-DECISIONS.md`, is a filled example of the same shape. |
+| **Owner** | `io-design.md` §6 (this file ships as an empty instance, header included). The rules of the log live **in that header**, not in the instruction layer: `HD-19` ruled the decision log is not an instruction-layer member, while `E10`'s tail makes its `§live` required reading at every round's opening. The harness's own instance — the `HARNESS-DECISIONS.md` at the instrument's own repository root, which a caller does not read — is a filled example of the same shape. |
 
 ### 4 — The rider bank
 
 | | |
 |---|---|
-| **Do** | `dtw init` copies `templates/rider-bank.md` verbatim to `HARNESS-RIDERS.md` at the caller's root. Moving it carries item 3's cost unchanged — measured on the same walk, both files recreated at the root by one `init` run — and the same two answers apply. |
+| **Do** | `dtw init` copies `templates/rider-bank.md` verbatim to `HARNESS-RIDERS.md` at the caller's root. The root is the only supported placement here too, for item 3's reason and at item 3's cost — measured on the same walk, both files recreated at the root by one `init` run. |
 | **See** | The file exists, carries the four-column table header and no rows, and points at the rule rather than restating it. |
 | **Owner** | `io-design.md` §6 for the empty instance; `R10` in `CONSTRUCTION-CHECKLIST.md` for the rules — what banks here rather than becoming a `HarnessIssue` or a round, the row format, and what redemption is. Note which bank: `R10`'s last clause reserves the construction side's bank for construction findings, so a caller's product-run observations belong in the caller's own bank, which is this file. |
 
