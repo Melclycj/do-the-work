@@ -137,6 +137,35 @@ round name is a design question, and `R5` puts the conclusion with the user.
   binder name, and `document-harness/README.md:16`. Neither adds a clause to any rule nor changes
   what any rule requires, and no other round is in flight, so `E10`'s deferral applies — deferral,
   not exemption: the bytes ride the next read of this layer, at per-member digest cost.
+- **Correction, written forward per `HD-59` with the bullet above left verbatim (2026-08-27, this
+  round's one user-approved `E9` fix leg, answering `L-1` of FULL `v3-review-full-a554c0b.md`).**
+  **The count is three, not two.** `07ef526` edited three of `E10`'s nine members —
+  `document-harness/CONSTRUCTION-CHECKLIST.md`, `document-harness/README.md`, and
+  `contract/Document-Work-Assurance-Contract-v4.md`, the third a member by the user's 2026-08-23
+  ruling and named in `E10`'s own membership sentence. What the bullet above counts is the two
+  edits that took `E10`'s **deferral** channel; the contract's bytes went in under `E2`'s recorded
+  rulings `HD-60` and `HD-61` instead, which is how it fell outside that sentence. **But the
+  channel a write takes does not decide who owes the read.** `E10`'s citation clause covers a
+  member only while its blob is **unchanged** since a recorded end-to-end read, and this round
+  moved the contract's blob from `dfc983d2e3d9fb5ca67b053a16fcfb0e6715b11a` to
+  `5dfb7b64265c821c715f23de52824beeadea3405`
+  (`git rev-parse {8e576a1,07ef526}:contract/Document-Work-Assurance-Contract-v4.md`, re-run at
+  this fix's base `7d7eff5`). The round's opening cold read read the contract end to end at
+  `dfc983d2…`, 342 lines (`v3-cold-read-d3ba221.md` §2, member row 8), so **no recorded read is
+  citable for the bytes that now stand**. **Contract v4 is therefore a third edited member whose
+  bytes ride the next read of this layer**, at per-member digest cost, beside the two above.
+
+  Why it was worth the fix leg rather than a rider row: round 3 `CORE-SET-CODE`'s opening cold read
+  sizes itself from these records, and a reader taking "two" at face value could cite for contract
+  v4 a prior read the blob change has invalidated. The mechanical blob comparison recovers it, so
+  harm needs a second mistake — which is why the FULL filed a low and not a blocker — but this is
+  the class round 1's own opening read failed on, which `CONSTRUCTION-LEDGER.md` records, and the
+  class `HD-57` named the last time v4 was written under an `E2` ruling. **Form.** `HD-59` forbids
+  rewriting a committed conclusion in place, so the bullet above stands word for word and the
+  commit bodies of `07ef526` and `66dfd30` stand as written; this paragraph is the correction. The
+  FULL's minimum fix named the closeout record as its carrier — that is the orchestrator's commit
+  and not the executor's to write — so the correction is made at the finding's other named
+  location, this section, in the adjacent-paragraph form `HD-59` admits.
 - **Nothing about a product run is proved here.** Round 1's step 6b already narrowed its honesty
   cap to the product-run leg, and this round narrows it no further: no run directory was built, no
   instruction frozen, no reviewer dispatched from a mounted stripped tree. That is out of the
