@@ -431,13 +431,18 @@ Sites are at `5425fa2`.
   `onboarding-io-design-owners` row replacing it. Original text: redeem rider `waiver-live` in the item-A commit, deleting its row in that same commit.
   `charter-qualifiers` and `e1-table` take a touch note only and stay with dispatch-economy
   (ruling 14); the note goes in the same commit that touches their surface.
-- [x] 6. **DONE — partly, and the shortfall is stated.** The reference count was re-run by the
+- [x] 6a. **DONE — the reference count only.** The reference count was re-run by the
   orchestrator with `sweep_refs.py` on `git archive` trees at `cc3b3ab` and `c5f00f6`: **31 → 13**
   real breaks over the nine members, `ONBOARDING.md` separately **2 → 0** by grep since the sweep
   does not scan non-members, every residual accounted. Recorded in
   `document-harness/journal/core-set-layer-2026-08-26.md`. **Not re-run**: the briefing's
   end-to-end mechanical check on a *stripped* tree; `dtw init` was exercised on the full tree
-  only. Named as an honesty cap rather than implied.
+  only. Named as an honesty cap rather than implied — and carried below as its own open step,
+  because a checkbox that reads done is how an honesty cap quietly stops being one.
+- [ ] 6b. **OPEN.** Re-run the briefing's end-to-end mechanical check on a *stripped* tree:
+  `dtw --help`, `dtw init` into a fresh repository, `candidate_path_check.py`,
+  `review_freeze_check.py`, and the member resolve. Until this runs, what is proven is that a
+  stripped tree's references resolve — **not** that a caller can mount it and run a round.
 - [x] 7. **DONE — round 1 CLOSED.** FULL `92cc514` → `CHANGES_REQUIRED` (2 blockers, 8 lows,
   3 observations) → one user-approved fix `0482a40` → VERIFY `0f0498f` → `REVIEWED_NO_BLOCKER`
   (4 findings, 3 observations). All three records committed unchanged. **The fix leg was consumed
@@ -485,7 +490,12 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: step 8 — round 1 is CLOSED. The next action is round 2 `CORE-SET-SIGNATURE` (item F),
+当前指针: step 8 — round 1 is CLOSED, and **round 2's opening owes a full-weight cold read**:
+all five in-repo `E10` members changed this round (`CONSTRUCTION-CHECKLIST` · `README` ·
+`EXECUTION` · `REVIEW` · `ORCHESTRATION`), the free-channel bytes at `0420d99` included. If that
+opening narrows again, the citation baseline is `E10`'s — unchanged since **a** recorded
+end-to-end read, never since one nominated record; the opening read's `O-1` caught exactly that
+error here. Step 6b is also open (the stripped-tree mechanical check was never re-run). The next action is round 2 `CORE-SET-SIGNATURE` (item F),
 and **it cannot open until the user records the `E2` ruling that authorises writing contract v4's
 bytes** — ruling 10 settled the signature question, not the freeze question, and `E2` admits no
 exception for a change its author considers safe. Round 3 `CORE-SET-CODE` (items G, H) follows.
