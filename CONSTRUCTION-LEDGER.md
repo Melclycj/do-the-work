@@ -14,6 +14,16 @@
 > body, both immutable and greppable — restating it here is a second copy that drifts; the
 > reasoning behind a ruling → `document-harness/journal/<round>-<date>.md`.
 >
+> **An `R5` observation never enters by a session's own judgment (user ruling 2026-08-26).** A
+> reviewer's observation is routed to the user, not filed by the session that received it: at the
+> session's preclear it is **put to the user**, and it lands here — or anywhere — only under a
+> ruling that says where. A session filing its own observation has closed nothing and has added a
+> component, which is the shape those observations are usually about; and the entry it writes has
+> no one who reads it and no moment when they would, so it accumulates instead of resolving. The
+> one `R5` observation already carried below shows the admissible form: the user ruled it be
+> recorded, and it names the moment it is read again. Until such a ruling exists, an observation
+> stays where the reviewer put it — its review record, immutable and greppable.
+>
 > **What does not enter.** Anything belonging to a *caller*: a caller's closeout obligations, its
 > ledger parameters, its machine wiring, its router state. A caller keeps its own account of using
 > the instrument; on the repository that grew this harness that account is its
