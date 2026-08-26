@@ -1,8 +1,8 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
-> **Status: rounds 1 and 2 CLOSED (2026-08-26, 2026-08-27); round 3 remains.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
-> is the carrier of the twenty-two user rulings of 2026-08-25/26** below — eight taken before the
-> batch opened and fourteen while it ran: until they landed here they lived
+> **Status: rounds 1 and 2 CLOSED (2026-08-26, 2026-08-27); round 3 OPEN 2026-08-27.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
+> is the carrier of the twenty-six user rulings of 2026-08-25/27** below — eight taken before the
+> batch opened and eighteen while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
 > tree, which is chat-only load-bearing material and a finding under `R2`. A cold session reads
 > this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
@@ -99,13 +99,13 @@ token — from `ORCHESTRATION.md`, `EXECUTION.md`, `CONSTRUCTION-CHECKLIST.md` o
 into the three registers. Bare names survive by design**, and `CONSTRUCTION-CHECKLIST.md:151`
 and `:206` are expected to still hold theirs when the round closes.
 
-## The fourteen further rulings taken while the batch ran (2026-08-25/26)
+## The eighteen further rulings taken while the batch ran (2026-08-25/27)
 
 These were taken after the eight above — six at the batch's opening, ruling 15 off the `E11`
 card, rulings 16 and 17 on the candidate the executor returned, rulings 18 and 19 at round 1's
 preclear, answering the observation both reviews reported and then turning its test on this
-round's own output, and rulings 20–22 off round 2's `E11` card. This file is their carrier
-on the same terms.
+round's own output, rulings 20–22 off round 2's `E11` card, and rulings 23–26 off round 3's.
+This file is their carrier on the same terms.
 
 9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K L M** — prose,
    one file deletion and two new files, no frozen bytes and no code; it is what delivers the
@@ -232,6 +232,40 @@ on the same terms.
     rider rows whose 量程 anchors name `CORE-SET.md` (`checklist-cited-not-carried` ·
     `figure-units` · `onboarding-carries-construction`) and touches **no member bytes**; keeping
     `CORE-SET.md` would instead edit `document-harness/README.md:24`, a product-tier member.
+
+23. **Both of round 3's opening-read lows bank; neither takes a round now.** `L-1` — contract v4
+    `:36`'s wikilink, the one followable cross-tier link round 2's own demotion criterion reaches
+    and `HD-61`'s enumeration missed — banks as `contract-wikilink-tier` on `HD-20`'s `E2`
+    override rather than `R10`'s ordinary channel, since the bytes sit on a frozen path and both
+    authorisations that could have carried them were consumed in round 2. It shares
+    `sig-write-once`'s redeem arm: **one `E2` write window closes both**. `L-2` — that `R9`'s
+    terminal *rides the next batch* branch names no carrier, measured to have lost one finding
+    already — banks as `r9-terminal-no-carrier` against a round-eligible surface, beside
+    `wl-route`, which is the adjacent question of where a *byte-supplied* wording-level finding
+    goes where this is where a *byte-less* one lives after being sent to "the next batch".
+24. **Item H changes the constant's *value*, not its identifier.** Ruling 7's wording is that
+    `DEFAULT_REVIEW_RECORD_DIRS` "is renamed", and the item's body changes the tuple it holds —
+    the directory. Renaming the *identifier* would produce no caller migration at all, which is
+    the thing ruling 7 accepts a one-time migration for, so the value is what moves.
+25. **Item H's migration is recorded in this repository and written nowhere else.** No commit of
+    this batch reaches into a caller's tree. The known caller applies the advice itself, when it
+    chooses to. **The premise this ruling was taken against is a measurement that corrects the
+    item's own text** (2026-08-27, orchestrator, read-only): the item says an existing caller
+    keeps working because its declaration already exists and only a fresh clone loses it. The
+    known caller — `D:/Thesis-stage-control-refactor`, branch `document-work-assurance-v3`, the
+    instrument mounted at `ResearchSystem/harness` — **has no `.harness/scan-surfaces.json` at
+    all**, in neither the main tree nor the worktree, to depth 3. It does hold review records in a directory of its own,
+    bearing the same name as the default this item changes and held by that caller. So there is no declaration to lose
+    and no fresh clone required: changing the default stops that caller's existing records being
+    recognised **at once**. The hazard is nearer than the item states, and the round says so
+    rather than repeating the older sentence.
+26. **The battery count will fall, and the round states both figures.** `test_package_and_review.py`
+    is 1,461 lines / 56 tests at round 3's base and most of it retires with the leg it tests. A
+    suite dropping from 854 without the closeout saying what left reads as lost coverage. Measured
+    beside it and belonging to item G: `review.py`'s `package_digest` is reached only through
+    `flow.py`'s `review_binding`, and `review_binding` has **no caller anywhere** — its own
+    definition, its `__all__` entry and one docstring mention in `review_subject.py` are the whole
+    of it, so it is v1 dead surface and goes with the leg. Re-derive before deleting.
 
 Ruling 14 is recorded at length because the touch condition genuinely arrives in round 1 and the
 choice not to redeem is a deviation a reviewer will otherwise flag: item A edits
@@ -502,8 +536,17 @@ this repository's own rounds — and what those read is the plan and the index.
   `package_digest` · `members_by_role` · `check_package` · `verify_member_bytes` ·
   `load_package`. Decide per function whether the v2 path still calls it before deleting;
   `review_result_v2.py` is the v2 side.
-- Tests: the package-and-review suite under `tooling/tests/document_harness_review/`, plus the
-  v2-subject CLI suite and the fix-round-locks suite, which also reference the package.
+- **Measured at round 3's base `b737742`, and re-derive rather than trust it.** Outside `review.py`
+  and the tests, the only live call sites are `cli.py`'s v1 branch and **one indirection**:
+  `package_digest` is reached through `flow.py`'s `review_binding`, and `review_binding` has no
+  caller anywhere — its definition, its `__all__` entry and a docstring mention in
+  `review_subject.py` are the whole of it. So it is v1 dead surface and goes with the leg
+  (ruling 26). The `check_package` hits in `flow.py`, `review_result_v2.py` and
+  `review_subject.py` are comments and docstrings, not calls.
+- Tests: the package-and-review suite under `tooling/tests/document_harness_review/` — **1,461
+  lines / 56 tests** at `b737742` — plus the v2-subject CLI suite and the fix-round-locks suite,
+  which also reference the package. **The closeout states the battery before and after** rather
+  than letting a count fall from 854 unexplained (ruling 26).
 - **Do not touch `schema/document-assurance-v3/review.schema.json`** — `E2`-frozen.
 - Removing a CLI *option* has the shape `HD-47` rules per-case for a command; ruling 6 covers it.
 
@@ -511,13 +554,19 @@ this repository's own rounds — and what those read is the plan and the index.
 
 - `tooling/rsclib/document_harness/caller.py:50` — the old migration directory default becomes
   `("assurance/review-records/",)`, matching the shape of `DEFAULT_SPECIFICATION_SURFACE`.
-- **Migration hazard, and it is silent.** `dtw init` writes the defaults into
-  `.harness/scan-surfaces.json`, and `.harness/` is gitignored. An existing caller keeps working
-  where the declaration already exists (`init` refuses to overwrite), but **any fresh clone
-  loses the declaration**, and a re-run `init` writes the new default — at which point that
-  repository's existing records stop being recognised, with nothing to say so. Ruling 7 accepts
-  a one-time migration; the round states what it is — at minimum the known caller's declaration
-  written explicitly and the advice recorded in its policy file.
+  **The constant's value moves, not its identifier** (ruling 24).
+- **Migration hazard, and it is nearer than this item first wrote it.** `dtw init` writes the
+  defaults into `.harness/scan-surfaces.json`, and `.harness/` is gitignored. The original
+  sentence said an existing caller keeps working where the declaration exists and only a fresh
+  clone loses it. **Measured 2026-08-27 (ruling 25): the known caller has no declaration at
+  all** — no `.harness/scan-surfaces.json` in `D:/Thesis-stage-control-refactor` or its main
+  tree, to depth 3 — while it does hold review records in a directory of its own,
+  bearing the same name as the default this item changes and held by that caller. There is nothing to lose and no fresh
+  clone needed: changing the default stops those records being recognised at once. Re-measure
+  before writing; a caller's tree changes without this repository hearing about it.
+- **The migration is recorded here and written nowhere else** (ruling 25). No commit of this
+  round reaches into a caller's tree. What the round owes is the advice, stated where a caller
+  will meet it, plus the round's own record of why.
 - Prose sites naming the old directory need the same pass: `caller.py` docstrings, `REVIEW.md`'s
   record channel, and `ONBOARDING.md` where it appears.
 
@@ -611,7 +660,22 @@ this repository's own rounds — and what those read is the plan and the index.
   (`V-2`), and these checkboxes and the resume pointer stop being stale (`O-3`). Original text:
   dispatch the FULL over the round's range, walk the `E9` budget, land the record unchanged, close
   round 2.
-- [ ] 11. Open round 3 `CORE-SET-CODE` (items G and H).
+- [x] 11. **DONE — round 3 `CORE-SET-CODE` is OPEN.** Opening cold read at full weight, all nine
+  members end to end (1,648 lines), committed unchanged at `7135cd2`: **0 must-fix, 2 lows, 2
+  observations**. It also discharged round 2's deferred member-edit debt, contract v4 included.
+  The `E11` card was rendered and approved; rulings 23–26 came off it, and both lows banked
+  (bank 22 → 24). Original text: open round 3 `CORE-SET-CODE` (items G and H).
+- [ ] 12. Execute round 3. Dispatch a cold executor via `dtw dispatch --construction-executor`;
+  **item G in one commit** — the CLI's `--package` mode, `review.py`'s package half including the
+  `review_binding` indirection, the tests that go with them, and `REVIEW.md:93`'s pointer, whose
+  target item I deleted in round 1 under ruling 13 — and **item H in one commit**: the constant's
+  value, the prose sites naming the old directory, and the migration advice, recorded in this
+  repository only (ruling 25). The orchestrator hand-edits no work product (`HD-55`).
+- [ ] 13. Dispatch the FULL over the round's range, walk the `E9` budget, land the record
+  unchanged, close round 3 — and with it, batch `CORE-SET`.
+- [ ] 14. Batch closeout: the ledger's `CORE-SET` entry moves to CLOSED, and what the batch leaves
+  open is stated rather than implied — the product-run leg of step 6b's honesty cap, the riders
+  it banked, and the observations no round answered.
 
 ## Acceptance — round 1
 
@@ -687,12 +751,50 @@ Each shown by its command, not by a sentence. Figures are measurements and go st
 8. The round's FULL returned `REVIEWED_NO_BLOCKER`, or `CHANGES_REQUIRED` → one approved fix →
    VERIFY `REVIEWED_NO_BLOCKER`, with all three records committed unchanged.
 
+## Acceptance — round 3
+
+Each shown by its command, not by a sentence. Figures are measurements and go stale — re-run.
+
+1. **The v1 package leg is gone from the surfaces it lived on.** `dtw review --help` offers no
+   `--package`; `grep` over `tooling/rsclib/` finds no definition of the seven package-half
+   functions nor of `review_binding`; `REVIEW.md:93`'s pointer is retired, which also closes the
+   link ruling 13 left deliberately dangling in round 1.
+2. **Nothing the v2 path needs went with it.** The v2 review flow runs end to end — `dtw review
+   --subject` on a real subject — and the `review_result_v2.py` side is untouched except where a
+   deleted symbol forced a change, each such change named in the commit body.
+3. **The battery is green and both counts are stated**: the figure at round 3's base and the
+   figure after, with the difference attributed to the retired suite rather than left to look
+   like lost coverage (ruling 26).
+4. **`caller.py`'s default names no directory of this repository's own.** The constant's
+   identifier is unchanged (ruling 24); its value is `("assurance/review-records/",)`. The prose
+   sites naming the old directory — `caller.py`'s docstrings, `REVIEW.md`'s record channel,
+   `ONBOARDING.md` — say the new one.
+5. **The migration advice exists in this repository and nowhere else** (ruling 25): no commit of
+   this round touches a caller's tree, verified by the round's own diff.
+6. `layer_path_check.py`, `candidate_path_check.py` and `review_freeze_check.py` each exit 0 on
+   the staged tree, and the `E10` members resolve 9/9.
+7. **On a stripped tree the residual count falls to three**, all of them ruling 12's
+   construction-side citations — `REVIEW.md:93`'s two entries go with item G. State the number
+   rather than implying it.
+8. The round's FULL returned `REVIEWED_NO_BLOCKER`, or `CHANGES_REQUIRED` → one approved fix →
+   VERIFY `REVIEWED_NO_BLOCKER`, with all three records committed unchanged.
+
 ## Resume pointer
 
-当前指针: step 11 — **round 2 `CORE-SET-SIGNATURE` is CLOSED and nothing is waiting on the
-user.** Rounds 1 and 2 are both closed; only round 3 `CORE-SET-CODE` (items G and H) remains, and
-nothing blocks it. Step 6b is closed; the ledger's CLOSED-roll split is still open and blocks
-nothing.
+当前指针: step 12 — **round 3 `CORE-SET-CODE` is OPEN and nothing is waiting on the user.**
+Rounds 1 and 2 are closed. The opening cold read is discharged at full weight (`7135cd2`, 0
+must-fix, 2 lows both banked), the `E11` card is approved, and rulings 23–26 are recorded above.
+Step 6b is closed; the ledger's CLOSED-roll split is still open and blocks nothing.
+
+**This round touches code and tests, which no round of this batch has done before.** It needs no
+`E2` authorisation and must not acquire one: nothing in items G or H is on a frozen path, and
+`schema/document-assurance-v3/review.schema.json` — which holds both ReviewPackage and
+ReviewResult — is explicitly out of scope. If a fix appears to need those bytes, stop and put it
+to the user; `HD-20` routes it to a fresh recorded ruling, and rider `sig-write-once` plus
+`contract-wikilink-tier` are already waiting on that same window.
+
+**The next action is to dispatch a cold executor** — `dtw dispatch --construction-executor` —
+with items G and H and this plan.
 
 **What round 3's opening owes, measured rather than remembered.** Three in-repo members changed
 in round 2 — `document-harness/CONSTRUCTION-CHECKLIST.md`, `document-harness/README.md`, and
