@@ -28,8 +28,8 @@ from rsclib.document_harness import caller, paths
 # declaration, defaulting to the `dtw init` layout — so this matrix drives the DEFAULTS.
 # The first caller's `ResearchSystem/…`-prefixed layout is exercised as a declaration in
 # `test_caller_surfaces.py`, which is where these paths' old spellings went.
-RECORD = "migration/document-work-assurance-v3/v3-cold-read-0123abc.md"
-DISPATCH_NOTE = "migration/document-work-assurance-v3/v3-dispatch-foo.md"
+RECORD = "assurance/review-records/v3-cold-read-0123abc.md"
+DISPATCH_NOTE = "assurance/review-records/v3-dispatch-foo.md"
 # Hand-written product-run paths (E5): the returned record of a product run is two
 # artifacts — the migration record md AND the run's ReviewResult JSON (triage decision
 # user-decision-triage-e9-guard-record-vocabulary, 2026-08-01).
@@ -416,7 +416,7 @@ class CandidateScanScope(unittest.TestCase):
     EXPECTED_NOT_SCANNED = (
         "HARNESS-RIDERS.md",
         "journal/",
-        "migration/document-work-assurance-v3/",
+        "assurance/review-records/",
         "assurance/runs/",
         ".claude/",
         ".agents/",
@@ -427,7 +427,7 @@ class CandidateScanScope(unittest.TestCase):
     RECORD_PATHS = (
         "HARNESS-RIDERS.md",
         "journal/stranger-guards-2026-08-23.md",
-        "migration/document-work-assurance-v3/v3-review-full-abc1234.md",
+        "assurance/review-records/v3-review-full-abc1234.md",
         "assurance/runs/p5b-claims/instruction.md",
         ".claude/skills/vendored/SKILL.md",
         ".agents/skills/vendored/SKILL.md",

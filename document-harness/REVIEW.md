@@ -162,8 +162,10 @@ artifacts:
 2. **The review record** — the prose record of what you read, re-executed and found: a file
    named `v3-review-<round>-<subject short SHA>.md` (`<round>` = `full` | `verify`; repo
    naming precedent), written beside that run's other records in the caller's own
-   document-work-assurance-v3 migration directory. The caller holds it; this layer does not
-   write its path.
+   review-records directory — the shipped default names one inside the caller's assurance
+   tree, beside its runs tree, and a caller that keeps records elsewhere says so in its own
+   scan-surface declaration rather than editing this instrument. The caller holds it; this
+   layer does not write its path.
 
 The commit that lands the record is also the act that **deletes the dispatch freeze marker**
 `.harness/review-pending.json` — the marker was written when your subject was dispatched, and

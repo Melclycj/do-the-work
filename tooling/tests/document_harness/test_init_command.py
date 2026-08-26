@@ -137,7 +137,7 @@ class FreshTarget(unittest.TestCase):
                 '  "journal/"\n'
                 " ],\n"
                 ' "review_record_dirs": [\n'
-                '  "migration/document-work-assurance-v3/"\n'
+                '  "assurance/review-records/"\n'
                 " ],\n"
                 ' "specification_surface": [\n'
                 '  "assurance/runs/"\n'

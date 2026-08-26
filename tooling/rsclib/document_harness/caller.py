@@ -43,11 +43,32 @@ DECLARATION = ".harness/scan-surfaces.json"
 
 #: The defaults cover the layout `dtw init` creates plus the conventions the procedure
 #: states: the rider bank `init` copies to the target's root, the per-round `journal/`
-#: ONBOARDING item 5 names (deliberately not pre-created), the migration directory
+#: ONBOARDING item 5 names (deliberately not pre-created), the review-records directory
 #: `REVIEW.md`'s record channel names for returned records, and an `assurance/runs/` tree
 #: for the control planes a run's instruction is required to create.
+#:
+#: `DEFAULT_REVIEW_RECORD_DIRS` held `migration/document-work-assurance-v3/` until round
+#: `CORE-SET-CODE` (2026-08-27, user ruling 7). That was never a convention: it was the
+#: directory *this instrument's own* construction records happen to live in, carrying this
+#: repository's own history into every caller's factory setting — the same
+#: first-caller-layout defect round STRANGER-GUARDS closed one field over. The value moves
+#: and the identifier does not (user ruling 24), because renaming the identifier would
+#: change nothing for any caller and the point of the ruling is that something changes.
+#:
+#: **Migration, and it bites at once rather than on the next clone.** `dtw init` writes the
+#: defaults into the declaration, and `.harness/` is conventionally gitignored — so a caller
+#: that never ran `init`, or that lost `.harness/` to a fresh clone, has no declaration and
+#: is running on the values above. If such a caller keeps returned review records under the
+#: old directory, this change stops both guards recognising them from the moment the mount
+#: advances: `candidate_path_check` scans them as work products, and `review_freeze_check`
+#: refuses to admit the one commit `E9`'s window allows. The fix is one line in the caller's
+#: own tree and nothing in the instrument's — declare `review_record_dirs` with the
+#: directory the records are actually in, which is the adaptation `HD-34` asks a caller to
+#: record rather than the in-place instrument edit `HD-34` forbids. This instrument writes
+#: no caller's tree (user ruling 25); the advice is stated here and in `ONBOARDING.md`, and
+#: the caller applies it when it chooses to.
 DEFAULT_RECORD_SURFACE = ("HARNESS-RIDERS.md", "journal/")
-DEFAULT_REVIEW_RECORD_DIRS = ("migration/document-work-assurance-v3/",)
+DEFAULT_REVIEW_RECORD_DIRS = ("assurance/review-records/",)
 DEFAULT_SPECIFICATION_SURFACE = ("assurance/runs/",)
 
 

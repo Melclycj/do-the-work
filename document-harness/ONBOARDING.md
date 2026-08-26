@@ -148,7 +148,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 | **See** | `git config --get core.hooksPath` prints the directory. Then prove it fires rather than asserting it: stage a work product naming a path that exists nowhere, attempt a commit, read the exit code, and restore the file from a checksummed copy. A hook that has never been seen to block is a hook nobody has tested (`E4`). |
 | **Owner** | `README.md`'s *Local enforcement* row states what each guard does and that all of it is advisory and bypassable with `--no-verify` — automation, never a harness guarantee. Which guards a caller runs is the caller's choice: `candidate_path_check.py` (a path newly written into a work product resolves nowhere) and `review_freeze_check.py` (`E9`'s window: while `.harness/review-pending.json` exists, only record-family paths may land) are the two the caller that grew this harness runs from the submodule. `layer_path_check.py` is the instrument's own and runs **here**, in the repository whose nine members it names — the hook is `.githooks/pre-commit` at this repository's root, and a caller does not wire it. |
 
-Two things worth knowing before wiring, both measured rather than argued:
+Three things worth knowing before wiring, all measured rather than argued:
 
 - **An existence-guarded call can fail silently.** The caller's hook guards each call with
   `-f` and skips a missing script with no output at all — which is how a deleted check kept
@@ -167,6 +167,23 @@ Two things worth knowing before wiring, both measured rather than argued:
   products, and a record quoting the broken path it reports is blocked from landing — the
   deadlock the declaration exists to end. A declaration with a typo blocks loudly and
   never silently falls back to the defaults; the guards' refusal names the file.
+- **The shipped default for returned review records changed on 2026-08-27, and an existing
+  caller may have to act.** It used to name the directory this instrument's own construction
+  records live in — this repository's history, shipped as every caller's factory setting. It
+  now names a `review-records` directory inside the caller's own assurance tree, beside the
+  runs tree the specification surface already names. **Who is affected:** any caller with no
+  `.harness/scan-surfaces.json` — which is every caller that never ran `init`, and every
+  fresh clone of one that did, because that directory is gitignored per checkout — whose
+  returned records sit under the old directory. **What breaks, and when:** not on the next
+  clone but the moment the mount advances to a revision carrying this change, because a
+  caller with no declaration is running on the defaults right now. Its records are scanned
+  as work products by `candidate_path_check.py`, and `review_freeze_check.py` stops admitting
+  the one commit `E9`'s window allows, which is the deadlock the bullet above describes.
+  **What to do:** one line in the caller's own tree, never in the instrument — declare
+  `review_record_dirs` with the directory the records are actually in (running `dtw init` in
+  that checkout writes the defaults, which is the right move only if the records are at the
+  new default). This layer states the advice and writes nothing outside this repository; the
+  caller decides when to apply it.
 
 ## When the nine are done
 

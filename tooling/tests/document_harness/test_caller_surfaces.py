@@ -203,7 +203,7 @@ class TheFreezeGuardReadsTheDeclaration(unittest.TestCase):
         with TempRepo() as repo:
             write_marker(repo)
             declare(repo, "{not json")
-            stage(repo, {"migration/document-work-assurance-v3/v3-cold-read-0123abc.md": "r\n"})
+            stage(repo, {"assurance/review-records/v3-cold-read-0123abc.md": "r\n"})
             self.assertEqual(review_freeze_check.check(repo.root), 1)
 
     def test_no_marker_passes_whatever_the_declaration_says(self):  # negative control
