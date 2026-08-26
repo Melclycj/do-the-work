@@ -51,9 +51,11 @@
   breath — so work out at the start which side this session is on, and a request that
   belongs to the other side is flagged for the user to route, never absorbed.
 - **E2** Frozen bytes are **not written without a recorded user ruling**, and the list is
-  exactly this: contract v4 `dfc983d2…` (`contract/Document-Work-Assurance-Contract-v4.md`;
-  corrected from the signed blob `614932de…` under `HD-57`'s recorded ruling of 2026-08-23 —
-  the signed blob remains the signature object `HD-56` binds;
+  exactly this: contract v4 `5dfb7b64…` (`contract/Document-Work-Assurance-Contract-v4.md`;
+  moved on from `dfc983d2…` under the recorded rulings `HD-60` / `HD-61` of 2026-08-26, which
+  themselves moved on from the signed blob `614932de…` under `HD-57`'s recorded ruling of
+  2026-08-23 — the signed blob remains the signature object `CONTRACT-V4-SIGNATURE.md` binds,
+  that record having succeeded `HD-56` as the carrier on 2026-08-26;
   its merged sources — the v3 contract `b2dbdf75…` and the two supersessions
   `68031fa2…` / `e1a2f26b…` — left the tree with round `CONTRACT-V4`; their bytes are
   immutable in history at those blobs and are not what this list governs), and every file the

@@ -30,7 +30,10 @@
 ## §live —— 必读（在 force，且没有别的东西替它说话）
 ### HD-61 · `E2` recorded ruling：准予轮 2 一并写契约 v4 的五处引用降名
 - 2026-08-26 · user · scope: one-shot（与 `HD-60` 同随轮 2 的契约写入消耗 retire；消耗前仍可
-  supersede）· status: **live**（授权已给、尚未应用——轮 2 开轮当日给出）
+  supersede）· status: **live**（授权已给、尚未应用——轮 2 开轮当日给出。**追注 2026-08-26**：
+  授权已由轮 `CORE-SET-SIGNATURE` 的 item F commit 应用完毕，五处降名与 `HD-60` 的三处改址落在
+  同一次契约写入；按 one-shot 的消耗条件本条应转 `retired`，但**状态只有用户能翻、session 只能
+  提议**（本文件头部不变量 + `E1`/`R5`），故本行只记消耗事实、不翻状态）
 - 裁决：除 `HD-60` 授权的签字改址三处之外，准许轮 `CORE-SET-SIGNATURE` 在**同一次契约写入**里
   一并降名**五处引用**——`:25` `:27` `:30` `:253` 四处指向本仓 `migration/` 的节点与签字记录
   （N0 记录 · W2 记录 · supersession-2 签字记录），`:32` 一处指向
@@ -54,7 +57,11 @@
 
 ### HD-60 · `E2` recorded ruling：准予轮 2 写契约 v4 的签字改址字节
 - 2026-08-26 · user · scope: one-shot（轮 2 写入并更新 `E2` 字面量后消耗 retire；消耗前仍可
-  supersede）· status: **live**（授权已给、尚未应用——轮 2 未开）
+  supersede）· status: **live**（授权已给、尚未应用——轮 2 未开。**追注 2026-08-26**：轮 2 已开，
+  授权已由 `CORE-SET-SIGNATURE` 的 item F commit 应用完毕——三处改址落定，随行义务三件同 commit
+  兑现：① `E2` 的 v4 字面量已更新为 `5dfb7b64…` · ② 签字对象仍为 `614932de…`、v4 未重签 ·
+  ③ 新载体 `CONTRACT-V4-SIGNATURE.md` 与 `HD-56` 转 `superseded` 的双向指针同 commit。按 one-shot
+  的消耗条件本条应转 `retired`，但**状态只有用户能翻、session 只能提议**，故本行只记消耗事实）
 - 裁决：准许轮 `CORE-SET-SIGNATURE`（批 `CORE-SET` 轮 2，item F）写入
   `contract/Document-Work-Assurance-Contract-v4.md` 的字节，**限于签字载体改址这一件**。站点三处，
   写入前由 executor 自行复核、不以本条为准：frontmatter 的 `signature_owner:` 字段 · 抬头
@@ -92,28 +99,6 @@
   的来历——本条的第一次应用，恰好是对本条第一次违反的更正。
 - basis: 用户裁决 2026-08-26（对话，答 `V-4` 经 `R5` 归口之问，并当场裁定追溯形态）·
   `v3-review-verify-0f0498f.md` `V-4` · rider `e9-pair-budget`（相邻的 `E9` 措辞分歧，不由本条兑付）
-
-### HD-56 · 契约 v4 已签署：单文件操作契约 + v4 入层 + 三源文件退役
-- 2026-08-23 · user · scope: standing · status: **live**（本条即签字记录本身——v4 按
-  governance-scan 判据不携带自身审批状态，签字住这里，形状比照 `HD-35`/`HD-40`；`E2` 名单的
-  v4 blob 字面量与本条互为印证）
-- 裁决①（签字本体）：用户签署 `contract/Document-Work-Assurance-Contract-v4.md`（轮
-  `CONTRACT-V4`，经 FULL `28852a6` `CHANGES_REQUIRED` → 一次用户批准的修 `d0f185c` → VERIFY
-  `REVIEWED_NO_BLOCKER`，用户自述通读全文后签署）。**签字绑定字节 blob
-  `614932de40b841ec9777719aea88de04864eb67b`、sha256（blob 内容，LF，`git cat-file blob <id> |
-  sha256sum` 口径，按 `HD-40` 的更正）`1b1061cb…7a23fa`，339 行**。v4 自此为唯一操作契约文本，
-  合并取代三份已签源文件——v3（`b2dbdf75…`）· supersession-1（`68031fa2…`）· supersession-2
-  （`e1a2f26b…`）——三者按用户 2026-08-23 确认退役入 git 历史，字节按 `HD-44` 不可写。`E2`
-  冻结面自此 = v4 一件 + schema pack 十五件，共十六件。
-- 裁决②（v4 入层，落簿）：v4 为 `E10` 第九成员（用户 2026-08-23 裁，答 FULL `O-2` 经 `R5`
-  归口之问、履 `HD-21` 的记录义务；此前该裁决只活在修腿 commit `d0f185c` 正文，VERIFY 点名
-  欠簿，本条即其家）。v4 因此处于 `HD-20` 交叉——同时 `E2` 冻结与 `E10` 成员，其字节先欠
-  `E2` 的 recorded ruling。
-- 裁决③（豁免退役授权）：`governance-exemptions.json` 的契约条目（blob `b2dbdf75…`）退役；
-  该文件 retired 块所引的「removing decision」即本条。
-- basis: 用户签字 2026-08-23（对话「签字」，签前确认两次评审均实读 v4）· plan
-  `document-harness/plans/contract-v4.plan.md` D1–D10 · 记录
-  `v3-review-full-5f849da.md` · `v3-review-verify-d0f185c.md`
 
 ### HD-44 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写，不欠裁决
 - 2026-08-18 · user · scope: standing · status: **live**（`E2` 正文只说「三个 blob 加一个目录，

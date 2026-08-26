@@ -4,8 +4,12 @@
 > 原文照搬、不改写。不在任何必读范围内，grep 可达。本文件**超过 100 行**时询问用户一次
 > 要不要清（删除双条件合取 + 默认不删 + superseded 链永不可删，见主文件头部 HD-6）。
 >
-> **`HD-6` 的询问第四次已付：2026-08-26（`HD-54` 移入、移入后 309 行），执行者按纪律触发并转呈
-> orchestrator，本轮内未得答复；按「默认不删」执行——不清。下次触发点仍是下一次有条目移入本档时。**
+> **`HD-6` 的询问第五次已付，且是四次里第一次真拿到答复：2026-08-26（`HD-56` 移入、移入后本档
+> 345 行），用户裁**「不删」**——判据是 `HD-6` 的双条件合取不成立（`HD-54`→`HD-58`
+> 与本次的 `HD-56` 都是 `superseded` 链，该链永不可删），载体为 plan
+> `document-harness/plans/core-set.plan.md` 裁决 17。下次触发点仍是下一次有条目移入本档时。**
+> **第四次：2026-08-26（`HD-54` 移入、移入后 309 行），执行者按纪律触发并转呈
+> orchestrator，本轮内未得答复；按「默认不删」执行——不清。**
 > **第三次：2026-08-21（`HD-50` 移入、290 行），用户未答；按「默认不删」执行——不清。**
 > **第二次：2026-08-14（`HD-24` 移入、128 行），用户未答；同按默认不删。**
 > **第一次：2026-08-13（104 行触发），用户裁「不清」。** 判据实测：
@@ -307,3 +311,35 @@
 - basis: 用户裁决 2026-08-22（对话，预览卡三问之二）· plan `document-harness/plans/executor-charter.plan.md`
   §Open question 三选项 · FULL `v3-review-full-229f03f.md` `O-6`/`O-5`(b) · journal
   `document-harness/journal/executor-charter-2026-08-22.md` · superseded by `HD-58`
+
+### HD-56 · 契约 v4 已签署：单文件操作契约 + v4 入层 + 三源文件退役
+- 2026-08-23 · user · scope: standing · status: **superseded**（2026-08-26 轮
+  `CORE-SET-SIGNATURE` 由**根目录的 `CONTRACT-V4-SIGNATURE.md`** 取代——后继不是另一条 `HD`，
+  而是那份独立签字记录文件：用户裁决 2026-08-25（批 `CORE-SET` 裁决 5）判签字载体迁出决策簿，
+  故 `HD-30` 的「后继承载全文」由该文件承担，双向指针与本条状态翻转、与该文件的创建同一个
+  commit（`HD-2`），写入授权 `HD-60` 义务③。**签字本身未变**：绑定字节仍是
+  `614932de40b841ec9777719aea88de04864eb67b`，v4 不重签（批 `CORE-SET` 裁决 10）。
+  原 status：live——本条曾即签字记录本身，v4 按 governance-scan 判据不携带自身审批状态，
+  签字当时住这里，形状比照 `HD-35`/`HD-40`；`E2` 名单的 v4 blob 字面量与本条互为印证）
+- 裁决①（签字本体）：用户签署 `contract/Document-Work-Assurance-Contract-v4.md`（轮
+  `CONTRACT-V4`，经 FULL `28852a6` `CHANGES_REQUIRED` → 一次用户批准的修 `d0f185c` → VERIFY
+  `REVIEWED_NO_BLOCKER`，用户自述通读全文后签署）。**签字绑定字节 blob
+  `614932de40b841ec9777719aea88de04864eb67b`、sha256（blob 内容，LF，`git cat-file blob <id> |
+  sha256sum` 口径，按 `HD-40` 的更正）`1b1061cb…7a23fa`，339 行**。v4 自此为唯一操作契约文本，
+  合并取代三份已签源文件——v3（`b2dbdf75…`）· supersession-1（`68031fa2…`）· supersession-2
+  （`e1a2f26b…`）——三者按用户 2026-08-23 确认退役入 git 历史，字节按 `HD-44` 不可写。`E2`
+  冻结面自此 = v4 一件 + schema pack 十五件，共十六件。
+- 裁决②（v4 入层，落簿）：v4 为 `E10` 第九成员（用户 2026-08-23 裁，答 FULL `O-2` 经 `R5`
+  归口之问、履 `HD-21` 的记录义务；此前该裁决只活在修腿 commit `d0f185c` 正文，VERIFY 点名
+  欠簿，本条即其家）。v4 因此处于 `HD-20` 交叉——同时 `E2` 冻结与 `E10` 成员，其字节先欠
+  `E2` 的 recorded ruling。
+- 裁决③（豁免退役授权）：`governance-exemptions.json` 的契约条目（blob `b2dbdf75…`）退役；
+  该文件 retired 块所引的「removing decision」即本条。
+- **本条转 superseded 时，②③不随载体迁移、也不重裁**：②的承载是 `E10` 成员句本身（成员句一字
+  未动，`E10-sync` 不落地）；③已执行完毕，`governance-exemptions.json` retired 块仍援引本条 id，
+  按状态机 `superseded` 为 grep 可达而非必读，该援引照旧解析。后继文件把这两句照记一遍，
+  以免读者以为它们被静默丢掉。
+- basis: 用户签字 2026-08-23（对话「签字」，签前确认两次评审均实读 v4）· plan
+  `document-harness/plans/contract-v4.plan.md` D1–D10 · 记录
+  `v3-review-full-5f849da.md` · `v3-review-verify-d0f185c.md` · superseded by
+  `CONTRACT-V4-SIGNATURE.md`（本仓根目录）

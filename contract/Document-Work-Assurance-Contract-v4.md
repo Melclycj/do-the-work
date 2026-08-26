@@ -6,30 +6,31 @@ tags:
   - contract
   - document-work
 created: 2026-08-23
-signature_owner: HARNESS-DECISIONS.md (the v4 signature entry)
+signature_owner: CONTRACT-V4-SIGNATURE.md (this instrument's v4 signature record)
 ---
 
 # Document Work Assurance Contract v4
 
 > [!warning] Signature semantics
-> This contract becomes binding only when the user signs it. The signature is recorded
-> append-only as an `HD` entry in [`HARNESS-DECISIONS.md`](../HARNESS-DECISIONS.md), binding
-> this file's exact Git blob — this file never carries its own approval status or digest
-> (signed contracts are never amended in place; corrections create a versioned successor).
+> This contract becomes binding only when the user signs it. The signature is recorded, write-once
+> and after review, in `CONTRACT-V4-SIGNATURE.md` — held by this instrument's own construction
+> record and not by a repository that runs against it — binding this file's exact Git blob; this
+> file never carries its own approval status or digest (signed contracts are never amended in
+> place; corrections create a versioned successor).
 
 This file is the **versioned successor merging the signed v3 contract and its two signed
 supersessions into one operative text**, under v3's own §13 rule. The merged sources are
-reachable in git history at their recorded blobs, each with its signature record still in
-this tree: `Document-Work-Assurance-Contract-v3.md`
-(`b2dbdf752d8c155e4c65b14b5f420b880b8184a1`; signed 2026-07-20, approval state at
-[N0 record §8](../migration/document-work-assurance-v3/N0/N0-record.md)), supersession 1 —
-commit-bound review subject (`68031fa2ca31272e31da0d42a9a02189d28fcc21`; signed 2026-07-24,
-record [W2-record](../migration/document-work-assurance-v3/W2/W2-record.md)), and
+reachable in git history at their recorded blobs, each with its own signature record — and those
+three records, like the plan named below, are held by this instrument's own construction record
+and not by a repository that runs against it: `Document-Work-Assurance-Contract-v3.md`
+(`b2dbdf752d8c155e4c65b14b5f420b880b8184a1`; signed 2026-07-20, approval state at the N0 record
+§8, `N0-record.md`), supersession 1 — commit-bound review subject
+(`68031fa2ca31272e31da0d42a9a02189d28fcc21`; signed 2026-07-24, record `W2-record.md`), and
 supersession 2 — narrowed state-pointer digests
 (`e1a2f26b1d8d323d11e900f8137dea222b6571c1`; signed 2026-07-30, record
-[supersession-2-signature](../migration/document-work-assurance-v3/supersession-2-signature.md)).
+`supersession-2-signature.md`).
 Where wording differs from those sources, the change is one of the enumerated deltas in
-`document-harness/plans/contract-v4.plan.md`; nothing else was rewritten.
+`contract-v4.plan.md`; nothing else was rewritten.
 
 Authored under the user-approved plan
 [[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]] (plan SHA-256
@@ -249,8 +250,9 @@ Signed v1/v2 contracts, schemas and history are immutable. All old directories d
 dependency map is amended. A4 (`f91a7c4`, closeout `de39b3d`) is accepted v2 history, labelled
 **historical-only-for-v3**: reachable source material, never a physical base or default dependency.
 
-The only nominated reuse candidates, with decisions and exact tests, are recorded in the
-[N0 administrative record §4](../migration/document-work-assurance-v3/N0/N0-record.md):
+The only nominated reuse candidates, with decisions and exact tests, are recorded in the N0
+administrative record §4 (`N0-record.md`, held by this instrument's own construction record and
+not by a repository that runs against it):
 canonicalization/content binding; closed JSON-schema validation; Git path/diff observation; frozen
 review-subject binding; one-repair/VERIFY limit.
 
@@ -337,6 +339,6 @@ state machines.
 User signature means: this contract's interfaces, enums, invariants, version boundaries and
 dependency map are frozen as the operative text for v3-family construction, and this file
 supersedes the v3 contract and its two supersessions as one operative document. The
-signature record (exact contract blob + date) lives as an `HD` entry in
-[`HARNESS-DECISIONS.md`](../HARNESS-DECISIONS.md), appended after review — never inside
-this file.
+signature record (exact contract blob + date) lives in `CONTRACT-V4-SIGNATURE.md`, held by this
+instrument's own construction record and not by a repository that runs against it, written after
+review — never inside this file.
