@@ -554,10 +554,17 @@ all five in-repo `E10` members changed this round (`CONSTRUCTION-CHECKLIST` · `
 `EXECUTION` · `REVIEW` · `ORCHESTRATION`), the free-channel bytes at `0420d99` included. If that
 opening narrows again, the citation baseline is `E10`'s — unchanged since **a** recorded
 end-to-end read, never since one nominated record; the opening read's `O-1` caught exactly that
-error here. Step 6b is also open (the stripped-tree mechanical check was never re-run). The next action is round 2 `CORE-SET-SIGNATURE` (item F),
-and **it cannot open until the user records the `E2` ruling that authorises writing contract v4's
-bytes** — ruling 10 settled the signature question, not the freeze question, and `E2` admits no
-exception for a change its author considers safe. Round 3 `CORE-SET-CODE` (items G, H) follows.
+error here. Step 6b is also open (the stripped-tree mechanical check was never re-run), and so is the ledger's
+CLOSED-roll split; neither blocks anything.
+
+**The next action is to open round 2 `CORE-SET-SIGNATURE`, scope items F and N**, under `HD-55`:
+cold read at full weight, then the `E11` card, then wait. **Nothing blocks it.** The `E2` write
+authorisation it needed is recorded as `HD-60` — one-shot, limited to the signature re-siting's
+three sites, and carrying three obligations that must ride the write in the *same* commit: update
+`E2`'s own v4 blob literal (writing the contract changes its blob), keep `HD-56` binding the
+signed blob `614932de…`, and land the new carrier together with `HD-56`'s supersession pointers.
+`HD-59` is also live and binds the round: a committed conclusion is never rewritten in place.
+Round 3 `CORE-SET-CODE` (items G, H) follows.
 
 ## Notes
 
