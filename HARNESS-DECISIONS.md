@@ -28,6 +28,47 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-60 · `E2` recorded ruling：准予轮 2 写契约 v4 的签字改址字节
+- 2026-08-26 · user · scope: one-shot（轮 2 写入并更新 `E2` 字面量后消耗 retire；消耗前仍可
+  supersede）· status: **live**（授权已给、尚未应用——轮 2 未开）
+- 裁决：准许轮 `CORE-SET-SIGNATURE`（批 `CORE-SET` 轮 2，item F）写入
+  `contract/Document-Work-Assurance-Contract-v4.md` 的字节，**限于签字载体改址这一件**。站点三处，
+  写入前由 executor 自行复核、不以本条为准：frontmatter 的 `signature_owner:` 字段 · 抬头
+  *Signature semantics* 警示块里指向决策簿的那句 · 文末「The signature record … lives as an `HD`
+  entry」那句。**`E2` 条款本身一字不改**——本条走的是 `E2` 自己写的第二条出路（"obtain the ruling
+  and write under it"），形状比照 `HD-57`。
+- 授权**不含**：契约的接口 / enum / invariant / 版本边界 / 依赖图，即签字所冻结的实质文本；
+  `schema/document-assurance-v3/` 十五件一件不碰。越出即「无裁决写入冻结面」。
+- 三件随行义务，缺一不可，且与写入**同 commit**：① 写入后契约 blob 改变，`E2` 名单里的 v4 字面量
+  `dfc983d2…` 当场更新为新 blob（`HD-57` 同形先例）· ② `HD-56` 绑定的**签字对象仍是 `614932de…`**，
+  不因载体改址而改（批 `CORE-SET` 裁决 10：搬载体不动被签字节）· ③ 新签字载体文件、与 `HD-56` 转
+  `superseded` 的双向指针，三者同一个 commit（`HD-30` 后继承载全文 + `HD-2` 状态翻转同 commit）。
+- 顺带闭合：上述三处里有两处是指向 `../HARNESS-DECISIONS.md` 的 markdown 链接，属轮 1 收轮时记在册
+  的「八条归轮 2」残留（journal `document-harness/journal/core-set-layer-2026-08-26.md` §2）。
+- basis: 用户裁决 2026-08-26（对话）· `E2` 的 "obtain the ruling and write under it" 条款 ·
+  `HD-20`（`E2` 冻结优先于 `E10` 自由通道，故本条是写入的前置）· `HD-57` 形状先例 · plan
+  `document-harness/plans/core-set.plan.md` 裁决 10 与 item F
+
+### HD-59 · 已提交的结论不就地改，只向前更正
+- 2026-08-26 · user · scope: standing · status: **live**（层内无承载：`E8` 的 commit 种类清单列了
+  errata、`E9` 的预算词汇却没有 errata 的位置，两处都不说「已提交的结论怎么办」；本条即那个答案，
+  且不靠给 `E9` 加位置来答）
+- 裁决：一个**已提交的结论**——journal 的判断、评审记录里的判定、commit 正文的断言——**不得就地
+  改写**。更正的形式是**向前新写一条**：新的 commit、新的记录、新的条目，或原处**另起一段**紧挨着
+  它，原文逐字留着，让「曾经这么判过」可被 grep。`E8` 的 errata 因此读作「另写一条更正」，不是
+  「回去改那句话」。
+- 后果：VERIFY `v3-review-verify-0f0498f.md` `V-4` 点名的结构性缺口就此关闭而**不开轮**——那个缺口
+  成立的前提是「FULL 之后要更正一个已提交的结论」这件事会发生，本条判它不该发生。`E9` 不加 errata
+  预算位置（`E6`：需要新机器的修，是重新质疑被守之物的信号）。
+- 边界：本条管**结论**。journal 的**数字**更正照旧走 `HD-23`（它自己的括号就把结论排除在外）；被
+  评审的 work product 在 FULL 之后的实质改动照旧是 `E9` 的修腿。
+- **追溯到已发生的那一例，用户 2026-08-26 裁「改严格」**：轮 `CORE-SET-LAYER` 的 `0f0498f` 就地
+  改写了该轮 journal §6 的结论（该次改写已计入该轮修腿的第二次消耗，收轮 `83aecd4` 写明，不因复原
+  而退还）。本条的应用批把该段**逐字复原自 `92cc514`**，更正另起一段紧挨其后，并在那段里写明它自己
+  的来历——本条的第一次应用，恰好是对本条第一次违反的更正。
+- basis: 用户裁决 2026-08-26（对话，答 `V-4` 经 `R5` 归口之问，并当场裁定追溯形态）·
+  `v3-review-verify-0f0498f.md` `V-4` · rider `e9-pair-budget`（相邻的 `E9` 措辞分歧，不由本条兑付）
+
 ### HD-56 · 契约 v4 已签署：单文件操作契约 + v4 入层 + 三源文件退役
 - 2026-08-23 · user · scope: standing · status: **live**（本条即签字记录本身——v4 按
   governance-scan 判据不携带自身审批状态，签字住这里，形状比照 `HD-35`/`HD-40`；`E2` 名单的
