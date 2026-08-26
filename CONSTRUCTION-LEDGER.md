@@ -37,18 +37,32 @@
 > `.goals/LEDGER.md`. Those tokens resolve in the caller, not here, and are left exactly as they
 > were written; the same rule as the archive's title.
 >
-> **How long this file may get: 180 lines, discipline only — no machine enforces it here.** The
-> caller's `ledger_cap_check.py` is pinned to the literal string `ResearchSystem/HARNESS-LEDGER.md`
-> and is the caller's machine, not this repository's (io-design §5); this repository's tracked
-> hook runs `layer_path_check.py` alone, and this file is not an `E10` member, so nothing sees it.
-> A second checker would be new machinery for a file with one writer, which `E6` names as the
-> signal to re-question rather than to guard. The bound is not the caller's 120: that 120 was set
-> on a file carrying *both* accounts, which measured 113 lines at the split, and this file is the
-> construction half alone — it measured 130 before this paragraph existed and `wc -l` at the
-> commit that declares the bound is the figure to trust. 180 leaves room for several CLOSED-roll
-> entries and nowhere near enough to absorb a round's narrative, which is the blocked event, the
-> same one the caller's cap names: the 20-to-300-line session, not line 181. When it is reached,
-> move the oldest closed material into the archive; never compress meaning out of a live pointer.
+> **How long this file may get — measured per entry, not in lines (user ruling 2026-08-26):
+> every top-level entry ≤ 2,500 characters, and ≤ 20 top-level entries.** Discipline only, no
+> machine enforces it here: the caller's `ledger_cap_check.py` is pinned to the literal string
+> `ResearchSystem/HARNESS-LEDGER.md` and is the caller's machine, not this repository's
+> (io-design §5); this repository's tracked hook runs `layer_path_check.py` alone, and this file
+> is not an `E10` member, so nothing sees it. A second checker would be new machinery for a file
+> with one writer, which `E6` names as the signal to re-question rather than to guard.
+>
+> **Why the unit changed, measured 2026-08-26.** The bound was 180 lines, and the file reached it
+> while the thing it exists to stop had already happened *inside* a line: one entry — the CLOSED
+> roll — is a single line of 26,110 UTF-8 bytes / 16,171 characters, **48.9% of the file's bytes**,
+> and **56.7% of all entry content**, where the next largest entry is 2,405 characters. A
+> line-count bound cannot see growth that never adds a line, and the blocked event this paragraph
+> has always named is the 20-to-300-line session, not line 181. Characters per entry can see it;
+> lines never could. **2,500 is calibrated on this tree rather than chosen**: every entry except
+> the CLOSED roll is under it, the largest at 2,405. 20 entries against today's 17 leaves room for
+> the batches in flight and nowhere near enough to absorb a round's narrative.
+>
+> **The new bound fires on the day it is written, and that is it working.** The CLOSED roll
+> breaches at 16,171 characters. The remedy is the one this header has always named: move the
+> oldest closed material into the archive — which the archive permits, its own marking forbidding
+> *appended narrative* (a round's narrative belongs in its review record and commit body) and not
+> the relocation of closed pointer material, which is how that file came to exist at all
+> ("Moved verbatim, nothing deleted, nothing retyped"). **That split is its own ledger batch**,
+> gated by a user ruling under the 2026-08-03 rule rather than by a round, and it is not the round
+> that wrote this paragraph. Never compress meaning out of a live pointer.
 
 ## ▶ 当前指针 — 只放指针与未结裁决（理由与叙事进各轮 commit 正文 / round record）
 
