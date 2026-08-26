@@ -1,8 +1,8 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
 > **Status: round 1 CLOSED 2026-08-26; batch open (rounds 2 and 3 remain).** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
-> is the carrier of the eighteen user rulings of 2026-08-25/26** below — eight taken before the
-> batch opened and ten while it ran: until they landed here they lived
+> is the carrier of the nineteen user rulings of 2026-08-25/26** below — eight taken before the
+> batch opened and eleven while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
 > tree, which is chat-only load-bearing material and a finding under `R2`. A cold session reads
 > this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
@@ -97,11 +97,12 @@ token — from `ORCHESTRATION.md`, `EXECUTION.md`, `CONSTRUCTION-CHECKLIST.md` o
 into the three registers. Bare names survive by design**, and `CONSTRUCTION-CHECKLIST.md:151`
 and `:206` are expected to still hold theirs when the round closes.
 
-## The ten further rulings taken while the batch ran (2026-08-25/26)
+## The eleven further rulings taken while the batch ran (2026-08-25/26)
 
 These were taken after the eight above — six at the batch's opening, ruling 15 off the `E11`
-card, rulings 16 and 17 on the candidate the executor returned, and ruling 18 at the session's
-preclear, answering the observation both reviews reported. This file is their carrier
+card, rulings 16 and 17 on the candidate the executor returned, and rulings 18 and 19 at the session's
+preclear, answering the observation both reviews reported and then turning its test on this
+round's own output. This file is their carrier
 on the same terms.
 
 9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K L M** — prose,
@@ -188,6 +189,16 @@ on the same terms.
     three registers in both, the migration records as one row in one and four in the other — and
     `CORE-SET.md:61` carries a row whose whole content is a pointer to the other file, noting it
     was "created alongside this file".
+
+19. **Item N's scope widens from a structural merge to a reduction, because the consumer test was
+    applied to `CORE-SET.md` itself and it failed.** Asked who reads it, the answer measured to
+    nobody: zero machine references, no route to it from `ONBOARDING.md`, and every citation
+    either its sibling file, a finding about its own defects, or itself. The list was written for
+    an operation this batch put out of scope. So the merge also returns it to inventory form and
+    sends its argumentation to this plan, where the reasoning already lives. **This is the same
+    test the ledger's new admission rule states**, applied for once to a file this round created
+    rather than to a finding it received — a thing with no reader and no moment when anyone would
+    read it accumulates instead of resolving, whatever its subject.
 
 Ruling 14 is recorded at length because the touch condition genuinely arrives in round 1 and the
 choice not to redeem is a deviation a reviewer will otherwise flag: item A edits
@@ -372,19 +383,36 @@ Sites are at `5425fa2`.
   round yet, so it consumes no budget leg and owes no targeted VERIFY. The commit body says so,
   because `E9` warns that every recorded escape from the cap was a renamed round.
 
-### N — `CORE-SET.md` and `CONSTRUCTION-INDEX.md` become one file *(round 2, ruling 18)*
+### N — the two root files become one construction-side index, in inventory form *(round 2, rulings 18 and 19)*
 
-- One file, two sections: what a caller carries, and what stays here. The construction-side tier
-  and the index over it are the same list at two levels of detail — merge the detail into the
-  tier rather than keeping a file whose purpose is to be pointed at.
-- `document-harness/README.md`'s pointer row (item D left one) repoints to the surviving file, and
-  so does `CORE-SET.md:61`'s self-referential row, which disappears with the merge.
-- Which name survives is the round's to decide and the `E11` card's to show; `HD-21` falls due
-  either way — the surviving file records whether it is an instruction-layer member (it is not)
-  in the commit that creates it.
-- **Not a licence to re-open what round 1 settled.** The merge is structural: no row's *content*
-  is re-litigated, and the sufficiency claim, its stated gap and the tier membership all carry
-  over as written. A row that needs its content changed is a separate finding, not this item.
+**Measured before the scope was set, and it is the reason the scope changed.** `CORE-SET.md` has
+**no consumer today**. No machine reads it — `git grep` over `tooling/`, `assurance/`, `.githooks/`
+and `.github/` returns zero. `ONBOARDING.md`, the document a new caller actually walks, does not
+mention it. Every reference to it is one of three things: the sibling file created in the same
+commit, three rider rows recording its own defects, the round journal measuring it, and its own
+line 62. The operation that would read such a list — building or shipping the core set — is
+explicitly out of this batch's scope, so the list was written for a reader who does not exist yet.
+And line 62 already settles which side it is on: *"it describes the split; it is not part of what
+travels"*. A file a caller never receives cannot be for callers, so its only possible consumer is
+this repository's own rounds — and what those read is the plan and the index.
+
+- **Merge** `CORE-SET.md` into `CONSTRUCTION-INDEX.md` (name is the round's to pick and the `E11`
+  card's to show). One file, construction side, two tiers plus the index rows.
+- **Reduce both tiers to inventory**: which files, and where. The *why* column goes or collapses
+  to a clause — measured at **62% of the table's characters** today, 2,418 against 1,460 of actual
+  locating information.
+- **The two prose blocks move to this plan**: *Why an explicit list* (directory is not the
+  boundary) and *What it is not*. This plan already carries the first — ruling 11 and the
+  measurement under *Open questions* say it — so keeping a second copy is the drift the ledger
+  header names.
+- **`HD-21`'s question and answer stay**, in the surviving file: whether it is an
+  instruction-layer member, and that it is not. That sentence is mandated, not optional.
+- **Size is the check, not the intent**: `CORE-SET.md` is 82 lines / 7,646 characters today, of
+  which 47 lines / 3,413 characters are prose around an 18-row list. The merged file should land
+  well under 2,000 characters of its own prose; state the measurement rather than the aim.
+- **Still not a licence to re-open what round 1 settled.** Tier membership, the bounded
+  sufficiency claim and its stated gap carry over as written. A row whose *content* is wrong is a
+  separate finding, not this item.
 
 ### F — contract v4's signature moves out of the decision log *(round 2)*
 
