@@ -112,25 +112,37 @@ sentence `E3` already contains.
 
 - **`CONSTRUCTION-LEDGER.md` stands at exactly 180 lines, its own declared bound.** The header
   says to move the oldest closed material into the archive when the bound is reached; the archive
-  is marked *read-only, do not continue writing*. **This journal first called those two
-  instructions contradictory, and that was wrong** — the archive forbids *appending narrative*,
-  giving its own reason (a round's narrative belongs in its review record and commit body), while
-  the header prescribes *moving closed material*, which is not authoring narrative and is exactly
-  how the archive came to exist ("Moved verbatim, nothing deleted, nothing retyped"). The header's
-  remedy is available.
-  **What the measurement did show is worse than a contradiction: the bound does not measure what
-  it is for.** The file is 180 lines and **53,609 bytes**, and **one line — the CLOSED roll —
-  is 26,110 UTF-8 bytes / 16,171 characters, 48.9% of the file's bytes**. Across the 17 top-level
-  entries that entry holds **56.7% of all entry content by characters** (55.6% by bytes), the next
-  largest being 2,405 characters / 4,060 bytes. **Units are given on both sides deliberately**:
-  this paragraph first set 26,110 beside 2,405 without saying that the first was bytes and the
-  second characters, which read as a 10.9x gap where like for like it is 6.7x — the VERIFY's `V-1`,
-  and `HD-23` routes a journal number outside the fix leg. The byte totals are worktree bytes under
-  `core.autocrlf=true` and move with the checkout; the ratios and the conclusion do not. A line-count bound cannot see growth
-  that happens *inside* an existing line, which is where all of it happened; the header's own
-  stated target is "the 20-to-300-line session, not line 181". The user ruled on 2026-08-26 that
-  the bound changes its unit — bytes or entry count rather than lines. That change is not this
-  round's and lands as its own commit, so the round's diff stays what the FULL reviewed.
+  is marked *read-only, do not continue writing*. The two instructions cannot both be followed.
+  The round did not resolve it and did not grow the file — item E's edit was net-neutral — but the
+  next write to that file owes an answer.
+
+  > **Correction, written forward and not in place (`HD-59`, 2026-08-26).** The sentence above —
+  > "the two instructions cannot both be followed" — is **wrong**, and it stands as written
+  > because a committed conclusion is corrected by a new statement beside it, never by rewriting
+  > it. The archive forbids *appending narrative*, and gives its own reason (a round's narrative
+  > belongs in its review record and commit body); it does not forbid relocating closed pointer
+  > material, which is not authoring narrative and is exactly how that file came to exist — its
+  > own first line reads "Moved verbatim, nothing deleted, nothing retyped". The header's remedy
+  > was available the whole time.
+  >
+  > **What the measurement did show is worse than the contradiction this round imagined: the
+  > bound did not measure what it is for.** At that commit the file was 180 lines and 53,609
+  > bytes, and one line — the CLOSED roll — was 26,110 UTF-8 bytes / 16,171 characters, 48.9% of
+  > the file's bytes; across the 17 top-level entries that one entry held 56.7% of all entry
+  > content by characters (55.6% by bytes), the next largest being 2,405 characters / 4,060
+  > bytes. A line-count bound cannot see growth that never adds a line, and this header's own
+  > stated target has always been the 20-to-300-line session rather than line 181. The user
+  > ruled on 2026-08-26 that the bound changes its unit; it did, at `4b72a68`, to characters per
+  > entry and a cap on entry count, and it fired on the CLOSED roll the day it was written.
+  >
+  > **This correction's own history, since that is the point of the rule.** The withdrawal first
+  > landed at `0f0498f` as an *in-place rewrite* of the paragraph above, which cost round
+  > `CORE-SET-LAYER` its fix leg a second time (VERIFY `V-4`, recorded in closeout `83aecd4`).
+  > `HD-59` then ruled that a committed conclusion is never rewritten in place, and this block is
+  > that ruling applied to its own first violation: the original paragraph restored verbatim from
+  > `92cc514`, the correction placed beside it. Byte figures here are worktree bytes under
+  > `core.autocrlf=true` and move with the checkout — rider `figure-units`.
+
 - **Four `ONBOARDING.md` Owner cells were not re-pointed**, banked as rider
   `onboarding-io-design-owners`. Their decisions live nowhere but `io-design.md`: the empty-instance
   shape, *deliberately not pre-created*, *the harness provides no template*, and the §5 carrier
