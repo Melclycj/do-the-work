@@ -28,6 +28,30 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-61 · `E2` recorded ruling：准予轮 2 一并写契约 v4 的五处引用降名
+- 2026-08-26 · user · scope: one-shot（与 `HD-60` 同随轮 2 的契约写入消耗 retire；消耗前仍可
+  supersede）· status: **live**（授权已给、尚未应用——轮 2 开轮当日给出）
+- 裁决：除 `HD-60` 授权的签字改址三处之外，准许轮 `CORE-SET-SIGNATURE` 在**同一次契约写入**里
+  一并降名**五处引用**——`:25` `:27` `:30` `:253` 四处指向本仓 `migration/` 的节点与签字记录
+  （N0 记录 · W2 记录 · supersession-2 签字记录），`:32` 一处指向
+  `document-harness/plans/contract-v4.plan.md`。降名＝路径形态去掉、名与持有者留下，与轮 1 的
+  item J / item M 同形。**站点由 executor 写入前自行复核，不以本条枚举为准。**
+- 为什么另立一条而不是改 `HD-60`：两条授权的**对象不同**——`HD-60` 授权的是签字载体改址，本条
+  授权的是引用降名；`HD-60` 无需收窄也无需推翻，故不走 `HD-30` 的后继承载，两条并存、各自消耗。
+  颗粒度按准入三问的「一条 = 一件能被独立推翻的事」：撤回本条不动签字改址，反之亦然。
+- 为什么一次写完而不分两轮：那五处与已授权的两处是**同一类缺陷**（产品档的契约指向调用者不携带的
+  材料），`E10` 自己写着「a channel narrowed to the reported instance leaves its siblings to be
+  found one re-read at a time」；分两轮写同一个文件的同一类字节，等于对同一个冻结面开两次写入
+  窗口。用户 2026-08-26 于轮 2 的 `E11` 卡上裁「一次写完」。
+- 授权**不含**：契约的接口 / enum / invariant / 版本边界 / 依赖图，即签字所冻结的实质文本；
+  `schema/document-assurance-v3/` 十五件一件不碰。越出即「无裁决写入冻结面」。
+- 随行义务：`HD-60` 义务①（写入后 `E2` 名单的 v4 blob 字面量当场更新为新 blob）**覆盖本条的
+  字节**——两条授权若落在同一个 commit，只更新一次；若分开落，后落的那个负责把字面量对齐。
+- basis: 用户裁决 2026-08-26（轮 2 `E11` 卡，选项 A）· `E2` 的 "obtain the ruling and write
+  under it" 条款 · `HD-60`（同轮同文件的姊妹授权）· plan
+  `document-harness/plans/core-set.plan.md` 裁决 12 与 item M · 冷读
+  `v3-cold-read-d3ba221.md`（同一次开轮读，独立点出 `HD-60` 比 item F 更窄）
+
 ### HD-60 · `E2` recorded ruling：准予轮 2 写契约 v4 的签字改址字节
 - 2026-08-26 · user · scope: one-shot（轮 2 写入并更新 `E2` 字面量后消耗 retire；消耗前仍可
   supersede）· status: **live**（授权已给、尚未应用——轮 2 未开）

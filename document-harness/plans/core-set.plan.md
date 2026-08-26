@@ -1,17 +1,18 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
-> **Status: round 1 CLOSED 2026-08-26; batch open (rounds 2 and 3 remain).** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
-> is the carrier of the nineteen user rulings of 2026-08-25/26** below — eight taken before the
-> batch opened and eleven while it ran: until they landed here they lived
+> **Status: round 1 CLOSED 2026-08-26; round 2 OPEN 2026-08-26; round 3 remains.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
+> is the carrier of the twenty-two user rulings of 2026-08-25/26** below — eight taken before the
+> batch opened and fourteen while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
 > tree, which is chat-only load-bearing material and a finding under `R2`. A cold session reads
 > this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 >
-> **Round 1 is open.** Its opening cold read is discharged (`9f1de08`, 0 must-fix) and the `E11`
-> card approved; the candidate is landing. The commits that carry *this file* are orchestrator
-> bookkeeping — a plan plus a ledger pointer entry, the ledger batch shape of 2026-08-03, whose
-> gate is the user ruling rather than a round; the candidate commits beside them are the cold
-> executor's.
+> **Round 2 `CORE-SET-SIGNATURE` is open.** Its opening cold read ran at **full weight** — all
+> nine members end to end, 1,644 lines, nothing resting on `E10`'s citation clause — and is
+> committed unchanged at `fc9c008`: **0 must-fix, 1 low, 3 observations**, no verdict, no budget
+> spent. The `E11` card was rendered and approved, and rulings 20–22 came off it. The commits
+> that carry *this file* are orchestrator bookkeeping, whose gate is the user ruling rather than
+> a round; the candidate commits beside them are the cold executor's.
 
 ## Goal (one line)
 
@@ -97,12 +98,12 @@ token — from `ORCHESTRATION.md`, `EXECUTION.md`, `CONSTRUCTION-CHECKLIST.md` o
 into the three registers. Bare names survive by design**, and `CONSTRUCTION-CHECKLIST.md:151`
 and `:206` are expected to still hold theirs when the round closes.
 
-## The eleven further rulings taken while the batch ran (2026-08-25/26)
+## The fourteen further rulings taken while the batch ran (2026-08-25/26)
 
 These were taken after the eight above — six at the batch's opening, ruling 15 off the `E11`
-card, rulings 16 and 17 on the candidate the executor returned, and rulings 18 and 19 at the session's
+card, rulings 16 and 17 on the candidate the executor returned, rulings 18 and 19 at round 1's
 preclear, answering the observation both reviews reported and then turning its test on this
-round's own output. This file is their carrier
+round's own output, and rulings 20–22 off round 2's `E11` card. This file is their carrier
 on the same terms.
 
 9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K L M** — prose,
@@ -199,6 +200,37 @@ on the same terms.
     test the ledger's new admission rule states**, applied for once to a file this round created
     rather than to a finding it received — a thing with no reader and no moment when anyone would
     read it accumulates instead of resolving, whatever its subject.
+
+20. **`document-harness/README.md:16` joins round 2's scope** — the `L-1` the opening cold read
+    routed to the user under `R5`. That sentence says the v4 signature state is `HD-56` and lives
+    in the decision log; it is **true at round 2's base** and goes false the moment round 2's
+    signature commit lands, since that commit moves the signature to a new carrier and flips
+    `HD-56` to `superseded`. Round 2's items reached it through none of their site lists — item F's
+    is contract v4 only, `HD-60`'s is narrower still, and item N touches no member — so a residual
+    round 1 disclosed and assigned to *this* round was assigned to a scope that did not contain it.
+    The other route the reader named (defer with a deadline a later round outlives) was not taken.
+    **The bank was never an option**: the deadline falls inside round 2 itself, which `R10` calls
+    malformed. **The executor writes the replacement bytes** — the reader deliberately supplied
+    none, because the sentence must name the new carrier and that file does not exist yet, so
+    writing its name at read time would have put a non-resolving path token in a member.
+21. **The `E2` write authorisation widens to the five citation sites, and round 2 writes the
+    contract once.** Recorded as **`HD-61`**, a standalone one-shot entry beside `HD-60` rather
+    than a supersession of it: the two authorise different objects — signature re-siting versus
+    citation demotion — so `HD-60` is neither narrowed nor overturned, and `HD-30`'s successor
+    machinery does not fall due. This closes the collision between this plan and `HD-60` that the
+    orchestrator's opening measurement and the cold read found independently: round 1 routed **8**
+    residuals here (7 in contract v4, 1 in `README.md:16`), item F carried in `:32` and item M
+    carried in the contract's four `migration/` citations, while `HD-60` authorised 「站点三处」.
+    Under `HD-61` all eight close in round 2. The reason for one write rather than two is `E10`'s
+    own sentence about a channel narrowed to the reported instance leaving its siblings to be
+    found one re-read at a time; two rounds writing the same class of bytes into the same frozen
+    file is two write windows on one frozen surface.
+22. **The merged file of item N keeps the name `CONSTRUCTION-INDEX.md`.** Ruling 19 already put
+    the material on the construction side, so the surviving name should say so. Measured cost of
+    each direction, which is what decided it: keeping `CONSTRUCTION-INDEX.md` re-points three
+    rider rows whose 量程 anchors name `CORE-SET.md` (`checklist-cited-not-carried` ·
+    `figure-units` · `onboarding-carries-construction`) and touches **no member bytes**; keeping
+    `CORE-SET.md` would instead edit `document-harness/README.md:24`, a product-tier member.
 
 Ruling 14 is recorded at length because the touch condition genuinely arrives in round 1 and the
 choice not to redeem is a deviation a reviewer will otherwise flag: item A edits
@@ -396,8 +428,14 @@ And line 62 already settles which side it is on: *"it describes the split; it is
 travels"*. A file a caller never receives cannot be for callers, so its only possible consumer is
 this repository's own rounds — and what those read is the plan and the index.
 
-- **Merge** `CORE-SET.md` into `CONSTRUCTION-INDEX.md` (name is the round's to pick and the `E11`
-  card's to show). One file, construction side, two tiers plus the index rows.
+- **Merge** `CORE-SET.md` into `CONSTRUCTION-INDEX.md`, **which is the name that survives**
+  (ruling 22, taken off round 2's `E11` card). One file, construction side, two tiers plus the
+  index rows. **The pointer surface that follows from that choice**: `CONSTRUCTION-INDEX.md:27`
+  and `CORE-SET.md:61`–`:62` dissolve into the merge; `document-harness/README.md:24` already
+  names `CONSTRUCTION-INDEX.md` and needs no edit — which is the point, since it is a
+  product-tier member; and **three rider rows re-point**, their 量程 anchors naming `CORE-SET.md`
+  today (`checklist-cited-not-carried` · `figure-units` · `onboarding-carries-construction`).
+  Re-derive that list before editing rather than trusting it.
 - **Reduce both tiers to inventory**: which files, and where. The *why* column goes or collapses
   to a clause — measured at **62% of the table's characters** today, 2,418 against 1,460 of actual
   locating information.
@@ -424,17 +462,33 @@ this repository's own rounds — and what those read is the plan and the index.
   delegating form and nothing ever opens the delegate. Precedent: this contract family's
   signature has lived in four carriers — the N0 record §8 (v3) · the W2 record (s1) · the
   supersession-2 signature record (s2) · `HD-56` (v4).
-- **Carried in from item J by ruling 12**: contract v4 `:32` cites
-  `document-harness/plans/contract-v4.plan.md`. The contract is product-facing so the citation
-  must go, but its bytes are `E2`-frozen, so the demotion rides this round and not round 1.
+- **The five citation demotions ride the same write (ruling 21, `HD-61`).** Contract v4 `:32`
+  cites `document-harness/plans/contract-v4.plan.md` (carried in from item J by ruling 12), and
+  `:25` `:27` `:30` `:253` cite this repository's N0 record, W2 record and supersession-2
+  signature record (item M's shape, deferred here because the bytes are `E2`-frozen). Same
+  demotion as items J and M: the path form goes, the name and its holder stay. **Site numbers
+  here are this plan's measurement and not the authority** — the executor re-derives them before
+  writing, as `HD-61` says in as many words.
+- **`document-harness/README.md:16` lands in the signature commit (ruling 20).** It says the v4
+  signature state is `HD-56` and lives in the decision log — true until this round's signature
+  commit, false the instant after it, and reached by no other item's site list. It must therefore
+  ride the *same* commit as the signature move, not a later one: any gap is a window in which the
+  layer's navigation surface points at a superseded entry. The bytes are the executor's to write,
+  because the replacement has to name the new carrier and the reader could not name a file that
+  did not yet exist.
+- **`CONSTRUCTION-CHECKLIST.md:56` is reached by adjacency, not by scope** — `HD-60` obligation ①
+  forces this round to update `E2`'s v4 blob literal two lines above it, so the executor is
+  editing that clause with `:56` in view. It says "the signed blob remains the signature object
+  `HD-56` binds", which stays true under ruling 10; check it rather than assume it, and say so.
 - **`HD-56`'s state transition is this round's real risk, not the new file.** Ruling 10 settles
   that the move preserves the signature; what it does not do is write the pointers. `HD-56` goes
   to `superseded` with a successor carrying the signature in full, both directions of the
   pointer, in the same commit as the new carrier — `HD-30`'s invariant. Get that wrong and the
   signature is traceable through nothing.
-- **Still needs the user before any byte is written**: the `E2` recorded ruling. Ruling 10
-  answered the signature question, not the freeze question — they are separate, and `E2` admits
-  no exception for a change its own author considers safe.
+- **The `E2` authorisations exist and are two**: `HD-60` (signature re-siting, three sites) and
+  `HD-61` (the five citation demotions). Both are one-shot and both are consumed by this round's
+  contract write. `HD-60`'s obligation ① — update `E2`'s own v4 blob literal in the same commit —
+  covers both sets of bytes and is discharged once if they land together.
 
 ### G — the v1 package-bound leg retires *(round 3)*
 
@@ -510,8 +564,23 @@ this repository's own rounds — and what those read is the plan and the index.
   conclusions) and which was reviewed work product inside the FULL's range. User ruling
   2026-08-26 on the VERIFY's `V-4`. `E9`'s own sentence is why it is written down: every recorded
   escape from the cap was a renamed round.
-- [ ] 8. Open rounds 2 and 3 per the ruling from step 2, each with its own plan file if their
+- [x] 8. **DONE for round 2; round 3 still to open.** Round 2 `CORE-SET-SIGNATURE` is open under
+  `HD-55`: the opening cold read ran at full weight in its own `claude -p` session and is
+  committed unchanged at `fc9c008` (**0 must-fix, 1 low, 3 observations**, no verdict, no budget
+  spent), the `E11` card was rendered and approved, and rulings 20–22 came off it. No separate
+  plan file: round 2's shape is unchanged from the slicing of ruling 9 except for the two scope
+  widenings the card took, and both are recorded above rather than in a second file. Original
+  text: open rounds 2 and 3 per the ruling from step 2, each with its own plan file if their
   shape has changed by then.
+- [ ] 9. Execute round 2. Dispatch a cold executor via `dtw dispatch --construction-executor`;
+  **item F in one commit** — the new signature carrier, the contract write (three signature sites
+  under `HD-60` plus five citation demotions under `HD-61`), `E2`'s v4 blob literal,
+  `document-harness/README.md:16` per ruling 20, and `HD-56` → `superseded` with its successor
+  carrying the signature in full and both directions of the pointer — and **item N in one
+  commit**. The orchestrator hand-edits no work product (`HD-55`).
+- [ ] 10. Dispatch the FULL over the round's range, walk the `E9` budget, land the record
+  unchanged, close round 2.
+- [ ] 11. Open round 3 `CORE-SET-CODE` (items G and H).
 
 ## Acceptance — round 1
 
@@ -547,24 +616,50 @@ Each shown by its command, not by a sentence.
 7. The round's FULL returned `REVIEWED_NO_BLOCKER`, or `CHANGES_REQUIRED` → one approved fix →
    VERIFY `REVIEWED_NO_BLOCKER`, with all three records committed unchanged.
 
+## Acceptance — round 2
+
+Each shown by its command, not by a sentence. Figures are measurements and go stale — re-run.
+
+1. **The eight residuals round 1 routed here are closed, and the count is stated rather than
+   implied.** On a stripped tree, `sweep_refs.py`'s `LINK` + `PATHTOK` count over the nine members
+   drops by the seven contract sites; `document-harness/README.md:16` is the eighth and is not a
+   sweep hit but a truth claim, checked by reading it. The residual that **remains by ruling**
+   is `REVIEW.md:93` (two entries, one site), which item G retires in round 3.
+2. **The signature is traceable through the new carrier alone.** The new file exists beside
+   `contract/`; `HD-56` is `superseded` with both directions of the pointer written, and the
+   successor carries the signature in full — the signed blob still `614932de…`, unchanged by the
+   move (ruling 10). `git log -1` on that commit shows carrier, successor and pointer flip
+   **together**, per `HD-30` / `HD-2`.
+3. **`E2`'s v4 blob literal matches the contract's new blob**, in the same commit that wrote it
+   (`HD-60` obligation ①): `git rev-parse HEAD:contract/Document-Work-Assurance-Contract-v4.md`
+   equals the literal in `document-harness/CONSTRUCTION-CHECKLIST.md`.
+4. **`document-harness/README.md:16` is true after the signature commit, not before it**, and it
+   landed in that same commit (ruling 20). Read the line; it must name the new carrier and no
+   superseded entry.
+5. **One file at the root, not two.** `CORE-SET.md` is gone, `CONSTRUCTION-INDEX.md` carries both
+   tiers plus the index rows, its own prose measures well under 2,000 characters, `HD-21`'s
+   question and answer survive in it, and the three rider rows anchored on the old name re-point.
+   `document-harness/README.md:24` needs no edit — verify that it did not get one.
+6. `python -m pytest -q` green — report the run, not a remembered figure.
+7. `layer_path_check.py`, `candidate_path_check.py` and `review_freeze_check.py` each exit 0 on
+   the staged tree, and the `E10` members resolve 9/9.
+8. The round's FULL returned `REVIEWED_NO_BLOCKER`, or `CHANGES_REQUIRED` → one approved fix →
+   VERIFY `REVIEWED_NO_BLOCKER`, with all three records committed unchanged.
+
 ## Resume pointer
 
-当前指针: step 8 — round 1 is CLOSED, and **round 2's opening owes a full-weight cold read**:
-all five in-repo `E10` members changed this round (`CONSTRUCTION-CHECKLIST` · `README` ·
-`EXECUTION` · `REVIEW` · `ORCHESTRATION`), the free-channel bytes at `0420d99` included. If that
-opening narrows again, the citation baseline is `E10`'s — unchanged since **a** recorded
-end-to-end read, never since one nominated record; the opening read's `O-1` caught exactly that
-error here. Step 6b is also open (the stripped-tree mechanical check was never re-run), and so is the ledger's
-CLOSED-roll split; neither blocks anything.
+当前指针: step 9 — **round 2 `CORE-SET-SIGNATURE` is OPEN and nothing is waiting on the user.**
+The opening cold read is discharged at full weight (`fc9c008`, 0 must-fix), the `E11` card is
+approved, and rulings 20–22 are recorded above. Step 6b is closed (see step 6b); the ledger's
+CLOSED-roll split is still open and blocks nothing.
 
-**The next action is to open round 2 `CORE-SET-SIGNATURE`, scope items F and N**, under `HD-55`:
-cold read at full weight, then the `E11` card, then wait. **Nothing blocks it.** The `E2` write
-authorisation it needed is recorded as `HD-60` — one-shot, limited to the signature re-siting's
-three sites, and carrying three obligations that must ride the write in the *same* commit: update
-`E2`'s own v4 blob literal (writing the contract changes its blob), keep `HD-56` binding the
-signed blob `614932de…`, and land the new carrier together with `HD-56`'s supersession pointers.
-`HD-59` is also live and binds the round: a committed conclusion is never rewritten in place.
-Round 3 `CORE-SET-CODE` (items G, H) follows.
+**The next action is to dispatch a cold executor** — `dtw dispatch --construction-executor` —
+with items F and N, this plan, and the two `E2` authorisations. **Both are one-shot and both are
+consumed by the same contract write**: `HD-60` (signature re-siting, three sites, three riding
+obligations in the *same* commit — update `E2`'s v4 blob literal, keep `HD-56` binding the signed
+blob `614932de…`, land the new carrier with `HD-56`'s supersession pointers) and `HD-61` (the
+five citation demotions). `HD-59` also binds the round: a committed conclusion is never rewritten
+in place, only corrected forward. Round 3 `CORE-SET-CODE` (items G, H) follows.
 
 ## Notes
 
