@@ -645,6 +645,16 @@ Each shown by its command, not by a sentence. Figures are measurements and go st
    drops by the seven contract sites; `document-harness/README.md:16` is the eighth and is not a
    sweep hit but a truth claim, checked by reading it. The residual that **remains by ruling**
    is `REVIEW.md:93` (two entries, one site), which item G retires in round 3.
+
+   **Correction, written forward per `HD-59` with the sentence above left verbatim (2026-08-26,
+   the executor's measurement).** "Not a sweep hit but a truth claim" is wrong: `README.md:16` is
+   **both**. It is a member line that carried path-shaped citations into `migration/`, so the
+   sweep counted it, and round 1's journal §2 listed it among the thirteen for exactly that
+   reason. The arithmetic that follows from the correction is **13 → 5**, not the 13 → 6 the
+   original sentence implies. The five that remain: three allowed by ruling 12 (construction-side
+   documents may cite construction history — `CONSTRUCTION-CHECKLIST.md:6` and the two
+   retired-contract stubs at `:3`) and two entries at the single `REVIEW.md:93` site, dangling by
+   ruling 13 until item G retires the pointer in round 3.
 2. **The signature is traceable through the new carrier alone.** The new file exists beside
    `contract/`; `HD-56` is `superseded` with both directions of the pointer written, and the
    successor carries the signature in full — the signed blob still `614932de…`, unchanged by the

@@ -4,6 +4,13 @@
 > 原文照搬、不改写。不在任何必读范围内，grep 可达。本文件**超过 100 行**时询问用户一次
 > 要不要清（删除双条件合取 + 默认不删 + superseded 链永不可删，见主文件头部 HD-6）。
 >
+> **`HD-6` 的询问第六次已付：2026-08-26（`HD-61` 与 `HD-60` 移入、移入后本档 404 行）。**
+> 触发点即本次移入。**判据实测，删除的双条件合取不成立**：两条都仍被援引——plan
+> `document-harness/plans/core-set.plan.md` 的裁决 21 与 item F、轮 2 的开轮与 item F
+> commit 正文、以及冷读记录 `v3-cold-read-d3ba221.md` 都点名它们——故第一个条件
+> 「今后不会再被援引」对两条都为假，按**默认不删**执行。本次连同结论一并呈报用户，
+> 用户未另裁即维持不删。下次触发点仍是下一次有条目移入本档时。**
+>
 > **`HD-6` 的询问第五次已付，且是四次里第一次真拿到答复：2026-08-26（`HD-56` 移入、移入后本档
 > 345 行），用户裁**「不删」**——判据是 `HD-6` 的双条件合取不成立（`HD-54`→`HD-58`
 > 与本次的 `HD-56` 都是 `superseded` 链，该链永不可删），载体为 plan
@@ -17,6 +24,65 @@
 > `HD-13` 17 · `HD-26` 16 · `HD-29` 8 处，`grep` 排除本文件自身），故删除的第一个条件
 > 「今后不会再被援引」对每一条都不成立；其中三条 superseded（`HD-16`→`HD-28` · `HD-26`→`HD-31` ·
 > `HD-29`→`HD-33`/`HD-34`）另受「链永不可删」保护。下次询问的触发点是**下一次有条目移入本档时**。
+
+### HD-61 · `E2` recorded ruling：准予轮 2 一并写契约 v4 的五处引用降名
+- 2026-08-26 · user · scope: one-shot（与 `HD-60` 同随轮 2 的契约写入消耗 retire；消耗前仍可
+  supersede）· status: **retired**（2026-08-26 轮 `CORE-SET-SIGNATURE` 的 item F commit 消耗
+  完毕后由用户裁决转 `retired`，同日移入本档。**原 status：live**（授权已给、尚未应用——轮 2
+  开轮当日给出），其下的追注原文照搬、逐字不改：**追注 2026-08-26**：
+  授权已由轮 `CORE-SET-SIGNATURE` 的 item F commit 应用完毕，五处降名与 `HD-60` 的三处改址落在
+  同一次契约写入；按 one-shot 的消耗条件本条应转 `retired`，但**状态只有用户能翻、session 只能
+  提议**（本文件头部不变量 + `E1`/`R5`），故本行只记消耗事实、不翻状态）
+- 裁决：除 `HD-60` 授权的签字改址三处之外，准许轮 `CORE-SET-SIGNATURE` 在**同一次契约写入**里
+  一并降名**五处引用**——`:25` `:27` `:30` `:253` 四处指向本仓 `migration/` 的节点与签字记录
+  （N0 记录 · W2 记录 · supersession-2 签字记录），`:32` 一处指向
+  `document-harness/plans/contract-v4.plan.md`。降名＝路径形态去掉、名与持有者留下，与轮 1 的
+  item J / item M 同形。**站点由 executor 写入前自行复核，不以本条枚举为准。**
+- 为什么另立一条而不是改 `HD-60`：两条授权的**对象不同**——`HD-60` 授权的是签字载体改址，本条
+  授权的是引用降名；`HD-60` 无需收窄也无需推翻，故不走 `HD-30` 的后继承载，两条并存、各自消耗。
+  颗粒度按准入三问的「一条 = 一件能被独立推翻的事」：撤回本条不动签字改址，反之亦然。
+- 为什么一次写完而不分两轮：那五处与已授权的两处是**同一类缺陷**（产品档的契约指向调用者不携带的
+  材料），`E10` 自己写着「a channel narrowed to the reported instance leaves its siblings to be
+  found one re-read at a time」；分两轮写同一个文件的同一类字节，等于对同一个冻结面开两次写入
+  窗口。用户 2026-08-26 于轮 2 的 `E11` 卡上裁「一次写完」。
+- 授权**不含**：契约的接口 / enum / invariant / 版本边界 / 依赖图，即签字所冻结的实质文本；
+  `schema/document-assurance-v3/` 十五件一件不碰。越出即「无裁决写入冻结面」。
+- 随行义务：`HD-60` 义务①（写入后 `E2` 名单的 v4 blob 字面量当场更新为新 blob）**覆盖本条的
+  字节**——两条授权若落在同一个 commit，只更新一次；若分开落，后落的那个负责把字面量对齐。
+- basis: 用户裁决 2026-08-26（轮 2 `E11` 卡，选项 A）· `E2` 的 "obtain the ruling and write
+  under it" 条款 · `HD-60`（同轮同文件的姊妹授权）· plan
+  `document-harness/plans/core-set.plan.md` 裁决 12 与 item M · 冷读
+  `v3-cold-read-d3ba221.md`（同一次开轮读，独立点出 `HD-60` 比 item F 更窄）
+
+- **retired 2026-08-26**（用户裁决：两条 one-shot 授权已由轮 `CORE-SET-SIGNATURE` 的 item F commit 消耗完毕，随行义务同 commit 兑现，故一并转 `retired` 并移入 archive。**状态翻转与消耗它的那个 commit 不是同一个**——`HD-2` 的字面是「状态翻转随载体同 commit」，而载体 commit 由冷 executor 落、翻转只有用户能做，两者不可能同 commit；照实记，不改名。）
+
+### HD-60 · `E2` recorded ruling：准予轮 2 写契约 v4 的签字改址字节
+- 2026-08-26 · user · scope: one-shot（轮 2 写入并更新 `E2` 字面量后消耗 retire；消耗前仍可
+  supersede）· status: **retired**（2026-08-26 轮 `CORE-SET-SIGNATURE` 的 item F commit 消耗
+  完毕后由用户裁决转 `retired`，同日移入本档。**原 status：live**（授权已给、尚未应用——轮 2
+  未开），其下的追注原文照搬、逐字不改：**追注 2026-08-26**：轮 2 已开，
+  授权已由 `CORE-SET-SIGNATURE` 的 item F commit 应用完毕——三处改址落定，随行义务三件同 commit
+  兑现：① `E2` 的 v4 字面量已更新为 `5dfb7b64…` · ② 签字对象仍为 `614932de…`、v4 未重签 ·
+  ③ 新载体 `CONTRACT-V4-SIGNATURE.md` 与 `HD-56` 转 `superseded` 的双向指针同 commit。按 one-shot
+  的消耗条件本条应转 `retired`，但**状态只有用户能翻、session 只能提议**，故本行只记消耗事实）
+- 裁决：准许轮 `CORE-SET-SIGNATURE`（批 `CORE-SET` 轮 2，item F）写入
+  `contract/Document-Work-Assurance-Contract-v4.md` 的字节，**限于签字载体改址这一件**。站点三处，
+  写入前由 executor 自行复核、不以本条为准：frontmatter 的 `signature_owner:` 字段 · 抬头
+  *Signature semantics* 警示块里指向决策簿的那句 · 文末「The signature record … lives as an `HD`
+  entry」那句。**`E2` 条款本身一字不改**——本条走的是 `E2` 自己写的第二条出路（"obtain the ruling
+  and write under it"），形状比照 `HD-57`。
+- 授权**不含**：契约的接口 / enum / invariant / 版本边界 / 依赖图，即签字所冻结的实质文本；
+  `schema/document-assurance-v3/` 十五件一件不碰。越出即「无裁决写入冻结面」。
+- 三件随行义务，缺一不可，且与写入**同 commit**：① 写入后契约 blob 改变，`E2` 名单里的 v4 字面量
+  `dfc983d2…` 当场更新为新 blob（`HD-57` 同形先例）· ② `HD-56` 绑定的**签字对象仍是 `614932de…`**，
+  不因载体改址而改（批 `CORE-SET` 裁决 10：搬载体不动被签字节）· ③ 新签字载体文件、与 `HD-56` 转
+  `superseded` 的双向指针，三者同一个 commit（`HD-30` 后继承载全文 + `HD-2` 状态翻转同 commit）。
+- 顺带闭合：上述三处里有两处是指向 `../HARNESS-DECISIONS.md` 的 markdown 链接，属轮 1 收轮时记在册
+  的「八条归轮 2」残留（journal `document-harness/journal/core-set-layer-2026-08-26.md` §2）。
+- basis: 用户裁决 2026-08-26（对话）· `E2` 的 "obtain the ruling and write under it" 条款 ·
+  `HD-20`（`E2` 冻结优先于 `E10` 自由通道，故本条是写入的前置）· `HD-57` 形状先例 · plan
+  `document-harness/plans/core-set.plan.md` 裁决 10 与 item F
+- **retired 2026-08-26**（用户裁决：两条 one-shot 授权已由轮 `CORE-SET-SIGNATURE` 的 item F commit 消耗完毕，随行义务同 commit 兑现，故一并转 `retired` 并移入 archive。**状态翻转与消耗它的那个 commit 不是同一个**——`HD-2` 的字面是「状态翻转随载体同 commit」，而载体 commit 由冷 executor 落、翻转只有用户能做，两者不可能同 commit；照实记，不改名。）
 
 ### HD-24 · AMBIG 七树归属已裁：v2 连通件 + 两记录树 travel，stages/ 随 v1 族归拆分批（`HD-17` 的兑付）
 - 2026-08-09 · user · scope: standing · status: **superseded**（2026-08-14 由 `HD-39` 取代——
