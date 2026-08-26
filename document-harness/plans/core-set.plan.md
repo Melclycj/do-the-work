@@ -1,8 +1,8 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
 > **Status: round 1 CLOSED 2026-08-26; batch open (rounds 2 and 3 remain).** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
-> is the carrier of the seventeen user rulings of 2026-08-25/26** below — eight taken before the
-> batch opened and nine while it ran: until they landed here they lived
+> is the carrier of the eighteen user rulings of 2026-08-25/26** below — eight taken before the
+> batch opened and ten while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
 > tree, which is chat-only load-bearing material and a finding under `R2`. A cold session reads
 > this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
@@ -97,16 +97,17 @@ token — from `ORCHESTRATION.md`, `EXECUTION.md`, `CONSTRUCTION-CHECKLIST.md` o
 into the three registers. Bare names survive by design**, and `CONSTRUCTION-CHECKLIST.md:151`
 and `:206` are expected to still hold theirs when the round closes.
 
-## The nine further rulings taken while the batch ran (2026-08-25/26)
+## The ten further rulings taken while the batch ran (2026-08-25/26)
 
 These were taken after the eight above — six at the batch's opening, ruling 15 off the `E11`
-card, and rulings 16 and 17 on the candidate the executor returned. This file is their carrier
+card, rulings 16 and 17 on the candidate the executor returned, and ruling 18 at the session's
+preclear, answering the observation both reviews reported. This file is their carrier
 on the same terms.
 
 9. **The slicing is three rounds.** Round 1 `CORE-SET-LAYER` = items **A B C D E I J K L M** — prose,
    one file deletion and two new files, no frozen bytes and no code; it is what delivers the
-   goal. Round 2 `CORE-SET-SIGNATURE` = item **F** — frozen bytes plus a signature re-siting,
-   its own `E2` ruling and its own review. Round 3 `CORE-SET-CODE` = items **G H** — code, a
+   goal. Round 2 `CORE-SET-SIGNATURE` = items **F and N** — frozen bytes plus a signature re-siting, its
+   own `E2` ruling and its own review; item N joined by ruling 18. Round 3 `CORE-SET-CODE` = items **G H** — code, a
    large test surface, and a migration with a silent failure mode. (Items I through M did not
    exist when the slicing was ruled; they are round 1's by the same test that put A–E there —
    no frozen bytes, no code.)
@@ -171,6 +172,22 @@ on the same terms.
     chain may never be deleted at all, which is exactly where `HD-54` now sits. Recorded also
     because this is the fourth time the threshold fired and **the first time the question actually
     reached the user**: the previous three were sessions noting *no answer received* to themselves.
+
+18. **The two root files this round created are one file, and they merge in round 2** (item N);
+    **the two `ONBOARDING.md` riders are one row, and they merged immediately.** The observation
+    both the FULL (`O-1`) and the VERIFY (`O-3`) reported — successive rounds closing findings by
+    adding a component — was put to the user at preclear, and this is the user's answer to it, in
+    the only form that answers it: not a rule about adding, but two specific additions undone.
+    The rider merge landed at once because it is one row of prose. The file merge waits for round
+    2 because `CORE-SET.md` and `CONSTRUCTION-INDEX.md` were both just reviewed by a FULL and a
+    VERIFY, and re-opening a settled surface inside a closed round is worse than scheduling it.
+    **What made them two in the first place is worth keeping**: items D and K were drafted as
+    separate work items and executed as separate commits, and nothing between them asked whether
+    their outputs were the same object. The measured overlap: `CORE-SET.md`'s construction tier
+    and `CONSTRUCTION-INDEX.md` partition the same material — plans and journals in both, the
+    three registers in both, the migration records as one row in one and four in the other — and
+    `CORE-SET.md:61` carries a row whose whole content is a pointer to the other file, noting it
+    was "created alongside this file".
 
 Ruling 14 is recorded at length because the touch condition genuinely arrives in round 1 and the
 choice not to redeem is a deviation a reviewer will otherwise flag: item A edits
@@ -354,6 +371,20 @@ Sites are at `5425fa2`.
 - This is a **pre-submission correction** under `E9`: no independent FULL has occurred on this
   round yet, so it consumes no budget leg and owes no targeted VERIFY. The commit body says so,
   because `E9` warns that every recorded escape from the cap was a renamed round.
+
+### N — `CORE-SET.md` and `CONSTRUCTION-INDEX.md` become one file *(round 2, ruling 18)*
+
+- One file, two sections: what a caller carries, and what stays here. The construction-side tier
+  and the index over it are the same list at two levels of detail — merge the detail into the
+  tier rather than keeping a file whose purpose is to be pointed at.
+- `document-harness/README.md`'s pointer row (item D left one) repoints to the surviving file, and
+  so does `CORE-SET.md:61`'s self-referential row, which disappears with the merge.
+- Which name survives is the round's to decide and the `E11` card's to show; `HD-21` falls due
+  either way — the surviving file records whether it is an instruction-layer member (it is not)
+  in the commit that creates it.
+- **Not a licence to re-open what round 1 settled.** The merge is structural: no row's *content*
+  is re-litigated, and the sufficiency claim, its stated gap and the tier membership all carry
+  over as written. A row that needs its content changed is a separate finding, not this item.
 
 ### F — contract v4's signature moves out of the decision log *(round 2)*
 
