@@ -552,7 +552,27 @@ this repository's own rounds — and what those read is the plan and the index.
   end-to-end mechanical check on a *stripped* tree; `dtw init` was exercised on the full tree
   only. Named as an honesty cap rather than implied — and carried below as its own open step,
   because a checkbox that reads done is how an honesty cap quietly stops being one.
-- [ ] 6b. **OPEN.** Re-run the briefing's end-to-end mechanical check on a *stripped* tree:
+- [x] 6b. **DONE 2026-08-26, and the honesty cap narrows rather than closes.** Run by the
+  orchestrator at `d3ba221`, on a `git archive` tree with the history paths deleted — **120 files
+  / 1,676,428 bytes (1.60 MiB)**, the file count reproducing the briefing's 120 exactly, so the
+  strip is repeatable. All five checks green: `E10` members resolve **9/9**; `dtw --help` exit 0,
+  eight commands; `dtw init --repo-root <fresh repo>` exit 0, "5 created, 0 left as found", and
+  the decision log resolves to exactly one file there (this is also round 1's acceptance 5, on a
+  stripped tree rather than the full one); `candidate_path_check.py` exit 0;
+  `review_freeze_check.py` exit 0. `layer_path_check.py` was run beside them, also exit 0.
+  **The guards were proved to engage rather than to pass vacuously** (`R8`'s shape, applied to
+  the orchestrator's own evidence): the stripped tree was made a git repo, a member line naming
+  a deleted journal path was staged, and `layer_path_check` blocked with exit 1 and named the
+  token; reverted at once. Beyond the five: `dtw dispatch --construction-executor` exit 0 on the
+  stripped tree, deriving the checklist as charter, and `assurance/templates/run-v2/` complete.
+  **What is still not proved, stated rather than implied**: no product round ran end to end — no
+  run directory built, no `instruction.md` frozen, no `preview` / `review` / `disposition`
+  against a real run, no reviewer dispatched from a mounted stripped tree. That is a product run,
+  which this batch puts out of scope. So what the cap now covers is the **product-run** leg
+  alone; the mount-and-open leg is measured. Unchanged by this run: `CORE-SET.md`'s own measured
+  gap — the product tier's five documents carry pointers and rule citations into the construction
+  checklist, which does not travel — banked as rider `checklist-cited-not-carried`.
+  Original text: re-run the briefing's end-to-end mechanical check on a *stripped* tree:
   `dtw --help`, `dtw init` into a fresh repository, `candidate_path_check.py`,
   `review_freeze_check.py`, and the member resolve. Until this runs, what is proven is that a
   stripped tree's references resolve — **not** that a caller can mount it and run a round.
