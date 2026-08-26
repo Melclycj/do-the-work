@@ -119,9 +119,14 @@ sentence `E3` already contains.
   how the archive came to exist ("Moved verbatim, nothing deleted, nothing retyped"). The header's
   remedy is available.
   **What the measurement did show is worse than a contradiction: the bound does not measure what
-  it is for.** The file is 180 lines and 53,607 bytes, and **one line — the CLOSED roll — is
-  26,110 characters, 49% of the file**. Across the 17 top-level entries the same line holds 57% of
-  all entry content, the next largest being 2,405 characters. A line-count bound cannot see growth
+  it is for.** The file is 180 lines and **53,609 bytes**, and **one line — the CLOSED roll —
+  is 26,110 UTF-8 bytes / 16,171 characters, 48.9% of the file's bytes**. Across the 17 top-level
+  entries that entry holds **56.7% of all entry content by characters** (55.6% by bytes), the next
+  largest being 2,405 characters / 4,060 bytes. **Units are given on both sides deliberately**:
+  this paragraph first set 26,110 beside 2,405 without saying that the first was bytes and the
+  second characters, which read as a 10.9x gap where like for like it is 6.7x — the VERIFY's `V-1`,
+  and `HD-23` routes a journal number outside the fix leg. The byte totals are worktree bytes under
+  `core.autocrlf=true` and move with the checkout; the ratios and the conclusion do not. A line-count bound cannot see growth
   that happens *inside* an existing line, which is where all of it happened; the header's own
   stated target is "the 20-to-300-line session, not line 181". The user ruled on 2026-08-26 that
   the bound changes its unit — bytes or entry count rather than lines. That change is not this
