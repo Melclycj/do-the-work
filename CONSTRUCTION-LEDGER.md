@@ -163,23 +163,20 @@
   的成员名单又贴了回去（`dispatch.py` 注释记着为何不给——手写成员表错过一次）；本次未造成锚定错误
   （派发标了「自己验」、读者独立重推），但按 `O-2` 挂在本件下（read `9f1de08` `O-2`）。
 
-- **批 `CORE-SET` —— 让核心集脱离本仪器自己的建造史**（用户方向 2026-08-25，同日即令推进，**自此
-  为本仓队首**）：挂载本仪器的仓只带核心集就能开轮、跑轮、收轮。八条用户裁决、三轮拟切、量程与
-  验收全在
-  [`document-harness/plans/core-set.plan.md`](document-harness/plans/core-set.plan.md)——本 commit
-  落之前它们只活在对话与仓外 briefing（按 `R2` 是 chat-only 载重材料），本行不复述。
-  **裁决自八条增至十七条**（开批当日续裁六条：三轮切法 · v4 签字随载体保全不重签 · 核心集走**显式
-  两层清单**且**不等于 `E10` 成员集** · 引建造史按**谁在引**判而非引向哪（构造侧允许、产品侧不允许）·
-  `document-harness/history/` 即刻删除且 `REVIEW.md:92` 断链照留 · 三条到期 rider 只兑 `waiver-live`），
-  全部落在该 plan，本行不复述（卡上又续裁第十五条：`io-design.md` 留构造层，轮 1 把 `ONBOARDING.md`
-  指着它的 Owner 格改指真正的 owner，**无别家者不得现造 owner**、报回入 bank——即 item L）。
-  **状态：轮 1 `CORE-SET-LAYER` 已开**（item A–E + I/J/K/L/M）。开轮冷读走**窄形态**（用户裁；实收
-  七件可引、两件真欠，读者当场更正派发的算法 `O-1`），记录 `9f1de08`——**0 must-fix / 1 low / 3 观察**，
-  无 verdict、`E9` 未花；该 low 的字节按 `E10` 自由通道当场套、按 `HD-38` 自带 commit `0420d99`
-  （`onboarding-labels` 那行当初只关了三实例中的一个就删行，本次是整类关闭，故不重新入 bank）。
-  `E11` 卡已渲染并经用户批准（构造轮卡不落盘，按本区 2026-08-21 裁）。**轮 1 CLOSED 2026-08-26**：剥史树上九成员真断链 **31→13**（`sweep_refs.py` 量，`LINK`+`PATHTOK`；13 条逐条有归属——3 条裁决 12 允许、2 条裁决 13 准的悬空、8 条归轮 2），`ONBOARDING.md` 另 grep **2→0**；新增根件 `CORE-SET.md`（两档清单）与 `CONSTRUCTION-INDEX.md`（九行），`document-harness/history/` 删除，`HD-54`→`HD-58` 收窄后继。**`E9` 三腿走满且修腿花了两次**——FULL `CHANGES_REQUIRED`（2 blocker）→ 一次用户批准的修 `0482a40` → VERIFY `REVIEWED_NO_BLOCKER`；**第二次是 `0f0498f` 改了 journal §6 的结论**，`HD-23` 只路由数字非结论，用户 2026-08-26 裁「算，照实写」（VERIFY `V-4`）。bank 16→20（`waiver-live` 兑付删行；`checklist-cited-not-carried`/`onboarding-io-design-owners`/`figure-units`/`onboarding-cites-journals`/`template-clause-unguarded` 新入）。记录 `v3-{cold-read-ff4b749,review-full-92cc514,review-verify-0f0498f}.md`，journal `core-set-layer-2026-08-26.md`。**本轮五个在仓成员全部改动（checklist / README / EXECUTION / REVIEW / ORCHESTRATION），欠独立 read 随下轮开轮**——含免通道 `0420d99` 的字节；下轮冷读若再走窄形态，基线须按 `E10` 取「自**某一份**已记录整读以来未变」，不得只钉一份记录（本轮开轮读的 `O-1` 即栽在这里）。**下一队首＝轮 2 `CORE-SET-SIGNATURE`**（item F ＋ **item N**：两个根文件合并为一份构造侧索引**并收回清单形态**——裁决 18 定合并、裁决 19 定收窄；收窄的依据是把「点得出消费者吗」这一问用在本轮自己的产物上，实测 `CORE-SET.md` **零消费者**（机器零引用 · `ONBOARDING.md` 不指向它 · 引用它的全是兄弟文件/它自己的病历/它自己），而会读这种清单的「剥出核心集」操作被本批列为 out-of-scope。理由列占该表 62% 字符，随收窄归 plan。同批裁的 rider 合并已当场落地，bank 20→19）——其 `E2` 写入授权**已落 `HD-60`**（2026-08-26，one-shot；三件随行义务同 commit：更新 `E2` 的 v4 blob 字面量 · `HD-56` 仍绑签字 blob `614932de…` · 新载体与 `HD-56` supersession 双向指针同 commit），故**已不卡**。**账本 CLOSED 卷待拆**：新上限（每条 ≤2,500 字符 / ≤20 条，`4b72a68`）当日即对它报警（17,116 字符），拆分是它自己的账本批、用户裁即 gate、不开轮。**并记**：2026-08-24 的 §10.5 裁决（分发维持 submodule）经用户明示**不约束
-  本批**——它答的是「submodule 还是 plugin」、不是「挂载里该有什么」，照记以免后来者读成推翻它。
-
+- **批 `CORE-SET` —— 让核心集脱离本仪器自己的建造史**（用户方向 2026-08-25，自此为本仓队首）：
+  挂载本仪器的仓只带核心集就能开轮、跑轮、收轮。**十九条用户裁决、四个轮次的量程、验收与全部量测
+  在 [`document-harness/plans/core-set.plan.md`](document-harness/plans/core-set.plan.md)**，本行只
+  留指针——2026-08-26 一次把复述压回去，因为它撞破了同日新立的每条上限。
+  **轮 1 `CORE-SET-LAYER` CLOSED 2026-08-26**（收轮 `83aecd4`；记录 `v3-{cold-read-ff4b749,
+  review-full-92cc514,review-verify-0f0498f}.md`；journal `core-set-layer-2026-08-26.md`）：剥史树
+  上九成员真断链 **31→13**、`ONBOARDING.md` 另测 **2→0**；`E9` 三腿走满且**修腿花了两次**（用户
+  2026-08-26 裁「算，照实写」，VERIFY `V-4`）；bank 16→19。
+  **本轮五个在仓成员全部改动，欠独立 read 随下轮开轮**（含免通道 `0420d99` 的字节）；下轮冷读若再走
+  窄形态，基线须按 `E10` 取「自**某一份**已记录整读以来未变」，不得只钉一份记录（本轮开轮读的 `O-1`
+  即栽在这里）。
+  **下一队首＝轮 2 `CORE-SET-SIGNATURE`**：item F ＋ item N，`E2` 写入授权已落 `HD-60`，**不卡**。
+  **账本 CLOSED 卷待拆**：新上限（`4b72a68`）当日即对它报警（17,116 字符），拆分是它自己的账本批、
+  用户裁即 gate、不开轮。
 - **设计批 `ASSERT-OWNER` —— REVERTED 2026-08-15**（用户裁，依据 `E6`「a rule added about it is not the fix」）：它试图把 `HD-41` 写进指令层，装的过程中自身又出七个同类实例，FULL 返 `CHANGES_REQUIRED`；五个指令层文件已回 `ff05b01`、blob 逐一核对，checklist 回 204 行 / 12 条。诊断钉在 journal [`structure-vs-prose-2026-08-15.md`](document-harness/journal/structure-vs-prose-2026-08-15.md)；过程见 plan [`harness-assertion-owner-design.plan.md`](document-harness/plans/harness-assertion-owner-design.plan.md)。**四件未结已由用户 2026-08-16 一次裁完**：① 该轮 `E9` 预算＝撤回不消耗腿、不欠 VERIFY，该轮就此结账 ② rider `wl-route` 推迟（行不动、redeem-when 照旧，到期未兑的事实留在 FULL 记录里）③ `HD-41` **不再试**指令层承载，永久只住决策簿（用户裁不建条目，锚即本行；`HD-5` 的 §live 必读使其仍可达）④ 决策簿准入口径**维持**——构造批无 choice JSON，其裁决继续只活在 commit 正文，代价照记。
 
 - **契约 v4 —— CLOSED 2026-08-23**（轮 `CONTRACT-V4`，`HD-56`：s1/s2 并入 v4 并经用户通读签署；§13 未改、无 s3；豁免簿契约半退役；两份 s 的 UNSIGNED 残迹随文件退役消失；「签 v4 前整份读一遍」的价钱已付）。原立项文案照录：（用户意向 2026-08-04）：§13 自身已允许（"corrections create
