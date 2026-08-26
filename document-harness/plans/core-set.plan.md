@@ -1,6 +1,6 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
-> **Status: open.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
+> **Status: round 1 CLOSED 2026-08-26; batch open (rounds 2 and 3 remain).** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
 > is the carrier of the seventeen user rulings of 2026-08-25/26** below — eight taken before the
 > batch opened and nine while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
@@ -438,8 +438,14 @@ Sites are at `5425fa2`.
   `document-harness/journal/core-set-layer-2026-08-26.md`. **Not re-run**: the briefing's
   end-to-end mechanical check on a *stripped* tree; `dtw init` was exercised on the full tree
   only. Named as an honesty cap rather than implied.
-- [ ] 7. Dispatch the FULL over `cc3b3ab..HEAD`, walk the `E9` budget, land the record unchanged,
-  close round 1. The fix leg is **unspent**: item M was a pre-submission correction, not a fix.
+- [x] 7. **DONE — round 1 CLOSED.** FULL `92cc514` → `CHANGES_REQUIRED` (2 blockers, 8 lows,
+  3 observations) → one user-approved fix `0482a40` → VERIFY `0f0498f` → `REVIEWED_NO_BLOCKER`
+  (4 findings, 3 observations). All three records committed unchanged. **The fix leg was consumed
+  twice, and the closeout says so rather than renaming it**: the withdrawal in `0f0498f` rewrote
+  this round's journal §6 *conclusion*, which `HD-23` does not route (its parenthesis excludes
+  conclusions) and which was reviewed work product inside the FULL's range. User ruling
+  2026-08-26 on the VERIFY's `V-4`. `E9`'s own sentence is why it is written down: every recorded
+  escape from the cap was a renamed round.
 - [ ] 8. Open rounds 2 and 3 per the ruling from step 2, each with its own plan file if their
   shape has changed by then.
 
@@ -479,11 +485,10 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: step 7 — the candidate is complete (seven commits, `c0b9316`..`c5f00f6`), the
-measurement is recorded in the round journal, and the next action is
-`dtw dispatch --range cc3b3ab..HEAD` to an independent FULL. Nothing waits on the user. `E9` going
-in: one FULL available, the fix leg **unspent**, one targeted VERIFY owed only if a fix is
-approved.
+当前指针: step 8 — round 1 is CLOSED. The next action is round 2 `CORE-SET-SIGNATURE` (item F),
+and **it cannot open until the user records the `E2` ruling that authorises writing contract v4's
+bytes** — ruling 10 settled the signature question, not the freeze question, and `E2` admits no
+exception for a change its author considers safe. Round 3 `CORE-SET-CODE` (items G, H) follows.
 
 ## Notes
 
