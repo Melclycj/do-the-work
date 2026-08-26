@@ -138,7 +138,13 @@ def subject_of(
 
 
 def subject_binding(evidence_commit: str, review: Mapping[str, Any]) -> dict[str, str]:
-    """The v2 analogue of `flow.review_binding`: what a later reader re-verifies."""
+    """What a later reader re-verifies: the commit under review, and the verdict's digest.
+
+    The v1 analogue paired a package digest with the review digest (`flow.review_binding`,
+    retired with the package leg in round `CORE-SET-CODE`). Here the commit stands where the
+    package digest stood, because it content-addresses every member byte the package bound by
+    hand — one fewer digest to reproduce, and nothing hand-authored to get wrong.
+    """
     return {"evidence_commit": evidence_commit, "review_digest": canonical_digest(review)}
 
 

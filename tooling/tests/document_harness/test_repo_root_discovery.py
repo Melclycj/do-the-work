@@ -129,17 +129,19 @@ class Discovery(unittest.TestCase):
         )
 
 
-class TheSixCommandsShareTheDefault(unittest.TestCase):
+class TheFiveCommandsShareTheDefault(unittest.TestCase):
     """The source pin: every `--repo-root` command routes through `_rooted`, none through cwd.
 
-    E5: the expectations are these hand-written literals. Six is the count of commands
-    taking `--repo-root` (governance-scan, status, dispatch, review's two modes, init); a
-    seventh caller of the old cwd default would change the second count from zero and a
-    dropped site would change the first from six.
+    E5: the expectations are these hand-written literals. Five is the count of `--repo-root`
+    call sites (governance-scan, status, dispatch, review, init); a new caller of the old cwd
+    default would change the second count from zero and a dropped site would change the first
+    from five. It was six until round `CORE-SET-CODE`, when `review`'s version-1 `--package`
+    mode retired and took its own site with it — the count is of sites, and `review` had two
+    modes with one each.
     """
 
-    def test_exactly_six_sites_take_the_helper(self):
-        self.assertEqual(CLI_SOURCE.count("repo_root = _rooted(args)"), 6)
+    def test_exactly_five_sites_take_the_helper(self):
+        self.assertEqual(CLI_SOURCE.count("repo_root = _rooted(args)"), 5)
 
     def test_no_site_takes_the_bare_cwd_default(self):
         self.assertEqual(CLI_SOURCE.count("else pathlib.Path.cwd().resolve()"), 0)

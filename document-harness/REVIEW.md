@@ -89,9 +89,11 @@ one whose dispatch is a single evidence commit SHA rather than a package file. S
 **signed 2026-07-24** — recorded at `ac1b383` in the W2 record's §log (`W2-record.md`,
 held by this instrument's own construction record and not by a repository that runs against
 it);
-this section governs newly opened runs, and the package-bound sections moved to
-[`history/REVIEW-v1-package-flow.md`](history/REVIEW-v1-package-flow.md) (2026-07-27) for
-reading pre-wave-2 history.*
+this section governs newly opened runs, and the package-bound sections it succeeded are gone:
+set aside in 2026-07-27 for reading pre-wave-2 history, removed from the tree in round
+`CORE-SET-LAYER`, and their machinery retired in round `CORE-SET-CODE` with the `--package`
+mode and the package checks behind it. What reads pre-wave-2 history now is that history's own
+commits and the frozen v1 schema, which is untouched.*
 
 Under the successor the controller **commits the control plane** before dispatching, so the
 subject arrives as one SHA and the custody chain shortens: out-of-band evidence commit SHA

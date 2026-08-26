@@ -19,12 +19,9 @@ Offline and deterministic.
 """
 from __future__ import annotations
 
-import json
 import pathlib
 import re
-import subprocess
 import sys
-import tempfile
 import unittest
 
 import _harness  # noqa: F401 — installs the tooling and V3-N1 import paths
@@ -232,43 +229,11 @@ class RepairBindingIsNeverSilentlySkipped(unittest.TestCase):
         self.assertIn("V3-FLOW-REPAIR-WRONG-CANDIDATE", codes(report))
 
 
-class TheReviewCommandReportsRatherThanCrashes(unittest.TestCase):
-    """F5 — a document this command exists to report on must not become a traceback."""
-
-    def test_a_schema_invalid_package_exits_one_without_a_traceback(self):
-        tmp = pathlib.Path(tempfile.mkdtemp(prefix="v3n2-cli-"))
-        (tmp / "pkg.json").write_text('{"package_id":"p-1"}', encoding="utf-8")
-        (tmp / "spec.json").write_text(
-            json.dumps(
-                {
-                    "work_id": "work-one",
-                    "objective": "o",
-                    "instruction_ref": {"path": "docs/i.md", "revision": "b" * 40},
-                    "instruction_units": [],
-                    "change_boundary": {"write_scope": ["docs"], "out": ["docs/private"]},
-                    "expected_artifacts": [],
-                    "obligations": [],
-                }
-            ),
-            encoding="utf-8",
-        )
-        (tmp / "rec.json").write_text('{"run_id":"run-one"}', encoding="utf-8")
-        completed = subprocess.run(
-            [
-                sys.executable, "dtw.py", "review",
-                "--package", str(tmp / "pkg.json"),
-                "--spec", str(tmp / "spec.json"),
-                "--record", str(tmp / "rec.json"),
-            ],
-            cwd=str(_harness.TOOLING_DIR),
-            capture_output=True,
-            encoding="utf-8",
-            errors="replace",
-        )
-        output = (completed.stdout or "") + (completed.stderr or "")
-        self.assertNotIn("Traceback", output)
-        self.assertEqual(completed.returncode, 1)
-        self.assertIn("defects", output)
+# `TheReviewCommandReportsRatherThanCrashes` stood here: F5's pin that a schema-invalid
+# ReviewPackage reached the `review --package` command as a report and not as a traceback.
+# Round `CORE-SET-CODE` retired that mode, so there is no longer a package for the command
+# to be handed. The surviving half of F5 — a malformed document reported rather than traced
+# — is asserted against the subject mode in `test_review_cli_v2_subject.py`.
 
 
 class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
@@ -282,10 +247,25 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
 
     CODE_PATTERN = re.compile(r'f"\{(?:CODE|PACKAGE_CODE|GOVERNANCE_CODE)\}(-[A-Z0-9-]+)"')
 
-    #: The four modules V3-N2 authored. N1's modules carry their own named codes and are
-    #: covered by N1's own signed matrix; sweeping them here would make this node's suite
-    #: responsible for an earlier node's coverage, which is not what F4 asked for.
-    N2_MODULES = ("review.py", "flow.py", "summary.py", "issues.py")
+    #: The modules V3-N2 authored that still name coded issues. N1's modules carry their own
+    #: named codes and are covered by N1's own signed matrix; sweeping them here would make
+    #: this node's suite responsible for an earlier node's coverage, which is not what F4
+    #: asked for.
+    N2_MODULES = ("flow.py", "summary.py", "issues.py")
+
+    #: V3-N2 modules with NO coded vocabulary left to sweep — listed rather than dropped, so
+    #: the partition below still accounts for them and a code added to one later fails here
+    #: until someone says which sweep covers it.
+    #: `review.py` joined 2026-08-27 (round `CORE-SET-CODE`): its `CODE` / `PACKAGE_CODE`
+    #: vocabulary was the version-1 package leg's — `V3-PACKAGE-*` from `check_package` and
+    #: `verify_member_bytes`, `V3-REVIEW-*` from `check_review_result` — and retired with it.
+    #: What the module still emits is `V3-SCHEMA-<KIND>`, built from the kind argument rather
+    #: than from a module constant, so this regex cannot see it and a sweep here would report
+    #: an empty vocabulary as a covered one. What stands in its place is `N2ValidatorTests` in
+    #: `test_golden_review_views.py`, which drives every registered kind through
+    #: `validate_n2` and requires each to produce a non-clean report — the reachability
+    #: property, asserted where the codes are actually raised.
+    N2_MODULES_WITHOUT_CODES = ("review.py",)
 
     #: The V3-N1 modules, listed so the two sets can be checked to partition the package.
     N1_MODULES = (
@@ -386,10 +366,13 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
         present = {path.name for path in RSCLIB.glob("*.py")} - {"__init__.py"}
         self.assertEqual(
             present,
-            set(self.N2_MODULES) | set(self.N1_MODULES) | set(self.SUCCESSOR_ROUND_MODULES),
-            "a module in the package belongs to neither the swept V3-N2 set, the V3-N1 "
-            "exclusion list nor a successor round's own sweep, so nothing checks whether "
-            "its named codes can fire",
+            set(self.N2_MODULES)
+            | set(self.N2_MODULES_WITHOUT_CODES)
+            | set(self.N1_MODULES)
+            | set(self.SUCCESSOR_ROUND_MODULES),
+            "a module in the package belongs to neither the swept V3-N2 set, the V3-N2 set "
+            "with no coded vocabulary, the V3-N1 exclusion list nor a successor round's own "
+            "sweep, so nothing checks whether its named codes can fire",
         )
 
     def test_the_sweep_actually_finds_codes_in_every_v3n2_module(self):

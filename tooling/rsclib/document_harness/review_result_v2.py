@@ -15,10 +15,10 @@ against commit-bound semantics, which is the fail-open shape N1 taught this pack
 
 **Parity ceiling, stated rather than glossed (W2 record §6).** The result-internal checks
 shared with v1 (obligation coverage, finding coherence, INCOMPLETE disclosure, verify scope,
-reviewer distinctness) are re-implemented here rather than imported, because v1's live in
-one function that requires a package and is frozen for reading pinned history. The
-duplication is against a frozen artifact, so it cannot drift forward — but a defect later
-found in the shared semantics must be fixed here and recorded against the frozen copy.
+reviewer distinctness) were re-implemented here rather than imported, because v1's lived in
+one function that required a package. That function retired with the package leg in round
+`CORE-SET-CODE`, so what was a duplication against a frozen artifact is now the only copy:
+these are the checks, and a defect found in them is fixed here.
 
 Nothing here issues a verdict. The reviewer owns the ReviewResult; this module validates
 what the reviewer produced.
@@ -84,7 +84,8 @@ def check_review_result_v2(
     if kind != "review_result_v2":
         raise SpecGap(
             "a version-1 ReviewResult was handed to the v2 checker; v1 results are "
-            "package-bound and belong to review.check_review_result"
+            "package-bound, and the checker that answered for them retired with the package "
+            "leg in round CORE-SET-CODE — pinned v1 history is read, not re-checked"
         )
     schema_report = validate_w2(kind, result)
     if not schema_report.ok:

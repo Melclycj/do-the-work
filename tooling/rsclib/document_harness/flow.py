@@ -45,7 +45,6 @@ from rsclib.document_harness import (
     validate,
 )
 from rsclib.document_harness.candidate import covered_by
-from rsclib.document_harness.review import package_digest, result_digest
 
 CODE = "V3-FLOW"
 
@@ -405,9 +404,10 @@ def check_repair_decision(
     #
     # `if reviewed_commit and ...` silently switched this guard off whenever the review named
     # only a branch, and raised outright when it named no candidate at all — the same
-    # fail-open shape the boundary check below reports as UNVERIFIED and `check_package`
-    # reports as RECORD-CANDIDATE-UNBOUND. It is reported here for the same reason: a repair
-    # that cannot be shown to bind the reviewed candidate is unverified, not approved.
+    # fail-open shape the boundary check below reports as UNVERIFIED, and that the v1
+    # `check_package` reported as RECORD-CANDIDATE-UNBOUND until round `CORE-SET-CODE`
+    # retired it. It is reported here for the same reason: a repair that cannot be shown to
+    # bind the reviewed candidate is unverified, not approved.
     reviewed_ref = reviewed_candidate_ref(review)
     reviewed_commit = reviewed_ref.get("commit") if isinstance(reviewed_ref, Mapping) else None
     target_ref = target.get("candidate_ref")
@@ -720,11 +720,12 @@ def check_governance_obligation(candidate: Mapping[str, Any]) -> Report:
 # ---------------------------------------------------------------------------
 # Binding helpers
 # ---------------------------------------------------------------------------
-
-
-def review_binding(package: Mapping[str, Any], review: Mapping[str, Any]) -> dict[str, str]:
-    """The two digests that tie a round together, for the caller to record as pointers."""
-    return {"package_digest": package_digest(package), "review_digest": result_digest(review)}
+#
+# `review_binding` — the package digest paired with the review digest — retired with the v1
+# package leg in round `CORE-SET-CODE`. It had no caller anywhere at that point, and the
+# successor binding a later reader re-verifies is `review_subject.subject_binding`: the
+# evidence commit paired with the review digest, since a commit content-addresses every
+# member byte the package used to bind by hand.
 
 
 def decision_digest(decision: Mapping[str, Any]) -> str:
@@ -766,5 +767,4 @@ __all__ = [
     "governance_state",
     "render_flow",
     "required_pointers",
-    "review_binding",
 ]

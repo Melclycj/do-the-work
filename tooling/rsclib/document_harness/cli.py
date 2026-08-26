@@ -349,7 +349,7 @@ def _cmd_v3_disposition(args: argparse.Namespace) -> int:
     return 0 if report.ok else 1
 
 
-def _cmd_v3_review_subject(args: argparse.Namespace) -> int:
+def _cmd_v3_review(args: argparse.Namespace) -> int:
     """Check a commit-bound wave-2 review subject, and a v2 ReviewResult when supplied.
 
     The reviewer's counterpart to `v3 dispatch --subject`: that command asks whether a commit
@@ -357,6 +357,14 @@ def _cmd_v3_review_subject(args: argparse.Namespace) -> int:
     subject and whether a returned verdict answers for it. Until this existed the two wave-2
     checks had no caller outside a run script — `check_review_result_v2` had none at all — so
     a reviewer's own result could not be checked from the command line.
+
+    **The only mode.** `review` carried a second one until round `CORE-SET-CODE`: `--package`,
+    with `--spec` / `--record` / `--check-result` feeding the version-1 package checks. That
+    leg retired with the functions behind it, so the mode's inputs are gone rather than
+    refused — including `--check-result`, which this function used to reject explicitly
+    because subject mode derives the check results from the evidence commit and silently
+    dropping the flag would have hidden the disagreement. argparse now refuses it, an unknown
+    option being exactly what it is.
 
     Only the SHA is required (review side rule 2). The control root is derived from the
     commit's own staged paths and the rest is read back out of the committed control plane,
@@ -375,17 +383,6 @@ def _cmd_v3_review_subject(args: argparse.Namespace) -> int:
     from rsclib.document_harness import review as v3_review
     from rsclib.document_harness import review_result_v2 as v3_result_v2
     from rsclib.document_harness import review_subject as v3_subject
-
-    # Refused rather than ignored: subject mode derives the check results from the commit, so
-    # a caller who passes them has a different model of what is being checked than the command
-    # does, and silently dropping the flag leaves that disagreement invisible.
-    if args.check_result:
-        print(
-            "FATAL: --check-result belongs to --package mode; subject mode derives the check "
-            "results from the evidence commit",
-            file=sys.stderr,
-        )
-        return 2
 
     repo_root = _rooted(args)
     if repo_root is None:
@@ -448,70 +445,6 @@ def _cmd_v3_review_subject(args: argparse.Namespace) -> int:
     print("RESULT: " + ("sound subject (exit 0)" if report.ok else "defects (exit 1)"))
     return 0 if report.ok else 1
 
-
-def _cmd_v3_review(args: argparse.Namespace) -> int:
-    """Check a frozen ReviewPackage, and a ReviewResult when one is supplied.
-
-    The package checks answer a question no schema can: is the frozen subject the *whole*
-    work? Membership completeness is judged against the run's own spec and record, and the
-    member digests are re-computed against the trees the members pin.
-    """
-    if args.subject:
-        return _cmd_v3_review_subject(args)
-
-    from rsclib.document_harness import AssuranceFault, SpecGap
-    from rsclib.document_harness import review as v3_review
-    from rsclib.document_harness import spec as v3_spec
-
-    # `--spec` and `--record` stopped being argparse-required when `--subject` arrived, since
-    # that mode needs neither. They are still required OF THIS MODE — enforced here so the
-    # addition of a second mode could not quietly relax the first one's inputs.
-    missing = [name for name in ("spec", "record") if not getattr(args, name)]
-    if missing:
-        print(
-            "FATAL: --package mode requires " + " and ".join(f"--{name}" for name in missing),
-            file=sys.stderr,
-        )
-        return 2
-
-    repo_root = _rooted(args)
-    if repo_root is None:
-        return 2
-    try:
-        package = v3_review.load_package(args.package)
-        spec = v3_spec.load_spec(args.spec)
-        record = v3_review.load_package(args.record)
-        results = [v3_review.load_package(path) for path in (args.check_result or [])]
-        report = v3_review.check_package(package, spec, record, results)
-        # Byte verification walks `package["members"]`, which a schema-invalid package may not
-        # have — running it anyway turned a document this command exists to REPORT on into a
-        # traceback. The schema failure is the finding; there is nothing further to verify.
-        well_formed = not any(issue.code.startswith("V3-SCHEMA-") for issue in report.issues)
-        if well_formed:
-            report = report + v3_review.verify_member_bytes(package, repo_root)
-        result = v3_review.load_result(args.result) if args.result else None
-        if result is not None and well_formed:
-            report = report + v3_review.check_review_result(
-                result, spec, package, executor=args.executor
-            )
-    except (SpecGap, AssuranceFault) as exc:
-        print(f"FATAL: {exc}", file=sys.stderr)
-        return 2
-
-    print("=" * 72)
-    print("Document Work Assurance v3 — frozen review subject")
-    print("=" * 72)
-    print(f"package      : {package.get('package_id', '?')} ({package.get('review_round', '?')})")
-    print(f"candidate    : {str(package.get('candidate_ref', {}).get('commit', '?'))[:12]}")
-    print(f"members      : {len(package.get('members', []))}")
-    if result is not None:
-        print("-" * 72)
-        print(v3_review.render_result(result))
-    for issue in report.issues:
-        print("  " + issue.render())
-    print("-" * 72)
-    print("RESULT: " + ("sound subject (exit 0)" if report.ok else "defects (exit 1)"))
-    return 0 if report.ok else 1
 
 def _cmd_v3_init(args: argparse.Namespace) -> int:
     """Create a target repository's `.harness/`, its ignore entry, and the two templates.
@@ -650,25 +583,15 @@ def build_parser() -> argparse.ArgumentParser:
 
     review_cmd = sub.add_parser(
         "review",
-        help="check a review subject: a wave-2 evidence commit, or a frozen v1 ReviewPackage",
+        help="check a review subject: the wave-2 evidence commit",
     )
-    review_mode = review_cmd.add_mutually_exclusive_group(required=True)
-    review_mode.add_argument(
+    review_cmd.add_argument(
         "--subject",
-        help="WAVE 2: the evidence commit — the only input needed; add --result to check a "
+        required=True,
+        help="the evidence commit — the only input needed; add --result to check a "
              "returned v2 ReviewResult against it",
     )
-    review_mode.add_argument(
-        "--package", help="VERSION 1: path to the frozen ReviewPackage (needs --spec/--record)"
-    )
-    review_cmd.add_argument("--spec", help="v1 mode only: path to the DocumentWorkSpec")
-    review_cmd.add_argument("--record", help="v1 mode only: path to the CandidateRecord")
-    review_cmd.add_argument(
-        "--check-result",
-        action="append",
-        help="path to a CheckResult the run produced (repeatable; pass none when it produced none)",
-    )
-    review_cmd.add_argument("--result", help="optional ReviewResult to check against the package")
+    review_cmd.add_argument("--result", help="optional ReviewResult to check against the subject")
     review_cmd.add_argument(
         "--executor",
         help="the executor's identity; omitted, reviewer distinctness is reported as UNVERIFIED",

@@ -57,17 +57,6 @@ def write_json(document: dict) -> str:
     return str(path)
 
 
-def readable_package() -> pathlib.Path:
-    """A package path that EXISTS and parses.
-
-    Load-bearing for the v1-input tests: a nonexistent path short-circuits in `load_package`,
-    which produces the same exit status the guard produces and hides whether the guard ran.
-    """
-    path = pathlib.Path(tempfile.mkdtemp(prefix="v3-review-v1-")) / "pkg.json"
-    path.write_text('{"package_id":"p-1"}', encoding="utf-8")
-    return path
-
-
 class TheSubjectModeReachesCheckSubject(unittest.TestCase):
     """`--subject <SHA>` alone answers 'is this commit a sound review subject'."""
 
@@ -96,8 +85,14 @@ class TheSubjectModeReachesCheckSubject(unittest.TestCase):
         self.assertIn(f"evidence commit : {scn.evidence_commit}", output)
         self.assertEqual(len(scn.evidence_commit), 40)
 
-    def test_check_result_is_refused_in_subject_mode_rather_than_dropped(self):
-        """L2 — it is consumed only by the v1 branch; accepting it silently hides that."""
+    def test_an_input_of_the_retired_package_mode_is_refused_not_accepted(self):
+        """L2's successor. `--check-result` fed the v1 branch, and this command used to
+        refuse it by hand so that silently dropping it could not hide the disagreement — the
+        subject mode derives the check results from the evidence commit. Round
+        `CORE-SET-CODE` retired the branch and every input that only fed it, so the refusal
+        is argparse's now. Kept as a test because what matters is that the flag is refused,
+        not which layer refuses it: accepted and ignored is the failure either way.
+        """
         scn = build_scenario()
         completed = run_cli(
             "--subject", scn.evidence_commit, "--repo-root", str(scn.repo.root),
@@ -105,11 +100,7 @@ class TheSubjectModeReachesCheckSubject(unittest.TestCase):
         )
         output = output_of(completed)
         self.assertNotIn("Traceback", output)
-        self.assertIn(
-            "FATAL: --check-result belongs to --package mode; subject mode derives the check "
-            "results from the evidence commit",
-            output,
-        )
+        self.assertIn("unrecognized arguments: --check-result", output)
         self.assertEqual(completed.returncode, 2, output)
 
     def test_a_commit_carrying_no_control_plane_is_refused_not_traced(self):
@@ -204,73 +195,11 @@ class TheSubjectModeReachesCheckReviewResultV2(unittest.TestCase):
         self.assertEqual(completed.returncode, 2, output)
 
 
-class TheVersionOneModeIsUndisturbed(unittest.TestCase):
-    """Negative control (E4): M10 ADDS a mode, it does not replace the package path.
-
-    A change that broke everything would be indistinguishable from one that broke only what
-    M10 targets without this. The v1 path has a live caller in `test_fix_round_locks.py`.
-    """
-
-    def test_a_schema_invalid_package_still_exits_one_without_a_traceback(self):
-        tmp = pathlib.Path(tempfile.mkdtemp(prefix="v3-review-v1-"))
-        (tmp / "pkg.json").write_text('{"package_id":"p-1"}', encoding="utf-8")
-        (tmp / "spec.json").write_text(
-            json.dumps(
-                {
-                    "work_id": "work-one",
-                    "objective": "o",
-                    "instruction_ref": {"path": "docs/i.md", "revision": "b" * 40},
-                    "instruction_units": [],
-                    "change_boundary": {"write_scope": ["docs"], "out": ["docs/private"]},
-                    "expected_artifacts": [],
-                    "obligations": [],
-                }
-            ),
-            encoding="utf-8",
-        )
-        (tmp / "rec.json").write_text('{"run_id":"run-one"}', encoding="utf-8")
-        completed = run_cli(
-            "--package", str(tmp / "pkg.json"),
-            "--spec", str(tmp / "spec.json"),
-            "--record", str(tmp / "rec.json"),
-        )
-        output = output_of(completed)
-        self.assertNotIn("Traceback", output)
-        self.assertEqual(completed.returncode, 1, output)
-        self.assertIn("defects", output)
-
-    def test_the_two_modes_cannot_be_asked_for_at_once(self):
-        scn = build_scenario()
-        completed = run_cli(
-            "--subject", scn.evidence_commit, "--package", "whatever.json",
-        )
-        self.assertEqual(completed.returncode, 2, output_of(completed))
-
-    def test_the_version_one_mode_still_requires_its_spec_and_record(self):
-        """Making them non-required for `--subject` must not make them optional for v1.
-
-        The package must EXIST and parse. Pointed at a missing path — which is how this test
-        was first written — the command dies in `load_package` before the guard is consulted
-        and exits 2 either way, so the assertion held with the guard deleted and the test
-        proved nothing (FULL a918e37..7572abd, F1). With a readable package the neutered
-        guard reaches `load_spec(None)` and raises TypeError at spec.py:67, which is the
-        traceback the assertion below was written to catch.
-        """
-        completed = run_cli("--package", str(readable_package()))
-        output = output_of(completed)
-        self.assertNotIn("Traceback", output)
-        self.assertIn("FATAL: --package mode requires --spec and --record", output)
-        self.assertEqual(completed.returncode, 2, output)
-
-    def test_the_refusal_names_only_the_input_that_is_actually_absent(self):
-        """The defect class, not the both-missing instance: one supplied, one omitted."""
-        completed = run_cli(
-            "--package", str(readable_package()), "--spec", str(readable_package()),
-        )
-        output = output_of(completed)
-        self.assertNotIn("Traceback", output)
-        self.assertIn("FATAL: --package mode requires --record", output)
-        self.assertEqual(completed.returncode, 2, output)
+# `TheVersionOneModeIsUndisturbed` stood here: E4's negative control for M10, proving the
+# added `--subject` mode did not replace the `--package` path. Round `CORE-SET-CODE`
+# retired that path, so the control has nothing left to be a control for; its four methods
+# (a schema-invalid package reported rather than traced, the two modes refused together,
+# and the two spec/record requirement cases) went with the mode they drove.
 
 
 if __name__ == "__main__":

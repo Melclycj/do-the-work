@@ -27,6 +27,7 @@ observation — so the goldens are byte-reproducible. Regenerate deliberately wi
 """
 from __future__ import annotations
 
+import json
 import pathlib
 import sys
 import unittest
@@ -253,6 +254,91 @@ class N2ValidatorTests(unittest.TestCase):
         """A result is bound by digest, so its canonical form must not depend on key order."""
         shuffled = dict(reversed(list(REVIEW_RESULT.items())))
         self.assertEqual(canonical_bytes(REVIEW_RESULT), canonical_bytes(shuffled))
+
+
+def review_schema() -> dict:
+    from rsclib.document_harness import SCHEMA_DIR
+
+    with open(SCHEMA_DIR / "review.schema.json", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+class TheClosedReviewSurface(unittest.TestCase):
+    """N2-A3: the review surface can express a bounded finding and nothing stronger.
+
+    Both methods came here from `test_package_and_review.py` when round `CORE-SET-CODE`
+    retired the v1 package leg and that suite with it. They are the two of its N2-A3 set
+    that assert against `review.schema.json` alone and needed no v1 function, and they are
+    kept rather than dropped because most of what they pin is **still live**:
+    `review.v2.schema.json` `$ref`s five of this file's `$defs` — `reviewRound`,
+    `instructionCompleteness`, `perObligationDisposition`, `finding`, `verifyScope` — so
+    three of the four enums below and every leaf the vocabulary scan walks are what the
+    successor result is validated against today. The other six N2-A3 methods needed the
+    retired `make_package` / `check_review_result` and went with the leg; what they covered
+    (an unknown kind failing shut, every kind resolving) is `N2ValidatorTests` above.
+    """
+
+    def test_n2_a3_control_verdicts_are_exactly_the_contract_set(self):
+        schema = review_schema()
+        self.assertEqual(
+            schema["$defs"]["reviewResult"]["properties"]["verdict"]["enum"],
+            ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"],
+        )
+        self.assertEqual(schema["$defs"]["reviewRound"]["enum"], ["FULL", "VERIFY"])
+        self.assertEqual(
+            schema["$defs"]["instructionCompleteness"]["properties"]["result"]["enum"],
+            ["COMPLETE", "INCOMPLETE"],
+        )
+        self.assertEqual(
+            schema["$defs"]["perObligationDisposition"]["properties"]["disposition"]["enum"],
+            ["SUPPORTED", "NOT_SUPPORTED", "UNVERIFIABLE"],
+        )
+
+    def test_n2_a3_no_semantic_proof_field_exists_in_the_review_surface(self):
+        """Recursive scan of every property name, required name and enum value.
+
+        Descriptions are deliberately not scanned: the module docstring's "not an OS
+        guarantee" is a *denial* of a proof claim, and a scan that flagged it would push the
+        next author to delete the disclosure rather than the field.
+        """
+        forbidden = (
+            "proof",
+            "proved",
+            "proven",
+            "guarantee",
+            "certified",
+            "correctness",
+            "exhaustive",
+            "mathematic",
+            "verified_complete",
+        )
+        names: set[str] = set()
+        values: set[str] = set()
+
+        def walk(node: object) -> None:
+            if isinstance(node, dict):
+                for key, value in node.items():
+                    if key == "properties" and isinstance(value, dict):
+                        names.update(value.keys())
+                    if key == "required" and isinstance(value, list):
+                        names.update(str(item) for item in value)
+                    if key == "enum" and isinstance(value, list):
+                        values.update(str(item) for item in value)
+                    if key == "const":
+                        values.add(str(value))
+                    walk(value)
+            elif isinstance(node, list):
+                for item in node:
+                    walk(item)
+
+        walk(review_schema())
+        self.assertIn("residual_uncertainty", names)  # the scan really did reach the leaves
+        self.assertIn("REVIEWED_NO_BLOCKER", values)
+        for token in forbidden:
+            for name in sorted(names):
+                self.assertNotIn(token, name.casefold(), f"proof vocabulary in property {name}")
+            for value in sorted(values):
+                self.assertNotIn(token, value.casefold(), f"proof vocabulary in enum value {value}")
 
 
 def _regen() -> int:
