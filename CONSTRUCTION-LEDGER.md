@@ -174,7 +174,22 @@
   **本轮五个在仓成员全部改动，欠独立 read 随下轮开轮**（含免通道 `0420d99` 的字节）；下轮冷读若再走
   窄形态，基线须按 `E10` 取「自**某一份**已记录整读以来未变」，不得只钉一份记录（本轮开轮读的 `O-1`
   即栽在这里）。
-  **下一队首＝轮 2 `CORE-SET-SIGNATURE`**：item F ＋ item N，`E2` 写入授权已落 `HD-60`，**不卡**。
+  **轮 2 `CORE-SET-SIGNATURE` CLOSED 2026-08-27**（记录 `v3-{cold-read-d3ba221,review-full-a554c0b,
+  review-verify-5e5bebf}.md`，三份皆原样落；journal `core-set-signature-2026-08-26.md`）：契约 v4
+  的签字迁至根目录 `CONTRACT-V4-SIGNATURE.md`、`HD-56` 转 `superseded`、签字对象仍 `614932de…`
+  不重签；轮 1 归本轮的 8 处残留全清，剥史树真断链 **13→5**（余 5 处：3 处裁决 12 明许、2 处为
+  `REVIEW.md:93` 一站点、裁决 13 明许悬空、item G 于轮 3 收）；`CORE-SET.md` 并入
+  `CONSTRUCTION-INDEX.md`（裁决 22）。开轮两裁落 `HD-61`（`E2` 授权扩至五处引用降名）与裁决 20
+  （`README.md:16` 并入范围）；`HD-60`/`HD-61` 消耗后经用户裁转 `retired`（`a554c0b`）。
+  **`E9` 三腿走满、修腿只花一次**：FULL `REVIEWED_NO_BLOCKER`（4 low/3 obs）→ 一次用户批准的修
+  `5e5bebf`（答 `L-1`，另三条入 bank，bank 19→22）→ VERIFY `REVIEWED_NO_BLOCKER`（2 low/2 obs）。
+  **本轮改动的是三个在仓成员，不是两个——契约 v4 是第三个，其字节欠独立 read 随下轮开轮**
+  （blob `dfc983d2…`→`5dfb7b64…`，开轮冷读整读的是旧 blob，故无可引之读；VERIFY `V-1`，本行即其
+  载体）；`CONSTRUCTION-CHECKLIST.md` 与 `document-harness/README.md` 同欠。**更正一句已提交的
+  结论**（`HD-59` 向前更正，原文留在 journal §9）：该节「本轮花的预算是零」写于 `66dfd30` 时为真，
+  此后本轮花掉一次 FULL 加一次修腿，VERIFY `V-2` 点名。
+  **下一队首＝轮 3 `CORE-SET-CODE`**：item G（v1 package 腿退役）＋ item H（`DEFAULT_REVIEW_RECORD_DIRS`
+  改名，带静默迁移风险），**不卡**。
   **账本 CLOSED 卷待拆**：新上限（`4b72a68`）当日即对它报警（17,116 字符），拆分是它自己的账本批、
   用户裁即 gate、不开轮。
 - **设计批 `ASSERT-OWNER` —— REVERTED 2026-08-15**（用户裁，依据 `E6`「a rule added about it is not the fix」）：它试图把 `HD-41` 写进指令层，装的过程中自身又出七个同类实例，FULL 返 `CHANGES_REQUIRED`；五个指令层文件已回 `ff05b01`、blob 逐一核对，checklist 回 204 行 / 12 条。诊断钉在 journal [`structure-vs-prose-2026-08-15.md`](document-harness/journal/structure-vs-prose-2026-08-15.md)；过程见 plan [`harness-assertion-owner-design.plan.md`](document-harness/plans/harness-assertion-owner-design.plan.md)。**四件未结已由用户 2026-08-16 一次裁完**：① 该轮 `E9` 预算＝撤回不消耗腿、不欠 VERIFY，该轮就此结账 ② rider `wl-route` 推迟（行不动、redeem-when 照旧，到期未兑的事实留在 FULL 记录里）③ `HD-41` **不再试**指令层承载，永久只住决策簿（用户裁不建条目，锚即本行；`HD-5` 的 §live 必读使其仍可达）④ 决策簿准入口径**维持**——构造批无 choice JSON，其裁决继续只活在 commit 正文，代价照记。

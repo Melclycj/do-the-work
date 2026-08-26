@@ -1,18 +1,19 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
-> **Status: round 1 CLOSED 2026-08-26; round 2 OPEN 2026-08-26; round 3 remains.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
+> **Status: rounds 1 and 2 CLOSED (2026-08-26, 2026-08-27); round 3 remains.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
 > is the carrier of the twenty-two user rulings of 2026-08-25/26** below — eight taken before the
 > batch opened and fourteen while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
 > tree, which is chat-only load-bearing material and a finding under `R2`. A cold session reads
 > this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 >
-> **Round 2 `CORE-SET-SIGNATURE` is open.** Its opening cold read ran at **full weight** — all
-> nine members end to end, 1,644 lines, nothing resting on `E10`'s citation clause — and is
-> committed unchanged at `fc9c008`: **0 must-fix, 1 low, 3 observations**, no verdict, no budget
-> spent. The `E11` card was rendered and approved, and rulings 20–22 came off it. The commits
-> that carry *this file* are orchestrator bookkeeping, whose gate is the user ruling rather than
-> a round; the candidate commits beside them are the cold executor's.
+> **Round 2 `CORE-SET-SIGNATURE` is CLOSED (2026-08-27).** Its opening cold read ran at **full
+> weight** — all nine members end to end, 1,644 lines, nothing resting on `E10`'s citation clause
+> — and is committed unchanged at `fc9c008`: 0 must-fix, 1 low, 3 observations. Rulings 20–22 came
+> off its `E11` card. `E9`'s three legs were walked and **the fix leg was consumed once**: FULL
+> `REVIEWED_NO_BLOCKER` → one user-approved fix → VERIFY `REVIEWED_NO_BLOCKER`. The commits that
+> carry *this file* are orchestrator bookkeeping, whose gate is the user ruling rather than a
+> round; the candidate commits beside them are the cold executor's.
 
 ## Goal (one line)
 
@@ -592,14 +593,24 @@ this repository's own rounds — and what those read is the plan and the index.
   widenings the card took, and both are recorded above rather than in a second file. Original
   text: open rounds 2 and 3 per the ruling from step 2, each with its own plan file if their
   shape has changed by then.
-- [ ] 9. Execute round 2. Dispatch a cold executor via `dtw dispatch --construction-executor`;
+- [x] 9. **DONE.** Landed as `07ef526` (item F) and `cb4f22f` (item N) by a cold executor, with
+  `66dfd30` carrying the round journal. All of item F rode one commit as required. Original text:
+  execute round 2. Dispatch a cold executor via `dtw dispatch --construction-executor`;
   **item F in one commit** — the new signature carrier, the contract write (three signature sites
   under `HD-60` plus five citation demotions under `HD-61`), `E2`'s v4 blob literal,
   `document-harness/README.md:16` per ruling 20, and `HD-56` → `superseded` with its successor
   carrying the signature in full and both directions of the pointer — and **item N in one
   commit**. The orchestrator hand-edits no work product (`HD-55`).
-- [ ] 10. Dispatch the FULL over the round's range, walk the `E9` budget, land the record
-  unchanged, close round 2.
+- [x] 10. **DONE — round 2 CLOSED.** FULL `7d7eff5` → `REVIEWED_NO_BLOCKER` (4 lows, 3
+  observations) → one user-approved fix `5e5bebf` answering `L-1`, the other three lows banked on
+  the same ruling (bank 19 → 22) → VERIFY `b823506` → `REVIEWED_NO_BLOCKER` (2 lows, 2
+  observations). All three records committed unchanged. **The fix leg was consumed once**, unlike
+  round 1's. The VERIFY's two lows and the FULL's `O-3` were all carriered by this closeout, which
+  is what each named: the ledger entry states three edited members with contract v4 among them
+  (`V-1`), the budget correction is written forward there rather than into the journal in place
+  (`V-2`), and these checkboxes and the resume pointer stop being stale (`O-3`). Original text:
+  dispatch the FULL over the round's range, walk the `E9` budget, land the record unchanged, close
+  round 2.
 - [ ] 11. Open round 3 `CORE-SET-CODE` (items G and H).
 
 ## Acceptance — round 1
@@ -678,18 +689,27 @@ Each shown by its command, not by a sentence. Figures are measurements and go st
 
 ## Resume pointer
 
-当前指针: step 9 — **round 2 `CORE-SET-SIGNATURE` is OPEN and nothing is waiting on the user.**
-The opening cold read is discharged at full weight (`fc9c008`, 0 must-fix), the `E11` card is
-approved, and rulings 20–22 are recorded above. Step 6b is closed (see step 6b); the ledger's
-CLOSED-roll split is still open and blocks nothing.
+当前指针: step 11 — **round 2 `CORE-SET-SIGNATURE` is CLOSED and nothing is waiting on the
+user.** Rounds 1 and 2 are both closed; only round 3 `CORE-SET-CODE` (items G and H) remains, and
+nothing blocks it. Step 6b is closed; the ledger's CLOSED-roll split is still open and blocks
+nothing.
 
-**The next action is to dispatch a cold executor** — `dtw dispatch --construction-executor` —
-with items F and N, this plan, and the two `E2` authorisations. **Both are one-shot and both are
-consumed by the same contract write**: `HD-60` (signature re-siting, three sites, three riding
-obligations in the *same* commit — update `E2`'s v4 blob literal, keep `HD-56` binding the signed
-blob `614932de…`, land the new carrier with `HD-56`'s supersession pointers) and `HD-61` (the
-five citation demotions). `HD-59` also binds the round: a committed conclusion is never rewritten
-in place, only corrected forward. Round 3 `CORE-SET-CODE` (items G, H) follows.
+**What round 3's opening owes, measured rather than remembered.** Three in-repo members changed
+in round 2 — `document-harness/CONSTRUCTION-CHECKLIST.md`, `document-harness/README.md`, and
+**contract v4, whose blob moved `dfc983d2…` → `5dfb7b64…`**, so the round-2 opening read of it is
+no longer citable. All three ride round 3's opening read. That third member is the one round 2's
+own records first miscounted; it is stated here, in `CONSTRUCTION-LEDGER.md`'s round-2 entry and
+in the round journal's §9 correction, because a next round sizes from the ledger.
+
+**The `E2` authorisations are gone**: `HD-60` and `HD-61` were consumed by round 2's contract
+write and retired at `a554c0b`. Round 3 touches code and tests, not frozen bytes — but `HD-20`
+still routes anything that lands on a frozen path back to a fresh recorded ruling, and rider
+`sig-write-once` is waiting on exactly that. `HD-59` binds round 3 as it bound round 2.
+
+**The next action is to open round 3 `CORE-SET-CODE`** under `HD-55`: cold read, `E11` card, then
+wait. Its scope is item G (the v1 package-bound leg retires, which also closes `REVIEW.md:93`'s
+ruled-dangling pointer) and item H (`DEFAULT_REVIEW_RECORD_DIRS` renamed, with the silent
+migration hazard the item describes).
 
 ## Notes
 
