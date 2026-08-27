@@ -207,6 +207,19 @@
   harness **v3 内部**的两个格式版本，不是 v3 之前的代次）③ 清掉冻结 schema 里那句已死的 digest 复算
   配方（v1 的，随 v1 走）④ **补上扫描盲点**：断言 `test_fix_round_locks.py` 的 `N2_MODULES_WITHOUT_CODES`
   确实无编号码，五行、不改签名；顺带兑 rider `V-2` 那句无量程的绝对话（同文件）。
+  **▶ 队首已立项为批 `FREEZE-TO-ALARM`（2026-08-27，尚未开轮）**，plan
+  [`document-harness/plans/freeze-to-alarm.plan.md`](document-harness/plans/freeze-to-alarm.plan.md)
+  是**2026-08-27 六条用户裁决的唯一载体**（裁决在此之前只活在对话与一份未入库简报里＝`R2` 的
+  chat-only load-bearing）。六条要点：`E2` 只留**事后逐点披露**、不再要求写前裁决；报警挂 **CI**
+  不挂 pre-commit；**自由通道留、`E2` 例外删**；**`HD-20` retire**（用户裁的状态翻转，与两句删除
+  同 commit）；三条 `E2` bank 的 rider 改为随下一批兑；**`main` 分支保护并入本批**（它是「报警挂 CI」
+  的前提——`pull_request` 跑的是 PR 自己 head 的 workflow）。**该 plan 的范围与本条上面那「四件」
+  不一致，且这不一致未裁**：plan 只装 ①，另加 CI 报警与分支保护两件（加是用户裁的，减不是）。
+  两条出路——把批扩回四件，或维持 ① 并改本条说明四件已拆——**归用户，未答不开轮**。
+  **另立一件小的（此前无处记录）**：CI 依赖未固定（`pip install pytest "jsonschema>=4.18"
+  referencing` 运行时解析最新）＋ 第三方 Action 不受限（`allowed_actions: all`、
+  `sha_pinning_required: false`、`actions/checkout@v4` 等可变 tag）。用户裁「与 `E2` 无关、单独一件
+  小的」，不进本批。
 - **候选隔离机制已丢失 —— 设计题立案（用户 2026-08-27 提出，未裁是否开轮）**：用户批准的 v3 执行计划
   `document-harness/plans/document-work-assurance-harness-v3.plan.md:119` 明写「All payload writing
   occurs on an isolated Git candidate branch/worktree … `REJECT` or `REPLAN` preserves the candidate
