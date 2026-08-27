@@ -52,26 +52,32 @@
   orchestrator and executor are both the work side — the heading above binds them in one
   breath — so work out at the start which side this session is on, and a request that
   belongs to the other side is flagged for the user to route, never absorbed.
-- **E2** Frozen bytes are **not written without a recorded user ruling**, and the list is
-  exactly this: contract v4 `5dfb7b64…` (`contract/Document-Work-Assurance-Contract-v4.md`;
-  moved on from `dfc983d2…` under the recorded rulings `HD-60` / `HD-61` of 2026-08-26, which
-  themselves moved on from the signed blob `614932de…` under `HD-57`'s recorded ruling of
-  2026-08-23 — the signed blob remains the signature object `CONTRACT-V4-SIGNATURE.md` binds,
-  that record having succeeded `HD-56` as the carrier on 2026-08-26;
-  its merged sources — the v3 contract `b2dbdf75…` and the two supersessions
-  `68031fa2…` / `e1a2f26b…` — left the tree with round `CONTRACT-V4`; their bytes are
-  immutable in history at those blobs and are not what this list governs), and every file the
+- **E2** The announced paths **may be written, and a write to them is disclosed after the
+  fact rather than authorised before it** (user ruling 2026-08-27, which ended this clause's
+  gate): the commit that writes one **names, in its own body, the full repo-relative path of
+  every announced file it changed**, site by site, and that body is what the independent
+  review reads, so the disclosure already sits where the review looks and owes no second
+  carrier. The list is exactly this:
+  `contract/Document-Work-Assurance-Contract-v4.md`, and every file the
   `schema/document-assurance-v3/` pack held
   at the 2026-08-03 re-baseline (fifteen files: the fourteen of the 2026-07-29 entry plus
   `schema/document-assurance-v3/paragraph-map.schema.json`, which joined
   2026-07-31 and which the 保障面二期复盘 found sitting outside the freeze); a pack file
-  added after that date is not frozen by this rule until a later re-baseline — new schemas
-  stabilize first, which is why this clause re-baselines rather than auto-freezing.
-  One blob and one directory, both decidable by inspection, so nothing
+  added after that date is not announced by this rule until a later re-baseline — new schemas
+  stabilize first, which is why this clause re-baselines rather than auto-enrolling.
+  One path and one directory, both decidable by inspection, so nothing
   has to decide what *signed* means or which schemas N0 named; **a path outside them is not
-  frozen by this rule**, and this harness does not claim to freeze instruments it does not
-  govern. When the cleanest fix needs one, either take the in-boundary fix and record why,
-  or obtain the ruling and write under it, or stop with `SPEC_GAP`. A boundary declared
+  announced by this rule**, and this harness does not claim to watch instruments it does not
+  govern. No blob hash is pinned here — what was signed is `CONTRACT-V4-SIGNATURE.md`'s to
+  record, and a hash written here too is a second copy needing a hand edit on every
+  legitimate write. **What the disclosure is worth, and what it is not:** that a body names
+  a path is mechanically decidable, and being decidable is the whole of what it certifies —
+  it says nothing about whether what the body says about that path is true, or whether the
+  write should have happened at all. Those stay the independent review's to judge, and this
+  clause buys the review a place to start rather than a verdict. *Frozen*, and *the frozen
+  surface*, are the older names for this same set — a name for which paths these are, never a
+  prohibition, now that the gate has ended — and are still what the riders, the decision log
+  and the round records call it. A boundary declared
   anywhere else — a plan's freeze surface, a round's own card — is derived from this rule
   and never independently authoritative.
 - **E3** Measure last: a figure is invalidated by any later change to what it measures.
