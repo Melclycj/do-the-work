@@ -25,3 +25,31 @@ jobs:
         run: python -m pip install pytest "jsonschema>=4.18" referencing
       - name: Run the battery
         run: python -m pytest -q
+
+  # E2's alarm. Red when a commit changed an announced path and that commit's own message
+  # does not contain that file's full repo-relative path. The job id and its `name` are kept
+  # identical and stable because item D lists this exact string as a required status check on
+  # `main`; renaming it silently un-requires it. Deliberately not on the matrix above — a
+  # matrix job reports one check per combination, and a required check needs one stable name.
+  # `fetch-depth: 0`: the range and every commit message in it must be reachable. Range inputs
+  # reach the script through the environment rather than through `run:` interpolation, which is
+  # this repository's standing posture (no expression is expanded into a shell script anywhere
+  # in this file). Stdlib only, so no install step and no dependency of this alarm on the
+  # unpinned resolution above.
+  announced-path-disclosure:
+    name: announced-path-disclosure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Announced paths changed by a commit are named by that commit
+        env:
+          # push: before..after, with an all-zeros `before` on a new branch meaning no range.
+          # pull_request: base..head — `github.sha` is the merge commit, never the PR's tip.
+          BEFORE: ${{ github.event.before || github.event.pull_request.base.sha }}
+          AFTER: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: python tooling/announced_path_disclosure.py --before "$BEFORE" --after "$AFTER"
