@@ -206,13 +206,16 @@
   **链**：`464b7dc` 开轮冷读 → `580d236` 冷读 must-fix → `a2d3fb4` item B → `184387c` item A →
   `1d4d9aa` item C（job `announced-path-disclosure` + 18 测试）→ `0355b36` item E（含答 rider `PD`）
   → `ad0663d` 勘误 → FULL `9580ca9`。
-  **未结四件**：① **`HD-44` 状态 live 而尾句与 item A 冲突**（决策簿压细则）——用户 2026-08-28 裁
-  **立后继条目、`HD-44` 转 superseded**，随修腿落 ② 十六条路径现仅报警脚本枚举、本仓无可解析来源
-  ③ item C 把 `split-design.md` §5 写伪而 rider `PD` 正指向它 ④ **item D 未做**：报警已在 GitHub
-  实跑绿（run `33089379131`），check 名已注册、保护可开；本轮 commit 全直推 `main`，故裁决 1 的
-  PR flow **未管到本轮自己的工作**，照记。VERIFY 未欠清。
+  **`E9` 预算已走满**：FULL `CHANGES_REQUIRED`（`9580ca9`）→ 唯一修腿（`013483f` 补 plan/ledger ·
+  `1830d47` `HD-44` 转 superseded、后继 `HD-62` 承载收窄全文 · `34d63cc` `split-design.md` §5 向前
+  更正 · `629cff5` 十六条路径的锚点判为 design 入 bank ＝ rider `announced-set-anchor`）→ VERIFY
+  **`REVIEWED_NO_BLOCKER`**（`a8bfe5b`）。全仓再无「`E2` 写前欠裁决」的活要求。
+  **仍欠 item D，未落不收轮**：报警已在 GitHub 实跑绿（run `33089379131`），check 名
+  `announced-path-disclosure` 已注册、保护可开；**本轮 commit 全直推 `main`，故裁决 1 的 PR flow
+  未管到本轮自己的工作、保护落在本轮之后**，照记。
   **plan 与本条曾在六个施工 commit 里一次没动**（FULL blocker ②，漏在 orchestrator：上一批每轮都有
-  开轮 commit、本轮无），本次更正即答此条。
+  开轮 commit、本轮无）；修它的那个 commit 又自犯同形（VERIFY `V-1`：把已入 bank 的一件写成已交付），
+  同批清掉。**触碰未兑**：rider `archive-header-selfcount` 因 `HD-44` 移档而触碰，按修腿边界留行。
   **队首那「四件」已由用户 2026-08-27 裁定拆开**：本批只装 ①，另加 CI 报警与分支保护；**②③④ 仍在
   队列、未开工**（②③ 写冻结字节，旧 `E2` 下仍欠裁决，同轮跑等于一边改规则一边受其管；④ 不碰冻结面）。
   **另立一件小的（此前无处记录）**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、

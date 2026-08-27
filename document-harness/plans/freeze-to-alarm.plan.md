@@ -1,7 +1,8 @@
 # Plan — batch `FREEZE-TO-ALARM`: the freeze stops blocking writes and starts announcing them
 
-> **Status: round OPEN and worked; FULL returned `CHANGES_REQUIRED`; the one fix leg is in
-> flight.** Written 2026-08-27 at batch scoping, base
+> **Status: the round's `E9` budget is walked in full — FULL `CHANGES_REQUIRED` → one approved fix
+> leg → VERIFY `REVIEWED_NO_BLOCKER`. Item D is the one work item still owed, and the round does
+> not close until it lands.** Written 2026-08-27 at batch scoping, base
 > `51553bdcb4f341b8b87bec4c0207f9d049d25141`, branch `main`. **This file is the carrier of the six
 > user rulings of 2026-08-27** below. Until they landed here they lived only in the conversation
 > that took them and in a session-side briefing outside the tracked tree, which is chat-only
@@ -382,9 +383,13 @@ Sites are at `51553bd` and must be re-derived before editing — line numbers dr
 - [ ] 7. **STILL OPEN.** Item D — produce the `gh` command, hand it to the user, record what was applied by
       re-reading the endpoint.
 - [x] 8. Execute item E. **`0355b36`.**
-- [ ] 9. **IN FLIGHT.** FULL dispatched over `464b7dc..ad0663d`, returned `CHANGES_REQUIRED`
-      (2 blockers, 2 low, 6 observations), record committed unchanged at **`9580ca9`**. The one
-      approved fix leg is being walked now; VERIFY still owed. Walk the `E9` budget (one FULL, at most one approved fix, one VERIFY),
+- [x] 9. **Budget walked in full.** FULL over `464b7dc..ad0663d` returned `CHANGES_REQUIRED`
+      (2 blockers, 2 low, 6 observations), record unchanged at **`9580ca9`**. The one approved fix
+      leg: **`013483f`** (blocker 2, orchestrator bookkeeping), **`1830d47`** (`HD-44` → superseded,
+      successor `HD-62` carries the narrowed text), **`34d63cc`** (`split-design.md` §5 corrected
+      forward), **`629cff5`** (the announced-set anchor banked as rider `announced-set-anchor`,
+      judged design rather than repair). VERIFY over `9580ca9..629cff5` returned
+      **`REVIEWED_NO_BLOCKER`**, record unchanged at **`a8bfe5b`**. Walk the `E9` budget (one FULL, at most one approved fix, one VERIFY),
       land the records unchanged, close the round.
 
 ## Acceptance (done = ?)
@@ -469,25 +474,37 @@ no frozen path and can ride anything. That shape is an input to question 4.
 
 ## Resume pointer
 
-当前指针: **the round is open and worked. Six work commits landed; the FULL returned
-`CHANGES_REQUIRED` and its record is committed at `9580ca9`. The single `E9` fix leg is in flight.**
+当前指针: **the round's review budget is walked in full and returned clean. One work item is still
+owed — item D — and the round does not close until it lands.**
+
+`E9` budget: FULL `CHANGES_REQUIRED` (`9580ca9`) → one approved fix leg (`013483f`, `1830d47`,
+`34d63cc`, `629cff5`) → VERIFY `REVIEWED_NO_BLOCKER` (`a8bfe5b`). No leg remains.
+
+**Corrected here, and the correction is the VERIFY's one low finding (`V-1`).** An earlier draft of
+this pointer listed "the sixteen announced paths gain a locally resolvable enumeration" among the fix
+leg's deliverables. That was wrong when written, not overtaken later: the FULL had already routed
+that finding to the bank under `R10`, and the fix leg then judged all three candidate remedies to be
+design rather than repair — each landing on `E10`'s design test, on the three-copy shape rider
+`E10-sync` records, or on the `E5` inversion this round avoided in its own tests. **It was banked, not
+fixed**, as rider `announced-set-anchor`, whose deadline is the first time the
+`schema/document-assurance-v3/` pack gains or loses a file. Anyone reconciling this plan at closeout
+should read it as banked.
 
 Next actions, in order:
 
-1. **The fix leg** — four items, all approved by the user 2026-08-28: `HD-44` gets a successor entry
-   carrying its narrowed text and flips to superseded (its live tail still says frozen bytes owe a
-   ruling, which item A removed, and the decision log outranks the checklist on conflict); this
-   file and the ledger are corrected to the round's actual state (done in the commit carrying this
-   text); the sixteen announced paths gain a locally resolvable enumeration; and
-   `document-harness/split-design.md` §5, which item C falsified and which rider `PD`'s redeem-when
-   now points at, is corrected forward.
-2. **VERIFY** — targeted at the fix leg only. Owed before the round closes.
-3. **Item D** — the one work item still untouched. The `gh` command is written and handed to the
+1. **Item D — the only work item still untouched.** The `gh api` command is written and handed to the
    user; the alarm has been observed running green on GitHub (run `33089379131`, 7s), so the check
-   name is registered and protection may now be applied. **Record whether protection landed before
-   or after this round's commits — it landed after, and every commit in this round went straight to
-   `main`, so the PR flow question 1 settled did not govern this round's own work.**
-4. **Closeout** — ledger entry, and the batch's remaining queue.
+   name `announced-path-disclosure` is registered and protection may be applied without deadlocking
+   on a check GitHub has never seen. The user applies it; record what took effect by re-reading the
+   protection endpoint rather than by asserting the command ran. **Record also that protection lands
+   after this round's own commits — every one of them went straight to `main`, so the PR flow open
+   question 1 settled did not govern this round's own work.**
+2. **Closeout** — the ledger entry, and the batch's remaining queue.
+
+**Touched but unredeemed, recorded so closeout sees it**: rider `archive-header-selfcount`'s redeem
+surface was touched by `HD-44`'s move into the archive (`1830d47`) and the row was deliberately left
+standing, the fix leg's boundary being the four approved findings. The new header block was written
+so as not to repeat the defect.
 
 ## Notes
 
