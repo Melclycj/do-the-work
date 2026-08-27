@@ -14,6 +14,23 @@ read.
   Both wrote under `E2`'s "obtain the ruling and write under it" clause. What a signature binds
   is the blob above; what `E2`'s frozen-byte list names is the *current* blob, so the two
   literals differ by construction and each is checked against its own source.
+  - **Corrected forward 2026-08-28, batch `FREEZE-TO-ALARM` — the sentences above are left
+    standing verbatim (`HD-59`) and this paragraph is the correction.** Item A of that batch
+    (`184387c`, 2026-08-27, carrying the user's rulings of 2026-08-27) rewrote `E2` from a gate
+    into an announcement, and two of the claims above did not survive it. **`E2` now pins no blob
+    hash at all** — its own text says so, and the signed blob's carrier is this file — so there
+    are not *two* literals to differ by construction; there is one, the signed one recorded
+    above, and nothing in `E2` to check the current blob against. **`E2`'s "obtain the ruling and
+    write under it" clause no longer exists**, having gone with the gate it served, so the
+    sentence naming it reads as history only: both post-signature writes did go through that
+    clause under the regime then in force, and the clause itself is now findable in this
+    repository's history rather than in `document-harness/CONSTRUCTION-CHECKLIST.md`. What the
+    current blob is, is recovered from the commit record instead: since item A, a write to
+    `contract/Document-Work-Assurance-Contract-v4.md` is owed disclosure after the fact, the
+    commit that writes it naming that path site by site in its own body. **Unaffected, and
+    deliberately untouched here:** the blob this signature binds, and what the signature means
+    (§14) — item A changed the rule about writing those bytes, not what was signed or what
+    signing them did.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.
