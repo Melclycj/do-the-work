@@ -225,3 +225,86 @@ pins exist to prevent.
   round has spent is zero.
 - **`E10-sync` does not fall due**: no item touches the membership sentence. `E2` was not written
   and no authorisation was sought, which is what the round's opening required.
+- **Written by this round's one user-approved fix leg (2026-08-27), answering `L-2` of FULL
+  `v3-review-full-1db5155.md`. The bullets above stand word for word — `HD-59` forbids rewriting a
+  committed conclusion in place, and this is the adjacent form it admits. This round edited an
+  `E10` member and this section owed the statement it did not make.** `document-harness/REVIEW.md`
+  moved from blob `395995d45991670dc67e2eb616624c44b30ec123` to
+  `aad3dd83643a4656aa239e97afec8edb691228a6`. Re-derived rather than copied from the finding:
+  `git rev-parse {b737742,d3cda1a,1db5155}:document-harness/REVIEW.md` at this fix's base
+  `fccadfb`, and the same command over all nine members returns the same blob at both ends for the
+  other eight, so **the count is one**. Two hunks: item G retiring the ruled-dangling `:93` pointer
+  (obligation G5 in §1), and item H's pass over the record channel (H2 in §1). The opening cold
+  read `v3-cold-read-b737742.md` read that member end to end at `395995d4…`, 320 lines — its §2
+  member table row 4 and its closing blob table both pin it — so **no recorded read is citable for
+  the bytes that now stand**, which is `E10`'s citation clause working exactly as written.
+  **The two facts `E10`'s deferral clause asks a commit to record, stated here because `HD-59`
+  puts `56d1b17`'s and `5a39945`'s bodies out of reach.** Neither hunk adds a clause to any rule
+  nor changes what any rule requires beyond what items G and H were opened to change; and no other
+  round is in flight — rounds 1 and 2 are CLOSED and this batch closes with this one — so the
+  effect on every round in flight is nil. That is the FULL's own reading of the two hunks,
+  reproduced against the diff rather than adjudicated (`E12`). **Deferral, never exemption**: the
+  bytes ride the next read of this layer at per-member digest cost, and this sentence is what a
+  later read sizes from.
+  **Why this was worth the fix leg and not a rider row.** The batch closes here, so no later
+  round-open exists whose sizing would surface the debt on its own — round 2's analogous statement
+  was surfaced by round 3's opening, and there is no round 4. Round 2 carried the same statement as
+  its own journal §9 bullet and spent its single fix leg correcting that bullet's count when its
+  FULL found it short, which is the same defect class one step earlier. And the round's own FULL
+  cannot stand in for the read: `E10` says the amendment's read "is never banked as the round's
+  FULL".
+
+## 11. The fix leg — its WorkSpec, its reproduction, and what it refused to widen into
+
+`HD-35` puts the decomposition on the executor, and no plan supplied one for the fix leg any more
+than it did for the round, so it is written here on §1's terms. Five obligations, each with the
+evidence that answers it.
+
+| # | Obligation | Evidence |
+|---|---|---|
+| F1 | `B-1`'s sentence states what holds, and the fix is that text changing rather than a rule added about it (`E6`) | the `N2_MODULES_WITHOUT_CODES` comment: the claim about a *code* is gone, replaced by the measured boundary and the one move that restores a sweep |
+| F2 | The finding is reproduced before its fix is written — to write it correctly, never to adjudicate the reviewer (`E12`) | the mutation below, its negative control, and a `sha256` restore |
+| F3 | The defect class is swept before anything is written, not the reported instance (`E7`, `HD-41` ④) | two live sites carry the phrase; the sibling measured true and was left alone — grep output in the commit body |
+| F4 | `L-2`'s read debt is recorded at the location the finding names, in `HD-59`'s forward form | §10's closing bullet, on a `git rev-parse` over all nine members re-run at this fix's base |
+| F5 | Three findings bank as rows rather than edits, on the user's routing ruling of 2026-08-27 | `HARNESS-RIDERS.md` 24 → 27, each row carrying its own deadline or its explicit absence |
+
+**The mutation, and the distinction it establishes.** In a scratch worktree at `fccadfb`, from a
+`sha256`-checked copy: `CODE = "V3-REVIEW"` at module level and one
+`Issue(f"{CODE}-UNSWEPT-CODE", "x", "y")` call site added to `review.py` — the exact shape
+`CODE_PATTERN` is written to find, naming a code no test asserts.
+
+```
+negative control, unmutated tree : 21 passed in 0.65s
+mutated, this class              : 21 passed in 0.09s
+mutated, whole battery           : 795 passed in 125.98s
+CODE_PATTERN against review.py   : ['-UNSWEPT-CODE']
+named_codes() keys               : ['flow.py', 'issues.py', 'summary.py']
+```
+
+Restored from the copy, never by `git checkout`; `sha256sum -c` returned OK and both trees were
+clean afterwards. **The regex sees the code; nothing hands it the file.** That is the distinction
+§8's own mutation could not reach — emptying `N2_MODULES_WITHOUT_CODES` reddens the *module*
+partition, a different claim about a different object — and `R4` is why the difference is not a
+quibble: mutation proves a test has binding force, never that its force is sufficient.
+
+**The class, swept first.** The phrase lives at two places in the suite. The sibling is about a
+*module* that names codes trying to hide behind the no-sweep precedent; a module in no set fails
+the partition, which is what §8's mutation demonstrated, so that sentence is true and was not
+touched. The one this leg answers was about a *code* inside an already-listed module, which nothing
+reads. A third hit is inside a committed review record, which `HD-59` and `R6` both put out of
+reach.
+
+**The scope held, and the second arm was refused.** `B-1`'s record offers one — an assertion that
+`named_codes()` over `N2_MODULES_WITHOUT_CODES` yields nothing — and calls it acceptable but not
+required. Taking it means changing `named_codes()`, which iterates `N2_MODULES` by construction, so
+the arm is machinery outside the sentence the finding names. `E6` says the fix is the text changing
+and that a fix needing new machinery is the signal to re-question the guarded thing rather than to
+add a guard. The sentence was the wrong thing; the sentence is what changed.
+
+**What this leg leaves behind, stated rather than implied.** The three banked rows are debt and not
+repair. `L-1`'s and `L-3`'s figures stay wrong where they are, inside committed commit bodies that
+`HD-59` puts beyond editing, and the rows exist so a later reader meets the correction rather than
+the figure. The frozen v1 schema's stranded digest recipe stays stranded until an `E2` recorded
+ruling that names `review.schema.json` exists — and that row records a measured qualifier the
+recommendation it came from did not carry, which §10's first bullet and the row itself both name.
+Nothing else in the FULL was opened.

@@ -254,8 +254,17 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
     N2_MODULES = ("flow.py", "summary.py", "issues.py")
 
     #: V3-N2 modules with NO coded vocabulary left to sweep — listed rather than dropped, so
-    #: the partition below still accounts for them and a code added to one later fails here
-    #: until someone says which sweep covers it.
+    #: the partition below still accounts for them. That is the whole of what listing buys,
+    #: and the boundary belongs here rather than in a reader's assumption: the partition
+    #: reacts to a *module*, never to a *code*. `named_codes()` reads `N2_MODULES` alone and
+    #: the partition compares module names against the directory, so a coded vocabulary
+    #: returning to a module listed here is swept by nothing and stays green. The way back is
+    #: to move that module into `N2_MODULES`, which is the only thing that restores a sweep.
+    #: Measured 2026-08-27 (round `CORE-SET-CODE`'s fix leg, answering `B-1` of
+    #: `v3-review-full-1db5155.md`): `CODE = "V3-REVIEW"` plus one `f"{CODE}-UNSWEPT-CODE"`
+    #: call site added to `review.py`, asserted by no test, left this class at 21 passed and
+    #: the whole battery at 795 passed — while `CODE_PATTERN` matched the added code when run
+    #: against the file by hand, so the blind spot is the module list and not the regex.
     #: `review.py` joined 2026-08-27 (round `CORE-SET-CODE`): its `CODE` / `PACKAGE_CODE`
     #: vocabulary was the version-1 package leg's — `V3-PACKAGE-*` from `check_package` and
     #: `verify_member_bytes`, `V3-REVIEW-*` from `check_review_result` — and retired with it.
