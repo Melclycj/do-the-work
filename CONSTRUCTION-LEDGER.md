@@ -188,15 +188,29 @@
   载体）；`CONSTRUCTION-CHECKLIST.md` 与 `document-harness/README.md` 同欠。**更正一句已提交的
   结论**（`HD-59` 向前更正，原文留在 journal §9）：该节「本轮花的预算是零」写于 `66dfd30` 时为真，
   此后本轮花掉一次 FULL 加一次修腿，VERIFY `V-2` 点名。
-  **轮 3 `CORE-SET-CODE` 开轮 2026-08-27**（开轮读 `7135cd2`：九成员整读 1,648 行，0 must-fix、
-  2 low 皆入 bank，bank 22→24；开轮四裁 23–26 载 plan）：item G（v1 package 腿退役，顺带收 
-  `REVIEW.md:93` 裁决 13 明许的悬空指针）＋ item H（`DEFAULT_REVIEW_RECORD_DIRS` 的**值**改中性，
-  非改标识符）。**本批首次动代码**；不碰 `E2` 冻结面，故不欠也不得取写入授权。
-  **item H 的迁移危险经实测比 plan 原文更近**：已知调用者 `D:/Thesis-stage-control-refactor` 
-  **根本没有 `.harness/scan-surfaces.json`**（三层深度内、主仓与 worktree 皆无），却在 
-  它自己的树下、与本条现引默认值同名的那个位置存着评审记录——无声明可丢、不需新克隆，
-  改默认值当场使其记录不被认。**迁移只在本仓记建议，不跨仓写字节**（裁决 25）。
-  **账本 CLOSED 卷待拆**：新上限（`4b72a68`）当日即对它报警（17,116 字符），拆分是它自己的账本批、
+  **轮 3 `CORE-SET-CODE` CLOSED、批 `CORE-SET` 整批 CLOSED 2026-08-27**（记录 `v3-{cold-read-b737742,
+  review-full-1db5155,review-verify-7a4e47b}.md`）：v1 package 评审腿整条退役、
+  `DEFAULT_REVIEW_RECORD_DIRS` 的值改中性。电池 854→**795**（少的 59 条逐条对账）；
+  **全批口径：剥史树非解析引用 31→3**，余三条皆裁决 12 明许。FULL `CHANGES_REQUIRED` → 一次修 →
+  VERIFY `REVIEWED_NO_BLOCKER`，修腿只花一次；bank 24→27。**本仓自 2026-08-27 起持有
+  `.harness/scan-surfaces.json`**（声明旧目录）——gitignore、每个新克隆须重写，直到记录搬家。
+  **未结六条逐条见 plan 的 *What this batch leaves open***，皆不卡。
+- **下一批（用户方向 2026-08-27，尚未开批）—— 拆冻结 + 清 v1 残余**：① **拆掉 `E2` 冻结机制**（用户：
+  冻结意在防手滑、不在反复阻止改动；`E2` 是 `E10` 成员的条款，改它是 design、须开轮）② **删 v1 的
+  ReviewResult schema 定义与两处注册**（实测依据：本仓与调用者仓**从未产生过任何 ReviewResult JSON**；
+  版本键控机制保留，「缺 `schema_version` 即 v1」的 fallback 改为报错。**v2 是现役机器，不碰**——v1/v2 是
+  harness **v3 内部**的两个格式版本，不是 v3 之前的代次）③ 清掉冻结 schema 里那句已死的 digest 复算
+  配方（v1 的，随 v1 走）④ **补上扫描盲点**：断言 `test_fix_round_locks.py` 的 `N2_MODULES_WITHOUT_CODES`
+  确实无编号码，五行、不改签名；顺带兑 rider `V-2` 那句无量程的绝对话（同文件）。
+- **候选隔离机制已丢失 —— 设计题立案（用户 2026-08-27 提出，未裁是否开轮）**：用户批准的 v3 执行计划
+  `document-harness/plans/document-work-assurance-harness-v3.plan.md:119` 明写「All payload writing
+  occurs on an isolated Git candidate branch/worktree … `REJECT` or `REPLAN` preserves the candidate
+  ref but never promotes it」，2026-08-05 journal 称其为**常驻纪律**，且**真被用过**（本档记 run `w1-r1`
+  的候选分支）。**今日实测：仓内仅 `main` 一条分支，executor 的 commit 在任何评审看见它之前就已落主线**；
+  幸存的只有 `E9` 的评审窗口，而它守的是**记录**不是候选。结构性后果：一个 `CHANGES_REQUIRED` 判定
+  **无法**靠「不合入」执行，只能靠事后补一个修的 commit，而那个 commit 又消耗该轮唯一的修腿。
+  是否恢复、以何形态恢复，归用户。
+- **账本 CLOSED 卷待拆**：新上限（`4b72a68`）当日即对它报警（17,116 字符），拆分是它自己的账本批、
   用户裁即 gate、不开轮。
 - **设计批 `ASSERT-OWNER` —— REVERTED 2026-08-15**（用户裁，依据 `E6`「a rule added about it is not the fix」）：它试图把 `HD-41` 写进指令层，装的过程中自身又出七个同类实例，FULL 返 `CHANGES_REQUIRED`；五个指令层文件已回 `ff05b01`、blob 逐一核对，checklist 回 204 行 / 12 条。诊断钉在 journal [`structure-vs-prose-2026-08-15.md`](document-harness/journal/structure-vs-prose-2026-08-15.md)；过程见 plan [`harness-assertion-owner-design.plan.md`](document-harness/plans/harness-assertion-owner-design.plan.md)。**四件未结已由用户 2026-08-16 一次裁完**：① 该轮 `E9` 预算＝撤回不消耗腿、不欠 VERIFY，该轮就此结账 ② rider `wl-route` 推迟（行不动、redeem-when 照旧，到期未兑的事实留在 FULL 记录里）③ `HD-41` **不再试**指令层承载，永久只住决策簿（用户裁不建条目，锚即本行；`HD-5` 的 §live 必读使其仍可达）④ 决策簿准入口径**维持**——构造批无 choice JSON，其裁决继续只活在 commit 正文，代价照记。
 

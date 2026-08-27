@@ -1,19 +1,20 @@
 # Plan — batch `CORE-SET`: take the instrument's own construction history off a product run's dependency surface
 
-> **Status: rounds 1 and 2 CLOSED (2026-08-26, 2026-08-27); round 3 OPEN 2026-08-27.** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
+> **Status: batch CLOSED 2026-08-27 — all three rounds closed (2026-08-26, 2026-08-27, 2026-08-27).** Written 2026-08-25 at batch open, base `5425fa2`, branch `main`. **This file
 > is the carrier of the twenty-six user rulings of 2026-08-25/27** below — eight taken before the
 > batch opened and eighteen while it ran: until they landed here they lived
 > only in the conversation that took them and in a session-side briefing outside the tracked
 > tree, which is chat-only load-bearing material and a finding under `R2`. A cold session reads
 > this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 >
-> **Round 2 `CORE-SET-SIGNATURE` is CLOSED (2026-08-27).** Its opening cold read ran at **full
-> weight** — all nine members end to end, 1,644 lines, nothing resting on `E10`'s citation clause
-> — and is committed unchanged at `fc9c008`: 0 must-fix, 1 low, 3 observations. Rulings 20–22 came
-> off its `E11` card. `E9`'s three legs were walked and **the fix leg was consumed once**: FULL
-> `REVIEWED_NO_BLOCKER` → one user-approved fix → VERIFY `REVIEWED_NO_BLOCKER`. The commits that
-> carry *this file* are orchestrator bookkeeping, whose gate is the user ruling rather than a
-> round; the candidate commits beside them are the cold executor's.
+> **All three rounds walked `E9`'s three legs and all three closed on a `REVIEWED_NO_BLOCKER`**,
+> each through one user-approved fix and a targeted VERIFY. Round 1 `CORE-SET-LAYER`, round 2
+> `CORE-SET-SIGNATURE`, round 3 `CORE-SET-CODE`. Two differences between them are worth carrying
+> rather than smoothing: **round 1's opening read was narrow by user ruling and rounds 2 and 3's
+> were full weight**, all nine members end to end; and **round 1's fix leg was consumed twice**,
+> which its closeout recorded rather than renaming, where rounds 2 and 3 each consumed it once.
+> What the batch leaves open is enumerated below rather than implied. The commits that carry *this file* are orchestrator bookkeeping, whose gate is the
+> user ruling rather than a round; the candidate commits beside them are the cold executors'.
 
 ## Goal (one line)
 
@@ -665,17 +666,24 @@ this repository's own rounds — and what those read is the plan and the index.
   observations**. It also discharged round 2's deferred member-edit debt, contract v4 included.
   The `E11` card was rendered and approved; rulings 23–26 came off it, and both lows banked
   (bank 22 → 24). Original text: open round 3 `CORE-SET-CODE` (items G and H).
-- [ ] 12. Execute round 3. Dispatch a cold executor via `dtw dispatch --construction-executor`;
+- [x] 12. **DONE.** Landed as `56d1b17` (item G) and `5a39945` (item H) by a cold executor, with
+  `1db5155` carrying the round journal. Original text: execute round 3. Dispatch a cold executor via `dtw dispatch --construction-executor`;
   **item G in one commit** — the CLI's `--package` mode, `review.py`'s package half including the
   `review_binding` indirection, the tests that go with them, and `REVIEW.md:93`'s pointer, whose
   target item I deleted in round 1 under ruling 13 — and **item H in one commit**: the constant's
   value, the prose sites naming the old directory, and the migration advice, recorded in this
   repository only (ruling 25). The orchestrator hand-edits no work product (`HD-55`).
-- [ ] 13. Dispatch the FULL over the round's range, walk the `E9` budget, land the record
+- [x] 13. **DONE — round 3 CLOSED.** FULL `fccadfb` → `CHANGES_REQUIRED` (1 blocker, 3 lows, 3
+  observations) → one user-approved fix `7a4e47b` answering `B-1` and `L-2`, the other two lows
+  banked alongside a third row → VERIFY `a840d07` → `REVIEWED_NO_BLOCKER` (2 residuals, 2
+  observations). All three records committed unchanged; **the fix leg was consumed once.**
+  Original text: dispatch the FULL over the round's range, walk the `E9` budget, land the record
   unchanged, close round 3 — and with it, batch `CORE-SET`.
-- [ ] 14. Batch closeout: the ledger's `CORE-SET` entry moves to CLOSED, and what the batch leaves
-  open is stated rather than implied — the product-run leg of step 6b's honesty cap, the riders
-  it banked, and the observations no round answered.
+- [x] 14. **DONE — batch `CORE-SET` CLOSED 2026-08-27.** What it leaves open is enumerated in
+  *What this batch leaves open* below and in the ledger entry, stated rather than implied.
+  Original text: batch closeout: the ledger's `CORE-SET` entry moves to CLOSED, and what the batch
+  leaves open is stated rather than implied — the product-run leg of step 6b's honesty cap, the
+  riders it banked, and the observations no round answered.
 
 ## Acceptance — round 1
 
@@ -779,39 +787,87 @@ Each shown by its command, not by a sentence. Figures are measurements and go st
 8. The round's FULL returned `REVIEWED_NO_BLOCKER`, or `CHANGES_REQUIRED` → one approved fix →
    VERIFY `REVIEWED_NO_BLOCKER`, with all three records committed unchanged.
 
+## What this batch leaves open
+
+Written at batch close, 2026-08-27. Nothing here blocks anything; all of it is the user's to
+schedule, and it is enumerated so a cold session does not have to reconstruct it.
+
+1. **The product-run leg is still unproved.** Step 6b measured that a stripped tree's commands run
+   and that a caller repository can be initialised from it. No product round has ever run — no run
+   directory built, no `instruction.md` frozen, no `preview` / `review` / `disposition` against a
+   real run, no reviewer dispatched from a mounted stripped tree. Round 1 opened this cap and
+   round 3 narrowed it no further.
+2. **Three riders wait on an `E2` write window that has no date** — `sig-write-once`,
+   `contract-wikilink-tier` and `v1-digest-recipe`. The first two redeem on a contract v4 ruling;
+   the third does **not**, because a contract ruling does not reach
+   `schema/document-assurance-v3/review.schema.json`. Its row says so.
+3. **This repository's own review records sit under a directory its own default no longer names.**
+   Item H changed the default; this repository has 157 records under the old one. It now carries
+   `.harness/scan-surfaces.json` declaring the old directory, written 2026-08-27 — **per-checkout
+   and gitignored, so every fresh clone must write it again** until the records move. The move is
+   the user's scheduled separate round: 149 review records can go, the two retired-contract stubs
+   cannot (their paths are pinned in five machine places), and 139 tracked files carry the
+   directory as a path token.
+4. **Two errors stand in committed commit bodies, uncorrected by ruling** — item H's counts and
+   item G's line figure, banked as `itemh-sweep-count` and `itemg-linecount-file`. Plus the VERIFY's
+   `V-1`: the fix's class-sweep evidence was a post-fix re-run presented as pre-fix. **The user
+   ruled 2026-08-27 that none of these gets a forward correction**: a committed commit body is the
+   record of what happened, errors included, and the review record that caught it is already the
+   correction — a second copy is the drift this repository's own ledger header names.
+5. **`V-2` is banked in place**: `test_fix_round_locks.py:261-262`'s "the only thing that restores
+   a sweep" is an absolute without its 量程. It redeems on the next batch touching that file, which
+   is the next batch by construction — item 4 of it edits the same class.
+6. **The observations no round answered** stay in the records that raised them: `R10`'s
+   no-narrative clause versus the bank's practice (measured and routed nowhere twice), that the
+   round converted eight guarded references into eight unguarded ones, that nothing pins `E2`'s
+   blob literal mechanically, and the signature move fixing pointer form rather than tier
+   reachability.
+
+## What the user directed next, recorded here so it survives a cleared session
+
+Taken 2026-08-27, after this batch's work was done and outside every round of it. **None of it is
+executed by this batch**; it is the next batch's scope, and it is written here because a direction
+that lives only in a conversation is a finding under `R2`.
+
+- **Dismantle the freeze mechanism.** The user's words: the freeze was meant to prevent a slip,
+  not to keep blocking deliberate change. `E2` is an `E10` member's clause, so changing what it
+  requires is design and opens a round.
+- **Delete the v1 ReviewResult schema definition and its registrations.** Measured basis: no
+  ReviewResult JSON has ever been produced, in this repository or in the caller. Keep the
+  version-keying mechanism; the "absent `schema_version` means v1" fallback becomes an error,
+  since v1 will no longer exist. **v2 is the live machinery and is not touched** — the names v1
+  and v2 are two versions *inside* harness v3, not generations before it.
+- **Clear the dead digest recipe** in the frozen schema, which is v1's and goes with it.
+- **Close the sweep's blind spot**: assert that every module in
+  `test_fix_round_locks.py`'s `N2_MODULES_WITHOUT_CODES` really carries no coded vocabulary, so a
+  code returning to one turns the suite red. Five lines, no signature change — the arm the fix leg
+  declined was a different one.
+- **Candidate isolation is a lost mechanism, and restoring it is its own design question.** The
+  user-approved v3 execution plan states it: *"All payload writing occurs on an isolated Git
+  candidate branch/worktree … `REJECT` or `REPLAN` preserves the candidate ref but never promotes
+  it"*, and a 2026-08-05 journal calls it a standing discipline. It was exercised at least once —
+  the archive records a candidate branch for run `w1-r1`. **Today there is one branch and the
+  executor's commits land on it before any review sees them**; what survives is `E9`'s review
+  window, which protects the *record*, not the candidate. The consequence is structural: a
+  `CHANGES_REQUIRED` verdict cannot be enacted by declining to promote, only by a follow-up fix
+  that itself consumes the round's one fix leg. Recorded with its evidence; whether to restore it
+  is the user's.
+
 ## Resume pointer
 
-当前指针: step 12 — **round 3 `CORE-SET-CODE` is OPEN and nothing is waiting on the user.**
-Rounds 1 and 2 are closed. The opening cold read is discharged at full weight (`7135cd2`, 0
-must-fix, 2 lows both banked), the `E11` card is approved, and rulings 23–26 are recorded above.
-Step 6b is closed; the ledger's CLOSED-roll split is still open and blocks nothing.
+当前指针: **batch `CORE-SET` is CLOSED (2026-08-27). This plan is done.** All fourteen steps are
+checked, all three rounds closed, and every acceptance section above was re-run at its round's tip
+rather than read back.
 
-**This round touches code and tests, which no round of this batch has done before.** It needs no
-`E2` authorisation and must not acquire one: nothing in items G or H is on a frozen path, and
-`schema/document-assurance-v3/review.schema.json` — which holds both ReviewPackage and
-ReviewResult — is explicitly out of scope. If a fix appears to need those bytes, stop and put it
-to the user; `HD-20` routes it to a fresh recorded ruling, and rider `sig-write-once` plus
-`contract-wikilink-tier` are already waiting on that same window.
+**What the batch delivered, in one line:** a repository that mounts this instrument carries the
+core set alone — the product-facing documents, the contract and its schemas, the engine and the
+guards — and no longer reaches into this instrument's own construction history to open, run or
+close a round. On a stripped tree the layer's non-resolving references fell **31 → 3** across the
+batch, and the three that remain are construction-side citations ruling 12 allows.
 
-**The next action is to dispatch a cold executor** — `dtw dispatch --construction-executor` —
-with items G and H and this plan.
-
-**What round 3's opening owes, measured rather than remembered.** Three in-repo members changed
-in round 2 — `document-harness/CONSTRUCTION-CHECKLIST.md`, `document-harness/README.md`, and
-**contract v4, whose blob moved `dfc983d2…` → `5dfb7b64…`**, so the round-2 opening read of it is
-no longer citable. All three ride round 3's opening read. That third member is the one round 2's
-own records first miscounted; it is stated here, in `CONSTRUCTION-LEDGER.md`'s round-2 entry and
-in the round journal's §9 correction, because a next round sizes from the ledger.
-
-**The `E2` authorisations are gone**: `HD-60` and `HD-61` were consumed by round 2's contract
-write and retired at `a554c0b`. Round 3 touches code and tests, not frozen bytes — but `HD-20`
-still routes anything that lands on a frozen path back to a fresh recorded ruling, and rider
-`sig-write-once` is waiting on exactly that. `HD-59` binds round 3 as it bound round 2.
-
-**The next action is to open round 3 `CORE-SET-CODE`** under `HD-55`: cold read, `E11` card, then
-wait. Its scope is item G (the v1 package-bound leg retires, which also closes `REVIEW.md:93`'s
-ruled-dangling pointer) and item H (`DEFAULT_REVIEW_RECORD_DIRS` renamed, with the silent
-migration hazard the item describes).
+**Next work is a new batch, not a round of this one** — its goal is different, and it is scoped by
+*What the user directed next* above. Read that section, then `CONSTRUCTION-LEDGER.md`'s current
+pointer, then open it.
 
 ## Notes
 
