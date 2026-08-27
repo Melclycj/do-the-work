@@ -194,8 +194,13 @@
   **全批口径：剥史树非解析引用 31→3**，余三条皆裁决 12 明许。FULL `CHANGES_REQUIRED` → 一次修 →
   VERIFY `REVIEWED_NO_BLOCKER`，修腿只花一次；bank 24→27。**本仓自 2026-08-27 起持有
   `.harness/scan-surfaces.json`**（声明旧目录）——gitignore、每个新克隆须重写，直到记录搬家。
-  **未结六条逐条见 plan 的 *What this batch leaves open***，皆不卡。
-- **下一批（用户方向 2026-08-27，尚未开批）—— 拆冻结 + 清 v1 残余**：① **拆掉 `E2` 冻结机制**（用户：
+  **未结六条逐条见 plan 的 *What this batch leaves open***，皆不卡。**收批 tip `418477a` 上
+  orchestrator 亲测复核**：电池 795 passed · 剥史树真断链 3（皆裁决 12 明许）· 成员 9/9 · 三守卫 exit 0。
+  **push 债：`origin/main..HEAD` = 58**（本 session 未推；推与不推归用户）。
+- **▶ 本仓当前队首 = 下一批「拆冻结 + 清 v1 残余」（用户方向 2026-08-27，尚未开批）**。
+  队首链在此接上：批 C → `README-BILINGUAL` → `RIDER-SETTLEMENT` → dispatch-economy（被 `CORE-SET`
+  接过）→ **`CORE-SET` 已于 2026-08-27 整批 CLOSED** → 本条。**dispatch-economy 仍顺延其后、无 deadline**
+  （它领的九条 design rider 里 `waiver-live` 已由 `CORE-SET` 轮 1 兑付，余八条仍在 bank）。四件：① **拆掉 `E2` 冻结机制**（用户：
   冻结意在防手滑、不在反复阻止改动；`E2` 是 `E10` 成员的条款，改它是 design、须开轮）② **删 v1 的
   ReviewResult schema 定义与两处注册**（实测依据：本仓与调用者仓**从未产生过任何 ReviewResult JSON**；
   版本键控机制保留，「缺 `schema_version` 即 v1」的 fallback 改为报错。**v2 是现役机器，不碰**——v1/v2 是
