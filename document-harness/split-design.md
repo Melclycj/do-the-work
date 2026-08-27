@@ -131,6 +131,29 @@ hook 也靠 existence guard 挂着。
 - **v3 `pack_digests()` 删除**（`E6`：无任何决定依赖的机器）。v2 的同名函数不动——它有活调用者。
 - rider `PD` 因此**兑付**（两半都有归宿：守卫不加、函数删）。
 
+> **更正（批 `FREEZE-TO-ALARM` item C 证伪，2026-08-28；出处 FULL `v3-review-full-ad0663d.md`
+> `L-2`，用户当日批准本轮修腿修它）**：上面三条提议里有两条今日为假，原文逐字留着、本段是更正
+> （`HD-59`：已提交的结论不就地改，只向前更正；本文件 §10.2 / §10.4 的更正块是同一写法）。
+> **本节不在 §10 的裁决表内**，故 §0 的「冲突时以 §10 与 `HD-39` 为准」接不住它——这两条提议
+> 只由本段接住。
+> - ① 「**`E2` 维持不加守卫**」——**已不成立**。item C（`1d4d9aa`，2026-08-27）给 `E2` 装上了
+>   机械 enforcement：CI job `announced-path-disclosure`（`.github/workflows/ci.yml` +
+>   `tooling/announced_path_disclosure.py` +
+>   `tooling/tests/document_harness/test_announced_path_disclosure.py`）。它**不是** `HD-27` 三次
+>   拒绝的那道守卫：那道守的是**写前授权**（「有没有裁决」——机器看不见的谓词）且挂 pre-commit；
+>   这道守的是**事后披露**（某 commit 改了 announced 路径，它自己的 commit message 有没有写出该
+>   文件的完整仓内相对路径）且挂 CI。本节上面那条推论——「`HD-27` 的结论在新条件下仍成立，但理由
+>   换了」——因此只在写前授权那个谓词下成立，而谓词已经换了一个。
+> - ② 「rider `PD` 因此**兑付**」——**未发生**。`PD` 至今是 `HARNESS-RIDERS.md` 里的活行：
+>   item E（`0355b36`，2026-08-27/28）第四次触碰时**重定其范围**，既不是兑付也不是第四次拒绝。
+>   该行第一半（「`E2` 现零机械 enforcement，此为唯一现成挂点」）已被 item C 实测证伪并就此关闭
+>   ——`pack_digests()` 对这个问题根本不是挂点，它返回整包一个聚合 digest 且读工作树，而报警必须
+>   点名哪个 commit 改了哪个文件。**该行余下的实质，正是本节的第二条提议。**
+> - ③ 第二条提议（**v3 `pack_digests()` 删除**）**原样成立、至今未做**，且 `PD` 现在的 redeem-when
+>   就指着它。实测于本次更正的 tip，量程 = 全仓 `*.py`：`git grep -n 'pack_digests' -- '*.py'` 返
+>   三行——`tooling/rsclib/document_harness/__init__.py:238` 的定义、同文件 `:266` 的 `__all__`
+>   导出，以及 `tooling/announced_path_disclosure.py:24` 一处说明它为何**不**被使用的散文。零调用。
+
 **边界照记**：gitlink 只存在于**调用者仓**。harness 仓自己跑自己（构造轮）时没有 gitlink，其
 「哪个版本」由该仓自己的 commit 决定——这不是缺口，是同义反复；但它意味着**产品 run 的证据**能
 自证仪器版本，**构造轮的记录**仍不能，与今天一样。
