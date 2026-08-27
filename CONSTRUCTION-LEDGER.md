@@ -221,6 +221,10 @@
   `dispatch-economy` 仍顺延其后、无 deadline（八条 design rider 在 bank）。
   **另一件小的**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、可变 tag）。
   用户裁「与 `E2` 无关、单独一件小的」。
+  **⚠ 新 session 第一件事**：`origin/main` 落后于本地（`git log --oneline origin/main..HEAD` 现取）。
+  保护已生效，**直推 `main` 会被拒**——落地须开分支、推、建 PR、等 `announced-path-disclosure` 变绿再合。
+  **本仓至今零 PR，该流程从未端到端跑过一次**，第一条 PR 同时是它的首次实测。
+  **无 round journal**：本批的理由与实测只活在各 commit 正文与 plan（历批皆有 journal，本批无）。
 - **候选隔离机制已丢失 —— 设计题立案（用户 2026-08-27 提出，未裁是否开轮）**：用户批准的 v3 执行计划
   `document-harness/plans/document-work-assurance-harness-v3.plan.md:119` 明写「All payload writing
   occurs on an isolated Git candidate branch/worktree … `REJECT` or `REPLAN` preserves the candidate
