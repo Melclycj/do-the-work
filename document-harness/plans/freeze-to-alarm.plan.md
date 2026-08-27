@@ -1,6 +1,7 @@
 # Plan — batch `FREEZE-TO-ALARM`: the freeze stops blocking writes and starts announcing them
 
-> **Status: batch scoped, no round open.** Written 2026-08-27 at batch scoping, base
+> **Status: round OPEN and worked; FULL returned `CHANGES_REQUIRED`; the one fix leg is in
+> flight.** Written 2026-08-27 at batch scoping, base
 > `51553bdcb4f341b8b87bec4c0207f9d049d25141`, branch `main`. **This file is the carrier of the six
 > user rulings of 2026-08-27** below. Until they landed here they lived only in the conversation
 > that took them and in a session-side briefing outside the tracked tree, which is chat-only
@@ -12,8 +13,14 @@
 > A cold session reads this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 >
 > **The four questions that blocked the round are answered** (user, 2026-08-27) and recorded inline
-> in *Open questions* below. They bind the round exactly as the six rulings do. Nothing is
-> outstanding; the next move is opening the round (step 3).
+> in *Open questions* below. They bind the round exactly as the six rulings do.
+>
+> **This status block, and the Steps below, went stale for six work commits and the round's FULL
+> made that a blocker (`v3-review-full-ad0663d.md`).** The stale text said no round was open and
+> nothing had executed, which is what a cold session reads first — under `HD-55` a cold executor
+> working from it would have redone item B or item A. Corrected forward here rather than quietly:
+> the omission was the orchestrator's, the previous batch opened each round with an explicit
+> round-open commit to this file and the ledger, and this round had none.
 >
 > **complexity** 复杂 — an instruction-layer amendment on two rules, a decision-log state flip, new
 > CI machinery, and a repository-settings change.
@@ -359,18 +366,25 @@ Sites are at `51553bd` and must be re-derived before editing — line numbers dr
       with the alarm as a required status check · the disclosure predicate with naming test (a) ·
       the pinned blob literals dropped · the batch stays at ① plus the two additions, with the
       ledger entry amended to say the queue head's four were split.
-- [ ] 3. Open the round under `HD-55` role form: cold layer read via `dtw dispatch --read`, then
+- [x] 3. Open the round under `HD-55` role form: cold layer read via `dtw dispatch --read`, then
       render the `E11` preview card and wait for the user. The read is full-weight unless the user
       waives it — `CONSTRUCTION-CHECKLIST.md` is the member this batch edits and it has changed
       since the last recorded end-to-end read.
-- [ ] 4. Execute item B in one commit (two sentences + the `HD-20` flip together).
-- [ ] 5. Execute item A. Landing it after B is deliberate: B removes the references to `E2`'s old
+      **DONE**: card rendered and approved; full-weight cold read of all nine members returned and
+      committed unchanged at **`464b7dc`** (`v3-cold-read-860401e.md`). Its one must-fix — a
+      pointer into a README section deleted on 2026-08-24 — was answered under `E10`'s deferral
+      clause at **`580d236`**.
+- [x] 4. Execute item B in one commit (two sentences + the `HD-20` flip together). **`a2d3fb4`.**
+- [x] 5. Execute item A (**`184387c`**). Landing it after B is deliberate: B removes the references to `E2`'s old
       form, so A rewrites a clause nothing else is quoting.
-- [ ] 6. Execute item C, with its test. Answer rider `PD` in the same round.
-- [ ] 7. Item D — produce the `gh` command, hand it to the user, record what was applied by
+- [x] 6. Execute item C, with its test (**`1d4d9aa`** — job `announced-path-disclosure`, 18 tests).
+      Rider `PD` answered in **`0355b36`**: re-scoped, neither redeemed nor refused a fourth time.
+- [ ] 7. **STILL OPEN.** Item D — produce the `gh` command, hand it to the user, record what was applied by
       re-reading the endpoint.
-- [ ] 8. Execute item E.
-- [ ] 9. Dispatch the FULL, walk the `E9` budget (one FULL, at most one approved fix, one VERIFY),
+- [x] 8. Execute item E. **`0355b36`.**
+- [ ] 9. **IN FLIGHT.** FULL dispatched over `464b7dc..ad0663d`, returned `CHANGES_REQUIRED`
+      (2 blockers, 2 low, 6 observations), record committed unchanged at **`9580ca9`**. The one
+      approved fix leg is being walked now; VERIFY still owed. Walk the `E9` budget (one FULL, at most one approved fix, one VERIFY),
       land the records unchanged, close the round.
 
 ## Acceptance (done = ?)
@@ -455,18 +469,25 @@ no frozen path and can ride anything. That shape is an input to question 4.
 
 ## Resume pointer
 
-当前指针: **steps 1 and 2 done — the six rulings, the four answers and the ledger entry are
-committed. No round is open and no work item has been executed.**
+当前指针: **the round is open and worked. Six work commits landed; the FULL returned
+`CHANGES_REQUIRED` and its record is committed at `9580ca9`. The single `E9` fix leg is in flight.**
 
-Next action: **step 3 — open the round.** `HD-55` role form: cold layer read via
-`dtw dispatch --read`, then the `E11` preview card, then wait for the user. Nothing blocks it; every
-question that gated the opening is answered above.
+Next actions, in order:
 
-Two things the opening owes that are easy to lose:
-- **Item D changes how this repository is pushed to**, and the round must decide *when* protection
-  lands relative to its own commits — before, and the round's own remaining commits need a PR too.
-- **Rider `PD` is due at this batch's closeout.** Its surviving redeem-when arm names the next batch
-  touching the `E2` frozen surface, and this is it.
+1. **The fix leg** — four items, all approved by the user 2026-08-28: `HD-44` gets a successor entry
+   carrying its narrowed text and flips to superseded (its live tail still says frozen bytes owe a
+   ruling, which item A removed, and the decision log outranks the checklist on conflict); this
+   file and the ledger are corrected to the round's actual state (done in the commit carrying this
+   text); the sixteen announced paths gain a locally resolvable enumeration; and
+   `document-harness/split-design.md` §5, which item C falsified and which rider `PD`'s redeem-when
+   now points at, is corrected forward.
+2. **VERIFY** — targeted at the fix leg only. Owed before the round closes.
+3. **Item D** — the one work item still untouched. The `gh` command is written and handed to the
+   user; the alarm has been observed running green on GitHub (run `33089379131`, 7s), so the check
+   name is registered and protection may now be applied. **Record whether protection landed before
+   or after this round's commits — it landed after, and every commit in this round went straight to
+   `main`, so the PR flow question 1 settled did not govern this round's own work.**
+4. **Closeout** — ledger entry, and the batch's remaining queue.
 
 ## Notes
 

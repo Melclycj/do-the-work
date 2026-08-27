@@ -197,34 +197,26 @@
   **未结六条逐条见 plan 的 *What this batch leaves open***，皆不卡。**收批 tip `418477a` 上
   orchestrator 亲测复核**：电池 795 passed · 剥史树真断链 3（皆裁决 12 明许）· 成员 9/9 · 三守卫 exit 0。
   **push 债：`origin/main..HEAD` = 58**（本 session 未推；推与不推归用户）。
-- **▶ 本仓当前队首 = 下一批「拆冻结 + 清 v1 残余」（用户方向 2026-08-27，尚未开批）**。
-  队首链在此接上：批 C → `README-BILINGUAL` → `RIDER-SETTLEMENT` → dispatch-economy（被 `CORE-SET`
-  接过）→ **`CORE-SET` 已于 2026-08-27 整批 CLOSED** → 本条。**dispatch-economy 仍顺延其后、无 deadline**
-  （它领的九条 design rider 里 `waiver-live` 已由 `CORE-SET` 轮 1 兑付，余八条仍在 bank）。四件：① **拆掉 `E2` 冻结机制**（用户：
-  冻结意在防手滑、不在反复阻止改动；`E2` 是 `E10` 成员的条款，改它是 design、须开轮）② **删 v1 的
-  ReviewResult schema 定义与两处注册**（实测依据：本仓与调用者仓**从未产生过任何 ReviewResult JSON**；
-  版本键控机制保留，「缺 `schema_version` 即 v1」的 fallback 改为报错。**v2 是现役机器，不碰**——v1/v2 是
-  harness **v3 内部**的两个格式版本，不是 v3 之前的代次）③ 清掉冻结 schema 里那句已死的 digest 复算
-  配方（v1 的，随 v1 走）④ **补上扫描盲点**：断言 `test_fix_round_locks.py` 的 `N2_MODULES_WITHOUT_CODES`
-  确实无编号码，五行、不改签名；顺带兑 rider `V-2` 那句无量程的绝对话（同文件）。
-  **▶ 队首已立项为批 `FREEZE-TO-ALARM`（2026-08-27，尚未开轮）**，plan
-  [`document-harness/plans/freeze-to-alarm.plan.md`](document-harness/plans/freeze-to-alarm.plan.md)
-  是**2026-08-27 六条用户裁决的唯一载体**（裁决在此之前只活在对话与一份未入库简报里＝`R2` 的
-  chat-only load-bearing）。六条要点：`E2` 只留**事后逐点披露**、不再要求写前裁决；报警挂 **CI**
-  不挂 pre-commit；**自由通道留、`E2` 例外删**；**`HD-20` retire**（用户裁的状态翻转，与两句删除
-  同 commit）；三条 `E2` bank 的 rider 改为随下一批兑；**`main` 分支保护并入本批**（它是「报警挂 CI」
-  的前提——`pull_request` 跑的是 PR 自己 head 的 workflow）。**本条上面那「四件」已由用户 2026-08-27
-  裁定拆开**：本批只装 ①，另加 CI 报警与分支保护两件；**②③④ 仍在队列、未开工**（理由：②③ 写冻结
-  字节，在**旧** `E2` 下仍欠 recorded ruling，与 item A 同轮跑等于本轮一边改规则一边受该规则管；
-  ④ 不碰冻结面，可随任一批）。**同日另四条裁决**（细节与实测在 plan 的 *Open questions*）：`main`
-  改走 **PR flow**（禁 force-push／禁删分支／要求 PR／报警 job 设为 required status check）· 报警
-  判据 = **改了冻结路径而该 commit 自己的 body 未含其完整仓内路径即 red**（逐 commit、跳 merge、
-  `fetch-depth: 0`）· 重写后的 `E2` **删掉** pinned blob 字面量 · 批范围如上。**实测**：215 个
-  commit 里只 5 个碰过冻结面，按该判据 4 个会 red——历史不追判，报警只管其后。
-  **另立一件小的（此前无处记录）**：CI 依赖未固定（`pip install pytest "jsonschema>=4.18"
-  referencing` 运行时解析最新）＋ 第三方 Action 不受限（`allowed_actions: all`、
-  `sha_pinning_required: false`、`actions/checkout@v4` 等可变 tag）。用户裁「与 `E2` 无关、单独一件
-  小的」，不进本批。
+- **▶ 本仓当前队首 = 批 `FREEZE-TO-ALARM`（拆冻结）——轮已开、施工已完、FULL 判 `CHANGES_REQUIRED`、
+  修腿在飞**。plan [`document-harness/plans/freeze-to-alarm.plan.md`](document-harness/plans/freeze-to-alarm.plan.md)
+  是 **2026-08-27 六条用户裁决 + 四条开轮前答问的唯一载体**（此前只活在对话与未入库简报＝`R2`
+  chat-only 载重）；理由与实测全在各 commit 正文与 `migration/document-work-assurance-v3/` 的
+  record，此处不重述。要点：`E2` 由 gate 改为**事后逐点披露**、报警挂 **CI**、自由通道留而 `E2`
+  例外删、**`HD-20` retired**、三条 `E2` bank rider 改随下一批、`main` 上 **PR flow + 分支保护**并入本批。
+  **链**：`464b7dc` 开轮冷读 → `580d236` 冷读 must-fix → `a2d3fb4` item B → `184387c` item A →
+  `1d4d9aa` item C（job `announced-path-disclosure` + 18 测试）→ `0355b36` item E（含答 rider `PD`）
+  → `ad0663d` 勘误 → FULL `9580ca9`。
+  **未结四件**：① **`HD-44` 状态 live 而尾句与 item A 冲突**（决策簿压细则）——用户 2026-08-28 裁
+  **立后继条目、`HD-44` 转 superseded**，随修腿落 ② 十六条路径现仅报警脚本枚举、本仓无可解析来源
+  ③ item C 把 `split-design.md` §5 写伪而 rider `PD` 正指向它 ④ **item D 未做**：报警已在 GitHub
+  实跑绿（run `33089379131`），check 名已注册、保护可开；本轮 commit 全直推 `main`，故裁决 1 的
+  PR flow **未管到本轮自己的工作**，照记。VERIFY 未欠清。
+  **plan 与本条曾在六个施工 commit 里一次没动**（FULL blocker ②，漏在 orchestrator：上一批每轮都有
+  开轮 commit、本轮无），本次更正即答此条。
+  **队首那「四件」已由用户 2026-08-27 裁定拆开**：本批只装 ①，另加 CI 报警与分支保护；**②③④ 仍在
+  队列、未开工**（②③ 写冻结字节，旧 `E2` 下仍欠裁决，同轮跑等于一边改规则一边受其管；④ 不碰冻结面）。
+  **另立一件小的（此前无处记录）**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、
+  可变 tag）。用户裁「与 `E2` 无关、单独一件小的」，不进本批。
 - **候选隔离机制已丢失 —— 设计题立案（用户 2026-08-27 提出，未裁是否开轮）**：用户批准的 v3 执行计划
   `document-harness/plans/document-work-assurance-harness-v3.plan.md:119` 明写「All payload writing
   occurs on an isolated Git candidate branch/worktree … `REJECT` or `REPLAN` preserves the candidate
