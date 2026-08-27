@@ -137,9 +137,7 @@
   instance leaves its siblings to be found one re-read at a time; a finding below must-fix — low or observation alike —
   whose record supplies the exact bytes or
   names the content takes the same free channel — applied immediately, instruction layer
-  included, reported after the fact and reversible — but neither this channel nor the
-  must-fix one writes a path `E2` also freezes: those bytes owe `E2`'s recorded ruling
-  first, and a finding supplying them banks until it exists; a layer application still
+  included, reported after the fact and reversible; a layer application still
   owes its independent read, riding the next read of this layer at per-member digest
   cost; a
   finding below must-fix without appliable bytes banks; the free channel holds for as long as no round
@@ -221,10 +219,8 @@
   changes the route: `E10`'s must-fix channel takes must-fix, R9 takes wording-level, the
   `E10` free channel takes, on the conditions stated there, any finding whose record supplies
   the exact bytes or names the
-  content, and the bank takes what is left. One exception beyond those conditions, and it
-  overrides the channel:
-  bytes on a path `E2` also freezes bank until that rule's recorded ruling exists (`HD-20`),
-  however appliable they are. One row per rider: what · redeem-when · source; no narrative — the source
+  content, and the bank takes what is left. One row per rider: what · redeem-when · source;
+  no narrative — the source
   records hold it. Redemption = the fix rides a batch already touching that surface, and
   the row is deleted in the same commit. A row names its target file(s) or clause —
   "对应文件" alone is not a target. redeem-when is a touch condition or a deadline,

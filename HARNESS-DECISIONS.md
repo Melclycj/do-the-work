@@ -553,8 +553,15 @@
   per-run 常量怎么传，与仓库数量无关；R3 的共享核换仓是**路径变更，不是重新设计**。
 
 ### HD-20 · `E2` 冻结优先于 `E10` 自由通道（rider `E2-FC` 兑付）
-- 2026-08-08 · user · scope: standing · status: implemented（`E10` 自由通道句的 `E2` 例外承载，
-  同 commit；rider 行同 commit 删）
+- 2026-08-08 · user · scope: standing · status: **retired**（2026-08-27 批 `FREEZE-TO-ALARM`
+  的用户裁决 4 转 `retired`：本条唯一的主题是「自由通道 vs `E2` 冻结」这个冲突，而该批把 `E2`
+  由「无 recorded ruling 不得写」改为「写了要逐站点披露」，冲突的一方消失、主题随之消失
+  ——状态只有用户能翻，本条的翻转即那次裁决本身。本条承载的两句例外——`E10` 自由通道句与
+  `R10` 路由句各自的 `E2` 例外——与本翻转同 commit 删除，`E2` 条款自身的改写紧随其后（同轮下
+  一 commit，先删引用再改被引之物）。**本条留在本节、未移入 archive**：该批 plan 的 acceptance
+  要求 `HD-20` 在本文件内可读作 `retired` 且该 commit 恰含两个文件；移档是可分离的簿记，留给
+  收轮，先例 `a554c0b` 是同 commit 移档。**原 status：implemented**，其括号原文照搬、逐字不
+  改：`E10` 自由通道句的 `E2` 例外承载，同 commit；rider 行同 commit 删）
 - 裁决：同时被 `E2` 冻结又是 `E10` 成员的路径（2026-08-08 建条时仅 `paragraph-map.schema.json`；
   2026-08-23 起共两件——`HD-56` 使 contract v4 亦入此交叉），其字节**先欠
   `E2` 的 recorded ruling**——自由通道与 must-fix 通道都不写它，供了字节的 finding 在裁决存在前
