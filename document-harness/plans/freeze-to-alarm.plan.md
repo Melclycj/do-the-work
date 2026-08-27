@@ -11,8 +11,9 @@
 >
 > A cold session reads this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 >
-> **Four questions are open and all four block work** — see *Open questions* below. The round does
-> not open until they are answered and the answers are recorded in this file.
+> **The four questions that blocked the round are answered** (user, 2026-08-27) and recorded inline
+> in *Open questions* below. They bind the round exactly as the six rulings do. Nothing is
+> outstanding; the next move is opening the round (step 3).
 >
 > **complexity** 复杂 — an instruction-layer amendment on two rules, a decision-log state flip, new
 > CI machinery, and a repository-settings change.
@@ -47,7 +48,9 @@ built for instead of blocking the deliberate repairs it has actually been blocki
 
 ## Open questions — answered before the round opens, recorded here
 
-**Nothing below is answered yet.**
+**All four were answered by the user on 2026-08-27** and the answers are recorded inline below.
+They are user rulings in their own right — the round is bound by them exactly as it is bound by the
+six above.
 
 1. **Does `main` move to a PR flow, or does branch protection cover force-push only?**
    A required status check gates a *merge*; it does not gate a direct push. On today's
@@ -57,20 +60,57 @@ built for instead of blocking the deliberate repairs it has actually been blocki
    **(b)** protection forbids force-push and deletion only — history becomes immutable (which is
    what `HD-59` and `R6` actually rest on) and the alarm stays advisory.
    *Blocks item C's job design and item D.*
-   > **Answer:** _(unanswered)_
+   > **Answer (user, 2026-08-27): shape (a) — `main` moves to a PR flow.** Protection forbids
+   > force-push and branch deletion, requires a pull request, and makes the alarm job a **required
+   > status check**. The alarm then genuinely binds: deleting the job from a PR's own head shows up
+   > as a missing required check rather than as silence. The cost — a PR per round on a
+   > single-author repository that has used none in 215 commits — is accepted.
+   > The basis the user endorsed: ruling 2 moved the alarm off pre-commit precisely because a
+   > hook-skipping commit bypasses it; leaving direct push open would reproduce that same bypass one
+   > layer up.
 2. **What is the alarm's pass condition?** A job that fails whenever frozen bytes change has
    re-created the block in a new place. A job that only prints is invisible as a status check. The
    shape that matches ruling 1 is: **fail when frozen bytes changed AND the commit body does not
    name the changed sites** — the predicate is disclosure, not authorisation, and it is one a
    machine can actually evaluate. Confirm or replace before the job is written.
    *Blocks item C.*
-   > **Answer:** _(unanswered)_
+   > **Answer (user, 2026-08-27): the disclosure predicate, with naming test (a).**
+   >
+   > The job is red when a commit changed a frozen path and that commit's **own body does not
+   > contain the full repo-relative path** of the file it changed. The predicate is disclosure, not
+   > authorisation.
+   >
+   > The surrounding mechanism is forced, not chosen: `actions/checkout` with `fetch-depth: 0` (the
+   > range and the bodies must be reachable); evaluate **per commit**, each commit against its own
+   > body, over the range (push `before..after`, PR `base..head`); **skip merge commits**; report
+   > sha plus path plus the miss.
+   >
+   > **Two alternatives were measured and declined, recorded so they are not re-proposed blind.**
+   > *(b) basename appears in the body* is **dominated**: across every frozen-surface commit in
+   > history it scores identically to (a) (1/5 green), so it is looser at no gain.
+   > *(c) a required `E2-write: <path>` trailer, one line per site* was declined for adding a format
+   > the ruling did not ask for. What it would have bought and (a) does not: one command
+   > (`git log --grep='^E2-write:'`) recovering the whole write history of the frozen surface —
+   > under (a) the paths sit inside prose, so grepping a path also returns commits that merely
+   > mention it. If that recall is ever wanted, this is the trade to revisit.
+   >
+   > **Measured against all 215 commits**: only **5** ever touched a frozen path
+   > (`07ef526`, `1656e59`, `d0f185c`, `23ca45b`, `39a21a8`), and **4 of the 5 would be red** under
+   > (a) — their bodies describe the work without spelling the paths. History is **not** re-judged;
+   > the alarm binds commits made after it lands. The number is recorded because it says plainly
+   > that this is a new habit rather than existing practice being ratified, and the rewritten `E2`
+   > is what teaches it.
 3. **Do the pinned blob literals survive in the rewritten `E2`?** If the alarm compares against the
    previous commit, the pinned expectation in the clause is a second copy that must be maintained —
    the maintenance burden `E3` has been bitten by repeatedly. Dropping the literals is a real
    simplification but changes what the clause states, so it is the user's.
    *Blocks item A.*
-   > **Answer:** _(unanswered)_
+   > **Answer (user, 2026-08-27): the literals are dropped.** The rewritten clause names the
+   > sixteen paths and stops pinning their blob hashes. The alarm compares against the previous
+   > commit, so a pinned expectation inside the clause would be a second copy needing a hand edit on
+   > every legitimate write — the maintenance shape `E3` has been bitten by repeatedly. The signed
+   > blob `614932de…` keeps its own carrier in `CONTRACT-V4-SIGNATURE.md`, so dropping the literals
+   > here loses no record of what was signed.
 4. **Is this batch the ledger's queue head, or one item split out of it?**
    `CONSTRUCTION-LEDGER.md`'s current pointer declares the queue head as **one batch of four
    items**: ① dismantle the freeze ② delete the v1 ReviewResult schema definition and its two
@@ -84,7 +124,12 @@ built for instead of blocking the deliberate repairs it has actually been blocki
    still owe a recorded ruling — so running them in the same round as item A means the round
    changes the rule it is simultaneously operating under.
    *Blocks the round's opening.*
-   > **Answer:** _(unanswered)_
+   > **Answer (user, 2026-08-27): the batch stays at ① plus the two additions, and the ledger entry
+   > is amended to say the four were split.** The basis the user endorsed: items ②③ write frozen
+   > bytes, which under the *old* `E2` still owe a recorded ruling, so running them beside item A
+   > would make the round operate under a rule it is simultaneously rewriting. Item ④ touches no
+   > frozen path and can ride any batch. Items ②③④ therefore remain queued and their ledger line
+   > now says so explicitly rather than implying a four-item batch nobody is running.
 
 ## Measured starting state — 2026-08-27 at `51553bd` (`E3`: re-run before any claim)
 
@@ -242,7 +287,11 @@ Sites are at `51553bd` and must be re-derived before editing — line numbers dr
   may be written; what is owed is **disclosure after the fact**, site by site, in the commit body,
   and visibility to the independent review. What stays: the list of sixteen (the alarm needs to
   know what it watches), and the fact that a path outside the list is not covered.
-- Question 3 decides whether the pinned blob literals stay.
+- **The pinned blob literals are dropped** (question 3). The clause names the sixteen paths and
+  stops carrying their hashes; the signed blob keeps its carrier in `CONTRACT-V4-SIGNATURE.md`.
+- **The clause must state its own limit.** The alarm can see that the body names a path; it cannot
+  see whether what the body says about that path is true. Write that ceiling into the clause rather
+  than letting the next reader infer a guarantee that is not there.
 - The clause's own name should stop saying "frozen" if the word no longer describes what it does;
   that is a wording call for the round, not a separate item.
 
@@ -258,8 +307,15 @@ Sites are at `51553bd` and must be re-derived before editing — line numbers dr
 
 ### C — the CI alarm *(ruling 2)*
 
-- `.github/workflows/ci.yml` — a new job that detects a change to the sixteen and reports it.
-  Design per question 2.
+- `.github/workflows/ci.yml` — a new job. **Settled by question 2**: red when a commit changed a
+  frozen path and that commit's own body does not contain the file's full repo-relative path.
+  `fetch-depth: 0`; per-commit over the range (push `before..after`, PR `base..head`); merge
+  commits skipped; the failure prints sha + path.
+- **The job must be a required status check** (question 1), which is item D's half of the same
+  mechanism — a job that is not required can be deleted in the PR that needs it gone.
+- Edge cases the writer owns: a push whose `before` is the all-zeros SHA (new branch / no range) —
+  fall back to the head commit alone rather than scanning all history; and a range that reaches
+  commits made before this job landed, which are **not** re-judged.
 - Mounting point: `pack_digests()` is the ready-made hook, **but see the three rulings standing
   against it** in *Measured starting state*. Whether the job calls it, re-implements the hash, or
   compares blobs against the previous commit is the round's call, and the round owes rider `PD` an
@@ -271,7 +327,11 @@ Sites are at `51553bd` and must be re-derived before editing — line numbers dr
 
 ### D — branch protection on `main` *(ruling 6)*
 
-- Shape decided by question 1.
+- **Shape settled by question 1: `main` moves to a PR flow.** Protection forbids force-push and
+  branch deletion, requires a pull request, and lists item C's job as a **required status check**.
+- Consequence the round must absorb rather than discover: from the moment protection lands, this
+  batch's own remaining commits cannot be pushed straight to `main` either. Decide and record
+  whether protection is applied **before** or **after** the round's own commits land.
 - Produce the exact `gh api` command; **the user runs it, or authorises it explicitly.** Record what
   was actually applied, measured by re-reading the protection endpoint afterwards rather than by
   asserting it.
@@ -294,9 +354,11 @@ Sites are at `51553bd` and must be re-derived before editing — line numbers dr
       committed state: this tracked plan, plus a `CONSTRUCTION-LEDGER.md` current-pointer entry
       naming the batch and its queue position. Until this is done the rulings are unreachable by
       any reviewer (`R2`).
-- [ ] 2. Put the four open questions to the user and record the answers **in this file**.
-      Question 4 blocks the round's opening; question 1 blocks items C and D; question 2 blocks
-      item C; question 3 blocks item A.
+- [x] 2. Put the four open questions to the user and record the answers **in this file**.
+      **DONE 2026-08-27** — all four answered and recorded inline under *Open questions*: PR flow
+      with the alarm as a required status check · the disclosure predicate with naming test (a) ·
+      the pinned blob literals dropped · the batch stays at ① plus the two additions, with the
+      ledger entry amended to say the queue head's four were split.
 - [ ] 3. Open the round under `HD-55` role form: cold layer read via `dtw dispatch --read`, then
       render the `E11` preview card and wait for the user. The read is full-weight unless the user
       waives it — `CONSTRUCTION-CHECKLIST.md` is the member this batch edits and it has changed
@@ -327,7 +389,9 @@ Each shown by its command, not by a sentence.
    the body makes the job red; the same change **with** the body naming the site makes it green.
    Paste both runs. (Delete the scratch commits — they are the test's evidence, not history.)
 6. `gh api repos/Melclycj/do-the-work/branches/main/protection` returns a protection object rather
-   than 404, matching what question 1 decided.
+   than 404, and that object shows the PR-flow shape question 1 settled: force-push and deletion
+   forbidden, a pull request required, and item C's job listed among the required status checks.
+   Read the endpoint back — do not assert it from the command that was run.
 7. The three rider rows' redeem-when no longer names an `E2` write authorisation:
 
    ```sh
@@ -391,13 +455,18 @@ no frozen path and can ride anything. That shape is an input to question 4.
 
 ## Resume pointer
 
-当前指针: **step 1 done — this file and the ledger entry are committed. Nothing else has been
-executed and no round is open.**
+当前指针: **steps 1 and 2 done — the six rulings, the four answers and the ledger entry are
+committed. No round is open and no work item has been executed.**
 
-Next action: **step 2** — put the four open questions to the user and write the answers into the
-*Open questions* section above. Question 4 (batch scope against the ledger's four-item queue head)
-is the one that decides whether the round can open at all; question 1 (PR flow, or force-push
-protection only) is the one that changes what gets built.
+Next action: **step 3 — open the round.** `HD-55` role form: cold layer read via
+`dtw dispatch --read`, then the `E11` preview card, then wait for the user. Nothing blocks it; every
+question that gated the opening is answered above.
+
+Two things the opening owes that are easy to lose:
+- **Item D changes how this repository is pushed to**, and the round must decide *when* protection
+  lands relative to its own commits — before, and the round's own remaining commits need a PR too.
+- **Rider `PD` is due at this batch's closeout.** Its surviving redeem-when arm names the next batch
+  touching the `E2` frozen surface, and this is it.
 
 ## Notes
 

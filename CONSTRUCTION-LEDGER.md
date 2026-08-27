@@ -213,9 +213,14 @@
   chat-only load-bearing）。六条要点：`E2` 只留**事后逐点披露**、不再要求写前裁决；报警挂 **CI**
   不挂 pre-commit；**自由通道留、`E2` 例外删**；**`HD-20` retire**（用户裁的状态翻转，与两句删除
   同 commit）；三条 `E2` bank 的 rider 改为随下一批兑；**`main` 分支保护并入本批**（它是「报警挂 CI」
-  的前提——`pull_request` 跑的是 PR 自己 head 的 workflow）。**该 plan 的范围与本条上面那「四件」
-  不一致，且这不一致未裁**：plan 只装 ①，另加 CI 报警与分支保护两件（加是用户裁的，减不是）。
-  两条出路——把批扩回四件，或维持 ① 并改本条说明四件已拆——**归用户，未答不开轮**。
+  的前提——`pull_request` 跑的是 PR 自己 head 的 workflow）。**本条上面那「四件」已由用户 2026-08-27
+  裁定拆开**：本批只装 ①，另加 CI 报警与分支保护两件；**②③④ 仍在队列、未开工**（理由：②③ 写冻结
+  字节，在**旧** `E2` 下仍欠 recorded ruling，与 item A 同轮跑等于本轮一边改规则一边受该规则管；
+  ④ 不碰冻结面，可随任一批）。**同日另四条裁决**（细节与实测在 plan 的 *Open questions*）：`main`
+  改走 **PR flow**（禁 force-push／禁删分支／要求 PR／报警 job 设为 required status check）· 报警
+  判据 = **改了冻结路径而该 commit 自己的 body 未含其完整仓内路径即 red**（逐 commit、跳 merge、
+  `fetch-depth: 0`）· 重写后的 `E2` **删掉** pinned blob 字面量 · 批范围如上。**实测**：215 个
+  commit 里只 5 个碰过冻结面，按该判据 4 个会 red——历史不追判，报警只管其后。
   **另立一件小的（此前无处记录）**：CI 依赖未固定（`pip install pytest "jsonschema>=4.18"
   referencing` 运行时解析最新）＋ 第三方 Action 不受限（`allowed_actions: all`、
   `sha_pinning_required: false`、`actions/checkout@v4` 等可变 tag）。用户裁「与 `E2` 无关、单独一件
