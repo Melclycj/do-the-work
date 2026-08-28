@@ -28,6 +28,37 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-64 · 契约 v4 `:279-281` 的 v1 验证路径规定准予就地改——**这次盖过 §13 的是「要求」，且明裁不开设计轮**
+- 2026-08-28 · user · scope: standing · status: **live**（`HD-63` 的边界段把「改变契约**要求什么**」
+  明确排除在其量程之外，故本条不是 `HD-63` 的重述也不由它承载；`E10` 的 design test 说这类要开轮，
+  本条推翻的正是那句在本次的适用——层里没有任何一处说「用户可以裁不开」，故层内无承载。承载 =
+  本轮第二份 amendment commit；落地后转 `implemented` 归用户（`HD-2`））
+- 裁决：`contract/Document-Work-Assurance-Contract-v4.md:279-281` 的「A result with no
+  `schema_version` key is a v1 result and is **validated against pinned v1 semantics**」**准予就地
+  更正**。依据是**用户已裁的 plan ruling 2**（`document-harness/plans/v1-result-retire.plan.md:52`：
+  「任何地方都不存在 v1 活例」）——该 bullet 规定的动作**没有对象可以触发**，本轮 item C/D 删掉的是
+  一条对空集生效的要求的执行路径。**本条不采纳** reader 提出的「第二读法」（把 pinned v1 semantics
+  读作 commit 里 `git show` 可达的那份 schema）：那读法让 v4 一字不改，但代价是改变一条未被触碰的
+  规则的含义，用户选了就地改，故该读法在本轮不成立、也不作为今后的解释。
+- **两笔代价照记，不软化**：① 本条盖过 §13 的对象是**要求**，比 `HD-63`（只盖陈述性事实）走得远，
+  是这一族裁决第一次这么做。② `E10` 写着「replacing or deleting text so that what a rule requires
+  changes, is design and opens a round」——**本条明裁本轮不开设计轮**，依据是本簿抬头「细则与裁决冲突，
+  细则错」与 `E10` 自身承认 `§live` 在冲突时压它。这一次 set aside 是一个可 grep 的事实，不是先例的
+  自动扩张（见下边界）。
+- 边界：本条**只**授权这一个 bullet、只在这一个依据上（其规定的对象已被用户裁为不存在）。它**不**开
+  「签字文本里的要求可以就地改」的通道，也**不**授权今后任何 design 类改动免开轮——下一次要免，
+  要另裁。更正后的文字**该说什么**归 executor 写并披露，与 plan item D 的那个 executor 决定
+  （`result_schema_kind` 遇到无 `schema_version` 的实例该怎么办）**必须一致**：契约文本与代码行为
+  对不上就是本条没执行完。
+- 后果：本轮 item C 与 item D 解锁，但**要等这第二份 amendment 的独立复读**（`E10`：改变了要求的
+  amendment 不享受「读前可依赖」的延后，因为它对在飞的本轮效果非零）。v4 是 announced 路径，写它的
+  commit 按 `E2` 逐点点名全路径；`CONTRACT-V4-SIGNATURE.md` 记入第四笔签署后写入。
+- basis: 用户裁决 2026-08-28（对话，四选一里选「再裁一条，扩到『要求』这一类」）· 复读记录
+  `migration/document-work-assurance-v3/v3-cold-read-dcb3aef.md` `M-1`（供三种形状、故意不供字节）·
+  `document-harness/plans/v1-result-retire.plan.md:52` ruling 2（本条的实质依据）· `HD-63`
+  （同族前一条，其边界段正是把本类排除的那段）· `HD-36` ②（design test 不伸进 must-fix 通道——
+  本条不倚赖它，因为本次是 design 类而非 must-fix 通道的射程内，故另裁）
+
 ### HD-63 · 签字文本里「签署时为真、后来变假」的字面准予就地更正——本裁**明写盖过契约 §13** 的 in-place 禁令
 - 2026-08-28 · user · scope: standing · status: **live**（层内与契约内均无承载：契约 §13 说的是
   反面，而本裁盖过它；`E2` 自 2026-08-27 起只欠事后披露、**从来不是**挡就地改的那条，两者是不同的
