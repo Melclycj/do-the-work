@@ -53,6 +53,12 @@
   不花 `E9` 预算**（`HD-36` ① 收扫类与「finding 未供字节时由 executor 自己写」，本 finding 正是未供
   字节）。design test 按 `HD-36` ② 不伸进 must-fix 通道，故不开设计轮。v4 是 announced 路径，
   写它的 commit 按 `E2` 在正文里逐点点名全路径。
+- **承载已落，状态未翻（`HD-2`：只有用户能翻，session 只能提议）。** 本条的 amendment commit 即
+  `V3-V1-RESULT-RETIRE-M1-AMENDMENT-v1`（本 commit）：量程 ①②③ 逐处改毕，④ 的扫类另加一处
+  `schema/document-assurance-v3/review.v2.schema.json:5`（同一句式的兄弟：「The v1 file is
+  untouched and stays frozen for reading pinned v1 history」），并按 ④ 已知项在
+  `CONTRACT-V4-SIGNATURE.md` 记入第三笔签署后写入。**提议转 `implemented`**——待
+  `E10` 对被改文本的独立复读回来后由用户裁。原文各段逐字留着（`HD-59`）。
 - basis: 用户裁决 2026-08-28（对话两问：「E2 现在放宽了，不能直接允许 v4 就地更改吗」→ 澄清挡路者是
   §13 而非 `E2`，随后裁「明写盖过 §13，并补记前两次」）· 冷读记录
   `migration/document-work-assurance-v3/v3-cold-read-60bf9eb.md` `M-1` · 先例 `HD-57`（同一形状，

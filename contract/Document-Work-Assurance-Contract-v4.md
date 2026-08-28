@@ -283,8 +283,18 @@ state machines.
   (the W1 keying pattern, `_ABSENT` sentinel included).
 - Newly opened runs author v2 results. Closed runs and shadow rounds keep their frozen
   packages as **pinned v1 history**: no migration, no re-freeze, no retroactive script
-  fixes; `review.schema.json` and the v1 checker functions stay frozen for reading that
-  history (§13 above: a live run pins exact schema versions; later changes never mutate it).
+  fixes; what reads that history is the commits that hold it, and this clause promises no
+  working-tree artifact for that reading (§13 above: a live run pins exact schema versions;
+  later changes never mutate it — the pin lives in the commit that made it). Until
+  2026-08-28 this bullet promised instead that `review.schema.json` and the v1 checker
+  functions stay frozen for that reading. The checker functions had already retired with the
+  version-1 package leg in round `CORE-SET-CODE` (`56d1b17`) with nothing telling this
+  clause, and the schema half's ground — that some v1 result still needs validating — was
+  withdrawn by the user's ruling of 2026-08-28 that no v1 ReviewResult instance exists
+  anywhere. `HD-63` authorises this correction in place and says in as many words that it
+  overrides §13's prohibition, for one class only: a signed statement of fact that was true
+  when signed and has since been made false elsewhere. A statement of what this contract
+  *requires* still takes §13's versioned-successor route.
 - Digest-strength disclosure (wave-2 design §9): v1 package members carried SHA-256 digests; the successor
   rests member binding on git content addressing, whose object format in this repository is
   SHA-1. Acceptable under §1's threat model (single writer, workflow protocol rather than

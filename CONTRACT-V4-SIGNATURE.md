@@ -31,6 +31,15 @@ read.
     deliberately untouched here:** the blob this signature binds, and what the signature means
     (§14) — item A changed the rule about writing those bytes, not what was signed or what
     signing them did.
+  - **Third post-signature write, 2026-08-28 — the `V1-RESULT-RETIRE` `M-1` amendment, this
+    commit.** §13.1's promise that `review.schema.json` and the v1 checker functions stay frozen
+    for reading pinned v1 history was false in its checker half from `56d1b17` and would have gone
+    false in the other; the promise is gone and the bullet says what replaced it. `HD-63`
+    authorises the in-place correction and is the first authorisation in this family to state that
+    it overrides §13's "signed contracts are never amended in place" — the two writes above did
+    the same thing without saying so, which that entry records as measured rather than recalled.
+    The signed blob above is unchanged and v4 is not re-signed; `E2`'s disclosure rides the
+    amendment commit's own body, as for the two before it.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.
