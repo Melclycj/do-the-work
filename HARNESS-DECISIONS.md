@@ -53,6 +53,17 @@
 - 后果：本轮 item C 与 item D 解锁，但**要等这第二份 amendment 的独立复读**（`E10`：改变了要求的
   amendment 不享受「读前可依赖」的延后，因为它对在飞的本轮效果非零）。v4 是 announced 路径，写它的
   commit 按 `E2` 逐点点名全路径；`CONTRACT-V4-SIGNATURE.md` 记入第四笔签署后写入。
+- **承载已落，状态未翻（`HD-2`：只有用户能翻，session 只能提议）。** 本条的 amendment commit 即
+  `V3-V1-RESULT-RETIRE-HD64-AMENDMENT-v1`（本 commit）。建条时记的 `:279-281` 已漂，落笔前重测为
+  `:280-281`。改后的 bullet 不再规定任何验证路径，只绑「不验证、不接受、fail closed」与原有的
+  「no cross-version fallback」，并把**由哪个机制抬起这个停**明写为归实现选——这是为满足本条边界段
+  「与 item D 的 executor 决定必须一致」而作的执行选择：那个决定尚未做出，两条候选落法（直接 raise ·
+  继续指一个已无法验证的 kind，后者落到 `review.py` 的 unknown-kind 分支）都让无 `schema_version`
+  的实例不被验证、不被接受，故改后的文本对两者皆成立而不预先锁死其一。**该判断由读代码得出、未经
+  执行**（本 session 的 python 被环境权限层拒绝，见本 commit 正文的 ceiling 段）。被否的第二读法按
+  本条写进契约并注明不作为今后的解释。扫类与量程见本 commit 正文。`CONTRACT-V4-SIGNATURE.md` 按
+  后果段记入第四笔签署后写入。**提议转 `implemented`**——待 `E10` 对被改文本的独立复读回来后由用户
+  裁。原文各段逐字留着（`HD-59`）。
 - basis: 用户裁决 2026-08-28（对话，四选一里选「再裁一条，扩到『要求』这一类」）· 复读记录
   `migration/document-work-assurance-v3/v3-cold-read-dcb3aef.md` `M-1`（供三种形状、故意不供字节）·
   `document-harness/plans/v1-result-retire.plan.md:52` ruling 2（本条的实质依据）· `HD-63`

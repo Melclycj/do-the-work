@@ -40,6 +40,18 @@ read.
     the same thing without saying so, which that entry records as measured rather than recalled.
     The signed blob above is unchanged and v4 is not re-signed; `E2`'s disclosure rides the
     amendment commit's own body, as for the two before it.
+  - **Fourth post-signature write, 2026-08-28 — the `V1-RESULT-RETIRE` second amendment, this
+    commit.** §13.1's first bullet required a result with no `schema_version` key to be
+    validated against pinned v1 semantics; the same round removes the only path that did so,
+    and the user's ruling that no v1 ReviewResult instance exists anywhere leaves the
+    requirement with nothing to act on. The bullet now prescribes no validation path for that
+    result and keeps it fail-closed. `HD-64` authorises it and is the first authorisation in
+    this family to reach a statement of what the contract **requires** — `HD-63`, one write
+    above, reaches only statements of fact and its boundary paragraph excludes this class — so
+    the two are separate rulings rather than one applied twice. `HD-64` also rules that this
+    correction opens no design round, which `E10`'s design test would otherwise require; that
+    set-aside is recorded in the entry as a cost, and it is greppable there rather than
+    inferable from this file. The signed blob above is unchanged and v4 is not re-signed.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.

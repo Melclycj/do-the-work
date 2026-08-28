@@ -277,10 +277,23 @@ state machines.
 - A successor **ReviewResult declares its own version**: root `schema_version` const `"2"`
   (`schema/document-assurance-v3/review.v2.schema.json`), binding
   `subject = { evidence_commit, candidate_ref, base_revision, control_root, repair_round }`
-  in place of `package_ref`. A result with no `schema_version` key is a v1 result and is
-  validated against pinned v1 semantics; `"2"` selects v2; a present-but-null or any other
-  value is a `SPEC_GAP`, fail closed — **no cross-version fallback in either direction**
-  (the W1 keying pattern, `_ABSENT` sentinel included).
+  in place of `package_ref`. A result with no `schema_version` key is a v1 result, and that
+  class is empty: the user ruled on 2026-08-28 that no v1 ReviewResult instance exists
+  anywhere. This clause therefore prescribes **no validation path** for such a result — one
+  presented nonetheless is not validated and not accepted, fail closed; which mechanism
+  raises the stop is the implementation's to choose, and this clause does not fix it. `"2"`
+  selects v2; a present-but-null or any other value is a `SPEC_GAP`, fail closed — **no
+  cross-version fallback in either direction** (the W1 keying pattern, `_ABSENT` sentinel
+  included). Until 2026-08-28 this bullet required instead that a result with no
+  `schema_version` key **be validated against pinned v1 semantics**. Round
+  `V1-RESULT-RETIRE` removes that path on the strength of the same ruling — the requirement
+  had no object left to act on. `HD-64` authorises the correction in place; it is the first
+  authorisation in this family to override §13 for a statement of what this contract
+  *requires* rather than a statement of fact, and it rules that no design round opens for it,
+  a set-aside recorded there with its costs and expressly not a precedent. The reading that
+  would have left this bullet untouched — taking *pinned v1 semantics* to mean the schema as
+  it stands in the commits that hold v1 history — was put to the user and **declined**; it is
+  not the interpretation going forward.
 - Newly opened runs author v2 results. Closed runs and shadow rounds keep their frozen
   packages as **pinned v1 history**: no migration, no re-freeze, no retroactive script
   fixes; what reads that history is the commits that hold it, and this clause promises no
