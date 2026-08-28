@@ -1,8 +1,8 @@
 # Plan — batch `FREEZE-TO-ALARM`: the freeze stops blocking writes and starts announcing them
 
-> **Status: the round's `E9` budget is walked in full — FULL `CHANGES_REQUIRED` → one approved fix
-> leg → VERIFY `REVIEWED_NO_BLOCKER`. Item D is the one work item still owed, and the round does
-> not close until it lands.** Written 2026-08-27 at batch scoping, base
+> **Status: round CLOSED and batch `FREEZE-TO-ALARM` CLOSED, 2026-08-28.** All nine steps done, all
+> nine acceptance criteria met, `E9` budget walked in full — FULL `CHANGES_REQUIRED` → one approved
+> fix leg → VERIFY `REVIEWED_NO_BLOCKER`. Written 2026-08-27 at batch scoping, base
 > `51553bdcb4f341b8b87bec4c0207f9d049d25141`, branch `main`. **This file is the carrier of the six
 > user rulings of 2026-08-27** below. Until they landed here they lived only in the conversation
 > that took them and in a session-side briefing outside the tracked tree, which is chat-only
@@ -380,8 +380,18 @@ Sites are at `51553bd` and must be re-derived before editing — line numbers dr
       form, so A rewrites a clause nothing else is quoting.
 - [x] 6. Execute item C, with its test (**`1d4d9aa`** — job `announced-path-disclosure`, 18 tests).
       Rider `PD` answered in **`0355b36`**: re-scoped, neither redeemed nor refused a fourth time.
-- [ ] 7. **STILL OPEN.** Item D — produce the `gh` command, hand it to the user, record what was applied by
+- [x] 7. Item D — produce the `gh` command, hand it to the user, record what was applied by
       re-reading the endpoint.
+      **DONE 2026-08-28.** The user ran it after the alarm had been observed green on GitHub twice
+      (runs `33089379131` and `33096441363`, the second judging 8 commits), so the check name was
+      registered and could not deadlock. **Measured by re-reading
+      `repos/Melclycj/do-the-work/branches/main/protection`, not asserted from the command's own
+      response**: required status check `announced-path-disclosure` (strict `false`),
+      `enforce_admins` **`true`**, required pull request with `required_approving_review_count` `0`
+      (GitHub forbids approving one's own PR, so any higher count deadlocks a single-author
+      repository), force-push `false`, deletion `false`.
+      **Consequence, in force from this moment**: nothing reaches `origin/main` without a pull
+      request whose `announced-path-disclosure` check is green — the repository owner included.
 - [x] 8. Execute item E. **`0355b36`.**
 - [x] 9. **Budget walked in full.** FULL over `464b7dc..ad0663d` returned `CHANGES_REQUIRED`
       (2 blockers, 2 low, 6 observations), record unchanged at **`9580ca9`**. The one approved fix
@@ -411,6 +421,9 @@ Each shown by its command, not by a sentence.
    than 404, and that object shows the PR-flow shape question 1 settled: force-push and deletion
    forbidden, a pull request required, and item C's job listed among the required status checks.
    Read the endpoint back — do not assert it from the command that was run.
+   **MET 2026-08-28**, endpoint re-read: contexts `["announced-path-disclosure"]`, strict `false`,
+   `enforce_admins` `true`, `required_approving_review_count` `0`, `allow_force_pushes` `false`,
+   `allow_deletions` `false`.
 7. The three rider rows' redeem-when no longer names an `E2` write authorisation:
 
    ```sh
@@ -474,37 +487,36 @@ no frozen path and can ride anything. That shape is an input to question 4.
 
 ## Resume pointer
 
-当前指针: **the round's review budget is walked in full and returned clean. One work item is still
-owed — item D — and the round does not close until it lands.**
+当前指针: **done. Round CLOSED, batch CLOSED, 2026-08-28.** Nothing in this plan is outstanding.
 
-`E9` budget: FULL `CHANGES_REQUIRED` (`9580ca9`) → one approved fix leg (`013483f`, `1830d47`,
-`34d63cc`, `629cff5`) → VERIFY `REVIEWED_NO_BLOCKER` (`a8bfe5b`). No leg remains.
+The chain, base `51553bd` → tip: `a0a5595` (rulings landed) · `860401e` (four answers) · `464b7dc`
+(opening cold read) · `580d236` (its must-fix) · `a2d3fb4` (B) · `184387c` (A) · `1d4d9aa` (C) ·
+`0355b36` (E) · `ad0663d` (errata) · `9580ca9` (FULL `CHANGES_REQUIRED`) · `013483f` `1830d47`
+`34d63cc` `629cff5` (the one fix leg) · `a8bfe5b` (VERIFY `REVIEWED_NO_BLOCKER`) · `57a31c1` (`V-1`).
 
-**Corrected here, and the correction is the VERIFY's one low finding (`V-1`).** An earlier draft of
-this pointer listed "the sixteen announced paths gain a locally resolvable enumeration" among the fix
-leg's deliverables. That was wrong when written, not overtaken later: the FULL had already routed
-that finding to the bank under `R10`, and the fix leg then judged all three candidate remedies to be
-design rather than repair — each landing on `E10`'s design test, on the three-copy shape rider
-`E10-sync` records, or on the `E5` inversion this round avoided in its own tests. **It was banked, not
-fixed**, as rider `announced-set-anchor`, whose deadline is the first time the
-`schema/document-assurance-v3/` pack gains or loses a file. Anyone reconciling this plan at closeout
-should read it as banked.
+**What changed for anyone working in this repository, in one line each.**
 
-Next actions, in order:
+- The sixteen announced paths may be written. What is owed is naming each changed path, in full and
+  repo-relative, in the body of the commit that changed it.
+- A CI job checks exactly that, per commit, and it is a required status check on `main`.
+- `main` is a PR flow. Force-push and deletion are refused, and `enforce_admins` is true, so this
+  binds the repository owner too.
 
-1. **Item D — the only work item still untouched.** The `gh api` command is written and handed to the
-   user; the alarm has been observed running green on GitHub (run `33089379131`, 7s), so the check
-   name `announced-path-disclosure` is registered and protection may be applied without deadlocking
-   on a check GitHub has never seen. The user applies it; record what took effect by re-reading the
-   protection endpoint rather than by asserting the command ran. **Record also that protection lands
-   after this round's own commits — every one of them went straight to `main`, so the PR flow open
-   question 1 settled did not govern this round's own work.**
-2. **Closeout** — the ledger entry, and the batch's remaining queue.
+**Banked rather than fixed — read these as open, not delivered.**
 
-**Touched but unredeemed, recorded so closeout sees it**: rider `archive-header-selfcount`'s redeem
-surface was touched by `HD-44`'s move into the archive (`1830d47`) and the row was deliberately left
-standing, the fix leg's boundary being the four approved findings. The new header block was written
-so as not to repeat the defect.
+- `announced-set-anchor`: the sixteen paths have no enumeration this repository can resolve on its
+  own. Judged design rather than repair by the fix leg and confirmed by the VERIFY. Deadline: the
+  first time the `schema/document-assurance-v3/` pack gains or loses a file.
+- `e10-freeze-exception`: `E10`'s list of what the guard cannot see still excepts bytes "while they
+  are frozen", a state item A ended.
+- `archive-header-selfcount`: touched by `HD-44`'s move into the archive and deliberately left
+  standing, the fix leg's boundary being the four approved findings.
+- The three `E2`-banked riders (`sig-write-once`, `contract-wikilink-tier`, `v1-digest-recipe`) now
+  ride the next batch — nothing in this batch redeemed them.
+
+**Recorded because it will not be true again**: every commit in this round went straight to `main`.
+Protection landed after them, so the PR flow this batch installed did not govern the batch that
+installed it.
 
 ## Notes
 

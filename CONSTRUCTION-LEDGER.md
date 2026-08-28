@@ -197,29 +197,42 @@
   **未结六条逐条见 plan 的 *What this batch leaves open***，皆不卡。**收批 tip `418477a` 上
   orchestrator 亲测复核**：电池 795 passed · 剥史树真断链 3（皆裁决 12 明许）· 成员 9/9 · 三守卫 exit 0。
   **push 债：`origin/main..HEAD` = 58**（本 session 未推；推与不推归用户）。
-- **▶ 本仓当前队首 = 批 `FREEZE-TO-ALARM`（拆冻结）——轮已开、施工已完、FULL 判 `CHANGES_REQUIRED`、
-  修腿在飞**。plan [`document-harness/plans/freeze-to-alarm.plan.md`](document-harness/plans/freeze-to-alarm.plan.md)
-  是 **2026-08-27 六条用户裁决 + 四条开轮前答问的唯一载体**（此前只活在对话与未入库简报＝`R2`
-  chat-only 载重）；理由与实测全在各 commit 正文与 `migration/document-work-assurance-v3/` 的
-  record，此处不重述。要点：`E2` 由 gate 改为**事后逐点披露**、报警挂 **CI**、自由通道留而 `E2`
-  例外删、**`HD-20` retired**、三条 `E2` bank rider 改随下一批、`main` 上 **PR flow + 分支保护**并入本批。
-  **链**：`464b7dc` 开轮冷读 → `580d236` 冷读 must-fix → `a2d3fb4` item B → `184387c` item A →
-  `1d4d9aa` item C（job `announced-path-disclosure` + 18 测试）→ `0355b36` item E（含答 rider `PD`）
-  → `ad0663d` 勘误 → FULL `9580ca9`。
-  **`E9` 预算已走满**：FULL `CHANGES_REQUIRED`（`9580ca9`）→ 唯一修腿（`013483f` 补 plan/ledger ·
-  `1830d47` `HD-44` 转 superseded、后继 `HD-62` 承载收窄全文 · `34d63cc` `split-design.md` §5 向前
-  更正 · `629cff5` 十六条路径的锚点判为 design 入 bank ＝ rider `announced-set-anchor`）→ VERIFY
-  **`REVIEWED_NO_BLOCKER`**（`a8bfe5b`）。全仓再无「`E2` 写前欠裁决」的活要求。
-  **仍欠 item D，未落不收轮**：报警已在 GitHub 实跑绿（run `33089379131`），check 名
-  `announced-path-disclosure` 已注册、保护可开；**本轮 commit 全直推 `main`，故裁决 1 的 PR flow
-  未管到本轮自己的工作、保护落在本轮之后**，照记。
-  **plan 与本条曾在六个施工 commit 里一次没动**（FULL blocker ②，漏在 orchestrator：上一批每轮都有
-  开轮 commit、本轮无）；修它的那个 commit 又自犯同形（VERIFY `V-1`：把已入 bank 的一件写成已交付），
-  同批清掉。**触碰未兑**：rider `archive-header-selfcount` 因 `HD-44` 移档而触碰，按修腿边界留行。
-  **队首那「四件」已由用户 2026-08-27 裁定拆开**：本批只装 ①，另加 CI 报警与分支保护；**②③④ 仍在
-  队列、未开工**（②③ 写冻结字节，旧 `E2` 下仍欠裁决，同轮跑等于一边改规则一边受其管；④ 不碰冻结面）。
-  **另立一件小的（此前无处记录）**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、
-  可变 tag）。用户裁「与 `E2` 无关、单独一件小的」，不进本批。
+- **批 `FREEZE-TO-ALARM`（拆冻结）—— 整批 CLOSED 2026-08-28**。plan
+  [`document-harness/plans/freeze-to-alarm.plan.md`](document-harness/plans/freeze-to-alarm.plan.md)
+  是 2026-08-27 六条裁决 + 四条答问的载体；理由与实测在各 commit 正文与
+  `migration/document-work-assurance-v3/` 的三份 record，此处只留指针。
+  **结果**：`E2` 由「无裁决不得写」改为**事后在 commit 正文逐条点名完整仓内路径**；CI job
+  `announced-path-disclosure` 逐 commit 机械判定并已设为 `main` 的 required status check；
+  `main` 转 **PR flow**（`enforce_admins: true`，仓主同受约束，force-push／删分支皆拒）——
+  端点回读实测，非据命令回显。`HD-20` retired；`HD-44` superseded、后继 **`HD-62`** 承载收窄全文，
+  **全仓再无「`E2` 写前欠裁决」的活要求**。
+  **链**：`464b7dc` 冷读 → `580d236` 其 must-fix → `a2d3fb4` B → `184387c` A → `1d4d9aa` C
+  → `0355b36` E → `ad0663d` 勘误 → FULL `CHANGES_REQUIRED` `9580ca9` → 唯一修腿
+  `013483f`/`1830d47`/`34d63cc`/`629cff5` → VERIFY **`REVIEWED_NO_BLOCKER`** `a8bfe5b` → `57a31c1`。
+  电池 795→**813**（新增 18 条为报警的测试）；九条验收全过；报警在 GitHub 实跑两次（后一次判 8 个
+  commit）。**本轮 commit 全直推 `main`、保护落在其后——本批装的 PR flow 没管到装它的这一批**，照记。
+  **入 bank 未修四件**：`announced-set-anchor`（十六条路径无本仓可解析枚举，判 design；deadline ＝
+  pack 首次增减件）· `e10-freeze-exception` · `archive-header-selfcount`（触碰未兑）· 三条 `E2`
+  老 rider 改随下一批。
+  **▶ 本仓当前队首 ＝ 原队首四件里的 ②③④**（用户 2026-08-27 裁定与 ① 拆开，均未开工）：② 删 v1 ReviewResult
+  schema 定义与两处注册 ③ 清冻结 schema 里已死的 digest 复算配方（很可能随 ② 消失）④ 补扫描盲点
+  `N2_MODULES_WITHOUT_CODES`（在 `tooling/tests/document_harness_review/test_fix_round_locks.py`，
+  非 `document_harness/`）。**②③ 写 announced 字节——现已不欠写前裁决，只欠 commit 正文逐条点名。**
+  `dispatch-economy` 仍顺延其后、无 deadline（八条 design rider 在 bank）。
+  **另一件小的**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、可变 tag）。
+  用户裁「与 `E2` 无关、单独一件小的」。
+  **⚠ 新 session 第一件事**：`origin/main` 落后于本地（`git log --oneline origin/main..HEAD` 现取）。
+  保护已生效，**直推 `main` 会被拒**——落地须开分支、推、建 PR、等 `announced-path-disclosure` 变绿再合。
+  **本仓至今零 PR，该流程从未端到端跑过一次**，第一条 PR 同时是它的首次实测。
+  **无 round journal**：本批的理由与实测只活在各 commit 正文与 plan（历批皆有 journal，本批无）——
+  **用户 2026-08-28 于 preclear 裁「认了」，不补**。同批路由的 `R5` observation：`O-2` 报警 YAML 接线
+  无测试、`O-6` 两处 mutation 未被钉住，二者入 bank 为 rider `alarm-yaml-untested` / `alarm-mutation-gaps`；
+  `O-5`（squash 合并可绕过报警）**已修**：`allow_squash_merge` 关闭——端点回读实测
+  `squash=False` · `merge=True` · `rebase=True`。留着的两种安全：merge commit 被报警跳过而它带进来的
+  原始 commit 逐个受判，rebase 保留每个 commit 自己的说明；只有 squash 会把 N 个压成 `main` 上的一个
+  新对象、让报警去判一段它没判过的文字。未裁而按既有路线走的：`O-4`（`HD-57` 主题被 item A 删除，
+  但其状态是 `implemented` 非 `live`、不主张现行要求，属陈旧交叉引用）· `V-2`/`V-3` wording-level 按 `R9`
+  随下一批 · `V-4`/`V-5` 已发生、留在 VERIFY 记录里。
 - **候选隔离机制已丢失 —— 设计题立案（用户 2026-08-27 提出，未裁是否开轮）**：用户批准的 v3 执行计划
   `document-harness/plans/document-work-assurance-harness-v3.plan.md:119` 明写「All payload writing
   occurs on an isolated Git candidate branch/worktree … `REJECT` or `REPLAN` preserves the candidate
