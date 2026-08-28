@@ -10,6 +10,20 @@ one means re-reading the batch it records — the user ruled those are trimmed w
 touches them. Growing such an entry is refused. Six entries stood in debt the day the bound
 moved, every one of them a batch narrative written where a pointer belongs.
 
+**Not in `tooling/hooks/`, and that is the whole point of where this file lives.** Those four
+files are **product tier** — what a repository mounting this harness copies, wired into its own
+pre-commit (`CONSTRUCTION-INDEX.md` row 8). **A ledger is not the harness's business at all**:
+io-design §5 settled it on 2026-08-12 when batch B R3 moved the previous `ledger_cap_check.py`
+out, ruling that a ledger's rules and machine belong to whoever keeps the ledger, and that the
+harness ships **no ledger template of any kind**. Every repository keeps its own ledger, rider
+bank, journal and decision log under its own policy.
+
+So this file is **this repository's own policy machine**, sitting beside
+`announced_path_disclosure.py` for the same reason that one states in its own docstring. Putting
+it in `tooling/hooks/` — which the first version did — would ship a caller a guard for
+`CONSTRUCTION-LEDGER.md`, **a file the caller does not have**, and would silently re-decide the
+2026-08-12 ruling by moving the machine back into the harness rather than out of it.
+
 **Why a machine at all.** The header used to end this rule with "Discipline only, no machine
 enforces it here", and gave two reasons. Both were measured false on 2026-08-28 and the user
 ruled the guard in:

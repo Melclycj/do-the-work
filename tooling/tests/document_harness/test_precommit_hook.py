@@ -44,7 +44,7 @@ HOOK = RS_ROOT / ".githooks" / "pre-commit"
 CHECK = RS_ROOT / "tooling" / "hooks" / "layer_path_check.py"
 #: The hook has run two scripts since 2026-08-28; a fixture that installs only the first one
 #: makes the hook exit 1 on its own missing-script branch, which is the branch working.
-LEDGER_CHECK = RS_ROOT / "tooling" / "hooks" / "ledger_cap_check.py"
+LEDGER_CHECK = RS_ROOT / "tooling" / "ledger_cap_check.py"
 
 #: Hand-written expectations (E5): independent of the hook and the check they guard, whole
 #: lines a mutation cannot half-satisfy.
@@ -75,7 +75,7 @@ def _scratch_repo(root: pathlib.Path, *, with_check: bool) -> None:
         check_dir = root / "tooling" / "hooks"
         check_dir.mkdir(parents=True)
         shutil.copy(CHECK, check_dir / "layer_path_check.py")
-        shutil.copy(LEDGER_CHECK, check_dir / "ledger_cap_check.py")
+        shutil.copy(LEDGER_CHECK, root / "tooling" / "ledger_cap_check.py")
     (root / "scratch.txt").write_text("scratch\n", encoding="utf-8")
     subprocess.run(
         ["git", "-C", str(root), "add", "scratch.txt"],

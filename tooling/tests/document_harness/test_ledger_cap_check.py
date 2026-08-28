@@ -20,7 +20,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "hooks"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
 from _harness import TempRepo, git  # noqa: E402
 
@@ -66,7 +66,7 @@ class LedgerCapTests(unittest.TestCase):
         self.assertEqual(cap.check(self.repo.root), 0)
 
     def test_exactly_at_both_bounds_passes(self):
-        """The bounds are inclusive: 2,500 characters and 20 entries pass; 2,501 and 21 do not.
+        """The bounds are inclusive: the bound itself and 20 entries pass; one over each does not.
 
         The full-size entry is placed first, never last, so no trailing newline lands inside its
         body and the assertion below measures what it says it measures.
@@ -83,7 +83,7 @@ class LedgerCapTests(unittest.TestCase):
         self.assertEqual(cap.check(self.repo.root), 0)
 
     def test_one_character_over_the_bound_blocks(self):
-        """The paired must-fire for the case above: 2,501 is a breach."""
+        """The paired must-fire for the case above: one character over is a breach."""
         head = "- **超一格**：一条指针。"
         over = head + "填" * (cap.MAX_ENTRY_CHARS + 1 - len(head))
         self.assertEqual(len(over), cap.MAX_ENTRY_CHARS + 1)

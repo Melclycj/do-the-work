@@ -29,7 +29,7 @@ CHK=tooling/hooks/layer_path_check.py
 # Joined 2026-08-28 (user ruling): the ledger's own bounds, which discipline alone did not
 # hold — three breaches in one session, each found only by measuring by hand. It is not a
 # second checker for this file; the count was zero (see the script's own docstring).
-LEDGER_CHK=tooling/hooks/ledger_cap_check.py
+LEDGER_CHK=tooling/ledger_cap_check.py
 
 # python3 first, python second, and each candidate must actually RUN, not merely exist:
 # POSIX systems ship `python3` and often no `python` at all — measured 2026-08-23 on a wired
