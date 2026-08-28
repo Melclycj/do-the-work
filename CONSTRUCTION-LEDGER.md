@@ -172,7 +172,9 @@
   [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留指针。
   **代价照记**：三条 must-fix 全出在**契约签字文本**上——两句会被 item C 弄假，一句开轮前就已假且全仓
   零记录；三次皆走 `E10` must-fix 通道。rider 新增三条、兑付两条，`announced-set-anchor` 维持并重指
-  下一个设计轮。**下一队首 ＝ dispatch-economy 构造批**，其清单另加 `dispatch-exec-perms`。
+  下一个设计轮。**队首改序（用户 2026-08-29）：① 真实跑一次产品 run**（批 `CORE-SET` 自陈该腿从未
+  跑过；按 2026-08-23 裁不在本仓）**② 候选隔离**（仍未裁是否开轮）**③ dispatch-economy**（另加
+  `dispatch-exec-perms`）。**分发形态改由 `HD-66` 承载**：submodule 默认非终局。
   **⚠ 本档现为 20/20 条，已顶到自身上限**——下一批若要新增条目，须先按抬头的 archive 程序腾位。
 
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan

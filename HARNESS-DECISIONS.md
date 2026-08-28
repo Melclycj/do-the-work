@@ -28,6 +28,35 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-66 · 分发形态：submodule 是默认**而非终局**——core 分发若最终做不到，就上 plugin（推翻 2026-08-24 裁决的该半边）
+- 2026-08-29 · user · scope: standing · status: **live**（层内零承载：指令层没有任何一处讲分发形态，
+  `CONSTRUCTION-INDEX.md` 只分「travel / 不 travel」而不说怎么送达；原裁只活在
+  `CONSTRUCTION-LEDGER.md` 公开化三批那一条的一句话里）
+- 裁决：**用户 2026-08-29 推翻 2026-08-24「分发形态维持 submodule」那一半。** 新的形态是条件式的——
+  **submodule 仍是当前默认，但若最终证明它无法满足 core 分发，就走 plugin。** 原裁把再议条件写成
+  「plugin/包装等**真外部需求出现**再议」（`E6`），本条把那个条件**换掉**：触发器不再是外部需求，
+  而是**core 分发被证明做不到**。原裁的另一半（`.claude/` 不放 harness 件）**不受影响、继续有效**。
+- **本条不裁「是否已经做不到」，那是后话，且不由 session 判。** 今日实测只作判断材料，不构成判定
+  （orchestrator 2026-08-29 用 `tooling/sweep_refs.py` 跑的）：产品层 **58 件**的树上，`E10` 九成员有
+  **10 条真断链**——4 个 markdown 链接指向 `CONSTRUCTION-CHECKLIST.md`、2 个 path token 指向
+  `tooling/tests/` 与 `.githooks/`、**3 个成员文件本身缺席**。作为对照，全仓 409 件上真断链为
+  **0**（14 条全是 NAMETOK，扫描器自陈那是调用者持有物的合规写法），剥史树 120 件上为 **3**
+  （批 `CORE-SET` 的成果，余 3 条裁决 12 明许）。
+- **结构性的那一条，值得单独看见**：`CONSTRUCTION-CHECKLIST.md` 与两个 retired contract stub **本身
+  就是 `E10` 的九成员**，而按 `CONSTRUCTION-INDEX.md` 它们**是构造侧、不 travel**。九分之三不 travel，
+  所以「只带 core」在**定义上**就与 `E10` 的成员集冲突——这不是漏了几个链接，是两张清单互不相容。
+  已 banked 为 rider `checklist-cited-not-carried`，其抬头写着「每一条出路都是 design」。
+- 边界：**「最终」是有内容的，不是修辞。** 至少三条路没走过，走完才谈得上做不到：① sparse-checkout
+  （gitlink 照钉整棵树、工作区只 materialize 那 58 个路径；代价是那些引用在工作区变断链而**无守卫可见**）
+  ② 开设计轮解 `checklist-cited-not-carried`（把产品层要用的规则搬进产品层，或让 checklist 也 travel）
+  ③ core-only 发布产物。本条**不预设**哪条会成，也不授权任何一条免开轮。
+- 后果：`.claude/` 那一半维持；`E6`（不为假想需求造机器）在本条下仍成立——本条没有现在就造 plugin，
+  只是把它从「等外部需求」改成「等一个可判定的失败」。
+- basis: 用户裁决 2026-08-29（对话：「我要推翻之前的定论，如果最后 submodule 无法满足 core 分发，
+  就只能上 plugin 了」）· supersedes 2026-08-24 的 §10.5 裁决之分发形态半边（载体＝
+  `CONSTRUCTION-LEDGER.md` 公开化三批条目，按 `HD-59` 不就地改，原句留作当日历史）· 实测依据＝
+  `tooling/sweep_refs.py` 三棵树对照 · rider `checklist-cited-not-carried`
+
 ### HD-65 · 契约 §13.1 的「not accepted」只指**验证路径**，够不到 accessor 与决策检查
 - 2026-08-29 · user · scope: standing · status: **live**（这是对签字文本一个词的**解释**，契约自身
   不携带自己的解释，指令层也没有任何一处说这个词该读多严；`HD-64` 的边界段只管「准予改哪一类」，
