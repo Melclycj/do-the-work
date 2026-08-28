@@ -356,9 +356,16 @@ Redemption = the row deleted in the commit that earns it.
 - [x] 6. Execute G. **DONE** — first half `1f3e213` (beside the change it guards), second half `57e1f23`.
 - [x] 7. Execute F and H — one row re-pointed, two deleted in the commits that earn them.
       **DONE** — `1f3e213`; both deletions rode that one commit rather than two, disclosed in its body.
-- [ ] 8. FULL review via `dtw dispatch --range BASE..TIP`; one user-approved fix leg; VERIFY.
-- [ ] 9. Close: update `CONSTRUCTION-LEDGER.md`, open the PR from `dev`, wait for
-      `announced-path-disclosure` green, merge.
+- [x] 8. FULL review via `dtw dispatch --range BASE..TIP`; one user-approved fix leg; VERIFY.
+      **DONE — verdict `REVIEWED_NO_BLOCKER`**, record `v3-review-full-a518888.md` at `be59ad6`,
+      range `60bf9eb..a518888`. **No fix leg was spent and no VERIFY is owed** (user ruling
+      2026-08-29 under `R10`: the three lows ride this closeout commit). The first dispatch of
+      this FULL was killed before producing anything — no record, so by `E9`'s test no FULL had
+      occurred and the budget was untouched; it was re-dispatched on the same range at the
+      user's direction, and that second one is the one that happened.
+- [x] 9. Close: update `CONSTRUCTION-LEDGER.md`, open the PR from `dev`, wait for
+      `announced-path-disclosure` green, merge. **Ledger and this plan are closed in this
+      commit; the PR is the remaining step and acceptance 12 stays open until its check is green.**
 
 ## Acceptance results — measured 2026-08-29 at `57e1f23` by the orchestrator
 
@@ -367,7 +374,7 @@ Eleven of twelve pass; the twelfth is a closeout step. Commands and their output
 | # | result |
 |---|---|
 | 1 | `git ls-files schema/document-assurance-v3/ \| wc -l` → **14**; `git ls-files …/review.schema.json` → **empty**. PASS |
-| 2 | `validate_w2('review_result_v2', {}).ok` → **False**. The five `$ref`s resolve from `common.schema.json`; an unresolved reference would have raised instead. PASS |
+| 2 | `validate_w2('review_result_v2', {}).ok` → **False**. ~~The five `$ref`s resolve from `common.schema.json`; an unresolved reference would have raised instead.~~ **That reasoning is false, the FULL's `L-1` caught it, and the sentence is struck rather than deleted because this is the correction.** `jsonschema` resolves a `$ref` at application time, and an empty instance never descends into `properties`, `allOf` or any `if`-branch, so `False` is what a correct re-point and a broken one both produce — which this plan half-noticed by recording that the same command printed `False` *before* the round. **Falsified by experiment rather than by reading**: one `$ref` re-pointed at `NO-SUCH-FILE.schema.json` still printed `False`, while the same broken schema against a populated instance raised `_WrappedReferencingError: Unresolvable: NO-SUCH-FILE.schema.json#/$defs/reviewRound`. **What actually carries the property is the battery**: `test_flow_repair_disposition.py:556-565` validates fully-populated v2 results expecting zero codes, and `:1980-1990` puts `verify_scope` on a FULL — between them all five `$ref`s are looked up. PASS on that evidence, not on the one-liner |
 | 3 | `diff` of `60bf9eb:review.schema.json` `:85-88`+`:131-257` against `common.schema.json:142-272` → **one line differs, `:131`**, a `}` versus `},`. That character is `$defs`' separator, not part of any definition. PASS in the precise sense the round's executor stated, not in an unqualified one |
 | 4 | Four live files still name the retired path and **none resolves it as a schema**: `review.py:11` (standing conclusion, forward-corrected beside it), `test_flow_repair_disposition.py:1890` and `test_golden_review_views.py:244` (comments), `review.v2.schema.json:5` (the successor's account of its predecessor). Plus the guard's list and its twin, which is item E. PASS |
 | 5 | `python -m pytest tests -q` → **830 passed in 436.17s**, exit 0. 827 + 3, the three added by this round; the first executor stated that delta as a falsifiable prediction before any of it ran. PASS |
@@ -376,6 +383,7 @@ Eleven of twelve pass; the twelfth is a closeout step. Commands and their output
 | 8 | **Mutation run.** `N2_SCHEMA_FILES` shrunk from two entries to one → `test_the_registered_kinds_are_exactly_the_hand_written_set` **FAILED**, message *"the N2 kind tables no longer match the hand-written expectation; a kind was added or lost without this test being told"*. Same restore discipline, same sha256. The **F4 shape is closed**. PASS |
 | 9 | `git diff --stat 60bf9eb..HEAD` over `announced_path_disclosure.py` and its test twin → **empty**. Both still name the retired path, at `:70` and at `:33`/`:67`. `1f3e213`'s body says this was decided. PASS — an acceptance of inaction, checked because inaction is invisible in a diff |
 | 10 | `HARNESS-RIDERS.md` holds neither `v1-digest-recipe` nor `alarm-yaml-untested`; `announced-set-anchor` **is still there**, with a touch record naming this round and redeem-when re-pointed to *the next round that opens as design*. Both deletions rode `1f3e213` rather than two commits — no rider-only bookkeeping commit exists, which is what this acceptance protects, and the departure is disclosed in that body |
+| 8b | **Mutation run 2026-08-29, answering the FULL's `L-3`** — the round's third new guard had had only its vacuity control. Both shapes tried: re-adding `review_result` to `N2_SCHEMA_POINTERS` → `test_the_retired_version_1_kinds_no_longer_resolve` **FAILED** at `_WrappedReferencingError`; re-adding `review_package` to `N2_SCHEMA_FILES` → the same test **FAILED** at `AssuranceFault`. Neither is `SpecGap`, which is the demonstration the test was owed. Restored from a sha256-checked scratchpad copy both times, hash `cec790fc…` unchanged. **All three guards this round adds have now been seen to fail** (`E4`) |
 | 11 | `layer_path_check` · `review_freeze_check` · `candidate_path_check` · `ledger_cap_check` — **all exit 0**. `E10`'s nine members resolve **9/9**. PASS |
 | 12 | Closeout: the PR's `announced-path-disclosure` check. Not yet run |
 
@@ -383,6 +391,31 @@ Eleven of twelve pass; the twelfth is a closeout step. Commands and their output
 `test_the_no_code_listing_stays_true` 1 passed, and `test_the_registered_kinds_…` plus
 `test_the_retired_version_1_kinds_no_longer_resolve` 2 passed. A test that cannot pass proves
 nothing by failing.
+
+## Closeout — what the FULL returned and what was done with it
+
+**Verdict `REVIEWED_NO_BLOCKER`** over `60bf9eb..a518888`: three lows, six observations, no
+blocker. Under `R10` lows do not bank by default, so the choice went to the user, who ruled
+**2026-08-29 that all three ride this closeout commit, no fix leg spent, so no VERIFY is owed.**
+
+| finding | disposition |
+|---|---|
+| `L-1` — acceptance 2 cannot prove what it was cited for | **Corrected in acceptance 2 above**, the original struck rather than deleted, and falsified by experiment rather than by reading. It corrects a conclusion this round had already committed, so it is written forward (`HD-59`); what it corrects is the orchestrator's own addenda at `1f3e213` and `a518888` |
+| `L-2` — both cold-resume surfaces stated a state the tip had left behind | **Fixed here**: this plan's resume pointer and `CONSTRUCTION-LEDGER.md`'s queue-head row. Step 9 owed it already |
+| `L-3` — the third new guard had never been seen to fail | **Mutation run**, both shapes red; recorded as acceptance 8b. No code change was needed |
+
+| observation | disposition |
+|---|---|
+| `O-1` — *not accepted* has no enforcement site | **User ruling 2026-08-29, `HD-65`**: it says the same thing as *not validated* and reaches no accessor and no decision check, so `HD-64`'s consistency condition is satisfied and closed. Its boundary paragraph refuses to hide the larger fact — `check_repair_decision` validates **no** result, v2 included, which this round did not change and which `review_result_v2.py:33-39` already states. Whether that gap is fixed is deliberately not settled |
+| `O-2` — the new README clause is arguably wrong | Banked as rider `readme-common-clause` (`R9` terminal branch: no downstream decision goes wrong either way) |
+| `O-3` — item C edited an `E10` member inside a candidate commit | **The orchestrator decides it rather than inheriting it, and adopts the reviewer's reading**: `E10`'s rely-before-read deferral is not the governing sentence, because nothing in this round *relies* on that navigation row in `E10`'s sense. Only the ordinary next-opening cold read is owed, and it sees the blob move regardless |
+| `O-4` — the two-paragraph commit body is not disclosed as a departure | **Already ruled; no new decision needed.** `CONSTRUCTION-LEDGER.md:150` carries the user's ruling of 2026-08-07 (`HI-REDEEM-5` `L-4`) that `E8`'s *one dense paragraph* buys density and the absence of trailers and **does not require a literal single paragraph**. The addendum form sits inside that ruling |
+| the orchestrator carrying `E1`'s verification half | Banked as rider `dispatch-exec-perms`, target `ORCHESTRATION.md`'s three-roles table, redeem-when the next round-eligible batch because its fix is design (`R10`) |
+| `R5`'s shape question | The reviewer records this round's three added tests as sound rather than as the keep-adding-components shape, because `E6` was answered in the bytes: item G refused a second sweep in favour of asserting the exclusion list's own precondition, and item D refused new machinery in `result_schema_kind` |
+
+**Two decision entries stay `live`, and flipping them is not a session's to do** (`HD-2`): `HD-63`
+and `HD-64` each carry a note proposing `implemented` now that their carriers have landed. The
+user has not ruled on either flip, and neither is assumed here.
 
 ## Carried to closeout
 
@@ -435,7 +468,7 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: **step 4, with items C and D held back** — the round is open; base is **`60bf9eb`** (the
+当前指针: **step 9 — CLOSED but for the PR** — the round is open; base is **`60bf9eb`** (the
 `dev` tip when it opened, see the correction in the status block), work branch is `dev`.
 
 Two must-fixes have been raised and answered, each by a user ruling and an amendment, and neither
@@ -444,16 +477,20 @@ base correction `80fcd71` → ruling `HD-63` `01753f4` → first amendment `e578
 `dcb3aef` → **independent re-read `fad8df2`, which discharged the first must-fix and raised a
 second** → ruling `HD-64` `4a380be` → free-channel byte `aa8d212` → second amendment `2aabd5a`.
 
-**Owed before items C and D**: the independent re-read of the *second* amendment. `HD-64`'s
-consequences paragraph is explicit that this one gets no rely-before-read deferral, because it
-changed what a rule requires and its effect on the round in flight is not nil. The
-orchestrator's to dispatch.
+Everything the round set out to do is done and independently reviewed.
+`schema/document-assurance-v3/` holds **14** files, `review.schema.json` is gone, the five shared
+definitions live in `common.schema.json` byte-equal but for the `$defs` separator, the battery is
+**830 passed**, all four guards exit 0, the `E10` members resolve 9/9, and all three guards this
+round adds have been seen to fail. The FULL returned `REVIEWED_NO_BLOCKER` (`be59ad6`), the three
+lows were dispatched under the user's `R10` ruling, and **no `E9` fix leg was spent** — so no
+VERIFY is owed and the round closes carrying an unspent fix leg.
 
-Unblocked now: **A, B, E, F, G, H**. Battery at `2aabd5a` is **827 passed**, superseding the 813
-recorded above. The plan's item D site list does not name
-`schema/document-assurance-v3/review.v2.schema.json:24`, which describes the loader routing on
-presence and value; the second amendment's executor flagged it as something item D's executor
-should look at rather than inherit.
+**The one thing left is the PR** from `dev` into protected `main`, and acceptance 12 with it: the
+`announced-path-disclosure` check green, and every commit touching
+`contract/Document-Work-Assurance-Contract-v4.md`,
+`schema/document-assurance-v3/common.schema.json`,
+`schema/document-assurance-v3/review.v2.schema.json` or the deleted
+`schema/document-assurance-v3/review.schema.json` naming that path in its own body.
 
 ## Notes
 

@@ -164,18 +164,15 @@
 
 ## 待办 backlog — 构造侧
 
-- **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（**已开轮 2026-08-28**，base `60bf9eb`＝开轮时 `dev`
-  tip，工作分支 `dev`）**：原队首 ②③④ 并入、经用户 2026-08-28 裁扩至完整形——`review.schema.json`
-  整个退役。**九条裁决、量程、验收、开轮后的两处更正全在 plan
+- **轮 `V1-RESULT-RETIRE` CLOSED 2026-08-29，仅余 PR**（base `60bf9eb`，分支 `dev`，FULL 判
+  `REVIEWED_NO_BLOCKER` `be59ad6`）：v1 评审 schema 整个退役，pack **15→14**，五个共享定义搬进
+  `common.schema.json`。电池 827→**830**，四守卫 exit 0，成员 9/9，新增三守卫**全部实测见过红**；
+  **`E9` 修腿未花、VERIFY 不欠**。**三条用户裁决（`HD-63`/`HD-64`/`HD-65`，前两条仍 `live`，转
+  `implemented` 归用户）、十二条验收、三 low 六观察的逐条处置全在 plan
   [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留指针。
-  base 由 `e755d61` 更正为 `60bf9eb`（用户裁 2026-08-28：写下 `e755d61` 的那个 commit 自己又把 tip
-  推后一格）。开轮冷读记录 `v3-cold-read-60bf9eb.md`（`c04958a`）返 **一条 must-fix `M-1`，按 `R5`
-  归口用户**：契约 v4 `:284-287` 的签字句承诺 `review.schema.json` 留着供读 pinned v1 history，
-  而 item C 正是删它。**已裁 `HD-63`（`01753f4`）：就地改，且明写盖过契约 §13、补记此前两次未声明的
-  就地改**；amendment 落 `e578e70`（四站点，含扫类多找出的一处），走 `E10` must-fix 通道、不花 `E9`。
-  **item C 仍等该通道的另一半——对被改文本的独立复读**。
-  rider `announced-set-anchor` 的 deadline 于本轮到达，**用户裁维持、重定为下一个设计轮**；
-  `dispatch-economy` 顺延其后、无 deadline。
+  **代价照记**：三条 must-fix 全出在**契约签字文本**上——两句会被 item C 弄假，一句开轮前就已假且全仓
+  零记录；三次皆走 `E10` must-fix 通道。rider 新增三条、兑付两条，`announced-set-anchor` 维持并重指
+  下一个设计轮。**下一队首 ＝ dispatch-economy 构造批**，其清单另加 `dispatch-exec-perms`。
 
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan
   [`harness-batch-b.plan.md`](document-harness/plans/harness-batch-b.plan.md)）：R1 `run_all` 接线

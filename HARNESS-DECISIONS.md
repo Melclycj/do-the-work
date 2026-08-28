@@ -28,6 +28,29 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-65 · 契约 §13.1 的「not accepted」只指**验证路径**，够不到 accessor 与决策检查
+- 2026-08-29 · user · scope: standing · status: **live**（这是对签字文本一个词的**解释**，契约自身
+  不携带自己的解释，指令层也没有任何一处说这个词该读多严；`HD-64` 的边界段只管「准予改哪一类」，
+  不管改完的那句话怎么读。故层内与契约内均无承载）
+- 裁决：`contract/Document-Work-Assurance-Contract-v4.md:280-287` 里「one presented nonetheless is
+  **not validated and not accepted**, fail closed」的后半句，与前半句**同指一件事**——没有验证路径
+  就不可能被接受。它**不**延伸到 accessor（`flow.reviewed_candidate_ref`）与决策检查
+  （`flow.check_repair_decision`）。
+- 起因与量程（FULL `v3-review-full-a518888.md` `O-1` 实测）：「not validated」半边成立——三个
+  validator（`review.validate_n2` · `review_subject.validate_w2` · 包根 `validate`）都把
+  `review_result` 当未注册 kind 拒掉。「not accepted」半边够不到两处：accessor 按声明形状去根上读
+  `candidate_ref`，而 `check_repair_decision` **用**它做决定且**从不验证它读的那份 result**，喂 v1
+  形状进去返回干净报告（`test_the_v1_root_shape_is_unaffected` 钉的就是这条 live 行为）。
+- 后果：**`HD-64` 的一致性条件（契约文字与代码行为必须一致）就此满足并关闭**——按本条的读法，代码
+  与文字不冲突。本轮不改契约、不改 `flow.py`。
+- 边界，且这一条比裁决本身更重要：**真正的缺口比 v1 大，本条不掩盖它**——`check_repair_decision`
+  **对任何 result 都不验证**，v2 的也不验证；v1 只是它今天最显眼的一个面。该性质**本轮之前就存在、
+  本轮一个字未改**，且已由 `tooling/rsclib/document_harness/review_result_v2.py:33-39` 在代码里写明。
+  本条**不裁**那个缺口该不该修——它不是「not accepted 读多严」的问题，要修要另裁。
+- basis: 用户裁决 2026-08-29（对话，三选一里选「只指验证路径，记一句边界」，且要求先给全 context）·
+  FULL `migration/document-work-assurance-v3/v3-review-full-a518888.md` `O-1`（按 `R5` 归口用户）·
+  `HD-64` 的一致性条件（本条即其答案）· plan ruling 2「不存在 v1 活例」使该条款反事实
+
 ### HD-64 · 契约 v4 `:279-281` 的 v1 验证路径规定准予就地改——**这次盖过 §13 的是「要求」，且明裁不开设计轮**
 - 2026-08-28 · user · scope: standing · status: **live**（`HD-63` 的边界段把「改变契约**要求什么**」
   明确排除在其量程之外，故本条不是 `HD-63` 的重述也不由它承载；`E10` 的 design test 说这类要开轮，
