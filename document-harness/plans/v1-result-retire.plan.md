@@ -183,6 +183,12 @@ Rider `alarm-yaml-untested`, first arm: run `33140916037`, `event=pull_request`,
     travels `E10`'s must-fix channel, which `HD-36` ruling 2 keeps the design test out of, and
     that channel is not a round and spends no `E9` budget. What it does owe is an independent
     re-read of the amended text, and item C does not land until that read's record is in.
+  - **Item C edits a fourth member, and that is not design either** (added 2026-08-28, re-read
+    `ff00a1d`). Deleting `document-harness/README.md:20`'s navigation row adds no clause and
+    changes no rule's requirement, so `E10`'s design test does not reach it. This sub-bullet
+    exists because the re-read measured that the Constraints line above, read on its own, is an
+    instruction to an item C executor **not** to touch that file — and that the acceptance-4 grep
+    which would otherwise catch the site has, in that executor's hands, a ready wrong answer.
 - **Rider `announced-set-anchor`'s deadline arrives here and is discharged by adjudication, not
   repair** (ruling 9). Item F.
 - **Rider `PD` does NOT fall due** — its redeem-when names `__init__.py`'s export surface; this
@@ -236,6 +242,22 @@ byte-equal, only the reason's wording changes. **Announced path: named in full.*
 What remains after A is the ReviewPackage root, `memberRole`, `packageMember` and `reviewResult` —
 215 lines that, once item D removes the two kinds, nothing can address. **Announced path: the commit
 that deletes it names it in full.**
+
+**Second site, added 2026-08-28 by the re-read at `ff00a1d`: `document-harness/README.md:20`.**
+The *Review + disposition schemas (V3-N2)* row carries a followable markdown link
+`[review](../schema/document-assurance-v3/review.schema.json)`, and it is the **only** live
+reference to the file anywhere in the nine instruction-layer members — the reader scoped that
+sweep and found one other hit, `contract/Document-Work-Assurance-Contract-v4.md:302`, which is
+past-tense history and survives the deletion. **The row leaves in the deletion commit itself**,
+not before it and not after: `tooling/tests/document_harness/test_readme_enumeration.py` builds
+its expectation from `schema_dir.glob("*.schema.json")`, so removing the name while the file is
+still present turns that test red, and removing the file while the name stands turns nothing red
+at all. **Nothing catches this**, which is why it is written here rather than left to an
+acceptance step: that test looks only for a schema file the table fails to name;
+`layer_path_check` misses it twice over, scanning only a commit's added lines and requiring a
+backtick token a markdown link does not carry, both blind spots `E10`'s own clause names; and
+acceptance 11 is about the members' own paths. The row's own sentence already says it has to
+leave by hand — that sentence is a warning, and this is the instruction that acts on it.
 
 ### D — the code stops knowing about it
 
@@ -336,6 +358,19 @@ Redemption = the row deleted in the commit that earns it.
 - [ ] 8. FULL review via `dtw dispatch --range BASE..TIP`; one user-approved fix leg; VERIFY.
 - [ ] 9. Close: update `CONSTRUCTION-LEDGER.md`, open the PR from `dev`, wait for
       `announced-path-disclosure` green, merge.
+
+## Carried to closeout
+
+- **`L-1` of the re-read at `ff00a1d`, low, no bytes, and it may resolve itself.**
+  `contract/Document-Work-Assurance-Contract-v4.md:288-290` says round `V1-RESULT-RETIRE`
+  *removes* the v1 validation path, in the present tense, while at that subject the path is still
+  there. True of what the round does, false of tree state. **Items C and D make it true**, so the
+  finding evaporates if the round completes. It is carried rather than dropped because the reader
+  named the moment it bites: if the round closes *without* C and D, a signed member holds a
+  statement of fact that was not true when written — a class `HD-63` does not reach (it covers
+  facts that *were* true when signed) and `HD-64` does not reach (it authorises one bullet on one
+  ground), leaving only §13's versioned-successor route for a verb tense. Weighed with the other
+  lows at closeout under `R10`.
 
 ## Acceptance (done = ?)
 
