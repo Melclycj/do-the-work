@@ -175,6 +175,14 @@ Rider `alarm-yaml-untested`, first arm: run `33140916037`, `event=pull_request`,
   takes its ordinary form. The read is still owed on its own terms: the previous batch edited
   `CONSTRUCTION-CHECKLIST.md`, and the baseline is *unchanged since some one recorded full read*,
   not pinned to a single record.
+  - **False for this round's range since `e578e70`, corrected forward and not over (`HD-59`).**
+    Three members were edited there — `contract/Document-Work-Assurance-Contract-v4.md`,
+    `document-harness/REVIEW.md`, `document-harness/README.md` — by the amendment answering the
+    opening read's `M-1` under `HD-63`. The line above anticipated this in its own notes: two of
+    the three admissible shapes change it. **The round is still not design**: the amendment
+    travels `E10`'s must-fix channel, which `HD-36` ruling 2 keeps the design test out of, and
+    that channel is not a round and spends no `E9` budget. What it does owe is an independent
+    re-read of the amended text, and item C does not land until that read's record is in.
 - **Rider `announced-set-anchor`'s deadline arrives here and is discharged by adjudication, not
   repair** (ruling 9). Item F.
 - **Rider `PD` does NOT fall due** — its redeem-when names `__init__.py`'s export surface; this
@@ -298,7 +306,16 @@ Redemption = the row deleted in the commit that earns it.
       **DONE 2026-08-28** — card approved; read dispatched cold over `60bf9eb`, record
       `migration/document-work-assurance-v3/v3-cold-read-60bf9eb.md` committed at `c04958a`.
       It returned one must-fix, one low and four observations. The must-fix is step 3.5.
-- [ ] 3.5. **`M-1` blocks item C and is the user's to answer (`R5`).** The read found that
+- [x] 3.5. **`M-1` blocks item C and is the user's to answer (`R5`).** **ANSWERED 2026-08-28** —
+      the user ruled in place, and ruled that the ruling say so: `HD-63` (`01753f4`) authorises
+      correcting a signed literal that was true when signed and has since been made false
+      elsewhere, states that it overrides §13, and records as measured that §13 had already been
+      walked past twice without saying so (`1656e59`, `07ef526`). The amendment landed at
+      `e578e70` over four sites — the three below plus `schema/document-assurance-v3/review.v2.schema.json:5`,
+      which the class sweep found and the read had not named — with `CONTRACT-V4-SIGNATURE.md`
+      gaining this write as the third post-signature write. **Item C stays blocked** until the
+      must-fix channel's other half, the independent re-read of the amended text, has its record in.
+      The original statement of the finding follows, left standing (`HD-59`). The read found that
       `contract/Document-Work-Assurance-Contract-v4.md:284-287` — signed text, and an `E10`
       member — promises `review.schema.json` and the v1 checker functions stay frozen for reading
       pinned v1 history. The checker half is already false (round `CORE-SET-CODE` deleted that leg
@@ -358,10 +375,13 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: **step 3.5** — the round is open; base is **`60bf9eb`** (the `dev` tip when it opened, see
-the correction in the status block), work branch is `dev`. The cold read is done and committed
-(`c04958a`). Next action is **not** item A: it is the user's answer on `M-1`, which blocks item C.
-Items A, B, D, E, G, F and H are unblocked and may run first if the user prefers.
+当前指针: **step 4, with item C held back** — the round is open; base is **`60bf9eb`** (the `dev`
+tip when it opened, see the correction in the status block), work branch is `dev`. Done and
+committed: the opening cold read (`c04958a`), the base correction (`80fcd71`), the user's ruling
+`HD-63` (`01753f4`), and the `M-1` amendment (`e578e70`). **Owed before item C**: the independent
+re-read of the amended text, `E10`'s must-fix channel's other half — not a round, no `E9` budget,
+and the orchestrator's to dispatch. Items A, B, D, E, G, F and H are unblocked. Battery at
+`e578e70` is **827 passed**, which supersedes the 813 recorded above.
 
 ## Notes
 

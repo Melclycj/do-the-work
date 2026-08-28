@@ -170,8 +170,10 @@
   [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留指针。
   base 由 `e755d61` 更正为 `60bf9eb`（用户裁 2026-08-28：写下 `e755d61` 的那个 commit 自己又把 tip
   推后一格）。开轮冷读记录 `v3-cold-read-60bf9eb.md`（`c04958a`）返 **一条 must-fix `M-1`，按 `R5`
-  归口用户且未裁前 item C 不落**：契约 v4 `:284-287` 的签字句承诺 `review.schema.json` 留着供读
-  pinned v1 history，而 item C 正是删它（该句的 checker 半边已被 `56d1b17` 弄假且全仓无记录）。
+  归口用户**：契约 v4 `:284-287` 的签字句承诺 `review.schema.json` 留着供读 pinned v1 history，
+  而 item C 正是删它。**已裁 `HD-63`（`01753f4`）：就地改，且明写盖过契约 §13、补记此前两次未声明的
+  就地改**；amendment 落 `e578e70`（四站点，含扫类多找出的一处），走 `E10` must-fix 通道、不花 `E9`。
+  **item C 仍等该通道的另一半——对被改文本的独立复读**。
   rider `announced-set-anchor` 的 deadline 于本轮到达，**用户裁维持、重定为下一个设计轮**；
   `dispatch-economy` 顺延其后、无 deadline。
 
