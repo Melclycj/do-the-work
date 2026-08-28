@@ -350,14 +350,39 @@ Redemption = the row deleted in the commit that earns it.
       it was signed, the two prose siblings carrying the correction. **Item C does not land until
       one is on the record.** Note that the plan's own Constraints line *"No `E10` member is
       edited"* is a change-boundary statement, and two of the three shapes would change it.
-- [ ] 4. Execute A, B, C — the move, the re-point, the deletion. Each commit body names every
-      announced path it touched.
-- [ ] 5. Execute D, and E's disclosure sentence.
-- [ ] 6. Execute G.
-- [ ] 7. Execute F and H — one row re-pointed, two deleted in the commits that earn them.
+- [x] 4. Execute A, B, C — the move, the re-point, the deletion. Each commit body names every
+      announced path it touched. **DONE** — `1f3e213`.
+- [x] 5. Execute D, and E's disclosure sentence. **DONE** — `1f3e213`.
+- [x] 6. Execute G. **DONE** — first half `1f3e213` (beside the change it guards), second half `57e1f23`.
+- [x] 7. Execute F and H — one row re-pointed, two deleted in the commits that earn them.
+      **DONE** — `1f3e213`; both deletions rode that one commit rather than two, disclosed in its body.
 - [ ] 8. FULL review via `dtw dispatch --range BASE..TIP`; one user-approved fix leg; VERIFY.
 - [ ] 9. Close: update `CONSTRUCTION-LEDGER.md`, open the PR from `dev`, wait for
       `announced-path-disclosure` green, merge.
+
+## Acceptance results — measured 2026-08-29 at `57e1f23` by the orchestrator
+
+Eleven of twelve pass; the twelfth is a closeout step. Commands and their output, not descriptions.
+
+| # | result |
+|---|---|
+| 1 | `git ls-files schema/document-assurance-v3/ \| wc -l` → **14**; `git ls-files …/review.schema.json` → **empty**. PASS |
+| 2 | `validate_w2('review_result_v2', {}).ok` → **False**. The five `$ref`s resolve from `common.schema.json`; an unresolved reference would have raised instead. PASS |
+| 3 | `diff` of `60bf9eb:review.schema.json` `:85-88`+`:131-257` against `common.schema.json:142-272` → **one line differs, `:131`**, a `}` versus `},`. That character is `$defs`' separator, not part of any definition. PASS in the precise sense the round's executor stated, not in an unqualified one |
+| 4 | Four live files still name the retired path and **none resolves it as a schema**: `review.py:11` (standing conclusion, forward-corrected beside it), `test_flow_repair_disposition.py:1890` and `test_golden_review_views.py:244` (comments), `review.v2.schema.json:5` (the successor's account of its predecessor). Plus the guard's list and its twin, which is item E. PASS |
+| 5 | `python -m pytest tests -q` → **830 passed in 436.17s**, exit 0. 827 + 3, the three added by this round; the first executor stated that delta as a falsifiable prediction before any of it ran. PASS |
+| 6 | The one text that told a reader to import `package_digest` was `review.schema.json:281` and left with the file. Remaining hits are plans recording the history and `review.py:4` naming it in the past tense as retired. **Nothing instructs.** PASS |
+| 7 | **Mutation run.** `CODE = "V3-REVIEW"` + one `f"{CODE}-UNSWEPT-CODE"` call site added to `review.py` → `test_the_no_code_listing_stays_true` **FAILED**, message *"review.py is listed as having no coded vocabulary but declares a code prefix; move it into N2_MODULES so the sweep actually reads it"*. Restored from a sha256-checked scratchpad copy (`cec790fc…`), never `git checkout --`. PASS |
+| 8 | **Mutation run.** `N2_SCHEMA_FILES` shrunk from two entries to one → `test_the_registered_kinds_are_exactly_the_hand_written_set` **FAILED**, message *"the N2 kind tables no longer match the hand-written expectation; a kind was added or lost without this test being told"*. Same restore discipline, same sha256. The **F4 shape is closed**. PASS |
+| 9 | `git diff --stat 60bf9eb..HEAD` over `announced_path_disclosure.py` and its test twin → **empty**. Both still name the retired path, at `:70` and at `:33`/`:67`. `1f3e213`'s body says this was decided. PASS — an acceptance of inaction, checked because inaction is invisible in a diff |
+| 10 | `HARNESS-RIDERS.md` holds neither `v1-digest-recipe` nor `alarm-yaml-untested`; `announced-set-anchor` **is still there**, with a touch record naming this round and redeem-when re-pointed to *the next round that opens as design*. Both deletions rode `1f3e213` rather than two commits — no rider-only bookkeeping commit exists, which is what this acceptance protects, and the departure is disclosed in that body |
+| 11 | `layer_path_check` · `review_freeze_check` · `candidate_path_check` · `ledger_cap_check` — **all exit 0**. `E10`'s nine members resolve **9/9**. PASS |
+| 12 | Closeout: the PR's `announced-path-disclosure` check. Not yet run |
+
+**Negative control, run before both mutations** (`E4`): on the untouched file both new tests pass —
+`test_the_no_code_listing_stays_true` 1 passed, and `test_the_registered_kinds_…` plus
+`test_the_retired_version_1_kinds_no_longer_resolve` 2 passed. A test that cannot pass proves
+nothing by failing.
 
 ## Carried to closeout
 
