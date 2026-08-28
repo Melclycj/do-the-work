@@ -224,7 +224,12 @@
   **⚠ 新 session 第一件事**：`origin/main` 落后于本地（`git log --oneline origin/main..HEAD` 现取）。
   保护已生效，**直推 `main` 会被拒**——落地须开分支、推、建 PR、等 `announced-path-disclosure` 变绿再合。
   **本仓至今零 PR，该流程从未端到端跑过一次**，第一条 PR 同时是它的首次实测。
-  **无 round journal**：本批的理由与实测只活在各 commit 正文与 plan（历批皆有 journal，本批无）。
+  **无 round journal**：本批的理由与实测只活在各 commit 正文与 plan（历批皆有 journal，本批无）——
+  **用户 2026-08-28 于 preclear 裁「认了」，不补**。同批路由的 `R5` observation：`O-2` 报警 YAML 接线
+  无测试、`O-6` 两处 mutation 未被钉住，二者入 bank 为 rider `alarm-yaml-untested` / `alarm-mutation-gaps`；
+  `O-5`（squash 合并可绕过报警）**裁定要修**。未裁而按既有路线走的：`O-4`（`HD-57` 主题被 item A 删除，
+  但其状态是 `implemented` 非 `live`、不主张现行要求，属陈旧交叉引用）· `V-2`/`V-3` wording-level 按 `R9`
+  随下一批 · `V-4`/`V-5` 已发生、留在 VERIFY 记录里。
 - **候选隔离机制已丢失 —— 设计题立案（用户 2026-08-27 提出，未裁是否开轮）**：用户批准的 v3 执行计划
   `document-harness/plans/document-work-assurance-harness-v3.plan.md:119` 明写「All payload writing
   occurs on an isolated Git candidate branch/worktree … `REJECT` or `REPLAN` preserves the candidate
