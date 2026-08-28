@@ -164,7 +164,7 @@
 
 ## 待办 backlog — 构造侧
 
-- **轮 `V1-RESULT-RETIRE` CLOSED 2026-08-29，仅余 PR**（base `60bf9eb`，分支 `dev`，FULL 判
+- **轮 `V1-RESULT-RETIRE` CLOSED 且已合入 `main` 2026-08-29**（PR #2 → `b6c40a2`，十条 check 全绿；FULL 判
   `REVIEWED_NO_BLOCKER` `be59ad6`）：v1 评审 schema 整个退役，pack **15→14**，五个共享定义搬进
   `common.schema.json`。电池 827→**830**，四守卫 exit 0，成员 9/9，新增三守卫**全部实测见过红**；
   **`E9` 修腿未花、VERIFY 不欠**。**三条用户裁决（`HD-63`/`HD-64`/`HD-65`，前两条仍 `live`，转
@@ -173,6 +173,7 @@
   **代价照记**：三条 must-fix 全出在**契约签字文本**上——两句会被 item C 弄假，一句开轮前就已假且全仓
   零记录；三次皆走 `E10` must-fix 通道。rider 新增三条、兑付两条，`announced-set-anchor` 维持并重指
   下一个设计轮。**下一队首 ＝ dispatch-economy 构造批**，其清单另加 `dispatch-exec-perms`。
+  **⚠ 本档现为 20/20 条，已顶到自身上限**——下一批若要新增条目，须先按抬头的 archive 程序腾位。
 
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan
   [`harness-batch-b.plan.md`](document-harness/plans/harness-batch-b.plan.md)）：R1 `run_all` 接线

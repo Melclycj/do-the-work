@@ -385,7 +385,7 @@ Eleven of twelve pass; the twelfth is a closeout step. Commands and their output
 | 10 | `HARNESS-RIDERS.md` holds neither `v1-digest-recipe` nor `alarm-yaml-untested`; `announced-set-anchor` **is still there**, with a touch record naming this round and redeem-when re-pointed to *the next round that opens as design*. Both deletions rode `1f3e213` rather than two commits — no rider-only bookkeeping commit exists, which is what this acceptance protects, and the departure is disclosed in that body |
 | 8b | **Mutation run 2026-08-29, answering the FULL's `L-3`** — the round's third new guard had had only its vacuity control. Both shapes tried: re-adding `review_result` to `N2_SCHEMA_POINTERS` → `test_the_retired_version_1_kinds_no_longer_resolve` **FAILED** at `_WrappedReferencingError`; re-adding `review_package` to `N2_SCHEMA_FILES` → the same test **FAILED** at `AssuranceFault`. Neither is `SpecGap`, which is the demonstration the test was owed. Restored from a sha256-checked scratchpad copy both times, hash `cec790fc…` unchanged. **All three guards this round adds have now been seen to fail** (`E4`) |
 | 11 | `layer_path_check` · `review_freeze_check` · `candidate_path_check` · `ledger_cap_check` — **all exit 0**. `E10`'s nine members resolve **9/9**. PASS |
-| 12 | Closeout: the PR's `announced-path-disclosure` check. Not yet run |
+| 12 | **PASS, 2026-08-29.** PR #2 `dev` → `main`: `announced-path-disclosure` **pass** in 7s, and the full matrix green — `test` on ubuntu 3.12/3.13 and windows 3.12/3.13, ten checks, `MERGEABLE / CLEAN`. Merged as `b6c40a2` (merge commit, not squash, `allow_squash_merge` being off precisely so the alarm's per-commit judgement is not collapsed). Endpoint read back rather than inferred from the command's echo: on `origin/main`, `git ls-files` over the pack returns **14** and over `review.schema.json` returns nothing |
 
 **Negative control, run before both mutations** (`E4`): on the untouched file both new tests pass —
 `test_the_no_code_listing_stays_true` 1 passed, and `test_the_registered_kinds_…` plus
@@ -485,12 +485,26 @@ round adds have been seen to fail. The FULL returned `REVIEWED_NO_BLOCKER` (`be5
 lows were dispatched under the user's `R10` ruling, and **no `E9` fix leg was spent** — so no
 VERIFY is owed and the round closes carrying an unspent fix leg.
 
-**The one thing left is the PR** from `dev` into protected `main`, and acceptance 12 with it: the
-`announced-path-disclosure` check green, and every commit touching
-`contract/Document-Work-Assurance-Contract-v4.md`,
-`schema/document-assurance-v3/common.schema.json`,
-`schema/document-assurance-v3/review.v2.schema.json` or the deleted
-`schema/document-assurance-v3/review.schema.json` naming that path in its own body.
+**Nothing is left.** PR #2 merged into `main` as `b6c40a2` on 2026-08-29 with all ten checks green,
+`announced-path-disclosure` among them, which is acceptance 12 and which mechanically decides that
+every commit touching an announced path named it in its own body. `main` was read back at the
+endpoint: the pack holds 14 files and the retired path resolves to nothing there.
+
+**Two things this round leaves behind, written here because a preclear found them rather than a
+reviewer, and because the next cold read would otherwise meet them as new.**
+
+1. **The four commits after `a518888` have had no independent review.** The FULL's subject ends
+   there; `be59ad6` (its own record), `f4ad7be` (closeout), `3d782da` (the two state flips) and the
+   preclear commit carrying this paragraph all sit outside it. That is the *chosen* consequence of
+   the user's `R10` ruling — activating the fix leg would have obliged a VERIFY over exactly these
+   bytes — and it is stated rather than left to be discovered.
+2. **The stale-pointer defect the FULL filed as `L-2` recurred inside this same round.** After the
+   closeout said *仅余 PR* and acceptance 12 said *not yet run*, the PR merged and both sentences
+   went false, in the plan and in the ledger, with nothing catching it until the preclear ran. Twice
+   in one round is a rate, not an accident: the surfaces that say *what is left* go stale at exactly
+   the moment the work finishes, which is the moment nobody is looking at them. Not banked as a
+   rider — `R10` wants a target file or clause and a redeem-when, and this has neither; it is
+   recorded where the next author of a closeout will read it.
 
 ## Notes
 
