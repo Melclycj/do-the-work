@@ -214,11 +214,11 @@
   **入 bank 未修四件**：`announced-set-anchor`（十六条路径无本仓可解析枚举，判 design；deadline ＝
   pack 首次增减件）· `e10-freeze-exception` · `archive-header-selfcount`（触碰未兑）· 三条 `E2`
   老 rider 改随下一批。
-  **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（未开轮）**：原队首 ②③④ 并入，范围经用户 2026-08-28
-  裁定扩至完整形（`review.schema.json` 整个退役，pack 15→14，故 `E2` 集合须重锚、该轮带设计性质）。
-  **七条裁决、量程、未答问题与验收全在 plan
-  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本行只留指针——
-  **未答问题一条（`E2` 重锚形），未答不得开轮**。`dispatch-economy` 仍顺延其后、无 deadline。
+  **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（未开轮）**：原队首 ②③④ 并入并经用户 2026-08-28 裁
+  扩至完整形——`review.schema.json` 整个退役。**九条裁决、量程、验收全在 plan
+  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本行只留指针；
+  **无未答问题，可开轮，非设计轮**（`E2` 与守卫名单均不改）。rider `announced-set-anchor`
+  deadline 本轮到达，**用户裁维持、重定为下一个设计轮**。`dispatch-economy` 顺延、无 deadline。
   **另一件小的**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、可变 tag）。
   用户裁「与 `E2` 无关、单独一件小的」。
   **⚠ 落地流程（已实测一次）**：直推 `main` 被拒，走分支 → PR → 报警绿 → 合；**PR #1 已于
