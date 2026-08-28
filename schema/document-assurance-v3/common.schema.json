@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "researchsystem/schema/document-assurance-v3/common.schema.json",
   "title": "Document Work Assurance v3 — shared vocabulary",
-  "description": "Single home for the closed shared $defs used by every document-assurance-v3 schema (plan V3-D1..D10). Document-work vocabulary only: no capability, enforcement, activation, authority-grant, receipt, event-chain or consumer/platform vocabulary exists here (N0-A5, N0-A8). Normalized local paths only — no URI/glob algebra (V3-D3).",
+  "description": "Single home for the closed shared $defs used by every document-assurance-v3 schema (plan V3-D1..D10). Document-work vocabulary only: no capability, enforcement, activation, authority-grant, receipt, event-chain or consumer/platform vocabulary exists here (N0-A5, N0-A8). Normalized local paths only — no URI/glob algebra (V3-D3). The five review definitions at the end — reviewRound, instructionCompleteness, perObligationDisposition, finding, verifyScope — arrived here byte-equal in round V1-RESULT-RETIRE (2026-08-28). They were never version-1's: the version-1 review schema held them only because v1 was written first and v2 chose to reference rather than copy (user ruling 2026-08-28), their own internal $refs already named this file, and their sole referent is review.v2.schema.json.",
   "type": "object",
   "$defs": {
     "slug": {
@@ -138,6 +138,137 @@
     "paramName": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]{1,63}$"
+    },
+    "reviewRound": {
+      "enum": ["FULL", "VERIFY"],
+      "description": "One FULL, then at most one targeted VERIFY after a user-approved repair. No third round and no review-of-review exists (V3-D6, N2-A11)."
+    },
+    "instructionCompleteness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "instruction_ref"],
+      "properties": {
+        "result": {
+          "enum": ["COMPLETE", "INCOMPLETE"],
+          "description": "The reviewer's own recheck of instruction-unit coverage against the raw instruction (invariant 10). It is deliberately NOT the InstructionCoverageAudit's enum: the audit is a pre-start preflight over a proposed map, this is a post-candidate recheck, and giving them one shared enum would invite a later reader to treat one as re-running the other."
+        },
+        "instruction_ref": {
+          "$ref": "common.schema.json#/$defs/frozenFileRef",
+          "description": "The exact raw instruction rechecked — the same frozen bytes the WorkSpec names, not the derived unit map."
+        },
+        "unmapped_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" },
+          "description": "Instruction units the reviewer found normative but unmapped. Present only when there are some; never an empty placeholder."
+        },
+        "detail": { "type": "string", "minLength": 1, "maxLength": 2000 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "result": { "const": "INCOMPLETE" } }, "required": ["result"] },
+          "then": {
+            "required": ["detail", "unmapped_unit_ids"],
+            "description": "An incompleteness claim that says nothing about what is missing cannot be acted on, and cannot be checked either. `unmapped_unit_ids` became required alongside `detail` at the V3 revise round: prose alone cannot be joined to anything, while an enumerated id set is what the finding and the residual are checked against downstream, and it is what a later WorkSpec revision maps. The ids are the reviewer's own — a unit the map omitted has no id in the WorkSpec to borrow, which is the whole point."
+          }
+        }
+      ],
+      "description": "V3 never claims an AI proved every semantic implication was enumerated (V3-D7). This records that the recheck happened and what it found."
+    },
+    "perObligationDisposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["obligation_id", "disposition"],
+      "properties": {
+        "obligation_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "disposition": {
+          "enum": ["SUPPORTED", "NOT_SUPPORTED", "UNVERIFIABLE"],
+          "description": "SUPPORTED = the reviewer established the claim from evidence at the pinned revisions — package members or beyond them; when the establishing evidence goes beyond the package, that coverage is disclosed in `note` or `residual_uncertainty` (deliberately no dedicated field: the package is a floor on evidence, never a ceiling). NOT_SUPPORTED = the evidence CONTRADICTS the claim. UNVERIFIABLE = the reviewer could not establish it either way — including when the evidence that would settle it is not reachable at the pinned revisions, a state the earlier wording left ambiguous between the last two. UNVERIFIABLE is a REPORTED state and never silently folded into SUPPORTED — making the unverified visible is the endpoint this product actually promises (V3-D3, V3-D5, contract §1)."
+        },
+        "note": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "finding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "disposition": { "enum": ["NOT_SUPPORTED", "UNVERIFIABLE"] } },
+            "required": ["disposition"]
+          },
+          "then": {
+            "required": ["note"],
+            "description": "A negative or unestablished disposition must say why. An unexplained NOT_SUPPORTED cannot produce a minimum repair boundary, and an unexplained UNVERIFIABLE cannot be judged by the user who has to decide whether to accept it."
+          }
+        }
+      ]
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finding_id", "blocking", "statement"],
+      "properties": {
+        "finding_id": { "$ref": "common.schema.json#/$defs/slug" },
+        "obligation_id": {
+          "$ref": "common.schema.json#/$defs/slug",
+          "description": "Present when the finding is about one obligation; absent when it is about the instruction map or the candidate as a whole."
+        },
+        "blocking": {
+          "type": "boolean",
+          "description": "Whether this finding blocks acceptance. A non-blocking finding is stated plainly as a finding rather than inflated into a blocker: an inflated blocker burns the single permitted repair round on something that was never a gate condition."
+        },
+        "statement": { "type": "string", "minLength": 8, "maxLength": 2000 },
+        "candidate_locator": {
+          "$ref": "common.schema.json#/$defs/locator",
+          "description": "Where in the candidate the problem is."
+        },
+        "ground_truth_locator": {
+          "$ref": "common.schema.json#/$defs/locator",
+          "description": "Where in the instruction, source or plan the requirement it violates is."
+        },
+        "minimum_fix": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 2000,
+          "description": "The smallest change that would resolve this finding. This is the text a REPAIR decision's boundary is derived from, which is why a blocking finding cannot omit it."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "blocking": { "const": true } }, "required": ["blocking"] },
+          "then": {
+            "required": ["candidate_locator", "ground_truth_locator", "minimum_fix"],
+            "description": "A blocker names where it is, what it violates and the smallest fix — or it is not a blocker. Without all three the user cannot bound a repair, and an unbounded repair is how the single permitted round turns into an open rewrite."
+          }
+        }
+      ]
+    },
+    "verifyScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accepted_finding_ids", "repair_diff_reviewed", "permanent_boundaries_checked"],
+      "properties": {
+        "accepted_finding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "common.schema.json#/$defs/slug" },
+          "description": "The findings the user accepted for repair — exactly the set the VERIFY is answerable for."
+        },
+        "repair_diff_reviewed": {
+          "type": "boolean",
+          "description": "Whether the ENTIRE repair diff was reviewed, not only the lines the accepted findings named. False is a legal, recorded state: an unreviewed remainder is where an unrelated change rides along, and a VERIFY that quietly skipped it must say so rather than report the same shape as one that did not."
+        },
+        "permanent_boundaries_checked": {
+          "type": "boolean",
+          "description": "Whether the boundaries that hold regardless of round were re-checked (V3-D6: VERIFY covers findings, the whole repair diff AND permanent boundaries)."
+        }
+      },
+      "description": "Required on a VERIFY result, absent on a FULL. It makes the round's scope a stated fact rather than an assumption a later reader has to make."
     }
   }
 }
