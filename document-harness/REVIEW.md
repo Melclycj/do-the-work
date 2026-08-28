@@ -95,7 +95,7 @@ set aside in 2026-07-27 for reading pre-wave-2 history, removed from the tree in
 mode and the package checks behind it. What reads pre-wave-2 history now is that history's own
 commits. This sentence named the frozen v1 schema beside them until 2026-08-28, when the promise
 that kept that schema — contract v4 §13.1 — was corrected in place under `HD-63`: the commits
-carry the history, and no working-tree artifact is kept to read it.*
+carry the history, and no working-tree artifact is promised for that reading.*
 
 Under the successor the controller **commits the control plane** before dispatching, so the
 subject arrives as one SHA and the custody chain shortens: out-of-band evidence commit SHA
