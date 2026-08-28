@@ -28,6 +28,37 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-63 · 签字文本里「签署时为真、后来变假」的字面准予就地更正——本裁**明写盖过契约 §13** 的 in-place 禁令
+- 2026-08-28 · user · scope: standing · status: **live**（层内与契约内均无承载：契约 §13 说的是
+  反面，而本裁盖过它；`E2` 自 2026-08-27 起只欠事后披露、**从来不是**挡就地改的那条，两者是不同的
+  对象。承载 = 本轮 must-fix 通道的 amendment commit；落地后转 `implemented` 归用户，session 只能提议
+  （`HD-2`））
+- 裁决：用户裁「就地改」，并**明写此裁盖过 `contract/Document-Work-Assurance-Contract-v4.md` §13
+  的 "Signed contracts are never amended in place; corrections create a versioned successor"**。
+  本次量程 = 轮 `V1-RESULT-RETIRE` 的冷读 `M-1` 所指的那一类断言，逐处点名：① v4 `:284-287`
+  承诺 `review.schema.json` 与 v1 checker functions 留着供读 pinned v1 history 的那一句，**两半都改**
+  （checker 半边已被 `56d1b17` 弄假、schema 半边被本轮 item C 弄假）② `document-harness/REVIEW.md:95-96`
+  的 "the frozen v1 schema, which is untouched" ③ `document-harness/README.md:20` 表格里指向
+  `review.schema.json` 的链接 ④ 同一缺陷类在别处的站点，由 executor 按 `HD-41` ④ 扫类后逐处修——
+  已知一处是 `CONTRACT-V4-SIGNATURE.md` 里「签署后写入 v4」的清单（现列 `HD-57` 与 `CORE-SET-SIGNATURE`
+  两笔，本轮是第三笔）。
+- **补记：§13 此前已被绕过两次，且两次都没声明。** 实测——v4 签署于 `23ca45b`，其后 `1656e59`
+  （`HD-57` 应用批，2026-08-23）与 `07ef526`（`CORE-SET-SIGNATURE` item F，2026-08-26）**都就地改了
+  签字文本**，两次的 commit 正文 grep `section 13` / `§13` / `in place` / `amend` **全部零命中**。
+  本条把这两笔记在账上；不追溯改写那两个 commit（`HD-59`：向前更正，不就地改历史）。
+- 边界：本条**不**授权对签字文本的任意改动。它盖过 §13 的只有一类——**签署时为真、后因别处裁决或
+  别处删除而变假的陈述性字面**；改变契约**要求什么**的修改仍是 §13 的正路（versioned successor），
+  且按 `E10` 属 design、要开轮。判据是那句话陈述的是事实还是义务。
+- 后果：本轮 `M-1` 走 `E10` 的 **must-fix 通道**——amendment commit + 对被改文本的独立复读，**不是轮、
+  不花 `E9` 预算**（`HD-36` ① 收扫类与「finding 未供字节时由 executor 自己写」，本 finding 正是未供
+  字节）。design test 按 `HD-36` ② 不伸进 must-fix 通道，故不开设计轮。v4 是 announced 路径，
+  写它的 commit 按 `E2` 在正文里逐点点名全路径。
+- basis: 用户裁决 2026-08-28（对话两问：「E2 现在放宽了，不能直接允许 v4 就地更改吗」→ 澄清挡路者是
+  §13 而非 `E2`，随后裁「明写盖过 §13，并补记前两次」）· 冷读记录
+  `migration/document-work-assurance-v3/v3-cold-read-60bf9eb.md` `M-1` · 先例 `HD-57`（同一形状，
+  五处签字面陈旧字面，但其措辞只提 `E2`/`HD-20`、未点名 §13——本条即那个缺口的补记）· `HD-59`
+  向前更正 · `HD-41` ④ 扫类留痕
+
 ### HD-62 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写（`HD-44` 的收窄后继）
 - 2026-08-28 · user · scope: standing · status: **live**（`E2` 仍不说这些路径必须住在哪个仓：批
   `FREEZE-TO-ALARM` 的 item A（`184387c`，2026-08-27）把该条款从写前 gate 改成事后逐点披露的报警，
