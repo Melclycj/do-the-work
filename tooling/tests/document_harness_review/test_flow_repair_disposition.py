@@ -69,6 +69,7 @@ import _harness  # noqa: F401 — installs the tooling and V3-N1 mechanism impor
 from rsclib.document_harness import SCHEMA_DIR, Report, SpecGap, validate  # noqa: E402
 from rsclib.document_harness import flow, issues, summary  # noqa: E402
 from rsclib.document_harness.review import result_digest, validate_n2  # noqa: E402
+from rsclib.document_harness.review_subject import validate_w2  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Identities. Fixed so every digest and every failure message is reproducible.
@@ -315,6 +316,31 @@ def make_review(
     return result
 
 
+def as_v2_review(review: dict[str, Any]) -> dict[str, Any]:
+    """The same ReviewResult in the v2 successor shape (review.v2.schema.json).
+
+    The delta that matters to the binding guard: `candidate_ref` moves off the root and
+    into `subject`, and the root declares `schema_version: "2"`. Built by transforming a
+    v1 fixture so the two shapes cannot drift apart in this file.
+
+    Moved up beside `make_review` in round `V1-RESULT-RETIRE`, which is when it stopped
+    belonging to the N2-A4 section alone: with the version-1 schema retired this is the only
+    route from this file's ReviewResult fixture to a schema that still exists, so every
+    assertion here that used to validate `make_review` against `review_result` now validates
+    its projection against `review_result_v2`.
+    """
+    v2 = {key: value for key, value in review.items() if key not in ("candidate_ref", "package_ref")}
+    v2["schema_version"] = "2"
+    v2["subject"] = {
+        "evidence_commit": rev(0xE1),
+        "candidate_ref": review["candidate_ref"],
+        "base_revision": rev(0xB1),
+        "control_root": "runs/r1",
+        "repair_round": 0,
+    }
+    return v2
+
+
 def make_record(
     *, candidate_commit: str = CANDIDATE_C, repair_round: int = 0, run_id: str = RUN_ID
 ) -> dict[str, Any]:
@@ -535,8 +561,8 @@ class FixturesAreSchemaValid(unittest.TestCase):
             verdict="REVIEWED_NO_BLOCKER",
             candidate_commit=CANDIDATE_C2,
         )
-        self.assertEqual(codes(validate_n2("review_result", full)), [])
-        self.assertEqual(codes(validate_n2("review_result", verify)), [])
+        self.assertEqual(codes(validate_w2("review_result_v2", as_v2_review(full))), [])
+        self.assertEqual(codes(validate_w2("review_result_v2", as_v2_review(verify))), [])
 
     def test_candidate_summary_and_decision_fixtures_validate(self) -> None:
         candidate = make_candidate()
@@ -810,25 +836,6 @@ class StatusPointerConditionals(unittest.TestCase):
 # ---------------------------------------------------------------------------
 # N2-A4 — the repair authorization
 # ---------------------------------------------------------------------------
-
-
-def as_v2_review(review: dict[str, Any]) -> dict[str, Any]:
-    """The same ReviewResult in the v2 successor shape (review.v2.schema.json).
-
-    The delta that matters to the binding guard: `candidate_ref` moves off the root and
-    into `subject`, and the root declares `schema_version: "2"`. Built by transforming a
-    v1 fixture so the two shapes cannot drift apart in this file.
-    """
-    v2 = {key: value for key, value in review.items() if key not in ("candidate_ref", "package_ref")}
-    v2["schema_version"] = "2"
-    v2["subject"] = {
-        "evidence_commit": rev(0xE1),
-        "candidate_ref": review["candidate_ref"],
-        "base_revision": rev(0xB1),
-        "control_root": "runs/r1",
-        "repair_round": 0,
-    }
-    return v2
 
 
 class RepairDecisionBindingAcrossResultVersions(unittest.TestCase):
@@ -1141,10 +1148,16 @@ class VerifyOutcomeStopsRatherThanLooping(unittest.TestCase):
             candidate_commit=CANDIDATE_C2,
             findings=[make_finding("f-changelog")],
         )
-        self.assertEqual(set(codes(validate_n2("review_result", verify))), {"V3-SCHEMA-REVIEW_RESULT"})
+        self.assertEqual(
+            set(codes(validate_w2("review_result_v2", as_v2_review(verify)))),
+            {"V3-SCHEMA-REVIEW_RESULT_V2"},
+        )
 
         third = make_review(result_id="rr-third", review_round="RE_VERIFY")
-        self.assertEqual(set(codes(validate_n2("review_result", third))), {"V3-SCHEMA-REVIEW_RESULT"})
+        self.assertEqual(
+            set(codes(validate_w2("review_result_v2", as_v2_review(third)))),
+            {"V3-SCHEMA-REVIEW_RESULT_V2"},
+        )
 
     def test_the_stop_after_verify_is_a_legal_transition_and_a_second_repair_is_not(self) -> None:
         after_verify = {"status": "REVIEWED", "repair_round": 1}
@@ -1873,8 +1886,18 @@ class NoRecursionNoWaiverNoLifecycle(unittest.TestCase):
         }
     )
 
+    #: The schema files this scan reads. Round `V1-RESULT-RETIRE` (2026-08-28) retired
+    #: `review.schema.json`, which was the review surface's entry here, and split what it
+    #: held across two files — so both replace it rather than one, and the name of this
+    #: tuple is now narrower than its contents. Dropping the retired file without
+    #: substituting would have taken the whole review surface out of an N2-A11 scan that
+    #: covers no other file naming a verdict, a finding or a disposition, which is the
+    #: silent-shrink shape this round exists to stop. `common.schema.json` is here for its
+    #: five review definitions specifically; the rest of what it holds is N0 vocabulary this
+    #: scan gains incidentally and asserts nothing new about.
     N2_SCHEMA_FILENAMES = (
-        "review.schema.json",
+        "review.v2.schema.json",
+        "common.schema.json",
         "assurance.schema.json",
         "harness-issue.schema.json",
     )
@@ -1961,7 +1984,10 @@ class NoRecursionNoWaiverNoLifecycle(unittest.TestCase):
             "repair_diff_reviewed": True,
             "permanent_boundaries_checked": True,
         }
-        self.assertEqual(codes(validate_n2("review_result", full)), ["V3-SCHEMA-REVIEW_RESULT"])
+        self.assertEqual(
+            codes(validate_w2("review_result_v2", as_v2_review(full))),
+            ["V3-SCHEMA-REVIEW_RESULT_V2"],
+        )
 
     def test_the_status_set_is_closed_and_has_two_terminals(self) -> None:
         common = json.loads((SCHEMA_DIR / "common.schema.json").read_text(encoding="utf-8"))

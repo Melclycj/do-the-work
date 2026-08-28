@@ -42,11 +42,16 @@ from _harness import RS_ROOT
 
 HOOK = RS_ROOT / ".githooks" / "pre-commit"
 CHECK = RS_ROOT / "tooling" / "hooks" / "layer_path_check.py"
+#: The hook has run two scripts since 2026-08-28; a fixture that installs only the first one
+#: makes the hook exit 1 on its own missing-script branch, which is the branch working.
+LEDGER_CHECK = RS_ROOT / "tooling" / "ledger_cap_check.py"
 
 #: Hand-written expectations (E5): independent of the hook and the check they guard, whole
 #: lines a mutation cannot half-satisfy.
+#: Generic since 2026-08-28: the hook loops over two scripts and names the one it could not
+#: find, so the sentence can no longer claim which check it was.
 MISSING_LINE = (
-    "pre-commit: tooling/hooks/layer_path_check.py not found — the layer path check did NOT run."
+    "pre-commit: tooling/hooks/layer_path_check.py not found — that check did NOT run."
 )
 BLOCKED_LINE = (
     "pre-commit BLOCKED: newly added instruction text names a repository path that does not resolve:"
@@ -70,6 +75,7 @@ def _scratch_repo(root: pathlib.Path, *, with_check: bool) -> None:
         check_dir = root / "tooling" / "hooks"
         check_dir.mkdir(parents=True)
         shutil.copy(CHECK, check_dir / "layer_path_check.py")
+        shutil.copy(LEDGER_CHECK, root / "tooling" / "ledger_cap_check.py")
     (root / "scratch.txt").write_text("scratch\n", encoding="utf-8")
     subprocess.run(
         ["git", "-C", str(root), "add", "scratch.txt"],

@@ -247,6 +247,12 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
 
     CODE_PATTERN = re.compile(r'f"\{(?:CODE|PACKAGE_CODE|GOVERNANCE_CODE)\}(-[A-Z0-9-]+)"')
 
+    #: The prefix declaration the pattern above interpolates. Read together they are the two
+    #: halves of a coded vocabulary, and `test_the_no_code_listing_stays_true` needs both:
+    #: a module acquires one by declaring a prefix and then using it, and either half alone
+    #: is enough to say the listing below has gone stale.
+    PREFIX_PATTERN = re.compile(r'^(?:CODE|PACKAGE_CODE|GOVERNANCE_CODE)\s*=\s*"[^"]+"', re.M)
+
     #: The modules V3-N2 authored that still name coded issues. N1's modules carry their own
     #: named codes and are covered by N1's own signed matrix; sweeping them here would make
     #: this node's suite responsible for an earlier node's coverage, which is not what F4
@@ -274,6 +280,13 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
     #: `test_golden_review_views.py`, which drives every registered kind through
     #: `validate_n2` and requires each to produce a non-clean report — the reachability
     #: property, asserted where the codes are actually raised.
+    #: The hole that measurement found is closed from the other side since round
+    #: `V1-RESULT-RETIRE` (2026-08-28): `test_the_no_code_listing_stays_true` below asserts
+    #: that every module named here really declares no code prefix and names none at a call
+    #: site, so re-running the measured mutation now turns this class red instead of leaving
+    #: the battery green. The substitute named above was carrying a second instance of the
+    #: same F4 shape — it iterated the kind tables it was checking — and gained a
+    #: hand-written expectation for them in the same round.
     N2_MODULES_WITHOUT_CODES = ("review.py",)
 
     #: The V3-N1 modules, listed so the two sets can be checked to partition the package.
@@ -362,6 +375,52 @@ class EveryNamedCodeIsAssertedSomewhere(unittest.TestCase):
             if suffixes:
                 found[path.name] = suffixes
         return found
+
+    def test_the_no_code_listing_stays_true(self):
+        """`N2_MODULES_WITHOUT_CODES` is a hole in the sweep; this keeps the hole empty.
+
+        The comment above that constant records the measurement: a module listed there is
+        read by `named_codes()` never, so a coded vocabulary returning to it is swept by
+        nothing and the whole battery stays green — `CODE = "V3-REVIEW"` plus one call site
+        added to `review.py` left 795 tests passing at round `CORE-SET-CODE`. The comment
+        names the way back (move the module into `N2_MODULES`) and nothing made anyone take
+        it, because nothing failed.
+
+        Rather than sweep a module that has no vocabulary to sweep, this asserts the
+        listing's own precondition: each listed module declares no code prefix and uses
+        none. The moment either appears the listing is a false statement and this goes red,
+        which is the signal the measurement found missing.
+
+        `flow.py` is the control. Both patterns must find their shape there, so a pattern
+        that had stopped matching anything could not report the exclusion list as clean —
+        the vacuous-scan trap this class already guards against for `N2_MODULES`.
+        """
+        control = (RSCLIB / "flow.py").read_text(encoding="utf-8")
+        self.assertTrue(
+            self.PREFIX_PATTERN.search(control),
+            "the prefix pattern matched nothing in flow.py, so a clean result below would "
+            "prove nothing",
+        )
+        self.assertTrue(
+            self.CODE_PATTERN.search(control),
+            "the call-site pattern matched nothing in flow.py, so a clean result below "
+            "would prove nothing",
+        )
+        for name in self.N2_MODULES_WITHOUT_CODES:
+            with self.subTest(module=name):
+                source = (RSCLIB / name).read_text(encoding="utf-8")
+                self.assertEqual(
+                    self.PREFIX_PATTERN.findall(source),
+                    [],
+                    f"{name} is listed as having no coded vocabulary but declares a code "
+                    "prefix; move it into N2_MODULES so the sweep actually reads it",
+                )
+                self.assertEqual(
+                    self.CODE_PATTERN.findall(source),
+                    [],
+                    f"{name} is listed as having no coded vocabulary but names a code at a "
+                    "call site; move it into N2_MODULES so the sweep actually reads it",
+                )
 
     def test_the_swept_set_and_the_n1_set_partition_the_package(self):
         """The sweep's own scope is pinned — otherwise narrowing it goes unnoticed.

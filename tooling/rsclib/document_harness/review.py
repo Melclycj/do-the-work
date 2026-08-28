@@ -17,6 +17,19 @@ registry for the v2 validator to work at all (`review_subject._w2_registry` buil
 the v2 schema states in its own description: pinned v1 history is still readable, and no
 migration was ever performed on it.
 
+**Corrected forward 2026-08-28, round `V1-RESULT-RETIRE`; the paragraph above is left standing
+word for word (`HD-59`).** Neither kind is registered any more, and the file it named is gone.
+Both of its grounds were removed rather than found wrong. The first — that the v2 validator
+needs the file to resolve — ended when the five `$defs` moved byte-equal into
+`common.schema.json`, which both registries already load; they were never version-1's, the v1
+file held them only because v1 was written first and v2 chose to reference rather than copy
+(user ruling 2026-08-28). The second ended with contract v4 §13.1: what reads pinned v1
+history is the commits that hold it, and no working-tree artifact is promised for that reading
+— the user ruled that no v1 ReviewResult instance exists anywhere, so the `review_result`
+pointer addressed an empty class. `review_package` went with them: measured over `tooling/`
+at this round's base, the name occurred exactly once — its own registration — with no caller
+and no test.
+
 Nothing here issues a verdict. The reviewer owns `ReviewResult`; this module validates that
 what the reviewer produced is well-formed against a closed schema, and renders it.
 """
@@ -62,13 +75,11 @@ from rsclib.document_harness import (
 # It fails closed on an unknown kind, exactly as the root validator does.
 
 N2_SCHEMA_FILES: dict[str, str] = {
-    "review_package": "review.schema.json",
     "assurance_candidate": "assurance.schema.json",
     "harness_issue": "harness-issue.schema.json",
 }
 
 N2_SCHEMA_POINTERS: dict[str, str] = {
-    "review_result": "review.schema.json#/$defs/reviewResult",
     "assurance_summary": "assurance.schema.json#/$defs/assuranceSummary",
 }
 

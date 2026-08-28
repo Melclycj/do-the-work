@@ -48,12 +48,38 @@
 > were written; the same rule as the archive's title.
 >
 > **How long this file may get — measured per entry, not in lines (user ruling 2026-08-26):
-> every top-level entry ≤ 2,500 characters, and ≤ 20 top-level entries.** Discipline only, no
-> machine enforces it here: the caller's `ledger_cap_check.py` is pinned to the literal string
-> `ResearchSystem/HARNESS-LEDGER.md` and is the caller's machine, not this repository's
-> (io-design §5); this repository's tracked hook runs `layer_path_check.py` alone, and this file
-> is not an `E10` member, so nothing sees it. A second checker would be new machinery for a file
-> with one writer, which `E6` names as the signal to re-question rather than to guard.
+> every top-level entry ≤ **1,000** characters, and ≤ 20 top-level entries.** **A machine
+> enforces both since 2026-08-28** (user ruling): `tooling/ledger_cap_check.py`, on this repository's
+> tracked pre-commit. **Deliberately not in `tooling/hooks/`** — those four files are product
+> tier, copied by whoever mounts this harness, and a ledger is each repository's own policy
+> rather than the harness's business (io-design §5).
+>
+> **1,000, down from the 2,500 set two days earlier, and the measurement that moved it.** Of the
+> twenty entries standing on 2026-08-28, **fourteen were already under 700** and the
+> current-pointer entry was 390; the six above 1,000 were read one by one and every one carried
+> the same defect — a batch's narrative written where a pointer belongs. 2,500 had been
+> calibrated on the longest entry that existed; 1,000 is calibrated on **what a pointer costs**.
+> In English that is roughly 165 words.
+>
+> **The machine is a ratchet, not a sweep.** An entry written or rewritten must meet the bound.
+> The six standing over it are a debt the guard does not call in — **they are trimmed when a
+> round next touches them**, never in a batch of their own, because trimming one means
+> re-reading the batch it records. Growing one is refused.
+>
+> **This paragraph used to end "Discipline only, no machine enforces it here", and gave two
+> reasons. Both were measured false on 2026-08-28 and are corrected forward rather than
+> rewritten** (`HD-59`). *"A second checker would be new machinery"* — not a second one: a
+> `ledger_cap_check.py` lived here until 2026-08-12, when batch B R3 moved it to the caller,
+> pinned there to the caller's own ledger, on the ground that a ledger is the caller's concern
+> (io-design §5) — and **this repository acquired a ledger of its own seven days later**
+> (2026-08-19, round `LEDGER-SPLIT`), with no machine following it. The count for this file was
+> zero. *"for a file with one writer"* — one writer is precisely what discipline failed to
+> restrain: three breaches in a single session on 2026-08-28, at 3,231 / 2,815 / 2,582
+> characters, each caught only because the writer stopped to measure by hand.
+>
+> **What the machine does not judge**: whether an entry's content belongs in a ledger at all.
+> That is the paragraph above's rule, it is a reading rather than a measurement, and it stays
+> with the independent review — a short entry full of narrative passes the guard.
 >
 > **Why the unit changed, measured 2026-08-26.** The bound was 180 lines, and the file reached it
 > while the thing it exists to stop had already happened *inside* a line: one entry — the CLOSED
@@ -65,30 +91,24 @@
 > the CLOSED roll is under it, the largest at 2,405. 20 entries against today's 17 leaves room for
 > the batches in flight and nowhere near enough to absorb a round's narrative.
 >
-> **The new bound fires on the day it is written, and that is it working.** The CLOSED roll
-> breaches at 16,171 characters. The remedy is the one this header has always named: move the
-> oldest closed material into the archive — which the archive permits, its own marking forbidding
-> *appended narrative* (a round's narrative belongs in its review record and commit body) and not
-> the relocation of closed pointer material, which is how that file came to exist at all
-> ("Moved verbatim, nothing deleted, nothing retyped"). **That split is its own ledger batch**,
-> gated by a user ruling under the 2026-08-03 rule rather than by a round, and it is not the round
-> that wrote this paragraph. Never compress meaning out of a live pointer.
+> **The new bound fired on the day it was written, and that was it working.** The CLOSED roll
+> breached at 16,171 characters — 17,128 by the time it moved. The remedy is the one this header
+> has always named, and it was carried out on **2026-08-28** under a user ruling: the roll was
+> moved into [the archive](CONSTRUCTION-LEDGER-archive.md) verbatim, leaving a pointer entry
+> here. The archive permits exactly that — its own marking forbids *appended narrative* (a
+> round's narrative belongs in its review record and commit body) and not the relocation of
+> closed pointer material, which is how that file came to exist at all ("Moved verbatim, nothing
+> deleted, nothing retyped"). That move was its own ledger batch, gated by a user ruling under
+> the 2026-08-03 rule rather than by a round. **Never compress meaning out of a live pointer** —
+> move it to where detail belongs: a journal (not bound to a round since 2026-08-28), the round's
+> plan, the commit body, or the review record.
 
 ## ▶ 当前指针 — 只放指针与未结裁决（理由与叙事进各轮 commit 正文 / round record）
 
-- **CLOSED（此处只留名与锚；链条、blocker、修法、预算全在各轮 commit 正文与
-  `migration/document-work-assurance-v3/` 的 record / journal——不可变、可 grep）**：v3 迁移
-  N0–N4 · wave 1/2 · p3-corr · Phase A/B/B2/C0/C1/C1.5/C1.6/C2/C3/C4/D · 指令层 amendment 轮
-  （指令层成员 9 条）· Stage 2 `p4-bridge` · Stage 3 P4-CODE · Stage 4 `p4-doc`——**P4 全程
-  ②–⑦ 完成，`P4-IMPL-v1` effective**（链锚 `handoffs/P4-close.md`；签字记录
-  `migration/document-work-assurance-v3/a1-p4-activation-successor-signature.md`）· p4-doc 三
-  triage + 维护批/rider 兑付轮 · O-5 amendment read（record `10c040b`）· run `p5a-firewall`
-  （A2 已签已激活 `6295346`）· run `p5a-shells`（148 壳 promotion `d749406`）· pre-START
-  优化维护批 · 回归电池分层批（tiering 规则落 run-v2 README，该节即 revert unit）· **撤回轮
-  `E10-D-NARROWING`（净变化零，closeout `4ab1db1`）· 设计轮 `E2-REBASELINE-DESIGN`（closeout
-  `e55d304`）· 构造轮 `E2-VERB-E10-PIN`（record `c667d08`）· run `p5b-firewall`（A3 已签 `935cada`、
-  已激活 `959104d`；closeout `89383b1`，FULL record `v3-review-full-fef3a2e.md`）· 精简轮 `SIMP-ABCD`
-  （closeout `214f743`）· `V1-CONTEXT-EXACT` · `SIMP-A4` · run `p5b-claims`（153→173 objects，promotion `3074ce4`，closeout `efa56ea`；FULL `v3-review-full-8ad8c2f.md` + VERIFY `v3-review-verify-275da5b.md`）· **批 A（A1+A2，2026-08-10 收批）**——A1 链 `a7bb1d6`→`fd058aa`→`7a08265`；A2 五轮链在 plan 步骤注与 `V3-A2-R*-CLOSEOUT` commits，batch:A 裁决 retired 入 decisions-archive、`HD-18` implemented，收批 commit `V3-A2-CLOSE-v1`** · 设计轮 `BATTERY-REPO-SCOPE`（2026-08-18，仪器仓内第一个构造轮：全档电池六条按**被验证的仓**分档、doc-only 例外句改按子句读、revert anchor 标明其价已是设计轮，`HD-45`；rider `battery-travel`/`tier-file-vs-clause`/`tier-scope` 兑付删行，`layer-crossrepo-token`/`layer-outbound-refs` 新入 bank；read `v3-cold-read-28501fe` 0 must-fix，`E9` 三腿全程未花） · 设计轮 `ORCHESTRATOR-CHARTER`（2026-08-18；orchestrator 的角色说明书立为 `E10` **第十成员**，走收窄形——九条已在层里的义务只点名归属并指向规则 id、三条层内零承载的写正文；`E1` 的「派发即独立」由充分条件改为必要非充分并加中间态披露句，`HD-46`；rider `E1-suff` 兑付删行，`e1-disclose-home` 与 `charter-qualifiers` 新入 bank；三次独立 read 收敛——2 must-fix → 1 → **0**，`E9` 三腿全程未花）· 轮 `CALLER-ONBOARDING`（2026-08-19，第三期：onboarding 九条 + 两模板 + 第七命令 `dtw init` + `layer_path_check` 归位；九条在临时仓实跑、两支守卫各见拦一次放行一次；FULL `CHANGES_REQUIRED`（hook 提交成 100644 · 测试少钉一条头部规矩）→ 一次用户批准的修 → VERIFY `REVIEWED_NO_BLOCKER`，`E9` 三腿走满；`HD-47`/`HD-48`，五条 rider 新入 bank；记录 `v3-{cold-read-c22e229,review-full-2026a14,review-verify-4029b43}.md`）。· 轮 `LEDGER-SPLIT`（2026-08-19，批 DTW-INDEPENDENCE R1：仪器开发史入本仓——本账本 + archive + 16 份构造 plan，17 件逐 blob 对账；调用者账瘦 113→57 行；FULL `CHANGES_REQUIRED`（搬入 plan 内 10 条挂载前缀死链）→ 一次用户批准的修 → VERIFY `REVIEWED_NO_BLOCKER`，`E9` 三腿走满；`HD-49` 取代 `HD-28`、`HD-50` 取代 `HD-48`；记录 `v3-{cold-read-7701f03,review-full-e74be07,review-verify-8f1ad1d}.md`）。· 轮 `XREPO-REFS`（2026-08-20，批 DTW-INDEPENDENCE R2：指令层不再写调用者路径——`E10` 收caller-held-path 条款、四处降名、`E1` 披露句得载体与责任人、`E10` provenance 死从句删除，零守卫代码改动；开轮 read 返 1 must-fix（层内 15 处裸 commit id 无家）→ amendment `48b6c5f` + 复读 `c53fc4e` 结对；FULL `CHANGES_REQUIRED`（新条款把守卫说大了）→ 一次用户批准的修（收口径；守卫认全类改入 R3）→ VERIFY `REVIEWED_NO_BLOCKER`，`E9` 三腿走满；V-1/O-3 字节走自由通道 `34a5ae9`；rider 三删五增二细化；记录 `v3-{cold-read-69fc082,checkpoint-read-48b6c5f,review-full-dd18226,review-verify-2937bcd}.md`，journal `xrepo-refs-2026-08-20.md`）。· 轮 `DE-PREFIX`（2026-08-20，批 DTW-INDEPENDENCE R3：去 `ResearchSystem/` 前缀——313 件上提一层、冻结字节按 `HD-44` 整体移动、2 处 `parents[4]`→`[3]`（重测确认台账原数仍准）；守卫认全类（resolve-nowhere 单一类、escape 不算解析、`.harness/` 运行时豁免）+ rename 感知（候选第一次实弹被自己守卫拦下，pre-submission correction 修成 un-pathspec'd `-M` diff）；`E10-sync` 三镜像同 commit（`HD-22`）；`sweep_refs.py` 入仓；开轮 read 0 must-fix（`L-1` 字节随候选、`L-2` 入条款、`L-3` 入 bank 行 `e9-pair-budget`）；FULL `CHANGES_REQUIRED`（B-1 四处守卫分工描述被证伪 · B-2 解析器 fail-open）→ 一次用户批准的修 → VERIFY `REVIEWED_NO_BLOCKER`，`E9` 三腿走满；VERIFY V-1/V-2 字节走免通道 `f8b4ef3`、V-3 入 bank 行 `e10-cannot-see`；rider 一删（`mount-inert` 由调用者侧 `$H` 重指 + hook 硬失败兑付，落调用者本轮 gitlink-bump commit——跨仓兑付，「同 commit 删行」按仓各自成立）三注（`frozen-path-prefix` 事实重写 4→5 处、`submod-index`/`decited-paths` 记 touch 到达不可兑）两增；候选带 trailers 为 `E8` 违规孤例（修腿正文起永不再有）；**层欠一次独立 read，随下一轮开轮**（tip 十成员 blob id 列在 VERIFY 记录）；记录 `v3-{cold-read-4410899,review-full-39a21a8,review-verify-2538893}.md`，journal `de-prefix-2026-08-20.md`）。· 轮 `INIT-SURFACE`（2026-08-21，批 DTW-INDEPENDENCE R4 收官：`dtw init` 命令面判据入层——README onboarding 行载「树里那半接线可进 `init`、机器那半不进」+ `--into` 不加（`HD-47` 转 implemented）；分工收拢——两路径守卫的分工一处说、其余指过去（home = README *Local enforcement* 行，rider `guard-division-home` 兑付删行）；`sweep_refs.py` 补 9 条测试（FULL `39a21a8` `O-4` 账清，电池 739→748）；开轮 cold read 兑 DE-PREFIX 欠的层 read，1 must-fix（`M-1`：REVIEW.md 给 caller 持有的产品评审记录写了仓库路径 token）由 amendment `bba6f94` + 复读结对清掉、零预算；FULL `CHANGES_REQUIRED`（`B-1`：home 句量词被三处残留证伪——含 candidate 自己写的一处）→ 一次用户批准的修 `84dea06`（含搭车 `L-2`/`O-3`/`O-4`）→ VERIFY `REVIEWED_NO_BLOCKER`，`E9` 三腿走满；VERIFY `L-1` 字节走免通道 `9fe60b9`（修腿自己复制了 `B-1` 的内部矛盾形状，第三方连续第四次在同族句子上翻车后由通读收口）；rider `submod-index` redeem-when 改 round-eligible 形（VERIFY `2538893` `O-4` 尾注兑现）；`HD-50` retire 入档；记录 `v3-{cold-read-17ce3ed,checkpoint-read-bba6f94,review-full-7f6e7f0,review-verify-84dea06}.md`，journal `init-surface-2026-08-21.md`）。· 轮 `PREVIEW-RENDER`（2026-08-21，`E11` 载体裁决「脚本化」半边兑现：`dtw preview` 第八命令（`HD-51`）——从产品 run 冻结 control plane 确定性渲染 START 预览，不经 LLM、可重推导不落盘；`EXECUTION.md` SIMP-C4 接线句 + `REVIEW.md` O-1 字节随候选，两成员的独立 read 随下轮开轮；开轮 cold read 0 must-fix（兑 `9fe60b9` 欠读，十成员全实读）；FULL `CHANGES_REQUIRED`（`B-1` boundary 对象按 list 渲染、八真实 plane 全中丢 14–91 条路径 · `B-2` Context 省略吞嵌套节）→ 一次用户批准的修（全包）`15a53fe` → VERIFY `REVIEWED_NO_BLOCKER`，`E9` 三腿走满；VERIFY `V-1`/`V-2` 字节走免通道 `76ebf4a`（含用户裁删 boundary 计数）、`V-3` 裁不加 catch-all；rider `review-record-loc` 迟兑整行删、`RA` 计数改八命令、`e10-cannot-see` 追注两句量程；电池 763→770；记录 `v3-{cold-read-dd22789,review-full-57d1312,review-verify-15a53fe}.md`，journal `preview-render-2026-08-21.md`）。· 轮 `TEMPLATE-LIB-ROOT`（2026-08-21/22，重扎根第③件的收窄首刀，队首由用户当场裁定：两个 run-v2 模板脚本**对着调用者 run 目录 import 就死**——`check_template_instance.py`（唯一 pre-START gate）与 `make_paragraph_map.py` 把 `repo_root` 一个变量当两件事使（找库 + `git -C` 的指令所在仓），拆仓后这是两个仓，而调用者那棵树只有 run 数据没有库；修法＝照抄那四个 `run_*.py` 早就对的形状，库走 `__file__` 相对、`repo_root` 只留给 git。新测试 `test_run_v2_template_library_path.py` 走**子进程**测缺陷类（六个脚本全测，四个本就对的当回归钉）——老测试进程内 `exec_module` 且 `_harness` 已把 `tooling/` 放进 `sys.path`，替脚本满足了它该自证的 import，故 770 全绿而脚本是死的；电池 770→774。开轮 cold read 0 must-fix（兑 PREVIEW-RENDER 欠的两成员读，十成员全实读）；FULL `CHANGES_REQUIRED`（`B-1`：候选正文同时写「orchestrator 与 executor 同 session」与「四持有一项不占、故结构性独立」，自相矛盾且**回归**两轮前已被 `L-4` 纠正过的形式）→ 一次用户批准的修 `627df95`（errata + journal 落盘贴实测 + 假量词）→ VERIFY `REVIEWED_NO_BLOCKER`，`E9` 三腿走满；收批三裁（`V-1` 扫类未贴：补跑两类**均已关闭无新实例**，用户裁不记不贴 · `V-3`+`O-3` 单 session 角色题入 bank 待裁 · cold read `L-1` 范围题**已裁**＝对所有 run 都算，建 `HD-52`）；rider 两处行号更正、两行新增（`startcard-form`/`one-session-roles`）；**披露一次自身越界**：验证时往调用者仓写了一个 `paragraph-map.json`，已删并核对调用者树复原，`ORCHESTRATION.md` 的事前路由在单 session 轮无处可走即 `O-3` 的题；记录 `v3-{cold-read-39e395e,review-full-83e3191,review-verify-627df95}.md`，journal `template-lib-root-2026-08-21.md`）。· 轮 `EXECUTOR-CHARTER`（2026-08-22，队首由用户裁定插于重扎根之前：执行者第一次有机器生成的 charter——`dtw dispatch` 加第四个 dispatch family 两模式（`HD-53`）：`--executor` 产品侧交三事实（run id · 冻结指令 path+revision · charter=`EXECUTION.md`）带四类拒绝（目录出仓 / 无指令 / 未冻结 / worktree 漂移按 blob-id 等值判），`--construction-executor` 构造侧单句指 `CONSTRUCTION-CHECKLIST.md` 零推导；两模式均不写 freeze marker（executor 派发不开评审窗口）；`EXECUTION.md` 删「运行纪律走 Context 引用」写作规则并命名部分 supersession（p4-bridge f1 的 2026-08-01 路由裁决——留强半边：Context 只装背景、出现要求即缺陷；换掉半边：引用之职由 dispatch 承担），`dtw preview` 的 Context 省略就此由「诚实」转「正确」；`HD-52` 载体同批落（START 卡句移出编号态范围成独立段）转 implemented；采样义务定读数时刻（`HD-54`）安家 `EXECUTION.md` Authoring gate；`ORCHESTRATION.md` 被证伪段重写；rider `startcard-form`/`charter-prose-overreach` 兑付删行、义务表刻意不碰（`e1-table`/`charter-qualifiers` 不开）、`mark-case` 明确不兑；电池 774→790。开轮 cold read 0 must-fix + 1 low（十成员全实读、可全引而未引）；FULL `REVIEWED_NO_BLOCKER`（0 blocker 5 low，九 mutation 九红）→ 收批三角六件一次修 `3dd226b`（用户批全包：L-5 counterpart 幻指 · L-2 恢复对冲句 · L-3+L-1 采样段主体句+四改五 · L-4 修 ONBOARDING 簿留史 · 冷读 L-1 判据读法五路径落地）→ VERIFY `REVIEWED_NO_BLOCKER`（2 low 3 obs，接受项逐条重跑、五 mutation 带绿色负对照），`E9` 三腿走满（FULL 返无 blocker 后经 `R10` 晚激活修腿，仍计本轮唯一修）；VERIFY 两 low 入 bank（`plan-delivery` 带 deadline、`fixleg-scan-paste` 记四连趋势）+ FULL `O-1` 入 bank（`exec-mount-test`）；成员编辑欠独立 read 随下轮开轮，咬合时刻=第一份按新规则起草的产品 run 指令；`ORCHESTRATOR-CHARTER` 未答问题①就此关闭；记录 `v3-{cold-read-693b692,review-full-229f03f,review-verify-3dd226b}.md`，journal `executor-charter-2026-08-22.md`）。· 轮 `PRERUN-RIDERS`（2026-08-22/23，产品首跑前清账批，用户批插队于重扎根第③件前、收批即消费、队首回该项；**首个 `HD-55` 独立角色形态轮**——冷读/executor/FULL/修腿/VERIFY 五次派发全部独立 session（`dtw dispatch` 出单），orchestrator 全程零手改，候选 `E1` 披露首次以四持有零占声明 structural）：七裁决落层——plan 送达 + 指令优先 bound（`ORCHESTRATION.md` Handing + `EXECUTION.md` 写作规则；理由=调用者开发自己规则的落脚点）· 薄检查=控制面 finding（`REVIEW.md` 两节对齐 review_only 镜像）· 观察路由成文化（record observations → closeout 按 policy 归口）· status-key 二次维持 + `dtw flow` 递单前纪律 · mark-case **当日翻案**改判维持词表（executor-charter.plan 实测 0/1/0 为据）· ctx-ground 二次维持 · `HD-55` 落层三站点（家=三角色表，冷读 `O-1` 补第三站）同 commit 翻 implemented；riders 五删（plan-delivery/chk-thin/HI-route/mark-case/fixleg-scan-paste——末条由修腿贴扫类自兑）二改写（status-key/ctx-ground）二新增（io-hiroute-stale 超范围披露、用户裁保留；hi-schema-gloss=VERIFY `V-1`）；开轮 cold read 0 must-fix（兑 EXECUTOR-CHARTER 欠读）；FULL `REVIEWED_NO_BLOCKER`（5 low 4 obs）→ 全包修 `860729f`（勘误 journal 逐数重测、四类扫贴正文并扫出英文 pattern 漏中文形的第二重、`io-design` 引文精确化）→ VERIFY `REVIEWED_NO_BLOCKER`（1 low 2 obs），`E9` 三腿走满；纯文本轮零代码零 schema，电池 790 三测同数；两成员编辑欠独立 read 随下轮开轮；记录 `v3-{cold-read-3a6a10b,review-full-7cb7213,review-verify-860729f}.md`，journal `prerun-riders-2026-08-22.md`）。· 轮 `PUB-FACADE`（2026-08-23，公开化批 A 门面件；队首两问当场裁——**MIT** · **顺序 A→B→C**——随第三裁**轻量轮形**落 plan `publicization-a.plan.md`：用户豁免开轮冷读（rider `waiver-live` deadline 到达、未咬——豁免前 `§live` 已整读，touch note 落行；PRERUN-RIDERS 欠的两成员 read 续欠、随下一轮开轮）· 工作侧两角色单 session 合并（`E1` 例外通道，四持有全 held 披露于候选正文）· 独立 FULL 保留：LICENSE(MIT) + 双平台 CI（ubuntu+windows × py3.12/3.13；ubuntu 腿=本仓**首次 POSIX 验证**，定出 jsonschema>=4.18 下限——系统 4.10.3 下 571 failed 单根因）+ 根 README 除锈（`readme-cli-stale` 四句全清兑付删行）+ ONBOARDING 第 9 条按实测改写（`posix-mode-wording` 兑付删行：644 hook=带 hint 跳过、hint 可抑制）+ 计划外抓修两件——`.githooks/pre-commit` 裸 python 使 POSIX 接线后**有钩必死**（python3→python 带 `-c pass` 探测循环，防 Store 假别名）、`test_candidate_checks.py:523` 唯一被执行的裸 python fixture（sys.executable）——+ 新增 `test_precommit_hook.py` 以 subprocess 钉 wrapper 缺陷类；电池 790→793 双平台绿。FULL `CHANGES_REQUIRED`（B-1 本轮自己的缺陷类只扫 tooling、漏了正在改的文档且 README 新写两处裸 python · B-2 新测试三行为只钉一半、exit-0 空壳存活）→ 一次用户批准的修 `71e1f24`（两文件各一句解释器约定句赎清七站点 + blocking 测试杀 mutation 2/4 + docstring 收窄 + GBK errors=replace 第三坑顺手修）→ VERIFY `REVIEWED_NO_BLOCKER`（7 mutation sha256 还原、双平台 793 独立复现），`E9` 三腿走满；VERIFY `V-1`/`O-3` 字节走免通道 `a3ef5ee`；`V-2` 入 bank 行 `fixleg-scan-raw`、`O-1` 入 bank 行 `py-convention`（类残存 `EXECUTION.md:364` 成员内 + run-v2 README 四处）、`O-2` 注入 `E10-sync` 行（第四份机器侧成员路径拷贝）；测量通道两次翻车（wsl.exe 回传 $? 不可信 · 反引号被中间 shell 当命令替换吃掉致正对照一度测了空气）当场识破、有效实验重做，记 journal；**CI 落仓未跑（零 push）——首跑等用户 push**；记录 `v3-{review-full-28dd80b,review-verify-71e1f24}.md`，journal `pub-facade-2026-08-23.md`）。· 轮 `CONTRACT-V4`（2026-08-23，公开化批 B 重签打包批；plan 四裁：冷读+FULL+VERIFY 全独立、v4 捆绑 `wspec-owner` 契约站点、卡片裁授权触 `E2` 面、§10.5 两问立案挪后：**契约 v4 单文件成立并已签署（`HD-56`，blob `614932de…`，用户通读后签）**——合并 v3+s1+s2（考古更正：两份补丁实已签过字，UNSIGNED 是签前残迹）、四句替换+两节版本边界落 13.1/13.2、五断链按三类修、frontmatter 清态、§3 归属行改 executor；三源文件退役入历史（用户确认）、`E2` 冻结面十六件、`E10` 成员 10→8→**9**（v4 入层=用户裁，`HD-56` ②落簿；`E10-sync` 三站同 commit 轮内走两次、散文腿全扫）；豁免簿契约条退役（removing decision=`HD-56` ③）；split-design/io-design 除锈随签重签（`HD-40`/`HD-35` 第三签，四 rider 由此兑付）。开轮冷读 `b8df15a` 0 must-fix（偿两轮欠的成员 read；其 L-1 入 bank 行 `read-name-split`）；FULL `CHANGES_REQUIRED`（B-1 四站点「未签先称签」——D1 刚清的缺陷类在周边文本重现；合并本身逐字节核净、plan 声明 verbatim 处 ratio 1.0000）→ 一次用户批准的修 `d0f185c`（四裁折入：修+O-5 三句补回+v3 退役确认+v4 入层；L-1..L-5 搭车，`fixleg-scan-raw` 以贴原始输出自兑删行）→ VERIFY `REVIEWED_NO_BLOCKER`（V-1 第五站点 operative 走免通道删 `f112135`；L-4 判 transcription 维持；E2 字面量无机器绑定实测在案），`E9` 三腿走满；riders 四删一改写一自兑一增 + `PD` 触注；`HD-20` 枚举随 `HD-56` 同批更新（`HD-44` 的同批更新为签字 commit 声称而 diff 未含——`v3-cold-read-cf54a79.md` `L-3`；2026-08-23 依用户「落」裁决补落）；记录 `v3-{cold-read-b8df15a,review-full-5f849da,review-verify-d0f185c}.md`，journal `contract-v4-2026-08-23.md`；**本轮成员编辑（含免通道 `f112135`）欠独立 read 随下一轮开轮，且下轮冷读并新收 v4 这个 339 行成员、无先前 read 可引**——VERIFY 已注此成本）。· 轮 `STRANGER-GUARDS`（2026-08-23，批 C 陌生人可用性第一轮；开轮四裁 + fix-gate 五裁全在 plan `stranger-guards.plan.md`；`HD-55` 常规形态——冷读/施工/FULL/修腿/VERIFY 五次派发全独立 session，orchestrator 零手改工作产物）：守卫扫描面调用者化——新 `caller.py` 声明加载（`.harness/scan-surfaces.json`，`dtw init` 写默认绝不覆盖、malformed 响亮拒绝不静默回退）+ 两支守卫同读一份声明，首调用者 `ResearchSystem/…` 条目以声明形态存活（测试逐字节钉住）；`TrackedPaths` 认 submodule 内部路径（`submod-index` 裁「认」并兑付删行）；12 解析点全改「git 发现或响亮拒绝」（`review_freeze_check.py` 超 plan 表半步，类扫描证成、代价披露于候选正文）；层修正段对第二调用者不再读反（`amend-exempt-caller` 兑付）；README terminus 经用户否 request-access 提案（「不写，thesis 就是 private」）后回单机历史形态 + 一句 private 说明；候选 `c2e955b` 27 文件、三 rider 同 commit 兑付、`decited-paths` 触注（跨仓兑付待调用者侧）。开轮冷读 `cf54a79` 0 must-fix 3 low 5 obs——一次清偿三笔欠读（本轮开轮读 + v4 首读 339 行 + CONTRACT-V4 成员编辑欠读）；L-1/L-2 入 bank 行 `v4-verifmode`/`v4-plan-digest`，L-3（签字 commit 声称改 `HD-44` 而 diff 未含）归口用户。FULL `REVIEWED_NO_BLOCKER`（2 low 4 obs；电池 838/792 独立重导、8 组自写 mutation、守卫负对照非空转）→ `R10` 晚激活修腿（用户批：Low-1 尾斜杠归一 + README「不写」）`54f7fa7` → VERIFY `REVIEWED_NO_BLOCKER`（2 obs），`E9` 三腿走满；registers `53ec1a6`（`HD-44` 十八→十六带日期注 + ledger public-仓句证伪更正 + `HD-57` 立条——`E2` 五处陈旧字面一次裁「可以改」，应用批排收批后）；Low-2 教训入档＝出单 base 取上一已评审 tip、riders-only commit 落候选之后（本轮 VERIFY 已照此跑）；电池 792→844；成员编辑（checklist 修正段 + 应用批将触的 v4/`E2` 字面量）欠独立 read 随下轮开轮；记录 `v3-{cold-read-cf54a79,review-full-c2e955b,review-verify-53ec1a6}.md`，journal `stranger-guards-2026-08-23.md`。· 轮 `STRANGER-PROOF` ＋ 批 `SUBMOD-HOOKENV`（2026-08-24 合并收批，用户裁一次共享 FULL 罩两单元；全程 `claude -p` 独立 session 派发——`E1` 修正 `1a0a200` 后第一批，该修正由用户裁免轮当日落、其在 `ORCHESTRATION.md:24` 的镜像句由开轮冷读抓出走 must-fix 结对清掉 `153302a`）：第二调用者实证真发生——异布局新仓九条照文档实走（`stranger-proof-walk-2026-08-24.md`），抓出文档三缺陷（依赖步骤缺失 / 双解释器假话 / 决策簿挪位重建空簿，候选内修）+ 重缺陷：守卫 submodule 识别在 pre-commit hook（唯一真实运行环境）失效、`commit -a` 下四探针全反——根因＝git 泄漏给 hook 的定位 env vars 未清，修＝查询前清掉且名单向 `git rev-parse --local-env-vars` 现问，7 条真 `git commit` subprocess 测试 5 红→7 绿；观众向根 README 重写、quickstart 全命令实走背书；候选曾被 orchestrator 记账 commit `0133d1b` 连锅吞（共享 git index，声称 ledger-only 实载 587 行）——用户裁 append-only，披露 `e620b43`、归属勘误落 journal，**教训＝executor 运行期间 orchestrator 零 commit**；首次共享 FULL 派发被用户叫停（按 `E9` 判据未发生、零消耗）后重派返 `CHANGES_REQUIRED`（B-1 quickstart 缺 tracked-hook 步骤、读者会拿到永不运行的 hook 还以为在跑 · B-2 mutation 签名两条身份错）→ 一次用户批全包修 `3149581`（补步并从已发布 remote 逐字重走、关掉 local-clone 天花板 + errata 贴逐测实测撤回假句 + 三 low）→ VERIFY `REVIEWED_NO_BLOCKER`（hook 字节旁证逐字节同、四 mutation 逐格复现），`E9` 三腿走满；电池 792→851；riders：`submod-hookenv` 兑付删行，`discover-root-env` / `move-cost-member-site` / `onboard-clone-decl` / `onboard-cmd-count` / `e1-reader` 新入 bank，`decited-paths` 前提解锁；memory 禁用与「都不立」处置、取消派发披露均落 journal `stranger-proof-2026-08-24.md`；记录 `v3-{cold-read-21dad76,checkpoint-read-153302a,review-full-3d5c705,review-verify-3149581}.md`。· 轮 `README-BILINGUAL`（2026-08-24 落 `2522ce1`，**用户 2026-08-25 裁免轮**——不派冷读、不派 FULL、不派 VERIFY，`E9` 三腿全程未花，故本轮无 plan、无 journal、无评审记录，**本行即其唯一记账**）：批 C 收批时用户指定的队首「观众向根 README 的可读性与内容逻辑 review」由此消费——根 README 按编辑视角重写（开篇改写成仪器的第一目的＝它交付的工作是对的、受众重锚到非代码工作、轮次画成 mermaid 时序图含人类下指令与 START 坎、quickstart 把五条机械命令与四项判断分开写、新增 Install 节写明 submodule 挂载是今天唯一支持形态、提取史不再复述），并**队列外增件**一份 `README.zh-CN.md` 简体镜像（顶部互链、自陈同步日期与「分歧以英文为准」）。两文件皆非 `E10` 成员，故不欠层 read。提交前自验三项（相对链接全解析 · 双语章节与代码块计数同 · 电池 851 全绿）系候选正文自陈、无独立复核——免轮的代价即此。· 轮 `RIDER-SETTLEMENT`（2026-08-25，bank 结算批；**轻量轮形**——用户裁豁免开轮冷读、独立 FULL 保留；三条开批裁决载 plan `rider-settlement.plan.md`）：**bank 30 行 → 16 行**——十条兑付随修同 commit 删（候选 `fd525e4`：`py-convention`/`readme-three`/`onboard-cmd-count`/`onboard-clone-decl`/`onboarding-labels`/`move-cost-member-site`/`decl-dup`/`retire-suite`/`discover-root-env`/`exec-mount-test`），四条按用户裁 retire 删行（riders-only `8aa9f6e`：`ctx-ground`/`status-key`/`self-caller-guards`/`F-c`——各自裁决另有家，行是第二份拷贝）；十三条 design 行路由入 `dispatch-economy` 批（其中九条同两表面一次收，见下方该条）。**唯一真缺陷**＝`caller.py` 的 `discover_repo_root` 未清 git 定位 env（`GIT_WORK_TREE` 下答环境的仓而非探针），即 `SUBMOD-HOOKENV` 那一类的第二站点；修法复用 `paths.py` 已验证形状并把两行抽成 `env_without_repo_scope()`（越 plan 变更面，`L-1` 披露）；配对实测同探针有无变量皆答对、同查询不清 env 答错。电池 851→854。FULL `CHANGES_REQUIRED`（`B-1` `retire-suite` 兑付未关缺陷类——新 `RAW_IDS` 与 `PRESENT_IDS` 相等致「按删除清单算」仍全绿 · `B-2` 两段 `HD-41` 扫类结论在其自身声明量程内为假且未按 clause ④ 贴输出）→ 一次用户批准的修**全包** `5873840`（两 blocker + 三 low + `O-1` 断言整句 + `O-3` 账本记 ruling 3 路由；`B-2` errata 撤回假句、`L-2` 实测 `2 created` 两实例文件皆重建、`L-3` 撤回自己改出的 `run_repair.py` 假归属）→ VERIFY `REVIEWED_NO_BLOCKER`（七件全交付，5 残留不拦路）；`E9` 三腿走满。**五条残留按用户裁全走 `E10` 免通道当场清** `6a73c79`（不是轮、零预算）：`V-1` 同一缺陷第三次换马甲（新 `RAW_IDS` 又与 `already_gone` 相等）——三个 ordered check 下**无解**，fixture 加第四个 check 并**穷举**八种「不问文件系统」的实现全红、真实实现绿 · `V-2` ONBOARDING 约定句原写「下面的命令」而条目 1 的 `pip install` 在它上面，改 file-scoped · `V-4` `--repo-root` 六脚本通用说一次 · `V-5` 两处约定句行号更正（`:10`→`:11`、`:365`→`:368`）· `V-3` errata＝扫类命令带省略号跑不了，且**英文 pattern 漏中文形**（仓内第二次，首次在 `PRERUN-RIDERS` journal），重跑覆盖中英文形后类实例＝四处 quickstart 步数，`onboard-cmd-count` 指的 `--help` 派生计数确已关闭。**成员编辑（`EXECUTION.md` + `document-harness/README.md`）欠独立 read 随下轮开轮**（豁免冷读的代价）；`R5` 观察（16 行中 13 行需开轮才可兑）按用户裁待 `dispatch-economy` 收完 9 条、bank 降至 7 行时再评；记录 `v3-{review-full-8aa9f6e,review-verify-5873840}.md`，journal `rider-settlement-2026-08-25.md`）。journal 在 `document-harness/journal/<轮名>-<日期>.md`。
+- **CLOSED —— 已关闭的批次与轮次全卷**：2026-08-28 原样搬入
+  [archive](CONSTRUCTION-LEDGER-archive.md) 的「CLOSED 卷」节（17,128 字符，占本档字节近半，
+  自 2026-08-26 新上限立起当日即超标 6.8 倍）。名与锚全在那里，可 grep；链条、blocker、修法、
+  预算一如既往在各轮 commit 正文与 `migration/document-work-assurance-v3/` 的 record / journal。
 - **保障面二期复盘 CLOSED（2026-08-03）**：底账 + 六裁决在 `document-harness/journal/retro-2026-08-03.md` §7 与 `22b27aa`
   正文。后续指针三条：audit 降本收在 (d)（下个产品 run 先测新 cadence 基线）· (c) 跨 freeze 继承挂起 ·
   (b) 轮数封顶压后。
@@ -143,6 +163,16 @@
 ---
 
 ## 待办 backlog — 构造侧
+
+- **轮 `V1-RESULT-RETIRE` CLOSED 2026-08-29，仅余 PR**（base `60bf9eb`，分支 `dev`，FULL 判
+  `REVIEWED_NO_BLOCKER` `be59ad6`）：v1 评审 schema 整个退役，pack **15→14**，五个共享定义搬进
+  `common.schema.json`。电池 827→**830**，四守卫 exit 0，成员 9/9，新增三守卫**全部实测见过红**；
+  **`E9` 修腿未花、VERIFY 不欠**。**三条用户裁决（`HD-63`/`HD-64`/`HD-65`，前两条仍 `live`，转
+  `implemented` 归用户）、十二条验收、三 low 六观察的逐条处置全在 plan
+  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留指针。
+  **代价照记**：三条 must-fix 全出在**契约签字文本**上——两句会被 item C 弄假，一句开轮前就已假且全仓
+  零记录；三次皆走 `E10` must-fix 通道。rider 新增三条、兑付两条，`announced-set-anchor` 维持并重指
+  下一个设计轮。**下一队首 ＝ dispatch-economy 构造批**，其清单另加 `dispatch-exec-perms`。
 
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan
   [`harness-batch-b.plan.md`](document-harness/plans/harness-batch-b.plan.md)）：R1 `run_all` 接线
@@ -214,16 +244,12 @@
   **入 bank 未修四件**：`announced-set-anchor`（十六条路径无本仓可解析枚举，判 design；deadline ＝
   pack 首次增减件）· `e10-freeze-exception` · `archive-header-selfcount`（触碰未兑）· 三条 `E2`
   老 rider 改随下一批。
-  **▶ 本仓当前队首 ＝ 原队首四件里的 ②③④**（用户 2026-08-27 裁定与 ① 拆开，均未开工）：② 删 v1 ReviewResult
-  schema 定义与两处注册 ③ 清冻结 schema 里已死的 digest 复算配方（很可能随 ② 消失）④ 补扫描盲点
-  `N2_MODULES_WITHOUT_CODES`（在 `tooling/tests/document_harness_review/test_fix_round_locks.py`，
-  非 `document_harness/`）。**②③ 写 announced 字节——现已不欠写前裁决，只欠 commit 正文逐条点名。**
-  `dispatch-economy` 仍顺延其后、无 deadline（八条 design rider 在 bank）。
   **另一件小的**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、可变 tag）。
   用户裁「与 `E2` 无关、单独一件小的」。
-  **⚠ 新 session 第一件事**：`origin/main` 落后于本地（`git log --oneline origin/main..HEAD` 现取）。
-  保护已生效，**直推 `main` 会被拒**——落地须开分支、推、建 PR、等 `announced-path-disclosure` 变绿再合。
-  **本仓至今零 PR，该流程从未端到端跑过一次**，第一条 PR 同时是它的首次实测。
+  **⚠ 落地流程（已实测一次）**：直推 `main` 被拒，走分支 → PR → 报警绿 → 合；**PR #1 已于
+  2026-08-28 合入**（`607ec17`，merge 非 squash，`pull_request` 首次求值取范围正确）。**工作分支
+  自此为长期 `dev`**（用户 2026-08-28 裁；CI `on: push:` 无分支限定，推即判）——**代价：轮边界与
+  PR 边界可能不重合**，评审走 `dtw dispatch --range`、独立于 PR。
   **无 round journal**：本批的理由与实测只活在各 commit 正文与 plan（历批皆有 journal，本批无）——
   **用户 2026-08-28 于 preclear 裁「认了」，不补**。同批路由的 `R5` observation：`O-2` 报警 YAML 接线
   无测试、`O-6` 两处 mutation 未被钉住，二者入 bank 为 rider `alarm-yaml-untested` / `alarm-mutation-gaps`；
@@ -241,8 +267,6 @@
   幸存的只有 `E9` 的评审窗口，而它守的是**记录**不是候选。结构性后果：一个 `CHANGES_REQUIRED` 判定
   **无法**靠「不合入」执行，只能靠事后补一个修的 commit，而那个 commit 又消耗该轮唯一的修腿。
   是否恢复、以何形态恢复，归用户。
-- **账本 CLOSED 卷待拆**：新上限（`4b72a68`）当日即对它报警（17,116 字符），拆分是它自己的账本批、
-  用户裁即 gate、不开轮。
 - **设计批 `ASSERT-OWNER` —— REVERTED 2026-08-15**（用户裁，依据 `E6`「a rule added about it is not the fix」）：它试图把 `HD-41` 写进指令层，装的过程中自身又出七个同类实例，FULL 返 `CHANGES_REQUIRED`；五个指令层文件已回 `ff05b01`、blob 逐一核对，checklist 回 204 行 / 12 条。诊断钉在 journal [`structure-vs-prose-2026-08-15.md`](document-harness/journal/structure-vs-prose-2026-08-15.md)；过程见 plan [`harness-assertion-owner-design.plan.md`](document-harness/plans/harness-assertion-owner-design.plan.md)。**四件未结已由用户 2026-08-16 一次裁完**：① 该轮 `E9` 预算＝撤回不消耗腿、不欠 VERIFY，该轮就此结账 ② rider `wl-route` 推迟（行不动、redeem-when 照旧，到期未兑的事实留在 FULL 记录里）③ `HD-41` **不再试**指令层承载，永久只住决策簿（用户裁不建条目，锚即本行；`HD-5` 的 §live 必读使其仍可达）④ 决策簿准入口径**维持**——构造批无 choice JSON，其裁决继续只活在 commit 正文，代价照记。
 
 - **契约 v4 —— CLOSED 2026-08-23**（轮 `CONTRACT-V4`，`HD-56`：s1/s2 并入 v4 并经用户通读签署；§13 未改、无 s3；豁免簿契约半退役；两份 s 的 UNSIGNED 残迹随文件退役消失；「签 v4 前整份读一遍」的价钱已付）。原立项文案照录：（用户意向 2026-08-04）：§13 自身已允许（"corrections create

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Instrument-side pre-commit: the instruction layer's path check, and nothing else.
+# Instrument-side pre-commit: the instruction layer's path check and the ledger cap check.
 #
 # TRACKED hook, so it travels with a clone and lands inside review subjects. One per-machine
 # step is still needed after a clone, because a hook path is config and config is not tracked:
@@ -26,6 +26,10 @@
 # "Local enforcement" row).
 
 CHK=tooling/hooks/layer_path_check.py
+# Joined 2026-08-28 (user ruling): the ledger's own bounds, which discipline alone did not
+# hold — three breaches in one session, each found only by measuring by hand. It is not a
+# second checker for this file; the count was zero (see the script's own docstring).
+LEDGER_CHK=tooling/ledger_cap_check.py
 
 # python3 first, python second, and each candidate must actually RUN, not merely exist:
 # POSIX systems ship `python3` and often no `python` at all — measured 2026-08-23 on a wired
@@ -46,17 +50,19 @@ if [ -z "$PY" ]; then
   exit 1
 fi
 
-if [ -f "$CHK" ]; then
-  "$PY" "$CHK"
-  status=$?
-  if [ "$status" -ne 0 ]; then
-    exit "$status"
+# Loud, not silent, on a missing script. An existence guard that skips quietly is how the
+# caller's hook spent a month calling a script that had been deleted (split-design.md section 2).
+for SCRIPT in "$CHK" "$LEDGER_CHK"; do
+  if [ -f "$SCRIPT" ]; then
+    "$PY" "$SCRIPT"
+    status=$?
+    if [ "$status" -ne 0 ]; then
+      exit "$status"
+    fi
+  else
+    echo "pre-commit: $SCRIPT not found — that check did NOT run."
+    exit 1
   fi
-else
-  # Loud, not silent. An existence guard that skips quietly is how the caller's hook spent a
-  # month calling a script that had been deleted (split-design.md section 2).
-  echo "pre-commit: $CHK not found — the layer path check did NOT run."
-  exit 1
-fi
+done
 
 exit 0

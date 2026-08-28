@@ -13,6 +13,37 @@ including an explicit `null` — is a `SpecGap`, fail closed. A v1 result handed
 checker stops the same way: silently accepting it would validate a package-bound result
 against commit-bound semantics, which is the fail-open shape N1 taught this package to hunt.
 
+**What "is a v1 result" buys after round `V1-RESULT-RETIRE`, decided here rather than left to
+fall out.** Contract v4 §13.1 now prescribes *no* validation path for a result with no
+`schema_version` key — one presented nonetheless is not validated and not accepted, fail
+closed — and expressly leaves the choice of which mechanism raises that stop to this
+implementation (`HD-64`). The choice made, and disclosed because the clause requires the code
+and the contract to agree: `result_schema_kind` keeps *classifying*, returning the kind the
+instance declares by omission, and the stop is raised by whoever tries to *validate* that
+kind. Measured over `tooling/` at this round's base, this function has exactly two callers in
+the package — `check_review_result_v2` below and `flow.reviewed_candidate_ref` — plus
+`test_review_v2_subject.py`, which asserts the classification directly at three sites and
+calls nothing else; which of the two §13.1 reaches is the part worth stating rather than
+glossing. The first is a validation path and it raises: `check_review_result_v2` refuses any
+kind that is not `review_result_v2` with a message naming why. It is not the only thing that
+refuses, though the others reach that stop from the kind name rather than through this
+function — every validator in the package, `review.validate_n2`,
+`review_subject.validate_w2` and the package root's `validate`, refuses `"review_result"` as
+an unregistered kind, round `V1-RESULT-RETIRE` having deleted both v1 registrations along
+with the schema file. The second caller, `flow.reviewed_candidate_ref`, is an accessor: it
+branches on the declared shape to read `candidate_ref` from the right place and neither
+validates nor accepts anything, so §13.1 does not reach it and this round changes neither its
+behaviour nor the fact — true before this round and unchanged by it — that
+`check_repair_decision` reads a result it never validated. That gap is about validating
+results at all, not about v1, and the class ruled empty is what keeps it from having a v1
+instance to bite on.
+
+Making this function raise on absence instead was considered and not taken: it would collapse
+the `_ABSENT` sentinel's measured distinction between an absent key and an explicit `null`
+(W1 review finding A1) into one behaviour, it would pre-empt the specific v1 message below
+with a generic one, and it would turn that accessor into a raising path for a shape it reads
+correctly.
+
 **Parity ceiling, stated rather than glossed (W2 record §6).** The result-internal checks
 shared with v1 (obligation coverage, finding coherence, INCOMPLETE disclosure, verify scope,
 reviewer distinctness) were re-implemented here rather than imported, because v1's lived in
@@ -49,7 +80,13 @@ _ABSENT = object()
 
 
 def result_schema_kind(result: Mapping[str, Any]) -> str:
-    """The schema kind this ReviewResult instance declares. Unknown versions stop."""
+    """The schema kind this ReviewResult instance declares. Unknown versions stop.
+
+    `"review_result"` is still what key absence returns, and since round `V1-RESULT-RETIRE`
+    no registered schema answers to it — every path that tries to validate it raises, which
+    is contract v4 §13.1's fail-closed outcome reached without this classifier deciding it.
+    The module docstring records why the stop was left downstream rather than raised here.
+    """
     declared = result.get("schema_version", _ABSENT)
     if declared is _ABSENT:
         return "review_result"

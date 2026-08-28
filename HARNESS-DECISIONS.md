@@ -28,6 +28,29 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-65 · 契约 §13.1 的「not accepted」只指**验证路径**，够不到 accessor 与决策检查
+- 2026-08-29 · user · scope: standing · status: **live**（这是对签字文本一个词的**解释**，契约自身
+  不携带自己的解释，指令层也没有任何一处说这个词该读多严；`HD-64` 的边界段只管「准予改哪一类」，
+  不管改完的那句话怎么读。故层内与契约内均无承载）
+- 裁决：`contract/Document-Work-Assurance-Contract-v4.md:280-287` 里「one presented nonetheless is
+  **not validated and not accepted**, fail closed」的后半句，与前半句**同指一件事**——没有验证路径
+  就不可能被接受。它**不**延伸到 accessor（`flow.reviewed_candidate_ref`）与决策检查
+  （`flow.check_repair_decision`）。
+- 起因与量程（FULL `v3-review-full-a518888.md` `O-1` 实测）：「not validated」半边成立——三个
+  validator（`review.validate_n2` · `review_subject.validate_w2` · 包根 `validate`）都把
+  `review_result` 当未注册 kind 拒掉。「not accepted」半边够不到两处：accessor 按声明形状去根上读
+  `candidate_ref`，而 `check_repair_decision` **用**它做决定且**从不验证它读的那份 result**，喂 v1
+  形状进去返回干净报告（`test_the_v1_root_shape_is_unaffected` 钉的就是这条 live 行为）。
+- 后果：**`HD-64` 的一致性条件（契约文字与代码行为必须一致）就此满足并关闭**——按本条的读法，代码
+  与文字不冲突。本轮不改契约、不改 `flow.py`。
+- 边界，且这一条比裁决本身更重要：**真正的缺口比 v1 大，本条不掩盖它**——`check_repair_decision`
+  **对任何 result 都不验证**，v2 的也不验证；v1 只是它今天最显眼的一个面。该性质**本轮之前就存在、
+  本轮一个字未改**，且已由 `tooling/rsclib/document_harness/review_result_v2.py:33-39` 在代码里写明。
+  本条**不裁**那个缺口该不该修——它不是「not accepted 读多严」的问题，要修要另裁。
+- basis: 用户裁决 2026-08-29（对话，三选一里选「只指验证路径，记一句边界」，且要求先给全 context）·
+  FULL `migration/document-work-assurance-v3/v3-review-full-a518888.md` `O-1`（按 `R5` 归口用户）·
+  `HD-64` 的一致性条件（本条即其答案）· plan ruling 2「不存在 v1 活例」使该条款反事实
+
 ### HD-62 · `E2` 冻的是**字节**，不是「本仓的这些路径」——故整体搬仓不是写（`HD-44` 的收窄后继）
 - 2026-08-28 · user · scope: standing · status: **live**（`E2` 仍不说这些路径必须住在哪个仓：批
   `FREEZE-TO-ALARM` 的 item A（`184387c`，2026-08-27）把该条款从写前 gate 改成事后逐点披露的报警，
@@ -179,6 +202,86 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-64 · 契约 v4 `:279-281` 的 v1 验证路径规定准予就地改——**这次盖过 §13 的是「要求」，且明裁不开设计轮**
+- 2026-08-28 · user · scope: standing · status: **implemented**（用户裁决 2026-08-29 翻态，挪节与翻转同 commit 按 `HD-2`；承载 = amendment `2aabd5a`，经独立复读 `ff00a1d` 确认；其一致性条件由 `HD-65` 答毕；原 live 理由随本条挪节留在下文括号内：`HD-63` 的边界段把「改变契约**要求什么**」
+  明确排除在其量程之外，故本条不是 `HD-63` 的重述也不由它承载；`E10` 的 design test 说这类要开轮，
+  本条推翻的正是那句在本次的适用——层里没有任何一处说「用户可以裁不开」，故层内无承载。承载 =
+  本轮第二份 amendment commit；落地后转 `implemented` 归用户（`HD-2`））
+- 裁决：`contract/Document-Work-Assurance-Contract-v4.md:279-281` 的「A result with no
+  `schema_version` key is a v1 result and is **validated against pinned v1 semantics**」**准予就地
+  更正**。依据是**用户已裁的 plan ruling 2**（`document-harness/plans/v1-result-retire.plan.md:52`：
+  「任何地方都不存在 v1 活例」）——该 bullet 规定的动作**没有对象可以触发**，本轮 item C/D 删掉的是
+  一条对空集生效的要求的执行路径。**本条不采纳** reader 提出的「第二读法」（把 pinned v1 semantics
+  读作 commit 里 `git show` 可达的那份 schema）：那读法让 v4 一字不改，但代价是改变一条未被触碰的
+  规则的含义，用户选了就地改，故该读法在本轮不成立、也不作为今后的解释。
+- **两笔代价照记，不软化**：① 本条盖过 §13 的对象是**要求**，比 `HD-63`（只盖陈述性事实）走得远，
+  是这一族裁决第一次这么做。② `E10` 写着「replacing or deleting text so that what a rule requires
+  changes, is design and opens a round」——**本条明裁本轮不开设计轮**，依据是本簿抬头「细则与裁决冲突，
+  细则错」与 `E10` 自身承认 `§live` 在冲突时压它。这一次 set aside 是一个可 grep 的事实，不是先例的
+  自动扩张（见下边界）。
+- 边界：本条**只**授权这一个 bullet、只在这一个依据上（其规定的对象已被用户裁为不存在）。它**不**开
+  「签字文本里的要求可以就地改」的通道，也**不**授权今后任何 design 类改动免开轮——下一次要免，
+  要另裁。更正后的文字**该说什么**归 executor 写并披露，与 plan item D 的那个 executor 决定
+  （`result_schema_kind` 遇到无 `schema_version` 的实例该怎么办）**必须一致**：契约文本与代码行为
+  对不上就是本条没执行完。
+- 后果：本轮 item C 与 item D 解锁，但**要等这第二份 amendment 的独立复读**（`E10`：改变了要求的
+  amendment 不享受「读前可依赖」的延后，因为它对在飞的本轮效果非零）。v4 是 announced 路径，写它的
+  commit 按 `E2` 逐点点名全路径；`CONTRACT-V4-SIGNATURE.md` 记入第四笔签署后写入。
+- **承载已落，状态未翻（`HD-2`：只有用户能翻，session 只能提议）。** 本条的 amendment commit 即
+  `V3-V1-RESULT-RETIRE-HD64-AMENDMENT-v1`（本 commit）。建条时记的 `:279-281` 已漂，落笔前重测为
+  `:280-281`。改后的 bullet 不再规定任何验证路径，只绑「不验证、不接受、fail closed」与原有的
+  「no cross-version fallback」，并把**由哪个机制抬起这个停**明写为归实现选——这是为满足本条边界段
+  「与 item D 的 executor 决定必须一致」而作的执行选择：那个决定尚未做出，两条候选落法（直接 raise ·
+  继续指一个已无法验证的 kind，后者落到 `review.py` 的 unknown-kind 分支）都让无 `schema_version`
+  的实例不被验证、不被接受，故改后的文本对两者皆成立而不预先锁死其一。**该判断由读代码得出、未经
+  执行**（本 session 的 python 被环境权限层拒绝，见本 commit 正文的 ceiling 段）。被否的第二读法按
+  本条写进契约并注明不作为今后的解释。扫类与量程见本 commit 正文。`CONTRACT-V4-SIGNATURE.md` 按
+  后果段记入第四笔签署后写入。**提议转 `implemented`**——待 `E10` 对被改文本的独立复读回来后由用户
+  裁。原文各段逐字留着（`HD-59`）。
+- basis: 用户裁决 2026-08-28（对话，四选一里选「再裁一条，扩到『要求』这一类」）· 复读记录
+  `migration/document-work-assurance-v3/v3-cold-read-dcb3aef.md` `M-1`（供三种形状、故意不供字节）·
+  `document-harness/plans/v1-result-retire.plan.md:52` ruling 2（本条的实质依据）· `HD-63`
+  （同族前一条，其边界段正是把本类排除的那段）· `HD-36` ②（design test 不伸进 must-fix 通道——
+  本条不倚赖它，因为本次是 design 类而非 must-fix 通道的射程内，故另裁）
+
+### HD-63 · 签字文本里「签署时为真、后来变假」的字面准予就地更正——本裁**明写盖过契约 §13** 的 in-place 禁令
+- 2026-08-28 · user · scope: standing · status: **implemented**（用户裁决 2026-08-29 翻态，挪节与翻转同 commit 按 `HD-2`；承载 = amendment `e578e70`，经独立复读 `fad8df2` 确认 must-fix 已 discharge；原 live 理由随本条挪节留在下文括号内：层内与契约内均无承载：契约 §13 说的是
+  反面，而本裁盖过它；`E2` 自 2026-08-27 起只欠事后披露、**从来不是**挡就地改的那条，两者是不同的
+  对象。承载 = 本轮 must-fix 通道的 amendment commit；落地后转 `implemented` 归用户，session 只能提议
+  （`HD-2`））
+- 裁决：用户裁「就地改」，并**明写此裁盖过 `contract/Document-Work-Assurance-Contract-v4.md` §13
+  的 "Signed contracts are never amended in place; corrections create a versioned successor"**。
+  本次量程 = 轮 `V1-RESULT-RETIRE` 的冷读 `M-1` 所指的那一类断言，逐处点名：① v4 `:284-287`
+  承诺 `review.schema.json` 与 v1 checker functions 留着供读 pinned v1 history 的那一句，**两半都改**
+  （checker 半边已被 `56d1b17` 弄假、schema 半边被本轮 item C 弄假）② `document-harness/REVIEW.md:95-96`
+  的 "the frozen v1 schema, which is untouched" ③ `document-harness/README.md:20` 表格里指向
+  `review.schema.json` 的链接 ④ 同一缺陷类在别处的站点，由 executor 按 `HD-41` ④ 扫类后逐处修——
+  已知一处是 `CONTRACT-V4-SIGNATURE.md` 里「签署后写入 v4」的清单（现列 `HD-57` 与 `CORE-SET-SIGNATURE`
+  两笔，本轮是第三笔）。
+- **补记：§13 此前已被绕过两次，且两次都没声明。** 实测——v4 签署于 `23ca45b`，其后 `1656e59`
+  （`HD-57` 应用批，2026-08-23）与 `07ef526`（`CORE-SET-SIGNATURE` item F，2026-08-26）**都就地改了
+  签字文本**，两次的 commit 正文 grep `section 13` / `§13` / `in place` / `amend` **全部零命中**。
+  本条把这两笔记在账上；不追溯改写那两个 commit（`HD-59`：向前更正，不就地改历史）。
+- 边界：本条**不**授权对签字文本的任意改动。它盖过 §13 的只有一类——**签署时为真、后因别处裁决或
+  别处删除而变假的陈述性字面**；改变契约**要求什么**的修改仍是 §13 的正路（versioned successor），
+  且按 `E10` 属 design、要开轮。判据是那句话陈述的是事实还是义务。
+- 后果：本轮 `M-1` 走 `E10` 的 **must-fix 通道**——amendment commit + 对被改文本的独立复读，**不是轮、
+  不花 `E9` 预算**（`HD-36` ① 收扫类与「finding 未供字节时由 executor 自己写」，本 finding 正是未供
+  字节）。design test 按 `HD-36` ② 不伸进 must-fix 通道，故不开设计轮。v4 是 announced 路径，
+  写它的 commit 按 `E2` 在正文里逐点点名全路径。
+- **承载已落，状态未翻（`HD-2`：只有用户能翻，session 只能提议）。** 本条的 amendment commit 即
+  `V3-V1-RESULT-RETIRE-M1-AMENDMENT-v1`（本 commit）：量程 ①②③ 逐处改毕，④ 的扫类另加一处
+  `schema/document-assurance-v3/review.v2.schema.json:5`（同一句式的兄弟：「The v1 file is
+  untouched and stays frozen for reading pinned v1 history」），并按 ④ 已知项在
+  `CONTRACT-V4-SIGNATURE.md` 记入第三笔签署后写入。**提议转 `implemented`**——待
+  `E10` 对被改文本的独立复读回来后由用户裁。原文各段逐字留着（`HD-59`）。
+- basis: 用户裁决 2026-08-28（对话两问：「E2 现在放宽了，不能直接允许 v4 就地更改吗」→ 澄清挡路者是
+  §13 而非 `E2`，随后裁「明写盖过 §13，并补记前两次」）· 冷读记录
+  `migration/document-work-assurance-v3/v3-cold-read-60bf9eb.md` `M-1` · 先例 `HD-57`（同一形状，
+  五处签字面陈旧字面，但其措辞只提 `E2`/`HD-20`、未点名 §13——本条即那个缺口的补记）· `HD-59`
+  向前更正 · `HD-41` ④ 扫类留痕
+
 
 ### HD-58 · C4 `O-1` 采样义务两分：产品 run 只记一行；读数与三分支改判归构造轮（`HD-54` 的收窄后继）
 - 2026-08-26 · user · scope: one-shot（读数发生并改判后本条消耗；消耗前仍可 supersede）· status:

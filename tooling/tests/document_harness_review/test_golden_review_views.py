@@ -218,6 +218,42 @@ class GoldenViewTests(unittest.TestCase):
 class N2ValidatorTests(unittest.TestCase):
     """The V3-N2 schema extension: registered, closed, and failing closed."""
 
+    #: The kinds `review.py` registers, hand-written here and deliberately never read back
+    #: from the module (`E5`). Without it this class is the F4 defect class it was built to
+    #: replace: `test_every_n2_kind_resolves_to_a_real_schema` below iterates the very tables
+    #: it checks, so a table that loses an entry loses the assertion with it and stays green.
+    #: `test_fix_round_locks.py` fixed exactly that shape for the module list by comparing
+    #: against the directory and never for these tables; round `V1-RESULT-RETIRE` made the
+    #: gap urgent by removing two entries — `review_package` and `review_result`, which went
+    #: with the version-1 schema file — so the set below is the post-retirement one.
+    EXPECTED_N2_KINDS = frozenset({"assurance_candidate", "harness_issue", "assurance_summary"})
+
+    #: Kinds that existed and were deliberately retired. A retired kind must stop, never
+    #: quietly validate, and never come back unannounced.
+    RETIRED_N2_KINDS = ("review_package", "review_result")
+
+    def test_the_registered_kinds_are_exactly_the_hand_written_set(self):
+        self.assertEqual(
+            set(review.N2_SCHEMA_FILES) | set(review.N2_SCHEMA_POINTERS),
+            set(self.EXPECTED_N2_KINDS),
+            "the N2 kind tables no longer match the hand-written expectation; a kind was "
+            "added or lost without this test being told",
+        )
+
+    def test_the_retired_version_1_kinds_no_longer_resolve(self):
+        """Round `V1-RESULT-RETIRE`: both v1 kinds went with `review.schema.json`.
+
+        The negative control is `test_every_n2_kind_resolves_to_a_real_schema` below — the
+        live kinds report rather than raise, so this is not a validator that raises for
+        everything.
+        """
+        from rsclib.document_harness import SpecGap
+
+        for kind in self.RETIRED_N2_KINDS:
+            with self.subTest(kind=kind):
+                with self.assertRaises(SpecGap):
+                    review.validate_n2(kind, {})
+
     def test_every_n2_kind_resolves_to_a_real_schema(self):
         for kind in (*review.N2_SCHEMA_FILES, *review.N2_SCHEMA_POINTERS):
             with self.subTest(kind=kind):
@@ -256,11 +292,21 @@ class N2ValidatorTests(unittest.TestCase):
         self.assertEqual(canonical_bytes(REVIEW_RESULT), canonical_bytes(shuffled))
 
 
-def review_schema() -> dict:
+def _schema(filename: str) -> dict:
     from rsclib.document_harness import SCHEMA_DIR
 
-    with open(SCHEMA_DIR / "review.schema.json", encoding="utf-8") as handle:
+    with open(SCHEMA_DIR / filename, encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def review_v2_schema() -> dict:
+    """The live ReviewResult schema — it states the verdict enum inline."""
+    return _schema("review.v2.schema.json")
+
+
+def common_schema() -> dict:
+    """The shared definitions that schema references, five of them ex-version-1."""
+    return _schema("common.schema.json")
 
 
 class TheClosedReviewSurface(unittest.TestCase):
@@ -268,29 +314,34 @@ class TheClosedReviewSurface(unittest.TestCase):
 
     Both methods came here from `test_package_and_review.py` when round `CORE-SET-CODE`
     retired the v1 package leg and that suite with it. They are the two of its N2-A3 set
-    that assert against `review.schema.json` alone and needed no v1 function, and they are
-    kept rather than dropped because most of what they pin is **still live**:
-    `review.v2.schema.json` `$ref`s five of this file's `$defs` — `reviewRound`,
-    `instructionCompleteness`, `perObligationDisposition`, `finding`, `verifyScope` — so
-    three of the four enums below and every leaf the vocabulary scan walks are what the
-    successor result is validated against today. The other six N2-A3 methods needed the
-    retired `make_package` / `check_review_result` and went with the leg; what they covered
-    (an unknown kind failing shut, every kind resolving) is `N2ValidatorTests` above.
+    that assert against a schema alone and needed no v1 function, and they are kept rather
+    than dropped because what they pin is **still live**. Their subject moved in round
+    `V1-RESULT-RETIRE` and their reason did not: the five `$defs` the successor result
+    references — `reviewRound`, `instructionCompleteness`, `perObligationDisposition`,
+    `finding`, `verifyScope` — moved byte-equal into `common.schema.json`, and the verdict
+    and residual-uncertainty leaves are stated inline in `review.v2.schema.json`. Together
+    those two files are the review surface today, which is why both are read below; the
+    version-1 file that used to hold all of it was retired in the same round.
+
+    The other six N2-A3 methods needed the retired `make_package` / `check_review_result`
+    and went with the leg; what they covered (an unknown kind failing shut, every kind
+    resolving) is `N2ValidatorTests` above.
     """
 
     def test_n2_a3_control_verdicts_are_exactly_the_contract_set(self):
-        schema = review_schema()
+        result = review_v2_schema()
+        shared = common_schema()
         self.assertEqual(
-            schema["$defs"]["reviewResult"]["properties"]["verdict"]["enum"],
+            result["properties"]["verdict"]["enum"],
             ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"],
         )
-        self.assertEqual(schema["$defs"]["reviewRound"]["enum"], ["FULL", "VERIFY"])
+        self.assertEqual(shared["$defs"]["reviewRound"]["enum"], ["FULL", "VERIFY"])
         self.assertEqual(
-            schema["$defs"]["instructionCompleteness"]["properties"]["result"]["enum"],
+            shared["$defs"]["instructionCompleteness"]["properties"]["result"]["enum"],
             ["COMPLETE", "INCOMPLETE"],
         )
         self.assertEqual(
-            schema["$defs"]["perObligationDisposition"]["properties"]["disposition"]["enum"],
+            shared["$defs"]["perObligationDisposition"]["properties"]["disposition"]["enum"],
             ["SUPPORTED", "NOT_SUPPORTED", "UNVERIFIABLE"],
         )
 
@@ -331,7 +382,8 @@ class TheClosedReviewSurface(unittest.TestCase):
                 for item in node:
                     walk(item)
 
-        walk(review_schema())
+        for document in (review_v2_schema(), common_schema()):
+            walk(document)
         self.assertIn("residual_uncertainty", names)  # the scan really did reach the leaves
         self.assertIn("REVIEWED_NO_BLOCKER", values)
         for token in forbidden:
