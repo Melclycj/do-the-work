@@ -214,16 +214,17 @@
   **入 bank 未修四件**：`announced-set-anchor`（十六条路径无本仓可解析枚举，判 design；deadline ＝
   pack 首次增减件）· `e10-freeze-exception` · `archive-header-selfcount`（触碰未兑）· 三条 `E2`
   老 rider 改随下一批。
-  **▶ 本仓当前队首 ＝ 原队首四件里的 ②③④**（用户 2026-08-27 裁定与 ① 拆开，均未开工）：② 删 v1 ReviewResult
-  schema 定义与两处注册 ③ 清冻结 schema 里已死的 digest 复算配方（很可能随 ② 消失）④ 补扫描盲点
-  `N2_MODULES_WITHOUT_CODES`（在 `tooling/tests/document_harness_review/test_fix_round_locks.py`，
-  非 `document_harness/`）。**②③ 写 announced 字节——现已不欠写前裁决，只欠 commit 正文逐条点名。**
-  `dispatch-economy` 仍顺延其后、无 deadline（八条 design rider 在 bank）。
+  **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（未开轮）**：原队首 ②③④ 并入，范围经用户 2026-08-28
+  裁定扩至完整形（`review.schema.json` 整个退役，pack 15→14，故 `E2` 集合须重锚、该轮带设计性质）。
+  **七条裁决、量程、未答问题与验收全在 plan
+  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本行只留指针——
+  **未答问题一条（`E2` 重锚形），未答不得开轮**。`dispatch-economy` 仍顺延其后、无 deadline。
   **另一件小的**：CI 依赖未固定 ＋ 第三方 Action 不受限（`allowed_actions: all`、可变 tag）。
   用户裁「与 `E2` 无关、单独一件小的」。
-  **⚠ 新 session 第一件事**：`origin/main` 落后于本地（`git log --oneline origin/main..HEAD` 现取）。
-  保护已生效，**直推 `main` 会被拒**——落地须开分支、推、建 PR、等 `announced-path-disclosure` 变绿再合。
-  **本仓至今零 PR，该流程从未端到端跑过一次**，第一条 PR 同时是它的首次实测。
+  **⚠ 落地流程（已实测一次）**：直推 `main` 被拒，走分支 → PR → 报警绿 → 合；**PR #1 已于
+  2026-08-28 合入**（`607ec17`，merge 非 squash，`pull_request` 首次求值取范围正确）。**工作分支
+  自此为长期 `dev`**（用户 2026-08-28 裁；CI `on: push:` 无分支限定，推即判）——**代价：轮边界与
+  PR 边界可能不重合**，评审走 `dtw dispatch --range`、独立于 PR。
   **无 round journal**：本批的理由与实测只活在各 commit 正文与 plan（历批皆有 journal，本批无）——
   **用户 2026-08-28 于 preclear 裁「认了」，不补**。同批路由的 `R5` observation：`O-2` 报警 YAML 接线
   无测试、`O-6` 两处 mutation 未被钉住，二者入 bank 为 rider `alarm-yaml-untested` / `alarm-mutation-gaps`；
