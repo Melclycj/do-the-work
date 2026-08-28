@@ -375,13 +375,25 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: **step 4, with item C held back** — the round is open; base is **`60bf9eb`** (the `dev`
-tip when it opened, see the correction in the status block), work branch is `dev`. Done and
-committed: the opening cold read (`c04958a`), the base correction (`80fcd71`), the user's ruling
-`HD-63` (`01753f4`), and the `M-1` amendment (`e578e70`). **Owed before item C**: the independent
-re-read of the amended text, `E10`'s must-fix channel's other half — not a round, no `E9` budget,
-and the orchestrator's to dispatch. Items A, B, D, E, G, F and H are unblocked. Battery at
-`e578e70` is **827 passed**, which supersedes the 813 recorded above.
+当前指针: **step 4, with items C and D held back** — the round is open; base is **`60bf9eb`** (the
+`dev` tip when it opened, see the correction in the status block), work branch is `dev`.
+
+Two must-fixes have been raised and answered, each by a user ruling and an amendment, and neither
+is a round or spends `E9` budget. Done and committed, in order: opening cold read `c04958a` →
+base correction `80fcd71` → ruling `HD-63` `01753f4` → first amendment `e578e70` → step 3.5 closed
+`dcb3aef` → **independent re-read `fad8df2`, which discharged the first must-fix and raised a
+second** → ruling `HD-64` `4a380be` → free-channel byte `aa8d212` → second amendment `2aabd5a`.
+
+**Owed before items C and D**: the independent re-read of the *second* amendment. `HD-64`'s
+consequences paragraph is explicit that this one gets no rely-before-read deferral, because it
+changed what a rule requires and its effect on the round in flight is not nil. The
+orchestrator's to dispatch.
+
+Unblocked now: **A, B, E, F, G, H**. Battery at `2aabd5a` is **827 passed**, superseding the 813
+recorded above. The plan's item D site list does not name
+`schema/document-assurance-v3/review.v2.schema.json:24`, which describes the loader routing on
+presence and value; the second amendment's executor flagged it as something item D's executor
+should look at rather than inherit.
 
 ## Notes
 
@@ -398,6 +410,15 @@ and the orchestrator's to dispatch. Items A, B, D, E, G, F and H are unblocked. 
 - **Why ②③④ are one round.** All three converge on one module and one file. ③'s bytes live inside
   the definition ② deletes; ④'s excluded module is the module ② edits, and ④'s substitute coverage
   reads the very tables ② empties.
+- **Measured twice, and not a one-off: a dispatched executor on this machine can run neither
+  `python` nor `git`.** Both cold executor sessions this round dispatched wrote their bytes and
+  their commit bodies and were refused by the environment's permission layer on every interpreter
+  and every git write, so the battery, the guards and the commits were all run and made by the
+  orchestrator afterwards, each disclosed in the commit body as an addendum below the executor's
+  own words. `HD-55`'s role split still holds — the orchestrator edited no work product — but the
+  *verification* half of `E1`'s execution side is in practice being performed by the orchestrator
+  for the executor. Banked at closeout with `ORCHESTRATION.md`'s three-roles table as its target;
+  fixing it is design, so its redeem-when must name a round-eligible batch (`R10`).
 - **What this round settles that no earlier one could.** `CORE-SET-CODE` retired the v1 *code* on
   2026-08-27 and left the *schema* standing, on the stated ground that pinned v1 history must remain
   readable. Ruling 2 removes that ground. Two rounds, one retirement.
