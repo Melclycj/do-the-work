@@ -1,7 +1,11 @@
 # Plan — round `V1-RESULT-RETIRE`: the version-1 review schema is retired and its shared definitions rehoused
 
 > **Status: NOT OPENED.** Written 2026-08-28, revised the same day after the scope question below.
-> **base_commit**: `607ec17` (`main` after PR #1 merged). Every site and figure was measured at
+> **base_commit**: **`e755d61`** — the `dev` tip after the ledger-cap batch, NOT `607ec17`.
+> `607ec17` is where `main` stands; four commits sit between it and this round's start (the
+> plan itself, its correction, and the two ledger-cap commits). A review dispatched from
+> `607ec17` would pull all four into this round's range, which is why the number is stated
+> here rather than derived from `main`. Every site and figure was measured at
 > `c6454d3` and **must be re-derived before editing**: line numbers drift.
 >
 > **This is a cleanup round, not a design round.** An earlier draft of this file called it design,
@@ -270,8 +274,8 @@ Redemption = the row deleted in the commit that earns it.
 
 ## Steps
 
-- [x] 0. Merge PR #1 and sync `main`. **DONE 2026-08-28** — merge commit `607ec17`, this round's
-      base. Work lands on `dev` (user ruling).
+- [x] 0. Merge PR #1 and sync `main`. **DONE 2026-08-28** — merge commit `607ec17`. Work lands
+      on `dev` (user ruling); this round's base is the `dev` tip **`e755d61`**, four commits later.
 - [x] 1. Land this plan plus a `CONSTRUCTION-LEDGER.md` current-pointer entry, so the rulings are
       reachable by a reviewer (`R2`). **DONE** — `60989f9`, revised by the commit carrying this
       revision.
@@ -327,7 +331,7 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: **step 3** — all questions answered, base is `607ec17`, work branch is `dev`. Next action
+当前指针: **step 3** — all questions answered, base is **`e755d61`** (`dev` tip), work branch is `dev`. Next action
 is the opening cold read, then the preview card.
 
 ## Notes

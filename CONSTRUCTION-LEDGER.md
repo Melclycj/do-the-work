@@ -49,8 +49,10 @@
 >
 > **How long this file may get — measured per entry, not in lines (user ruling 2026-08-26):
 > every top-level entry ≤ **1,000** characters, and ≤ 20 top-level entries.** **A machine
-> enforces both since 2026-08-28** (user ruling): `tooling/hooks/ledger_cap_check.py`, on this
-> repository's tracked pre-commit beside `layer_path_check.py`.
+> enforces both since 2026-08-28** (user ruling): `tooling/ledger_cap_check.py`, on this repository's
+> tracked pre-commit. **Deliberately not in `tooling/hooks/`** — those four files are product
+> tier, copied by whoever mounts this harness, and a ledger is each repository's own policy
+> rather than the harness's business (io-design §5).
 >
 > **1,000, down from the 2,500 set two days earlier, and the measurement that moved it.** Of the
 > twenty entries standing on 2026-08-28, **fourteen were already under 700** and the
@@ -162,7 +164,7 @@
 
 ## 待办 backlog — 构造侧
 
-- **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（未开轮，base `607ec17`，工作分支 `dev`）**：
+- **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（未开轮，base `e755d61`＝`dev` tip，工作分支 `dev`）**：
   原队首 ②③④ 并入并经用户 2026-08-28 裁扩至完整形——`review.schema.json` 整个退役。
   **九条裁决、量程、验收全在 plan
   [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留
