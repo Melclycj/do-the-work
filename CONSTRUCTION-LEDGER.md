@@ -164,12 +164,15 @@
 
 ## 待办 backlog — 构造侧
 
-- **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（未开轮，base `e755d61`＝`dev` tip，工作分支 `dev`）**：
-  原队首 ②③④ 并入并经用户 2026-08-28 裁扩至完整形——`review.schema.json` 整个退役。
-  **九条裁决、量程、验收全在 plan
-  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留
-  指针；**无未答问题，可开轮，非设计轮**（`E2` 条款与守卫名单均不改）。rider
-  `announced-set-anchor` 的 deadline 于本轮到达，**用户裁维持、重定为下一个设计轮**。
+- **▶ 本仓当前队首 ＝ 轮 `V1-RESULT-RETIRE`（**已开轮 2026-08-28**，base `60bf9eb`＝开轮时 `dev`
+  tip，工作分支 `dev`）**：原队首 ②③④ 并入、经用户 2026-08-28 裁扩至完整形——`review.schema.json`
+  整个退役。**九条裁决、量程、验收、开轮后的两处更正全在 plan
+  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留指针。
+  base 由 `e755d61` 更正为 `60bf9eb`（用户裁 2026-08-28：写下 `e755d61` 的那个 commit 自己又把 tip
+  推后一格）。开轮冷读记录 `v3-cold-read-60bf9eb.md`（`c04958a`）返 **一条 must-fix `M-1`，按 `R5`
+  归口用户且未裁前 item C 不落**：契约 v4 `:284-287` 的签字句承诺 `review.schema.json` 留着供读
+  pinned v1 history，而 item C 正是删它（该句的 checker 半边已被 `56d1b17` 弄假且全仓无记录）。
+  rider `announced-set-anchor` 的 deadline 于本轮到达，**用户裁维持、重定为下一个设计轮**；
   `dispatch-economy` 顺延其后、无 deadline。
 
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan

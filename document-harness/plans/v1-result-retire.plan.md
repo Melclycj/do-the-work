@@ -1,12 +1,23 @@
 # Plan — round `V1-RESULT-RETIRE`: the version-1 review schema is retired and its shared definitions rehoused
 
-> **Status: NOT OPENED.** Written 2026-08-28, revised the same day after the scope question below.
+> **Status: OPEN since 2026-08-28** — opened by the cold read committed at `c04958a`. Written
+> 2026-08-28, revised the same day after the scope question below.
 > **base_commit**: **`e755d61`** — the `dev` tip after the ledger-cap batch, NOT `607ec17`.
 > `607ec17` is where `main` stands; four commits sit between it and this round's start (the
 > plan itself, its correction, and the two ledger-cap commits). A review dispatched from
 > `607ec17` would pull all four into this round's range, which is why the number is stated
 > here rather than derived from `main`. Every site and figure was measured at
 > `c6454d3` and **must be re-derived before editing**: line numbers drift.
+>
+> **Correction, 2026-08-28, written forward rather than over the paragraph above (`HD-59`): the
+> base is `60bf9eb`, not `e755d61`.** That paragraph was true when it was written and is left
+> standing word for word. The commit that wrote it — `60bf9eb`, `V3-ROUND-BASE-FIX-v1` — is
+> itself a fifth commit after `607ec17`, so recording the tip moved the tip. By that paragraph's
+> own test, that a range must not pull in work belonging to an earlier batch, the base is the
+> `dev` tip at the moment the round opens: **`60bf9eb`**. This does not regress: every commit
+> written from the opening cold read onward belongs to this round and is meant to be inside its
+> range, which is precisely what the four commits before `60bf9eb` were not. User ruling
+> 2026-08-28.
 >
 > **This is a cleanup round, not a design round.** An earlier draft of this file called it design,
 > on the ground that retiring a pack file forces `E2`'s announced clause to be rewritten. **That was
@@ -282,8 +293,24 @@ Redemption = the row deleted in the commit that earns it.
 - [x] 2. Put the open questions to the user and record the answers here. **DONE 2026-08-28** — all
       answered; recorded as rulings 2 and 5–9. The design framing that question 5 rested on is
       withdrawn (ruling 8).
-- [ ] 3. Open the round under `HD-55` role form: cold layer read via `dtw dispatch --read`, then the
+- [x] 3. Open the round under `HD-55` role form: cold layer read via `dtw dispatch --read`, then the
       `E11` preview card, then wait. **Ordinary weight** — no `E10` member is edited.
+      **DONE 2026-08-28** — card approved; read dispatched cold over `60bf9eb`, record
+      `migration/document-work-assurance-v3/v3-cold-read-60bf9eb.md` committed at `c04958a`.
+      It returned one must-fix, one low and four observations. The must-fix is step 3.5.
+- [ ] 3.5. **`M-1` blocks item C and is the user's to answer (`R5`).** The read found that
+      `contract/Document-Work-Assurance-Contract-v4.md:284-287` — signed text, and an `E10`
+      member — promises `review.schema.json` and the v1 checker functions stay frozen for reading
+      pinned v1 history. The checker half is already false (round `CORE-SET-CODE` deleted that leg
+      at `56d1b17`, and nothing in the tree records it); the schema half is exactly what item C
+      deletes, and the same deletion falsifies two prose siblings, `document-harness/REVIEW.md:95-96`
+      and `document-harness/README.md:20`. Contract §13 (`:268`) forbids amending signed text in
+      place, so the reader supplied no bytes and named three admissible shapes without choosing:
+      a versioned successor under §13; a recorded ruling permitting in-place correction on the
+      `HD-57` shape; or a recorded decision that the clause stands as history of what was true when
+      it was signed, the two prose siblings carrying the correction. **Item C does not land until
+      one is on the record.** Note that the plan's own Constraints line *"No `E10` member is
+      edited"* is a change-boundary statement, and two of the three shapes would change it.
 - [ ] 4. Execute A, B, C — the move, the re-point, the deletion. Each commit body names every
       announced path it touched.
 - [ ] 5. Execute D, and E's disclosure sentence.
@@ -331,8 +358,10 @@ Each shown by its command, not by a sentence.
 
 ## Resume pointer
 
-当前指针: **step 3** — all questions answered, base is **`e755d61`** (`dev` tip), work branch is `dev`. Next action
-is the opening cold read, then the preview card.
+当前指针: **step 3.5** — the round is open; base is **`60bf9eb`** (the `dev` tip when it opened, see
+the correction in the status block), work branch is `dev`. The cold read is done and committed
+(`c04958a`). Next action is **not** item A: it is the user's answer on `M-1`, which blocks item C.
+Items A, B, D, E, G, F and H are unblocked and may run first if the user prefers.
 
 ## Notes
 
