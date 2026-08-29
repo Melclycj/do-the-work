@@ -6,7 +6,7 @@ discover a tool at runtime.
 
 Two disciplines are enforced here rather than trusted.
 
-**Subject-tree discipline (N0 record R1).** Every result records which tree it observed.
+**Subject-tree discipline.** Every result records which tree it observed.
 Five of the six kinds make a claim *about the payload candidate*, so they must observe the
 candidate commit; a request that declares the working tree gets `WRONG_SUBJECT`, never
 `PASS`, because an outcome read off mutable files says nothing about the candidate.
@@ -476,7 +476,7 @@ def run_all(
 
 
 # ---------------------------------------------------------------------------
-# Governance-frontmatter scan (N0 record R4)
+# Governance-frontmatter scan
 # ---------------------------------------------------------------------------
 
 GOVERNANCE_CODE = "V3-GOVERNANCE"
@@ -523,7 +523,7 @@ def frontmatter_keys(raw: bytes) -> list[str]:
 
     The scan is scoped to *parsed frontmatter keys*, never to a raw text search. A text
     scanner would flag any document that merely *quotes* a forbidden field while explaining
-    the defect — which is exactly what the N0 record's own errata does.
+    the defect.
 
     Scoped to keys is not the same as scoped to one *spelling* of a key: a quoted key is the
     same key, and reading only the bare form let a document opt out of the governance rule by
@@ -592,9 +592,9 @@ class Exemption:
 def load_exemptions(path: pathlib.Path | str | None) -> dict[str, Exemption]:
     """Load the blob-keyed grandfather list.
 
-    The list lives outside this module by design (N0 record R4): an enumerated, human-owned
-    register recorded with the node, not a constant hidden in a checker where nobody reviews
-    it. Absence of the file means no exemption, never an implicit one.
+    The list lives outside this module by design: an enumerated, human-owned register
+    recorded with the node, not a constant hidden in a checker where nobody reviews it.
+    Absence of the file means no exemption, never an implicit one.
     """
     if not path:
         return {}

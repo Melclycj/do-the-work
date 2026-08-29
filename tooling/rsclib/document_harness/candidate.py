@@ -1,10 +1,10 @@
 """Payload-candidate observation: tree readers, the artifact manifest and the record.
 
-Git vocabulary lives here and in nothing else. This is the adaptation of the nominated v1/v2
-Git path/diff primitive (N0 record §4 row 3): the exact-base diff and the segment-boundary
-path comparison are carried over; the enforcement-level vocabulary and lease logic of the v2
-adapter are stripped, not carried, because v3's boundary is an **acceptance** boundary and
-never claims to have prevented a write (V3-D3).
+Git vocabulary lives here and in nothing else. This is the adaptation of the v1/v2 Git
+path/diff primitive: the exact-base diff and the segment-boundary path comparison are
+carried over; the enforcement-level vocabulary and lease logic of the v2 adapter are
+stripped, not carried, because v3's boundary is an **acceptance** boundary and never claims
+to have prevented a write (V3-D3).
 
 Two rules shape everything below.
 
@@ -13,7 +13,7 @@ commit on an isolated branch. Reading a file "from the candidate" therefore mean
 out of that commit with ``git show``, never off disk — the working tree is mutable, may
 contain the control root, and can drift from C between the moment C was written and the
 moment a check runs. Both readers below record which tree they are, so every result can say
-what it actually observed (N0 record R1).
+what it actually observed.
 
 **Payload and evidence never share identity.** The control root E(C) holds the state, the
 plan, this record, the checks and the coverage view; none of it may appear inside the payload
