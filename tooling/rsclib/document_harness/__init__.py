@@ -7,11 +7,8 @@ needs live here rather than in a module of their own: the plan's V3-N1 file list
 the package root is the only home a shared foundation can have. It deliberately imports no
 submodule, so importing any module never triggers a cycle.
 
-Both primitives are **adaptations**, not imports. The N0 record §4 recorded every nominated
-v1/v2 primitive as ``adapt``; none was ``reuse`` (verbatim import). Referencing
-``rsclib.harness`` from v3 code would be a `SPEC_GAP` under the historical-only default
-(N0 record §3), so the two nominated primitives are re-implemented here with v3 shapes and
-their own tests:
+Both primitives are **adaptations**, not imports: neither is a verbatim reuse of an older
+implementation, so the two are re-implemented here with v3 shapes and their own tests:
 
 * canonicalization / content binding — adapted from ``rsclib.harness.c14n`` (v1 lineage).
   Same normalization rules; the v3 shape is a **bare** 64-hex digest, matching the
