@@ -11,22 +11,29 @@
 > at, and where the two disagree, that file governs. (`HD-21`'s question, answered by the round
 > that created this file.)
 >
-> **The product tier is not a closed set, and the gap is measured rather than implied.** All five
-> product-tier role documents cite the construction checklist, which stays below: **6 pointers**
-> plus **35** backticked `E1`–`E12` / `R1`–`R10` citations over **26 lines**, measured 2026-08-26.
-> On a tree carrying the product tier alone they reach nothing. Every way out is design, so no
-> round of batch `CORE-SET` settles it; it is banked as rider `checklist-cited-not-carried`.
+> **The gap that made the product tier an open set is closed, and the closure is measured rather
+> than asserted.** Until round `CORE-ONLY-LAYER` all five product-tier role documents pointed at
+> the construction checklist, which does not travel — 6 pointers plus 35 backticked `E1`–`E12` /
+> `R1`–`R10` citations over 26 lines, measured 2026-08-26 — so on a tree carrying the product tier
+> alone they reached nothing. The rules both sides obey now travel as `document-harness/RULES.md`,
+> product-tier row 3, and what stays below is only what this instrument obeys alone. Re-measured
+> at `cbaee8e` over the same five documents: **0** pointers to the checklist, and **39** rule
+> citations over **31** lines of which every one resolves to a rule in `RULES.md` — the fortieth
+> hit is `EXECUTION.md`'s `R0`, a product run's own requirement number and not a rule. Rider
+> `checklist-cited-not-carried` is redeemed and its row is gone.
 
 ## Product-run tier — what a caller mounts
 
-Nothing outside these rows travels. **59 files** against a repository of **391**, measured
-2026-08-26 by the commands at the foot — re-run them rather than citing these.
+Nothing outside these rows travels. **59 files** against a repository of **415**, measured
+2026-08-30 at `cbaee8e` by the commands at the foot — re-run them rather than citing these,
+because a count is invalidated by the next commit and this round's own records invalidate it
+several times over (`E3`).
 
 | # | What travels | Where | Files |
 |---|---|---|---|
 | 1 | The operative contract; `E2` freezes its bytes | `contract/Document-Work-Assurance-Contract-v4.md` | 1 |
-| 2 | Every schema a run validates against; `E2` freezes all fifteen, and `paragraph-map.schema.json` is also an instruction-layer member | `schema/document-assurance-v3/` | 15 |
-| 3 | The navigation surface plus the three role charters — executor, reviewer, orchestrator; instruction-layer members | `document-harness/README.md` · `EXECUTION.md` · `REVIEW.md` · `ORCHESTRATION.md` | 4 |
+| 2 | Every schema a run validates against; `E2` freezes the fifteen the pack held at the 2026-08-03 re-baseline, a dated snapshot the pack no longer equals, and `paragraph-map.schema.json` is also an instruction-layer member | `schema/document-assurance-v3/` | 14 |
+| 3 | The rules every session answers to, the navigation surface, and the three role charters — executor, reviewer, orchestrator; instruction-layer members | `document-harness/RULES.md` · `README.md` · `EXECUTION.md` · `REVIEW.md` · `ORCHESTRATION.md` | 5 |
 | 4 | Onboarding, needed once and before anything else works; not a member, and it says so | `document-harness/ONBOARDING.md` | 1 |
 | 5 | The decision log and rider bank a caller gets verbatim from `dtw init`; the decision log's own header is where the log's rules live (`HD-19`) | `document-harness/templates/` | 2 |
 | 6 | The CLI entry points | `tooling/dtw.py` · `tooling/do-the-work.py` | 2 |
@@ -37,7 +44,7 @@ Nothing outside these rows travels. **59 files** against a repository of **391**
 
 | What | Where |
 |---|---|
-| Construction checklist — `E1`–`E12` execution, `R1`–`R10` review, for *changing* the harness; an instruction-layer member that still does not travel | [CONSTRUCTION-CHECKLIST.md](document-harness/CONSTRUCTION-CHECKLIST.md) |
+| This repository's own rule file — what only this instrument obeys, `E2` and one instance value, on top of the harness's own `document-harness/RULES.md`. Since round `CORE-ONLY-LAYER` it is **not** an instruction-layer member: it is declared under `rules` in [harness.json](harness.json) at this root and binds this repository alone | [CONSTRUCTION-CHECKLIST.md](document-harness/CONSTRUCTION-CHECKLIST.md) |
 | The two retired operating contracts — stubs pointing at the checklist, members for the same construction-side reason | [operating](migration/document-work-assurance-v3/v3-harness-operating-contract.md) · [review](migration/document-work-assurance-v3/v3-harness-review-contract.md) |
 | Contract v4's signature record — the exact signed blob and date; successor to `HD-56` since 2026-08-26 | [CONTRACT-V4-SIGNATURE.md](CONTRACT-V4-SIGNATURE.md) |
 | Decision log — supreme source of truth for user rulings; instruction text expands under it, and on conflict the instruction text is what is wrong. **This instrument's own log, and only this one:** every round's opening MUST read its `§live` (and only `§live`), waiver of the layer's cold read or not, and a plan author reads all live entries and inherits them **verbatim**, never by transcription. The mechanism lives in the log's own header, which ships as the template in product-tier row 5 (`HD-19`). A caller keeps its own at its own root and reads that one | [HARNESS-DECISIONS.md](HARNESS-DECISIONS.md), dead entries read-only beside it in [HARNESS-DECISIONS-archive.md](HARNESS-DECISIONS-archive.md) |

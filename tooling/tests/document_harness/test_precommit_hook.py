@@ -61,7 +61,7 @@ BLOCKED_LINE = (
 #: A hand-written member path (E5: not imported from the module under guard) and a token that
 #: resolves nowhere; the backticks are assembled here so no committed text carries a live
 #: broken path token (the de-backticking concern rider `decited-paths` records).
-MEMBER = "document-harness/CONSTRUCTION-CHECKLIST.md"
+MEMBER = "document-harness/RULES.md"
 BAD_LINE = "probe " + "`" + "document-harness/no-such-file-pub-facade.md" + "`" + " token\n"
 
 

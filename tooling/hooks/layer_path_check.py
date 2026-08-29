@@ -46,7 +46,7 @@ from rsclib.document_harness.caller import load_harness_config  # noqa: E402
 
 #: Mirrors E10's membership sentence. Drift here is caught by the next layer read.
 LAYER = (
-    "document-harness/CONSTRUCTION-CHECKLIST.md",
+    "document-harness/RULES.md",
     "document-harness/README.md",
     "document-harness/EXECUTION.md",
     "document-harness/REVIEW.md",

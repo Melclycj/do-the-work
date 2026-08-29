@@ -107,7 +107,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 |---|---|
 | **Do** | `dtw init` copies `templates/rider-bank.md` verbatim to `HARNESS-RIDERS.md` at the caller's root. The root is the only supported placement here too, for item 3's reason and at item 3's cost — measured on the same walk, both files recreated at the root by one `init` run. |
 | **See** | The file exists, carries the four-column table header and no rows, and points at the rule rather than restating it. |
-| **Owner** | `io-design.md` §6 for the empty instance; `R10` in `CONSTRUCTION-CHECKLIST.md` for the rules — what banks here rather than becoming a `HarnessIssue` or a round, the row format, and what redemption is. Note which bank: `R10`'s last clause reserves the construction side's bank for construction findings, so a caller's product-run observations belong in the caller's own bank, which is this file. |
+| **Owner** | `io-design.md` §6 for the empty instance; `R10` in `RULES.md` for the rules — what banks here rather than becoming a `HarnessIssue` or a round, the row format, and what redemption is. Note which bank: `R10`'s last clause reserves the construction side's bank for construction findings, so a caller's product-run observations belong in the caller's own bank, which is this file. |
 
 ### 5 — The journal (deliberately not pre-created)
 

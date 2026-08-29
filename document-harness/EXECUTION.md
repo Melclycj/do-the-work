@@ -8,9 +8,11 @@ so where they begin. *Authoring obligations under WorkSpec v2* used to be one of
 the three-role model (`HD-35`, io-design §4) the WorkSpec author is the executor of this run,
 so that section addresses you.
 
-This file describes a role inside a *product run*. It is not the construction-side contract
-for building the harness itself — that lives at
-[`CONSTRUCTION-CHECKLIST.md`](CONSTRUCTION-CHECKLIST.md). One section below is the exception
+This file describes a role inside a *product run*. The rules it and every other role answer
+to are [`RULES.md`](RULES.md) beside it; what is left of the construction-side contract for
+building the harness itself is that instrument's own rule file, declared under `rules` in its
+`harness.json` and not carried by a repository that runs against it. One section below is the
+exception
 and says so in its own opening sentence: *Regression-battery tiering* binds a construction batch's
 pre-commit verification as well as a run's evidence pass, because the 2026-08-03 ruling that
 produced it decided one tier question for both sides.

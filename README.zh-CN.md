@@ -217,7 +217,7 @@ Ubuntu 只带 `python3`，Windows 通常是 `python`；两个都在时它们未�
   hook 接没接，看上表那一行，不看本段。
 - **`E10-sync` 在成员句每次被触碰时到期**——`HD-22`（[`HARNESS-DECISIONS.md`](HARNESS-DECISIONS.md)
   这份决策日志里的一条裁决）把它定为按次触碰的 checklist 项。九个成员路径硬编码在三处
-  ——`document-harness/CONSTRUCTION-CHECKLIST.md` 里的 `E10` 成员句、
+  ——`document-harness/RULES.md` 里的 `E10` 成员句、
   `tooling/hooks/layer_path_check.py` 里的 `LAYER` 常量、
   `tooling/tests/document_harness/test_precommit_checks.py` 里的 `EXPECTED` 元组。它们
   *今天*是否解析得到，看上表第三行；别信本段的一面之词。
@@ -236,8 +236,10 @@ pin 住版本的 submodule，不从任何 registry 装任何东西。把它打�
 - [`document-harness/README.md`](document-harness/README.md) —— 这套仪器自己的导航面。
 - [`document-harness/EXECUTION.md`](document-harness/EXECUTION.md) 和
   [`REVIEW.md`](document-harness/REVIEW.md) —— 两份角色指令。
-- [`document-harness/CONSTRUCTION-CHECKLIST.md`](document-harness/CONSTRUCTION-CHECKLIST.md)
-  —— 构造批所遵循的 `E` 系规则。
+- [`document-harness/RULES.md`](document-harness/RULES.md) —— 每一个 session 都遵循的 `E` / `R`
+  系规则，产品 run 与构造批同此一份；以及
+  [`document-harness/CONSTRUCTION-CHECKLIST.md`](document-harness/CONSTRUCTION-CHECKLIST.md)
+  —— 只有本仓在其之上另外遵循的那些。
 - [`HARNESS-DECISIONS.md`](HARNESS-DECISIONS.md) —— 决策日志；开一轮之前，它的 `§live`
   一节是必读的。
 - [`document-harness/split-travel-manifest.md`](document-harness/split-travel-manifest.md)

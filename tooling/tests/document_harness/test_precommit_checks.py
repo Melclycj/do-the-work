@@ -37,7 +37,7 @@ PRODUCT_FULL = "assurance/runs/p4-bridge/evidence/review-full.json"
 PRODUCT_VERIFY = "assurance/runs/p4-bridge/evidence/review-verify.json"
 PRODUCT_NON_RESULT = "assurance/runs/p4-bridge/evidence/coverage.json"
 # Hand-written, never the guarded module's own constant (E5; v3-review-full-8ec4c60.md B2):
-CHECKLIST = "document-harness/CONSTRUCTION-CHECKLIST.md"
+RULES_MEMBER = "document-harness/RULES.md"
 # A work-product path outside every excluded surface — the shape the A3 defect was written
 # into, so the candidate guard is exercised where it actually has to fire.
 CANDIDATE = "ResearchSystem/contract/amendments/2026-08-05-a3-p5b-scoped.md"
@@ -121,18 +121,18 @@ class LayerPath(unittest.TestCase):
     def test_resolvable_tokens_pass(self):  # negative control
         with TempRepo() as repo:
             (repo.root / "schema" / "pack").mkdir(parents=True)
-            stage(repo, {CHECKLIST: "the `schema/pack/` pack\n"})
+            stage(repo, {RULES_MEMBER: "the `schema/pack/` pack\n"})
             self.assertEqual(layer_path_check.check(repo.root), 0)
 
     def test_a_token_resolving_nowhere_blocks(self):  # must fire — the class's central shape
         with TempRepo() as repo:
-            stage(repo, {CHECKLIST: "kept in the caller's `ExperimentLab/papers/` tree\n"})
+            stage(repo, {RULES_MEMBER: "kept in the caller's `ExperimentLab/papers/` tree\n"})
             self.assertEqual(layer_path_check.check(repo.root), 1)
 
     def test_a_stale_prefixed_token_blocks(self):  # must fire — the pre-DE-PREFIX convention
         with TempRepo() as repo:
             (repo.root / "schema" / "pack").mkdir(parents=True)
-            stage(repo, {CHECKLIST: "the `ResearchSystem/schema/pack/` pack\n"})
+            stage(repo, {RULES_MEMBER: "the `ResearchSystem/schema/pack/` pack\n"})
             self.assertEqual(layer_path_check.check(repo.root), 1)
 
     def test_a_file_dir_relative_token_passes(self):  # the member's own directory is a root
@@ -141,25 +141,25 @@ class LayerPath(unittest.TestCase):
             (repo.root / "document-harness" / "journal" / "x.md").write_text(
                 "j\n", encoding="utf-8"
             )
-            stage(repo, {CHECKLIST: "see `journal/x.md`\n"})
+            stage(repo, {RULES_MEMBER: "see `journal/x.md`\n"})
             self.assertEqual(layer_path_check.check(repo.root), 0)
 
     def test_a_runtime_marker_counts_as_resolving(self):  # E10's at-rest carve-out
         with TempRepo() as repo:
-            stage(repo, {CHECKLIST: "freezes via `.harness/review-pending.json`\n"})
+            stage(repo, {RULES_MEMBER: "freezes via `.harness/review-pending.json`\n"})
             self.assertEqual(layer_path_check.check(repo.root), 0)
 
     def test_resolution_escaping_the_repo_root_does_not_count(self):  # must fire
         with TempRepo() as repo:
             (repo.root.parent / "outside.md").write_text("caller bytes\n", encoding="utf-8")
-            stage(repo, {CHECKLIST: "see `../outside.md`\n"})
+            stage(repo, {RULES_MEMBER: "see `../outside.md`\n"})
             self.assertEqual(layer_path_check.check(repo.root), 1)
 
     def test_a_placeholder_token_is_invisible_by_shape(self):  # the disclosed ceiling (L-2)
         with TempRepo() as repo:
             stage(
                 repo,
-                {CHECKLIST: "the run's `assurance/runs/<run-id>/control/paragraph-map.json`\n"},
+                {RULES_MEMBER: "the run's `assurance/runs/<run-id>/control/paragraph-map.json`\n"},
             )
             self.assertEqual(layer_path_check.check(repo.root), 0)
 
@@ -170,18 +170,18 @@ class LayerPath(unittest.TestCase):
 
     def test_a_pre_existing_token_is_not_this_batchs_to_repair(self):  # B1 negative control
         with TempRepo() as repo:
-            repo.write({CHECKLIST: "old `no/such/place.md` mention\n"})
-            git(repo.root, "add", "--", CHECKLIST)
+            repo.write({RULES_MEMBER: "old `no/such/place.md` mention\n"})
+            git(repo.root, "add", "--", RULES_MEMBER)
             git(repo.root, "commit", "-qm", "pre-existing token")
-            stage(repo, {CHECKLIST: "old `no/such/place.md` mention\na new clean line\n"})
+            stage(repo, {RULES_MEMBER: "old `no/such/place.md` mention\na new clean line\n"})
             self.assertEqual(layer_path_check.check(repo.root), 0)
 
     def test_a_newly_added_bad_token_still_blocks(self):  # must fire under diff scope
         with TempRepo() as repo:
-            repo.write({CHECKLIST: "clean base line\n"})
-            git(repo.root, "add", "--", CHECKLIST)
+            repo.write({RULES_MEMBER: "clean base line\n"})
+            git(repo.root, "add", "--", RULES_MEMBER)
             git(repo.root, "commit", "-qm", "clean base")
-            stage(repo, {CHECKLIST: "clean base line\nsee `no/such/file.md`\n"})
+            stage(repo, {RULES_MEMBER: "clean base line\nsee `no/such/file.md`\n"})
             self.assertEqual(layer_path_check.check(repo.root), 1)
 
     def test_a_rename_into_the_layer_does_not_rescan_standing_text(self):
@@ -189,21 +189,21 @@ class LayerPath(unittest.TestCase):
         the member's whole standing text read as added lines, so the E2-frozen tokens the
         clause excepts were re-scanned. A rename adds no lines (negative control)."""
         with TempRepo() as repo:
-            repo.write({"old-home/CONSTRUCTION-CHECKLIST.md": "frozen `no/such/place.md`\n"})
-            git(repo.root, "add", "--", "old-home/CONSTRUCTION-CHECKLIST.md")
+            repo.write({"old-home/CONSTRUCTION-RULES_MEMBER.md": "frozen `no/such/place.md`\n"})
+            git(repo.root, "add", "--", "old-home/CONSTRUCTION-RULES_MEMBER.md")
             git(repo.root, "commit", "-qm", "standing text at the old home")
             (repo.root / "document-harness").mkdir(parents=True, exist_ok=True)
-            git(repo.root, "mv", "old-home/CONSTRUCTION-CHECKLIST.md", CHECKLIST)
+            git(repo.root, "mv", "old-home/CONSTRUCTION-RULES_MEMBER.md", RULES_MEMBER)
             self.assertEqual(layer_path_check.check(repo.root), 0)
 
     def test_a_bad_line_added_on_top_of_a_rename_still_blocks(self):  # must fire
         with TempRepo() as repo:
-            repo.write({"old-home/CONSTRUCTION-CHECKLIST.md": "clean standing line\n"})
-            git(repo.root, "add", "--", "old-home/CONSTRUCTION-CHECKLIST.md")
+            repo.write({"old-home/CONSTRUCTION-RULES_MEMBER.md": "clean standing line\n"})
+            git(repo.root, "add", "--", "old-home/CONSTRUCTION-RULES_MEMBER.md")
             git(repo.root, "commit", "-qm", "standing text at the old home")
             (repo.root / "document-harness").mkdir(parents=True, exist_ok=True)
-            git(repo.root, "mv", "old-home/CONSTRUCTION-CHECKLIST.md", CHECKLIST)
-            stage(repo, {CHECKLIST: "clean standing line\nsee `no/such/file.md`\n"})
+            git(repo.root, "mv", "old-home/CONSTRUCTION-RULES_MEMBER.md", RULES_MEMBER)
+            stage(repo, {RULES_MEMBER: "clean standing line\nsee `no/such/file.md`\n"})
             self.assertEqual(layer_path_check.check(repo.root), 1)
 
     def test_a_pasted_diff_header_does_not_silence_the_rest_of_the_member(self):
@@ -213,7 +213,7 @@ class LayerPath(unittest.TestCase):
         with TempRepo() as repo:
             stage(
                 repo,
-                {CHECKLIST: "clean line\n+++ a pasted diff header\nsee `no/such/file.md`\n"},
+                {RULES_MEMBER: "clean line\n+++ a pasted diff header\nsee `no/such/file.md`\n"},
             )
             self.assertEqual(layer_path_check.check(repo.root), 1)
 
@@ -227,7 +227,7 @@ class LayerMembership(unittest.TestCase):
     """
 
     EXPECTED = (
-        "document-harness/CONSTRUCTION-CHECKLIST.md",
+        "document-harness/RULES.md",
         "document-harness/README.md",
         "document-harness/EXECUTION.md",
         "document-harness/REVIEW.md",

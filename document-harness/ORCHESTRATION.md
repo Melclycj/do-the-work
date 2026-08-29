@@ -3,10 +3,11 @@
 Role instructions for the **orchestrator**: the session that runs the round: transport,
 budget and the review window. Its counterparts are [EXECUTION.md](EXECUTION.md), which addresses the
 executor of a product run, and [REVIEW.md](REVIEW.md), which addresses the reviewer one
-dispatch reaches. The construction-side rules both sides answer to are
-[CONSTRUCTION-CHECKLIST.md](CONSTRUCTION-CHECKLIST.md), and its *Execution side* heading
-already binds this role by name — "any session changing harness code, schemas, or instruction
-files, whether it orchestrates the round or executes it".
+dispatch reaches. The rules all three answer to are [RULES.md](RULES.md), and its
+*Execution side* heading already binds this role by name — "any session changing harness code,
+schemas, or instruction files, whether it orchestrates the round or executes it". A repository
+may add its own rules beside those and declares them in `harness.json` at its root (`E10`);
+they bind that repository alone, and reading them is this role's the way reading this file is.
 
 **This file is deliberately thin, and that is the design.** Most of what the orchestrator owes
 is already written in this layer; this file names the owner and points at the rule rather than
@@ -35,10 +36,10 @@ Why this role had no charter until now: the **reviewer, the reader and — since
 `EXECUTOR-CHARTER` (2026-08-22 ruling) — the executor** start cold, so something must hand
 each its charter at startup, and `dtw dispatch` does: three review-side modes, and two
 executor-side modes, one per side of the work — the product-run executor's charter is
-[EXECUTION.md](EXECUTION.md), the construction-round executor's is
-[CONSTRUCTION-CHECKLIST.md](CONSTRUCTION-CHECKLIST.md), whose *Execution side* heading
-already binds that role by name, and what each mode may emit is the dispatch module's to
-state, not this file's. The orchestrator is the session already in the conversation, so
+[EXECUTION.md](EXECUTION.md), the construction-round executor's is that repository's own
+rule file — the one its `harness.json` declares, which names [RULES.md](RULES.md) as its
+counterpart, and whose *Execution side* heading already binds that role by name — and what
+each mode may emit is the dispatch module's to state, not this file's. The orchestrator is the session already in the conversation, so
 nothing ever had to hand it a file. Nothing dispatches the orchestrator, and this file does
 not change that: no dispatch prompt names it, and none should.
 
@@ -89,8 +90,11 @@ it and acting on it is the orchestrator's obligation; **harness code never execu
 if harness code did, the boundary between an instrument and its caller would be gone.
 
 Three properties, none of them optional. The file belongs to the caller, so this layer does
-not say where it lives or what it is called — the caller's own agent-facing entry file points
-at it, and that pointer is the only discovery path this layer gives a cold orchestrator. It
+not say where it lives or what it is called — its `harness.json` names it under `policy`, and
+its own agent-facing entry file points at it in prose; those are the two discovery paths this
+layer gives a cold orchestrator, the first machine-readable and the second the one a person
+follows, and `policy` null is a caller that has written none rather than one this layer cannot
+find. It
 has **no authority over any rule here**: where it conflicts with this layer, this layer
 governs and the policy file is what is wrong. And a caller that has not written one is not defective — the
 absence is a fact to state at closeout, not a gap to fill by inventing policy.

@@ -233,7 +233,7 @@ What stays true of this repository regardless of when you read it:
 - **`E10-sync` falls due whenever the membership sentence is touched** — `HD-22` (a ruling in
   [`HARNESS-DECISIONS.md`](HARNESS-DECISIONS.md), the decision log) made it a per-touch
   checklist item. The nine member paths are hard-coded in three places — the `E10` membership
-  sentence in `document-harness/CONSTRUCTION-CHECKLIST.md`, the `LAYER` constant in
+  sentence in `document-harness/RULES.md`, the `LAYER` constant in
   `tooling/hooks/layer_path_check.py`, and the `EXPECTED` tuple in
   `tooling/tests/document_harness/test_precommit_checks.py`. Whether they resolve *today* is
   the third row of the table above; do not take this paragraph's word for it.
@@ -254,8 +254,10 @@ until it does the submodule mount is the only supported path.
   surface.
 - [`document-harness/EXECUTION.md`](document-harness/EXECUTION.md) and
   [`REVIEW.md`](document-harness/REVIEW.md) — the two role instructions.
-- [`document-harness/CONSTRUCTION-CHECKLIST.md`](document-harness/CONSTRUCTION-CHECKLIST.md) —
-  the `E`-rules a construction batch runs under.
+- [`document-harness/RULES.md`](document-harness/RULES.md) — the `E`- and `R`-rules every
+  session runs under, a product run and a construction batch alike, and
+  [`document-harness/CONSTRUCTION-CHECKLIST.md`](document-harness/CONSTRUCTION-CHECKLIST.md) —
+  what only this repository runs under, on top of them.
 - [`HARNESS-DECISIONS.md`](HARNESS-DECISIONS.md) — the decision log; its `§live` section is
   required reading before opening a round.
 - [`document-harness/split-travel-manifest.md`](document-harness/split-travel-manifest.md) —

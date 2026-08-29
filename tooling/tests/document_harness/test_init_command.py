@@ -63,7 +63,7 @@ DECISION_LOG_HEADER_LINES = (
 
 #: The rider bank's header points at the rule instead of restating it (io-design §6).
 RIDER_BANK_HEADER_LINE = (
-    "`R10` in the instrument's `CONSTRUCTION-CHECKLIST.md`. They are deliberately **not** restated"
+    "`R10` in the instrument's `RULES.md`. They are deliberately **not** restated"
 )
 
 SENTINEL = "# a live decision log with rulings in it\n"

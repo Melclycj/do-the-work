@@ -3,9 +3,10 @@
 Role instructions for the **independent reviewer** in a Document Work Assurance v3 run. Its
 counterpart is [EXECUTION.md](EXECUTION.md).
 
-This file describes a role inside a *product run*. It is not the construction-side contract
-for reviewing the harness itself — that lives at
-[`CONSTRUCTION-CHECKLIST.md`](CONSTRUCTION-CHECKLIST.md).
+This file describes a role inside a *product run*. The rules it and every other role answer
+to are [`RULES.md`](RULES.md) beside it; what is left of the construction-side contract for
+reviewing the harness itself is that instrument's own rule file, declared under `rules` in its
+`harness.json` and not carried by a repository that runs against it.
 
 ## The one sentence
 
