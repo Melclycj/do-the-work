@@ -201,6 +201,30 @@ additions, and a repository that mounts only the harness can open, run and close
     except item D's two stubs, which are round 2's. Question 4 — whether `RULES.md`'s `##
     Execution side` gloss is too narrow for a file a product run answers to — is left to the
     FULL: wording, no actor's action changes today.
+25. **§12's heading and §14's "dependency map" are corrected in place under `HD-63`**
+    (2026-08-30, answering the corrections pass's question 2): after ruling 22 the section holds
+    no dependency map, so the heading *Dependency and historical map (plan §7)* and §14's
+    *dependency map are frozen* are statements true at signing and made false by a later
+    deletion — exactly `HD-63`'s standing class, so no new entry is opened; the user confirms
+    the write happens now, as a pre-submission correction, the executor writing and disclosing
+    the bytes under `E2`, `CONTRACT-V4-SIGNATURE.md` recording the seventh post-signature write.
+26. **The two `historical-only` survivors go** (2026-08-30, answering question 3, on ruling 24's
+    deletion principle): `document-harness/README.md:30`'s *Predecessors … every old root is
+    historical-only for v3 per N0 record §3* sentence is deleted; the docstring at
+    `tooling/rsclib/document_harness/__init__.py:12` drops its reference to the contract's
+    default and to the N0 record and keeps the code fact — the two primitives are adaptations,
+    not imports.
+
+**Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
+measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
+sit in says the five battery commands are *named here rather than written as paths (`E10`)
+because their scripts live in the caller's tree* and warns that a name may also belong to an
+unrelated file in this repository — which is why the harness-only sweep reports them, resolving
+bare names against this repository's basenames. They are the compliant caller-held form,
+deleting two would strike entries from the enumeration `HD-42` guards, and the third is
+caller-side history of the class ruling 19 kept. The plan's 34-site table and the journal's first
+§4 table classed them as this instrument's; the sentence above stands as written and this
+paragraph is the correction. Item J is nine sites, all carried out at `b235701`.
 
 **Disclosed at opening, not softened.** Before the card was rendered the orchestrator ran
 `dtw dispatch --read db1bfa1` to see the prompt's shape; that command writes the freeze marker
@@ -492,24 +516,33 @@ Checked off as each lands; a box that reads done names the commit that made it s
   answered as rulings 22–24 and `HD-68`, the fourth left to the FULL. Original text: the
   proposal put to the user before the FULL; a changed answer lands as a pre-submission
   correction.
-- [ ] 5b. **Corrections** (rulings 22–24, `HD-68`), a second cold executor dispatch before any
-  FULL, every commit a pre-submission correction under `E9`: §12 ¶1 deleted entire and the
-  `:29` wikilink de-linked in one contract commit with `E2` disclosure and the signature
-  record's sixth block, rider `contract-wikilink-tier` deleted there; item J's twelve deletions;
-  the journal's §7 answered forward; acceptance 1 and 2 re-measured on both trees.
+- [x] 5b. **DONE.** Second cold executor, 19 minutes, three pre-submission corrections:
+  `b235701` (item J, nine of the twelve — three re-classified, see the forward correction under
+  the rulings), `322fd1c` (rulings 22 and 23 in one contract commit, `E2` disclosed, signature
+  record's sixth block, rider `contract-wikilink-tier` deleted), `70839b1` (journal §3/§4/§7
+  written forward). Re-measured by the executor at `322fd1c` and by the orchestrator at
+  `70839b1`: 853 passed, both guards exit 0, sweep 13 here and **33** on the harness-only tree
+  (45 → 33). Three questions came back and became rulings 25–26 plus the re-classification.
+  Original text: §12 ¶1 deleted entire and the `:29` wikilink de-linked in one contract commit;
+  item J's twelve deletions; the journal's §7 answered forward; acceptance 1 and 2 re-measured.
+- [ ] 5c. **Corrections, second pass** (rulings 25–26), a third cold executor dispatch before
+  any FULL, still pre-submission under `E9`: §12's heading and §14's phrase under `HD-63` in one
+  contract commit with `E2` disclosure and the signature record's seventh block;
+  `document-harness/README.md:30` deleted and the `__init__.py` docstring rewritten; the
+  journal's second-pass questions answered forward and acceptance 1 and 2 re-measured.
 - [ ] 6. **FULL** on `db1bfa1..<tip>` via `dtw dispatch --range` → cold `claude -p` reviewer →
   record committed unchanged → at most one user-approved fix → targeted VERIFY → closeout: this
   checklist, the ledger row, riders, and a journal if detail needs a home.
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5 done, the candidate stands
-at `eadcfe0` plus this ruling commit; step 5b (the corrections dispatch) next, then the FULL.**
-The step list above is the pointer; a cold session reads it, then `CONSTRUCTION-LEDGER.md`'s
-queue-head row, then continues at the first unchecked box. `§live` holds twelve entries, `HD-67`
-(with its forward correction) and `HD-68` among them. One thing stays open by design and is
-settled at its round's opening, not before: which piece of work the product run is (ruling 12,
-round 3).
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5b done, the candidate stands
+at `70839b1` plus this ruling commit; step 5c (the second corrections dispatch) next, then the
+FULL.** The step list above is the pointer; a cold session reads it, then
+`CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box. `§live`
+holds twelve entries, `HD-67` (with its forward correction) and `HD-68` among them. One thing
+stays open by design and is settled at its round's opening, not before: which piece of work the
+product run is (ruling 12, round 3).
 
 ## Notes
 
