@@ -93,6 +93,43 @@ read.
     the round's rule-split commit with all three mirrors changed together. Unaffected and
     deliberately untouched: the blob this signature binds, what the signature means, and this
     file's own answer that it is not a member.
+  - **Sixth post-signature write, 2026-08-30 — round `CORE-ONLY-LAYER`'s corrections commit, this
+    commit.** Two sites, each with its own authorisation, and neither of them the same class as the
+    five above. **§12's first paragraph is deleted entire** under the user's ruling of 2026-08-30
+    (plan `document-harness/plans/core-only.plan.md` ruling 22, answering the round executor's
+    first question): the fifth write kept that paragraph's two obligation sentences — v1/v2 material
+    is immutable, and referencing a non-nominated old component is a `SPEC_GAP` — on the reading
+    that removing an obligation is the irreversible direction, and reported the cost, that the
+    surviving requirement named a set whose defining sentence had gone with the deleted history.
+    The user ruled the other way and gave the ground: v4 depends on no v1/v2 component, so nothing
+    about them is referenced and all of it goes; the ruling records that this was verified before
+    it was taken, the contract's remaining v1/v2 mentions being §13's version-boundary statements
+    about results and history rather than dependencies. `HD-67`'s named block therefore governs
+    over an executor's reading of `HD-67`'s criterion, for this block. §12's *Removed from the v3
+    default interface* paragraph stays, as `HD-67` and the ruling both require, and it is now the
+    whole of §12. **The wikilink at `:29` ceases to be a link** under `HD-68`, the fourth
+    authorisation in this family to say in as many words that it overrides §13's "signed contracts
+    are never amended in place". What it reaches is neither a false statement nor a requirement nor
+    unreachable history but a **reference form**: the plan is now named by its title and given no
+    path and no link, the dead-digest parenthetical is deleted as the history it is, and the
+    obligation sentence — plan §2's V3-D1–D10 are the locked design authority and a genuine
+    conflict is a `SPEC_GAP` — is kept word for word. The signed blob above is unchanged and v4 is
+    **not** re-signed; this write's `E2` disclosure rides its own commit body, naming
+    `contract/Document-Work-Assurance-Contract-v4.md` site by site, and the changed text owes
+    `E10`'s independent re-read, riding this round's next read of that layer.
+    **Rider `contract-wikilink-tier` is redeemed and its row deleted in this same commit** (`R10`).
+    That row had reached its redeem arm and its deadline in the round's earlier contract commit and
+    could not be paid there for want of an authorisation; `HD-68` is that authorisation, and the row
+    goes in the commit that spends it.
+    **One statement in this file goes stale with this round and is corrected forward here rather
+    than in place (`HD-59`); the original stands below word for word.** The closing sentence of
+    *Which side it sits on* says a caller does not carry this file, "which is why the contract and
+    `document-harness/README.md` **name** it rather than link it". As of this round the README does
+    neither: plan ruling 24 deleted that name along with the other product-tier references to
+    artifacts only this instrument holds, on the user's ground that a name replaced by a holder
+    clause is not an improvement. What the contract does is what the fifth write recorded — it
+    names this file once, at `:9`, machine-read and pinned by a test. So the sentence's reason
+    survives and its enumeration does not: of the two carriers it named, one remains.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.

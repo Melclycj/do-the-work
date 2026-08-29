@@ -25,14 +25,9 @@ wording deltas the merge was held to are this instrument's own construction hist
 in its repository and in no repository that runs against this contract, and therefore not
 reproduced here. §14 states what the supersession means, which is the part a repository acts on.
 
-Authored under the user-approved plan
-[[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]] (plan SHA-256
-`9B08CD0038FA0C36E76674B7CE386129D9797EFFE5CEC7FABBF69699811F171F`; the digest binds the plan
-bytes at the caller-era signing of 2026-07-20 — this repository's history begins 2026-08-15 and
-the plan file has been moved and re-rooted since, so the digest verifies against no blob here,
-`HD-57`). Plan §2 decisions V3-D1–D10 are
-the locked design authority; a genuine conflict between this contract and the plan is a `SPEC_GAP`,
-not a reinterpretation opportunity.
+Authored under the user-approved plan *Document Work Assurance Harness v3*. Plan §2 decisions
+V3-D1–D10 are the locked design authority; a genuine conflict between this contract and the plan
+is a `SPEC_GAP`, not a reinterpretation opportunity.
 
 ## 1. Product and bounded assurance statement
 
@@ -237,12 +232,6 @@ defects shared across multiple profiles. V3 has no Retrospective state machine, 
 automatic maintenance stage.
 
 ## 12. Dependency and historical map (plan §7)
-
-Signed v1/v2 contracts, schemas and history are immutable. All old directories default to
-**historical-only**; referencing any non-nominated old component from v3 is a `SPEC_GAP` until the
-dependency map is amended. Which components were nominated, and the decision and exact test
-behind each, are this instrument's own construction history — held with its administrative
-record, reachable in its repository and in no repository that runs against this contract.
 
 Removed from the v3 default interface (never to be reintroduced without a user-approved plan
 amendment): capabilities/enforcement floors, resource grants, generalized URI/intersection algebra,
