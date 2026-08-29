@@ -1,49 +1,74 @@
-# Plan — batch `CORE-ONLY`: a repository that mounts only the core set can actually run
+# Plan — batch `CORE-ONLY`: the construction side becomes an ordinary caller of the harness
 
-> **Status: NOT OPENED.** Written 2026-08-29 by the orchestrator, after batch `V1-RESULT-RETIRE`
-> closed. **base_commit**: the `dev` tip at the moment the first round opens — stated then, not
-> derived from `main`, for the reason `V1-RESULT-RETIRE`'s own base correction records.
+> **Status: NOT OPENED.** Rewritten 2026-08-29 after the framing below replaced the one this file
+> carried at `18d120d`. **base_commit**: the `dev` tip when the first round opens — stated then,
+> not derived from `main`, for the reason `V1-RESULT-RETIRE`'s own base correction records.
 >
-> **This file is the carrier of the user's rulings of 2026-08-29** in *Rulings* below. Until they
-> land here they live only in the conversation that took them, which is chat-only load-bearing
-> material and a finding under `R2`.
+> **This file is the carrier of the user's rulings of 2026-08-29** in *Rulings*. Until they land
+> here they live only in the conversation that took them, which is chat-only load-bearing material
+> and a finding under `R2`.
 >
-> **Every figure below was measured on 2026-08-29 at `607728a`** with `tooling/sweep_refs.py` and
-> `git ls-files`. `E3`: re-run them before any claim; line numbers drift.
+> **Every figure was measured 2026-08-29 at `607728a`** with `tooling/sweep_refs.py`, `git ls-files`
+> and `grep`. Re-run them before any claim; line numbers drift.
 >
-> **This is design.** Rider `checklist-cited-not-carried`'s own header says every way out is design,
-> and the work below changes what `E10`'s membership sentence and `CONSTRUCTION-INDEX.md`'s tier
-> table say. It opens a round, and the opening cold read is not waivable by this file.
+> **This is design.** It changes what the instruction-layer membership rule says, so a round opens
+> and the opening cold read is not waivable by this file.
 >
 > A cold session reads this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 
+## What changed from the version at `18d120d`, written forward rather than over
+
+That version framed the work as three shapes — repair the dangling references, split the code, or
+let the construction checklist travel — and asked the user to pick. **The user replaced the frame
+rather than picking from it**: *如果按照开发层自己是 harness 的一个实例来看，需要做到所有库自己的
+规则都是 harness 的附加*. That is not shape C, and it subsumes shape B. Everything below follows
+from it. Four things the earlier version got wrong or too small, each corrected here and left
+visible because it was committed:
+
+1. **The citation count was 37; it is 36.** `EXECUTION.md:235`'s `` `R0` `` is a product run's own
+   review-dimension name, not a citation of a construction rule. No such rule exists.
+2. **The contract work was stated as "seven sites needing a ruling"; that is the wrong unit.**
+   Three of the seven already carry the holder clause the rule asks for. The real object is three
+   blocks of provenance, not seven lines — see *The contract's provenance*.
+3. **"The layer guard follows the construction side" was wrong.** Under ruling 5 it becomes a
+   general guard that both sides use. Stated in the earlier version's item C; withdrawn here.
+4. **The A/B/C framing is withdrawn entire.** It is preserved in this paragraph because a future
+   reader will re-derive it, and because ruling 2's reason is not "B was cheapest".
+
 ## Goal (one line)
 
-A repository that mounts **only the 58-file core set** can open a run, run it, and close it — with
-no reference in what it carries pointing at something it does not have, and no code in what it
-carries existing solely to serve rounds it will never open.
+**The construction side stops being a special case and becomes an ordinary caller**: the harness
+carries the rules every caller needs, each caller — this instrument included — declares its own
+additions, and a repository that mounts only the harness can open, run and close a real run.
 
 ## Rulings (this file is their carrier)
 
-1. **Core-only usability comes before the first product run** (2026-08-29). The queue order
-   committed hours earlier at `689ae5d` put a real product run first; the user overturned it the
-   same day — *不需要着急跑 run，而是先让库能只跑 core*. Recorded at `607728a`.
-2. **Option B, not A and not C** (2026-08-29, *做 B 吧*). The three shapes were put to the user as:
-   **(A)** repair the 34 dangling references only; **(B)** actually split — divide the code and the
-   documents along the product/construction line the tier table already claims; **(C)** let
-   `CONSTRUCTION-CHECKLIST.md` travel, making the breaks vanish by abandoning the goal. B was
-   chosen. **A was refused with its reason on the record**: it makes the tree *look* clean while a
-   caller still receives 42% of `dispatch.py`, the matching branches of `cli.py`, all of
-   `layer_path_check.py`, and a constant naming a file it does not have.
-3. **The distribution form is conditional, and this batch is the test of it** (`HD-66`,
-   2026-08-29). submodule is the default and not the end state; if core distribution is finally
-   shown impossible, the answer is a plugin. `HD-66`'s boundary names three untried paths, and this
-   batch **is** its option two. If this batch fails, that is evidence toward `HD-66`'s trigger —
-   **but declaring the trigger fired is the user's, not this batch's.**
+1. **Core-only usability comes before the first product run** (2026-08-29). Overturns the queue
+   order committed hours earlier at `689ae5d`. Recorded at `607728a`.
+2. **The construction side is an instance of the harness applied to itself, so its own rules are an
+   *addition* to the harness rather than part of it** (2026-08-29). This is the frame, and the
+   reason is structural rather than economic. Consequence: the construction checklist splits — the
+   part every caller needs travels as harness text, the part that is only this instrument's own
+   working discipline stays as this instrument's caller-side addition.
+3. **Acceptance is the mechanical check *and* a real product run** (2026-08-29, 机械检查 + 产品
+   run 实测). This pulls the product run — queue position ② until now — into this batch, and with
+   it the 2026-08-23 ruling that a first product run happens in a caller repository rather than
+   here. The batch therefore spans two repositories.
+4. **The contract's provenance goes with this batch** (2026-08-29, 要一起做了). A product contract
+   carrying this instrument's construction history is pollution of the rule text; the earlier
+   answer — label each citation with its holder — treated the symptom.
+5. **The instruction-layer membership rule does not cover the construction side** (2026-08-29).
+   It names the harness's own members; every caller, this instrument included, declares its own
+   additions. The guard reads the union.
+6. **The two retired-contract stubs may be removed if the work permits** (2026-08-29, 可以看着
+   情况移除). Not mandated — item D states the condition.
+7. **How a caller declares its additions is decided at round open, not here** (2026-08-29, answer
+   to *这个留到开轮再做吗*). This file enumerates the candidate shapes so the decision is one
+   sitting rather than research, and records what `E6` asks of any of them.
 
 ## Measured starting state — 2026-08-29 at `607728a`
 
-### What "core" is: 58 files, and the row that is wrong about itself
+### What the harness carries today: 58 files of 409
 
 | # | row of `CONSTRUCTION-INDEX.md` | files |
 |---|---|---|
@@ -55,58 +80,72 @@ carries existing solely to serve rounds it will never open.
 | 6 | `tooling/dtw.py` · `tooling/do-the-work.py` | 2 |
 | 7 | `tooling/rsclib/document_harness/` | 22 |
 | 8 | `tooling/hooks/` 4 + `assurance/templates/run-v2/` 8 | 12 |
-| | **total** | **58** against a repository of **409** |
+| | **total** | **58** |
 
-**Row 8 contradicts its own description.** Its prose says *"the two caller-side guards a caller
-wires into its own `pre-commit`"* while the count takes the whole of `tooling/hooks/`, which is
-four files: `__init__.py`, `candidate_path_check.py`, `review_freeze_check.py` and
-`layer_path_check.py`. The third of those is not caller-side — see item C.
+**Row 8 disagrees with itself**: its prose says *"the two caller-side guards a caller wires into its
+own `pre-commit`"* while its count takes all four files in `tooling/hooks/`. Under ruling 5 the
+disagreement dissolves rather than being repaired — see item C.
 
-### The reference breakage, by whose fault it is
+### The rule surface: 36 citations, and 26 of them are shared
 
-Three trees, one instrument (`tooling/sweep_refs.py`), over `E10`'s nine members:
+Counted over the five product documents with
+`grep -ohE '`(E[0-9]{1,2}|R[0-9]{1,2})`'`, minus the one false positive named above:
+
+| what the cited rule says | citations | does a product run obey it? |
+|---|---|---|
+| never review, verify or sign your own work | 5 | **yes** |
+| the per-round review budget: one FULL, at most one approved fix, one VERIFY | 5 | **yes** |
+| how findings route — bank, HarnessIssue, or the caller's own bank | 4 | **yes** |
+| whether a thing should exist at all is the user's question, not the reviewer's | 3 | **yes** |
+| the preview card before starting, and waiting for the user | 3 | **yes** |
+| independence is decided by who set the question | 2 | **yes** |
+| what a review record is called and where it goes | 2 | **yes** |
+| measure last; a figure is invalidated by any later change | 1 | **yes** |
+| the handoff is one commit or range, with no per-acceptance argument | 1 | **yes** |
+| **subtotal — shared** | **26** | |
+| the instruction layer is exactly these nine files, and how to amend them | 8 | **no** — this instrument's own rule text |
+| the announced/frozen surface | 1 | **no** — this instrument's own bytes |
+| never trust a guard you have not seen fail | 1 | construction-leaning |
+| **subtotal — this instrument's own** | **10** | |
+
+**This is the measurement ruling 2 rests on.** The checklist is not a construction file with
+product rules leaking into it; it is the *only home* of rules both sides obey, and that home was
+filed on the construction side.
+
+### The reference breakage: 48 sites, of which 34 are this batch's
+
+Three trees, one instrument (`tooling/sweep_refs.py`), over the nine members:
 
 | tree | files | non-resolving sites |
 |---|---|---|
 | this repository | 409 | **14** |
 | history-stripped (batch `CORE-SET`'s) | 120 | 3 |
-| **product tier only** | **58** | **48** |
+| **harness-only** | **58** | **48** |
 
-**14 of the 48 also fail on the full repository and are not this batch's business.** All fourteen
-are NAMETOK — a backticked bare filename — and `E10` requires exactly that form for a caller-held
-artifact: *"a caller-held path is named, never written as a path token"*. Twelve name a caller's own
-run artifacts (`build_run.py`, `check_shells.py`, `write_audit.py`, `smoke_test.py`,
-`run_p4_tests.py`, `run_p5a_tests.py`, `audit-rounds.md` ×2, `v3-review-full-86defbc.md`,
+**The 14 are not defects and must not be "fixed".** All are a backticked bare filename, which is
+the form the membership rule *requires* for a caller-held artifact — *a caller-held path is named,
+never written as a path token*. Twelve name a caller's own run artifacts (`build_run.py`,
+`check_shells.py`, `write_audit.py`, `smoke_test.py`, `run_p4_tests.py`, `run_p5a_tests.py`,
+`audit-rounds.md` ×2, `v3-review-full-86defbc.md`,
 `user-decision-triage-comparator-environment-defects.json`, `v3-review-full-fef3a2e.md`,
-`review-verify.json`); two are deliberate history (`Document-Work-Assurance-Contract-v3.md`, which
-`HD-62` leaves in git history, and `review.schema.json`, which round `V1-RESULT-RETIRE` retired and
-contract v4 names in the past tense). **Repairing any of these would violate `E10`, not satisfy
-it.** The count moved 13 → 14 in that round, the new one being the past-tense sentence it wrote.
+`review-verify.json`); two are deliberate history (`Document-Work-Assurance-Contract-v3.md`, left
+in git history by `HD-62`, and `review.schema.json`, which round `V1-RESULT-RETIRE` retired and the
+contract names in the past tense). That count moved 13 → 14 in that round, the new one being the
+past-tense sentence it wrote.
 
-**34 sites break only because the tree was stripped to core.** That set is this batch's subject:
-
-| type | count | what it means |
-|---|---|---|
-| `MISSING` | 3 | an `E10` member absent from the tree entirely |
-| `LINK` | 5 | a markdown link whose target is not there |
-| `PATHTOK` | 2 | a backticked path with a `/` that resolves nowhere |
-| `NAMETOK` | 24 | a backticked bare name matching no file — **and, unlike the 14 above, naming something the caller has no holder for at all** |
-
-The 24 NAMETOK sites carry **14 distinct targets**: `CONSTRUCTION-CHECKLIST.md`,
+**34 break only because the tree was stripped.** 3 members absent · 5 markdown links · 2 path
+tokens · 24 bare names carrying 14 distinct targets: `CONSTRUCTION-CHECKLIST.md`,
 `CONSTRUCTION-INDEX.md`, `CONTRACT-V4-SIGNATURE.md`, `HARNESS-DECISIONS.md`, `N0-record.md`,
 `W2-record.md`, `supersession-2-signature.md`, `retro-2026-08-03.md`,
 `v3-review-verify-2538893.md`, `contract-v4.plan.md`,
-`general-harness-v2-architecture-revision.plan.md`, `run_tests.py`,
-`test_readme_enumeration.py`, `validate_fixtures.py`.
+`general-harness-v2-architecture-revision.plan.md`, `run_tests.py`, `test_readme_enumeration.py`,
+`validate_fixtures.py`.
 
-**The distinction that decides every one of them is who holds the thing.** A caller-held artifact
-named by bare name is compliant and stays. An *instrument-construction*-held artifact named by bare
-name is not compliant on a core tree, because the caller has no holder for it — the sentence
-`E10` demands ("its name and its holder") cannot be completed.
+**The judge for every one is who holds the thing.** A caller holds its own run artifacts, so a bare
+name is complete. Nobody on the caller's side holds this instrument's construction history, so the
+sentence the rule demands — *its name and its holder* — cannot be completed at all.
 
-### The 34 sites verbatim
-
-Re-derive before editing; these are at `607728a`.
+**The 34, verbatim at `607728a`. Re-derive before editing.**
 
 ```
 MISSING  document-harness/CONSTRUCTION-CHECKLIST.md
@@ -133,124 +172,138 @@ NAMETOK  document-harness/EXECUTION.md:400    retro-2026-08-03.md
 NAMETOK  document-harness/REVIEW.md:8         CONSTRUCTION-CHECKLIST.md
 NAMETOK  document-harness/REVIEW.md:89        W2-record.md
 NAMETOK  document-harness/ORCHESTRATION.md:51 HARNESS-DECISIONS.md
-NAMETOK  contract/…-v4.md:16                  CONTRACT-V4-SIGNATURE.md
-NAMETOK  contract/…-v4.md:27                  N0-record.md
-NAMETOK  contract/…-v4.md:28                  W2-record.md
-NAMETOK  contract/…-v4.md:31                  supersession-2-signature.md
-NAMETOK  contract/…-v4.md:33                  contract-v4.plan.md
-NAMETOK  contract/…-v4.md:254                 N0-record.md
-NAMETOK  contract/…-v4.md:365                 CONTRACT-V4-SIGNATURE.md
+NAMETOK  contract/…-v4.md:16   CONTRACT-V4-SIGNATURE.md
+NAMETOK  contract/…-v4.md:27   N0-record.md
+NAMETOK  contract/…-v4.md:28   W2-record.md
+NAMETOK  contract/…-v4.md:31   supersession-2-signature.md
+NAMETOK  contract/…-v4.md:33   contract-v4.plan.md
+NAMETOK  contract/…-v4.md:254  N0-record.md
+NAMETOK  contract/…-v4.md:365  CONTRACT-V4-SIGNATURE.md
 ```
 
-**Seven of the 34 sit in signed contract text** — contract v4 at `:16`, `:27`, `:28`, `:31`, `:33`,
-`:254` and `:365`. (The sweep reports nine contract sites on a core tree; the other two,
-`Document-Work-Assurance-Contract-v3.md` and `review.schema.json`, fail on the full repository too
-and belong to the fourteen this batch leaves alone.) Round `V1-RESULT-RETIRE` established the only
-routes into signed text: a recorded user ruling of the `HD-63` shape for a stale statement of fact,
-the `HD-64` shape for a requirement, or §13's versioned successor. **Whichever is chosen, it is a
-ruling this batch must obtain and never assume** — and the user has already ruled twice on this
-surface in one round, so a third is not automatic.
+### The contract's provenance — ruling 4's object, in blocks rather than lines
+
+| block | size | what it is | verdict |
+|---|---|---|---|
+| §12 *Dependency and historical map*, first two paragraphs | ~12 lines | v1/v2 immutability, A4 as accepted v2 history, the nominated reuse candidates recorded in `N0-record.md` | **construction history** |
+| §12's third paragraph | ~6 lines | what was removed from the v3 default interface and may never return without an approved amendment | **operative for a caller — stays** |
+| `:24-33`, the merged-sources paragraph | 10 lines | which three documents v4 merged, their blob hashes, signature dates and record filenames | **construction history** |
+| the signature-semantics header and §14 | a few lines | that a signature binds and where the record lives | **operative, but the record can be named by holder rather than by filename** |
+
+Three of the seven sites already carry *held by this instrument's own construction record*. **That
+is the compliant form, and it is also the evidence that whoever wrote it already knew the caller
+could not reach these** — and answered by labelling rather than by removing. Ruling 4 chooses
+removal.
 
 ### The code the caller receives and cannot use
 
-Measured by reading the modules, not by grepping the word *construction* — three of the four small
-hits that grep produced (`checks.py`, `instruction.py`, `review_subject.py`) are the ordinary
-English usage (*Result construction*, *by construction*) and are **not** coupling.
+Measured by reading the modules. Three of the four hits a grep for *construction* produced
+(`checks.py`, `instruction.py`, `review_subject.py`) are the ordinary English word and are **not**
+coupling.
 
-| # | site | size | why a caller cannot use it |
+| # | site | size | note |
 |---|---|---|---|
-| 1 | `tooling/rsclib/document_harness/dispatch.py` | **≈423 of 1,005 lines (42%)** — `--range` ≈123, `--read` ≈105, `--construction-executor` ≈195 | all three modes exist only for construction rounds; a caller opens none |
-| 2 | `tooling/rsclib/document_harness/cli.py` | the `dispatch` handler from `:167`, 23 construction references | the command-line entry to the three modes above |
-| 3 | `tooling/hooks/layer_path_check.py` | **the whole file, 134 lines** | it guards `E10`'s nine members, three of which do not travel; **unwired from the caller on 2026-08-17** with 0 of 9 resolving there, stated in this repository's own `.githooks/pre-commit` |
+| 1 | `dispatch.py` | **≈423 of 1,005 lines** — `--range` ≈123, `--read` ≈105, `--construction-executor` ≈195 | three modes only a construction round uses |
+| 2 | `cli.py` | the `dispatch` handler from `:167`, 23 construction references | their command-line entry |
+| 3 | `tooling/hooks/layer_path_check.py` | 134 lines | **under ruling 5 this becomes general rather than moving** — it reads the harness members plus the local declaration |
 
-Plus one hard-coded constant in product-tier code naming a file that does not travel:
-`dispatch.py:776` — `CONSTRUCTION_EXECUTOR_CHARTER = "document-harness/CONSTRUCTION-CHECKLIST.md"`.
+One hard-coded constant in product-tier code names a file that does not travel: `dispatch.py:776`,
+`CONSTRUCTION_EXECUTOR_CHARTER = "document-harness/CONSTRUCTION-CHECKLIST.md"`. A second,
+`dispatch.py:549`, names the retired review-side stub as every cold reviewer's standing
+instruction, and `test_dispatch.py` pins it in three hand-written constants.
 
-## Open questions — the user's, and the batch does not open until they are answered
+### The declaration precedent this repository already has
 
-1. **Where do the product-side rules live once the checklist stays behind?** The five product
-   documents carry 11 path references to `CONSTRUCTION-CHECKLIST.md` and 37 backticked `E1`–`E12` /
-   `R1`–`R10` citations across 33 lines. Three shapes: **(i)** the product tier gets its own rule
-   file holding the clauses it actually cites; **(ii)** the citations are rewritten to state the
-   rule inline and stop naming a code; **(iii)** the checklist is split, its product-relevant half
-   travelling under a new name. Each changes what `E10`'s membership sentence must say.
-2. **What happens to `E10`'s membership sentence?** It names nine paths, three of which are
-   construction-side. Does the layer become two layers, one per side, or does membership become
-   tier-aware? This is the question `HD-21` asked about a different file and it now returns for the
-   sentence itself.
-3. **The seven contract v4 sites.** `HD-63` shape (a recorded ruling permitting in-place
-   correction), `HD-64` shape (the same for a requirement), or §13's versioned successor. The user
-   ruled twice on this surface in one round; a third ruling is not automatic.
-4. **Does `layer_path_check.py` leave the product tier, and does `tooling/hooks/`'s row get split?**
-   Row 8 takes a whole directory and describes two files.
-5. **How is "it runs" verified?** Proposal: batch `CORE-SET` step 6b's mechanical check, re-run on a
-   58-file tree — `dtw --help`, `dtw init` into a fresh repository, the caller-side guards exiting
-   0. It needs no run directory and does not depend on the product run this batch now precedes.
-   **Confirm or replace.**
+`.harness/scan-surfaces.json` — `{"review_record_dirs": ["migration/document-work-assurance-v3/"]}`
+— is a per-repository declaration of a repo-local surface, read by `caller.py:42` and written by
+`dtw init`. **Membership additions could take the same shape.** It is per-checkout and gitignored,
+which is a known cost: every fresh clone rewrites it.
+
+## Open questions — answered at round open, before any work
+
+1. **What is the shared half called and where does it live?** It decides what a dispatch prompt
+   points at, and therefore whether the two stubs survive (ruling 6's condition).
+2. **How does a caller declare its additions?** Ruling 7 defers the choice; the candidates are:
+   **(a)** a new declaration file; **(b)** a key added to `.harness/scan-surfaces.json`, which
+   already exists and is already read; **(c)** no machine at all — the addition is declared in the
+   caller's own addition document as prose, and the guard reads that. **`E6` must be answered
+   first for whichever is chosen: what decision changes if the declaration is absent?** If the
+   honest answer is *none*, (c) wins by that rule.
+3. **How does the split membership rule read?** One sentence naming harness members and a second
+   naming the mechanism for additions — or something else. This is the sentence the round exists to
+   change, and changing it is why the round is design.
+4. **Which route do the contract's provenance blocks take?** Removing pure history does not change
+   what the contract requires, which is a different class from the two in-place corrections round
+   `V1-RESULT-RETIRE` obtained rulings for. **Whether that difference earns a lighter route is the
+   user's**, and the round must ask rather than assume.
+5. **Where does the product run happen and who builds it?** Ruling 3 makes it acceptance; the
+   2026-08-23 ruling puts it in a caller repository. Which repository, and whether it is a scratch
+   one or a real piece of work, is unanswered.
+6. **How is the batch cut into rounds?** The rule split, the code split, the contract, and the
+   product run are plausibly four; nothing here fixes that.
 
 ## Out of scope
 
-- OUT: running a product run. It is queue position ②, behind this batch by the user's 2026-08-29
-  direction.
 - OUT: the candidate-isolation design question (queue ③, still unruled).
 - OUT: `dispatch-economy` (queue ④).
-- OUT: declaring `HD-66`'s plugin trigger fired. This batch produces evidence; the declaration is
-  the user's.
-- OUT: sparse-checkout as a substitute. It materialises fewer files and makes not one reference
-  resolve — ruling 2's stated reason for refusing shape A applies to it in full.
+- OUT: declaring `HD-66`'s plugin trigger fired. This batch is that entry's option two; failure is
+  evidence toward the plugin, and the declaration stays the user's.
+- OUT: sparse-checkout as a substitute — it materialises fewer files and makes no reference resolve.
+- OUT: repairing the 14 sites that fail on the full repository. Repairing them breaks the rule they
+  satisfy.
 
-## Sketch of the work — not a decomposition, and the executor writes its own
+## Sketch of the work — not a decomposition; the executor writes its own
 
-The shape follows from the questions above and firms up when they are answered.
-
-- **A** — the rule surface: whatever question 1 settles, applied to the five product documents' 11
-  path references and 37 code citations.
-- **B** — `E10`'s membership sentence, per question 2. `layer_path_check.py`'s `LAYER` tuple and
-  `sweep_refs.py` both import from it, so they follow rather than being edited in parallel.
-- **C** — the three code sites: `dispatch.py`'s construction modes, `cli.py`'s matching branches,
-  and `layer_path_check.py`'s tier. Every one of them changes `CONSTRUCTION-INDEX.md`'s tier table.
-- **D** — the seven contract v4 sites, under whatever question 3 rules.
-- **E** — `CONSTRUCTION-INDEX.md` itself: row 8's prose against its count, and every row this batch
-  moves.
-- **F** — rider `checklist-cited-not-carried` redeemed, and `onboarding-carries-construction`
-  checked for whether it redeems with it.
+- **A — the rule split.** The checklist divides along the 26/10 line measured above. The five
+  product documents' 11 path references and 36 code citations follow whichever names result.
+- **B — the membership rule and its guard.** The sentence per question 3; `layer_path_check.py`'s
+  `LAYER` and `sweep_refs.py` both import from it rather than being edited in parallel, so they
+  follow.
+- **C — the code split.** `dispatch.py`'s three construction modes, `cli.py`'s branches, and both
+  hard-coded constants. `CONSTRUCTION-INDEX.md`'s tier table changes with every one, row 8 included.
+- **D — the stubs.** Removable once no dispatch prompt names them (ruling 6's condition); that
+  frees `dispatch.py:549` and three hand-written test constants.
+- **E — the contract.** The two provenance blocks, under whatever question 4 rules. §12's third
+  paragraph stays.
+- **F — the product run.** Ruling 3's acceptance, in a caller repository.
+- **G — riders.** `checklist-cited-not-carried` redeemed; `onboarding-carries-construction` checked
+  for whether it redeems with it.
 
 ## Acceptance (done = ?)
 
-Each a command, not a sentence.
-
-1. A 58-file (or whatever this batch makes it) product-tier tree, built by `git archive` and made a
-   git repository, reports **zero** non-resolving sites that name an instrument-construction-held
-   artifact. Caller-held bare names remain and are counted separately — the two classes are
-   reported apart, because collapsing them is how this defect hid.
-2. `python tooling/sweep_refs.py <core tree>` and the same on the full repository, both pasted.
+1. A harness-only tree, built by `git archive` and made a git repository, reports **zero**
+   non-resolving sites naming an instrument-held artifact. Caller-held bare names are reported
+   **separately and still present** — collapsing the two classes is how this defect hid.
+2. `python tooling/sweep_refs.py` on both trees, output pasted.
 3. On that tree: `dtw --help` exit 0 · `dtw init` into a fresh repository exit 0 · the caller-side
-   guards exit 0. (Question 5 may replace this.)
-4. `grep -rn 'CONSTRUCTION-CHECKLIST' <core tree>` returns nothing, or returns only what a ruling
+   guards exit 0.
+4. **A real product run completes on that tree** (ruling 3): a run directory built, an instruction
+   frozen, a reviewer dispatched from the mounted harness, a verdict recorded, the run closed.
+   Which repository it runs in is question 5's.
+5. `grep -rn 'CONSTRUCTION-CHECKLIST' <harness tree>` returns nothing, or only what a ruling
    admitted, each accounted for in a commit body.
-5. No file in the core tree contains a construction-only code path. Demonstrated by naming what
-   moved and re-measuring `dispatch.py`'s and `cli.py`'s line counts either side.
-6. `python -m pytest tooling/tests -q` green on the full repository, with the delta accounted.
-7. `CONSTRUCTION-INDEX.md`'s counts re-measured by its own *How to re-measure* commands, and row
-   8's prose agreeing with its count.
-8. The three guards exit 0 and `E10`'s members resolve N/N for whatever N the membership sentence
-   ends up naming.
-9. Rider `checklist-cited-not-carried` deleted in the commit that earns it.
+6. No file in the harness tree holds a construction-only code path; `dispatch.py`'s and `cli.py`'s
+   line counts re-measured either side of the split.
+7. `python -m pytest tooling/tests -q` green on the full repository, delta accounted.
+8. `CONSTRUCTION-INDEX.md` re-measured by its own commands, and row 8's prose agreeing with its
+   count.
+9. The guards exit 0 and the membership rule resolves N/N for whatever N it ends up naming, on
+   **both** trees.
+10. Rider `checklist-cited-not-carried` deleted in the commit that earns it.
 
 ## Resume pointer
 
-当前指针: **not opened — the five open questions above go to the user first.** Nothing is measured
-that has not been measured here, and nothing is decided that is theirs.
+当前指针: **not opened.** The six open questions go to the user first; question 2 is the one ruling
+7 deliberately left for that moment, and question 5 gates acceptance 4.
 
 ## Notes
 
-- **Why A was refused, kept because a future reader will re-propose it.** A repairs 34 references
-  and leaves a caller holding 42% of `dispatch.py`, `cli.py`'s matching branches, all 134 lines of
-  `layer_path_check.py`, and `dispatch.py:776`'s constant naming a file it does not have. It buys a
-  clean sweep output and nothing else.
-- **Why the 14 full-repository sites are not a defect, kept because the number looks like one.**
-  `E10` requires a caller-held artifact be named rather than pathed, so those bare names are the
-  compliant form. A round that "fixes" them breaks the rule it thinks it is serving.
-- **What this batch is evidence for.** `HD-66` made distribution conditional on core distribution
-  being shown impossible. This batch is the attempt. Its failure would be evidence toward the
-  plugin; its success closes the question. Neither conclusion is this file's to draw.
+- **Why the A/B/C framing died.** It asked which repair to buy. The user asked a different question
+  — what the construction side *is* — and answered it: an instance of the harness applied to
+  itself. Repairs follow from that; they do not substitute for it.
+- **Why the 14 full-repository sites stay.** The rule requires a caller-held artifact be named
+  rather than pathed. A round that "fixes" them breaks the rule it thinks it serves. The number
+  looks like a defect and is not one, which is exactly why it is written down.
+- **What this batch is evidence for.** `HD-66` made the distribution form conditional on core
+  distribution being shown impossible. This is the attempt. Neither its success nor its failure is
+  this file's to declare.
