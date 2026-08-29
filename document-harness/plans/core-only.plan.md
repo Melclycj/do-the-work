@@ -78,10 +78,10 @@ additions, and a repository that mounts only the harness can open, run and close
    checklist pointers use today; the `E*` / `R*` identifiers the 36 citations carry do not
    change. `CONSTRUCTION-CHECKLIST.md` keeps its name and its place in `document-harness/` as
    this instrument's own rule file: the product tier is a list and not a directory prefix
-   (core-set rulings 11 and 19), so the folder's 68 construction-side files cost a caller
-   nothing on a harness-only tree. Moving the checklist beside the root registers was priced
-   — 15 live files name its path, 10 of them outside surfaces this batch rewrites — and is
-   out of scope.
+   (core-set rulings 11 and 19), so the folder's 69 construction-side files — 76 tracked, 7 in
+   the product tier — cost a caller nothing on a harness-only tree. Moving the checklist beside
+   the root registers was priced — `git grep -l` finds 15 tracked files naming its path outside
+   `migration/`, `journal/` and `plans/` — and is out of scope.
 9. **A caller declares its own rules and its policy in one tracked config, `harness.json`, at
    its repository root** (2026-08-29). Two fields, both paths: `policy` — the caller's policy
    file, or null — and `rules` — the caller's own rule files. Four readers, each a decision
@@ -96,10 +96,16 @@ additions, and a repository that mounts only the harness can open, run and close
    `.harness/scan-surfaces.json` is per-checkout by design and `caller.py`'s own docstring
    records what a fresh clone loses; **(c)** is rejected because only the caller's `CLAUDE.md`
    is injected into a session automatically — every other file enters context by being named
-   and then read, and a dispatch prompt cannot name a file no machine can find.
+   and then read, and a dispatch prompt cannot name a file no machine can find. That `claude -p`
+   loads the working directory's `CLAUDE.md` unprompted was verified 2026-08-29 rather than
+   assumed: a scratch directory whose `CLAUDE.md` carried a sentinel token, and a `claude -p`
+   session started there returned the token when asked for it.
    `review_record_dirs` stays where it is: it is checkout state, and folding it in is another
    question. The entry-file pointer line (README `:163-167`, ONBOARDING item 7) remains as the
-   human path; ONBOARDING gains an item for the config.
+   human path; ONBOARDING gains an item for the config. *Every mode* means every dispatch mode
+   that stays in the product tier; this repository's construction-side dispatch, wherever item C
+   puts it, does the same, and where the construction charter and a declared rule are one file
+   the prompt names it twice or the generator folds them — the executor's call.
 10. **The membership rule reads in two sentences** (2026-08-29). The first names the harness's
     own members and nothing else; the second says a repository declares its own rules in
     `harness.json`, that dispatch names them and the guards scan them, and that a declared
@@ -115,7 +121,8 @@ additions, and a repository that mounts only the harness can open, run and close
     the one real caller on this machine, mounting this repository at `ResearchSystem/harness`
     (gitlink `2522ce1` when this was written), and it has been waiting to start one. The
     gitlink is bumped to this batch's tip and the run is a small real piece of work, not a
-    scratch.
+    scratch. Which piece of work it is gets chosen on the caller's side when round 3 opens;
+    nothing here names it.
 13. **Three rounds** (2026-08-29): **`CORE-ONLY-LAYER`** — A, B, E, G, the guards' half of H,
     and I; **`CORE-ONLY-CODE`** — C, D, and the dispatch half of H; **`CORE-ONLY-RUN`** — F, in
     the caller. The cut follows the surfaces: `E10-sync` binds the membership sentence and the
@@ -326,6 +333,12 @@ which is a known cost: every fresh clone rewrites it.
 
 - **A — the rule split.** The checklist divides along the 26/10 line measured above. The five
   product documents' 11 path references and 36 code citations follow whichever names result.
+  The 26/10 line is the measurement, not the criterion: the judge for every rule, cited by a
+  product document or not, is the table's third column — *does a product run obey it* — so an
+  uncited rule goes where that answer puts it. And the checklist, once split, names `RULES.md`
+  as its counterpart, so a construction session dispatched with the checklist as charter reaches
+  the shared rules by the sentence the dispatch already carries — *read it, and the counterpart
+  it names*.
 - **B — the membership rule and its guard.** The sentence per question 3; `layer_path_check.py`'s
   `LAYER` and `sweep_refs.py` both import from it rather than being edited in parallel, so they
   follow. Since ruling 10 the sentence is two, and since ruling 9 the guard and the sweep also
@@ -368,8 +381,9 @@ which is a known cost: every fresh clone rewrites it.
    **both** trees.
 10. Rider `checklist-cited-not-carried` deleted in the commit that earns it.
 11. On the harness-only tree, `dtw init` writes a default `harness.json`; with one rule file
-    declared, every `dtw dispatch` mode's prompt carries the line naming it and both guards scan
-    it — each guard change seen red once (`E4`), paired with a negative control.
+    declared, every `dtw dispatch` mode left in the product tier carries the line naming it in
+    its prompt and both guards scan it — each guard change seen red once (`E4`), paired with a
+    negative control.
 12. This repository's own `harness.json` declares the checklist, and `layer_path_check.py`
     blocks a dangling path newly written into it — seen red once.
 
@@ -383,6 +397,9 @@ unchanged since the last recorded end-to-end read, `v3-cold-read-006138e.md`;
 `document-harness/README.md` moved once (`1f3e213`, one table row), so the narrow form —
 README end to end, eight by citation, `§live` in full (ten entries at `ea6485d`: `HD-66`,
 `HD-65`, `HD-62`, `HD-59`, `HD-41`, `HD-36`, `HD-35`, `HD-34`, `HD-23`, `HD-9`) — is available.
+Two things stay open by design and are settled at their rounds' openings, not before: what this
+repository's `harness.json` names as `policy` (ruling 14, round 1) and which piece of work the
+product run is (ruling 12, round 3).
 
 ## Notes
 
