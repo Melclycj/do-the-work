@@ -92,6 +92,17 @@ repository has closeout policy, and it is written down.
 
 The user rules on this before the FULL; a changed answer lands as a pre-submission correction.
 
+**Ruled 2026-08-30 — the proposal stands, and this paragraph is the record rather than an edit of
+the ones above, which are left word for word (`HD-59`).** Plan ruling 21: the user's word was
+「账本」, so `policy` is `CONSTRUCTION-LEDGER.md` — the value already written into `harness.json`
+at `cbaee8e`, so nothing in this repository changes on its account and the corrections dispatch
+carries no commit for it. The ruling also closes a misreading the question had invited, and says
+so rather than leaving it inferable: `policy` is **not** the split's product. The split produced
+`document-harness/RULES.md` and left `document-harness/CONSTRUCTION-CHECKLIST.md` as this
+repository's `rules`; `policy` is ruling 9's second field, the file `ORCHESTRATION.md`'s *Reading
+the caller's policy file* has always asked a caller for, and this repository's answer to it is the
+ledger's header block for the reasons stated above.
+
 ## 4. The acceptances this round answers, with output
 
 **Acceptance 2 — `python tooling/sweep_refs.py`, both trees.** On this repository at the round's
@@ -187,6 +198,78 @@ both in commit 1. Commits 2 and 3 have a delta of zero — the split moved rules
 constants that name a member moved inside the same commit, and the contract commit changes no
 test at all. The figure was 853 at commit 1, 853 at commit 2 and 853 here.
 
+### Re-measured after the corrections dispatch — written forward, the block above left word for word (`HD-59`)
+
+Every figure below was taken at `322fd1c`, the corrections dispatch's last content commit, by the
+same two instruments and the same two trees as the block above. The harness-only tree is `git
+archive HEAD` over the product-tier paths into a fresh git repository: **59 files**, the same 59.
+Nothing between that commit and this journal changes what any of them measures — this file is
+neither an instruction-layer member nor a declared rule file, so no sweep and no guard reads it,
+and no test enumerates `document-harness/journal/`.
+
+**Acceptance 2 — `python tooling/sweep_refs.py`, both trees.** On this repository:
+`13 caller-held or unresolvable references over 10 members and declared rule files`, unchanged
+from the block above and unchanged by all three corrections commits, because every name deleted
+from a product-tier document resolves here and neither the wikilink nor the deleted contract
+paragraph was a form the sweep can see. On the harness-only tree: **33**, against 45 in the block
+above and 48 at the round's base. The twelve that left are item J's twelve sweep hits over nine
+sites.
+
+**Acceptance 1 — closer, and still not zero.** Every remaining non-resolving site on the harness
+tree that names an **instrument-held** artifact, with its owner:
+
+| site | artifact | owner |
+|---|---|---|
+| `RULES.md:87`, `:88` (PATHTOK) + the two `MISSING` members | the two retired-contract stubs | item D, round `CORE-ONLY-CODE` |
+| `EXECUTION.md:375`, `:377`, `:394` | `run_tests.py` ×2, `validate_fixtures.py` | **contested — the classification above is wrong, and the correction goes to the orchestrator** |
+
+The second row is this dispatch's own finding against the block above. Those three sites were
+listed there as instrument-held and became three of plan ruling 24's twelve; measurement says they
+are not. The paragraph they sit in states in its own words that the five battery commands are
+*named here rather than written as paths (`E10`) because their scripts live in the caller's tree*,
+and then warns that *a name here may also belong to an unrelated file in this repository, so a
+caller identifies each command by its battery leg inside its own tree and never by name-matching
+against this one* — which is exactly what happened: `git ls-files` matches
+`tooling/tests/document_harness/run_tests.py`, `tooling/tests/document_harness_review/run_tests.py`
+and `migration/document-work-assurance-v3/N0/fixtures/validate_fixtures.py`, none of them the file
+the sentence means, and the sweep resolves the name against basenames because a bare name has no
+directory to resolve from. Deleting two of them would strike two of five entries from an
+enumeration whose own text reads *Five commands, and nothing fewer* and which `HD-42` guards, which
+is a change to what a rule requires and therefore design; the third is a past-tense sentence about
+two caller-side runners whose trees `HD-39` deleted, the same deliberate-history class plan ruling
+19 disposed of by keeping the name. So nine of the twelve are carried out and three are reported;
+the reasoning is in `b235701`'s body site by site.
+
+Everything else the sweep prints on that tree is the compliant caller-held form, *reported
+separately and still present*: the caller's own run artifacts, `harness.json` at nine sites,
+`HARNESS-DECISIONS.md` and `HARNESS-RIDERS.md` — both files `dtw init` writes into a caller's own
+root — `.githooks/`, which every repository wires for itself, and the contract's past-tense
+`review.schema.json` under plan ruling 19.
+
+**Acceptance 5 — unchanged.** `git grep -rn 'CONSTRUCTION-CHECKLIST'` on the harness tree still
+returns exactly the one accounted-for line,
+`tooling/rsclib/document_harness/dispatch.py:776`, which is item C's in round `CORE-ONLY-CODE`.
+
+**Acceptance 7 — `python -m pytest tests -q` run from `tooling`, on the full repository, at
+`322fd1c`: `853 passed in 157.17s`, exit 0.** The delta across all three corrections commits is
+**zero**: the figure was 853 at the block above's last content commit and is 853 here. Nothing in
+this dispatch adds, removes or edits a test — the sites it changed are prose that no test reads,
+and the two modules that do read a member (`test_readme_enumeration.py`, which pins schema stems
+in `document-harness/README.md`, and the layer-path mirror's `EXPECTED`) are untouched and stay
+green with the edited bytes.
+
+**Acceptance 9 — the guards exit 0 and the membership resolves N/N, on both trees.**
+`tooling/hooks/layer_path_check.py` exits **0** on this repository and **0** on the harness-only
+tree with a clean index. Membership resolution: **9 of 9** here; **7 of 9** there, the two absent
+being the stubs, item D again — unchanged from the block above, because this dispatch neither adds
+nor removes a member. One measurement worth recording beside it, taken because the number differs
+by method and a reader re-running this will meet it: with the whole harness-only tree staged as new
+(`git add -A` in the fresh repository, before any commit), the guard reads every line as an added
+line and exits **1**, naming three path tokens — `RULES.md`'s two stub paths and
+`README.md`'s `.githooks/`. All three predate this round, none is this dispatch's, and the first
+two are item D's; it is recorded because the ordinary caller act of committing a first checkout is
+exactly the state that produces it.
+
 ## 5. Every guard change, seen red once, with its control (`E4`)
 
 | mutation | must fire | control that stays green |
@@ -246,13 +329,59 @@ which is the exact defect `r9-terminal-no-carrier` is open about.
    The cost of keeping them is stated plainly: the surviving requirement names a set — *the
    nominated components* — that the paragraph defining it took with it, so it now points at a
    list its reader cannot enumerate. Which of the two readings governs is the user's.
+
+   **Answered 2026-08-30 (plan ruling 22), written forward; the paragraph above stands word for
+   word (`HD-59`).** The user ruled the other way: §12's first paragraph goes **entire**, the two
+   obligation sentences included, and the ground is that v4 depends on no v1/v2 component, so
+   nothing about them is referenced and all of it goes — verified before the ruling was taken, the
+   contract's remaining v1/v2 mentions being §13's version-boundary statements about results and
+   history rather than dependencies. `HD-67`'s named block therefore governs over an executor's
+   reading of `HD-67`'s criterion, for this block. Carried out at `322fd1c` as a pre-submission
+   correction, with the `E2` disclosure in that body and `CONTRACT-V4-SIGNATURE.md`'s sixth
+   post-signature write in the same commit; §12 is now its *Removed from the v3 default interface*
+   paragraph and nothing else. **Two residues this executor found and did not touch, reported
+   rather than fixed.** §12's heading still reads *Dependency and historical map (plan §7)* over a
+   section holding no dependency map — signed contract text that no ruling in force reaches, since
+   `HD-67`'s boundary names two blocks and ruling 22 names one paragraph. And the class scan
+   `HD-41` ④ owes (`grep -rn 'historical-only\|non-nominated\|nominated old component'` over the
+   product tier) returns two survivors: `document-harness/README.md:30`, now the last statement of
+   the historical-only default in any product-tier document, citing the N0 record descriptively
+   rather than by filename so no sweep sees it and ruling 24's site list does not reach it; and
+   `tooling/rsclib/document_harness/__init__.py:12`, a docstring citing the same record for the
+   same default. Both are outside every ruling in force.
 2. **Rider `contract-wikilink-tier` needs a fourth ruling in the `HD-63` / `HD-64` / `HD-67`
    family.** Its arm and its deadline both arrived with commit 3. Its fix is an in-place edit of
    signed contract text, §13 still forbids that, and each of the three existing overrides covers
    only its own class. `E2` ceasing to be a gate on 2026-08-27 changed what `E2` requires, not
    what §13 forbids.
+
+   **Answered 2026-08-30 — the fourth ruling exists: `HD-68`** (plan ruling 23), written forward;
+   the paragraph above stands word for word (`HD-59`). It states in as many words that it overrides
+   §13, and what it covers is the class the three before it left uncovered: a **reference form**
+   that is followable but reaches bytes no caller holds and gives neither a path nor a holder.
+   Carried out at `322fd1c`: the plan is named by its title and given no link and no path, the dead
+   digest parenthetical is deleted as history, and the locked-authority sentence is kept word for
+   word. Rider `contract-wikilink-tier` is redeemed and its row deleted in that same commit, as
+   `R10` requires — 28 rider rows at its parent, 27 after. The changed text owes `E10`'s independent
+   re-read, riding this round's next read of that layer.
 3. **The sites acceptance 1 asks for and no item of this batch owns** — §4's table above.
+
+   **Answered 2026-08-30 (plan ruling 24, item J), written forward; the line above stands word for
+   word (`HD-59`).** The user's disposal is deletion, not de-naming, and never a name replaced by a
+   holder clause; where a sentence cannot stand without the reference, the sentence is rewritten
+   without it. Nine of the twelve sites are carried out at `b235701` — five in
+   `document-harness/README.md`, three in `document-harness/EXECUTION.md`, one in
+   `document-harness/REVIEW.md`, each named in that body with what it now says. Three are **not**,
+   and go back to the orchestrator with the measurement: `EXECUTION.md:375`, `:377` and `:394` name
+   caller-held commands and caller-side history, not instrument-held artifacts, so the ruling's
+   premise fails at them and carrying them out would strike two entries from an enumeration `HD-42`
+   guards. §4's re-measured block above holds the evidence. Acceptance 1 therefore reaches item D's
+   four sites plus those three, rather than item D's four alone.
 4. **`RULES.md`'s `## Execution side` gloss** — §2's second bullet.
+
+   **Left to the FULL 2026-08-30 (plan ruling 24's closing sentence), written forward; the line
+   above stands word for word (`HD-59`).** The user's ground: it is wording, and no actor's action
+   changes today. This dispatch touched neither the heading nor the header paragraph above it.
 
 ## 8. Ceilings
 
