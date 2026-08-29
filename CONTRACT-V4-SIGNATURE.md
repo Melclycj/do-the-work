@@ -52,6 +52,47 @@ read.
     correction opens no design round, which `E10`'s design test would otherwise require; that
     set-aside is recorded in the entry as a cost, and it is greppable there rather than
     inferable from this file. The signed blob above is unchanged and v4 is not re-signed.
+  - **Fifth post-signature write, 2026-08-30 — round `CORE-ONLY-LAYER`'s contract commit, this
+    commit.** `HD-67` authorises the in-place removal of two blocks of pure construction history
+    from contract v4 — the merged-sources paragraph in the header and `§12`'s first two
+    paragraphs — on the ground that a product contract carrying this instrument's construction
+    history is pollution of the rule text, and it is the third authorisation in this family to
+    say in as many words that it overrides `§13`'s "signed contracts are never amended in
+    place". The three do not collapse into one: `HD-63` reached a signed statement of fact made
+    false elsewhere, `HD-64` a requirement acting on nothing, and this one reaches history a
+    repository running against the contract cannot reach at all. The signed blob above is
+    unchanged and v4 is **not** re-signed — `HD-67` takes plan ruling 11's light route, and that
+    entry's own forward correction records that ruling 11's literal instruction, re-point the
+    signature at the new blob, has had no object since `184387c`.
+    **What this write did with this file's own name.** The contract named it at three sites, one
+    more than `HD-67`'s census counted, which the round's opening read found and the user ruled
+    on the same day: `:9`'s `signature_owner` front-matter key stays exactly as it was, being
+    machine-read and pinned by a test; the two prose sites dropped the filename for a holder
+    clause, because this file does not travel and a repository running against the contract
+    cannot follow a name it does not hold. After this write the contract names this file once,
+    at `:9`.
+    **Rider `sig-write-once` is redeemed here, on its second arm.** That row records that the
+    *Signature semantics* block replaced "recorded **append-only** as an `HD` entry" with
+    "recorded, **write-once and after review**" and that the property which dropped out was
+    never accounted for. The account is this, and it is the arm that records rather than
+    restores: **write-once names the signature, not this record.** One blob is signed once and
+    never re-pointed; this file is and stays **append-only**, which is visible in its own shape —
+    five post-signature blocks now stand under the signed blob, every one appended and none
+    rewritten — and what governs a correction to any of them is `HD-59`, correct forward and
+    leave the original standing word for word. A sixth carrier file is what the property's
+    absence invited, and it is exactly the add-a-component shape that ruling refuses.
+    **Two statements in this file go stale with this round and are corrected forward here rather
+    than in place (`HD-59`); both are left standing above and below word for word.** The section
+    *What did not move with it* says v4's admission as the ninth instruction-layer member has its
+    carrier in `E10`'s membership sentence "in `document-harness/CONSTRUCTION-CHECKLIST.md`":
+    round `CORE-ONLY-LAYER` split that file and the sentence now lives in
+    `document-harness/RULES.md`, still naming contract v4, so the membership is unchanged and
+    only the address moved. The section *Is this an instruction-layer member?* says "`E10-sync`
+    does not fall due — the membership sentence is untouched", which was true of the commit that
+    wrote it: this round touches that sentence, `E10-sync` did fall due, and it was discharged in
+    the round's rule-split commit with all three mirrors changed together. Unaffected and
+    deliberately untouched: the blob this signature binds, what the signature means, and this
+    file's own answer that it is not a member.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.

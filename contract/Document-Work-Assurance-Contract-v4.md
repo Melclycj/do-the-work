@@ -13,24 +13,17 @@ signature_owner: CONTRACT-V4-SIGNATURE.md (this instrument's v4 signature record
 
 > [!warning] Signature semantics
 > This contract becomes binding only when the user signs it. The signature is recorded, write-once
-> and after review, in `CONTRACT-V4-SIGNATURE.md` — held by this instrument's own construction
-> record and not by a repository that runs against it — binding this file's exact Git blob; this
+> and after review, in this instrument's own signature record — held with its construction record
+> and not by a repository that runs against it — binding this file's exact Git blob; this
 > file never carries its own approval status or digest (signed contracts are never amended in
 > place; corrections create a versioned successor).
 
 This file is the **versioned successor merging the signed v3 contract and its two signed
-supersessions into one operative text**, under v3's own §13 rule. The merged sources are
-reachable in git history at their recorded blobs, each with its own signature record — and those
-three records, like the plan named below, are held by this instrument's own construction record
-and not by a repository that runs against it: `Document-Work-Assurance-Contract-v3.md`
-(`b2dbdf752d8c155e4c65b14b5f420b880b8184a1`; signed 2026-07-20, approval state at the N0 record
-§8, `N0-record.md`), supersession 1 — commit-bound review subject
-(`68031fa2ca31272e31da0d42a9a02189d28fcc21`; signed 2026-07-24, record `W2-record.md`), and
-supersession 2 — narrowed state-pointer digests
-(`e1a2f26b1d8d323d11e900f8137dea222b6571c1`; signed 2026-07-30, record
-`supersession-2-signature.md`).
-Where wording differs from those sources, the change is one of the enumerated deltas in
-`contract-v4.plan.md`; nothing else was rewritten.
+supersessions into one operative text**, under v3's own §13 rule. Which three texts those were,
+the blob and signing date of each, the records that carry their signatures and the enumerated
+wording deltas the merge was held to are this instrument's own construction history: reachable
+in its repository and in no repository that runs against this contract, and therefore not
+reproduced here. §14 states what the supersession means, which is the part a repository acts on.
 
 Authored under the user-approved plan
 [[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]] (plan SHA-256
@@ -247,14 +240,9 @@ automatic maintenance stage.
 
 Signed v1/v2 contracts, schemas and history are immutable. All old directories default to
 **historical-only**; referencing any non-nominated old component from v3 is a `SPEC_GAP` until the
-dependency map is amended. A4 (`f91a7c4`, closeout `de39b3d`) is accepted v2 history, labelled
-**historical-only-for-v3**: reachable source material, never a physical base or default dependency.
-
-The only nominated reuse candidates, with decisions and exact tests, are recorded in the N0
-administrative record §4 (`N0-record.md`, held by this instrument's own construction record and
-not by a repository that runs against it):
-canonicalization/content binding; closed JSON-schema validation; Git path/diff observation; frozen
-review-subject binding; one-repair/VERIFY limit.
+dependency map is amended. Which components were nominated, and the decision and exact test
+behind each, are this instrument's own construction history — held with its administrative
+record, reachable in its repository and in no repository that runs against this contract.
 
 Removed from the v3 default interface (never to be reintroduced without a user-approved plan
 amendment): capabilities/enforcement floors, resource grants, generalized URI/intersection algebra,
@@ -302,7 +290,10 @@ state machines.
   2026-08-28 this bullet promised instead that `review.schema.json` and the v1 checker
   functions stay frozen for that reading. The checker functions had already retired with the
   version-1 package leg in round `CORE-SET-CODE` (`56d1b17`) with nothing telling this
-  clause, and the schema half's ground — that some v1 result still needs validating — was
+  clause, and that schema was this instrument's own rather than any caller's: it left the tree
+  with the same round and is reachable in this repository's git history at blob
+  `3617b74e9149e3c51ddfaf9c969a6be584972961`, in no working tree and in no repository that runs
+  against this contract. The schema half's ground — that some v1 result still needs validating — was
   withdrawn by the user's ruling of 2026-08-28 that no v1 ReviewResult instance exists
   anywhere. `HD-63` authorises this correction in place and says in as many words that it
   overrides §13's prohibition, for one class only: a signed statement of fact that was true
@@ -362,6 +353,6 @@ state machines.
 User signature means: this contract's interfaces, enums, invariants, version boundaries and
 dependency map are frozen as the operative text for v3-family construction, and this file
 supersedes the v3 contract and its two supersessions as one operative document. The
-signature record (exact contract blob + date) lives in `CONTRACT-V4-SIGNATURE.md`, held by this
-instrument's own construction record and not by a repository that runs against it, written after
+signature record (exact contract blob + date) lives with this instrument's own construction
+record and not with a repository that runs against it, written after
 review — never inside this file.
