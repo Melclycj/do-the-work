@@ -164,21 +164,16 @@
 
 ## 待办 backlog — 构造侧
 
-- **轮 `V1-RESULT-RETIRE` CLOSED 且已合入 `main` 2026-08-29**（PR #2 → `b6c40a2`，十条 check 全绿；FULL 判
-  `REVIEWED_NO_BLOCKER` `be59ad6`）：v1 评审 schema 整个退役，pack **15→14**，五个共享定义搬进
-  `common.schema.json`。电池 827→**830**，四守卫 exit 0，成员 9/9，新增三守卫**全部实测见过红**；
-  **`E9` 修腿未花、VERIFY 不欠**。**三条用户裁决（`HD-63`/`HD-64`/`HD-65`，前两条仍 `live`，转
-  `implemented` 归用户）、十二条验收、三 low 六观察的逐条处置全在 plan
-  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留指针。
-  **代价照记**：三条 must-fix 全出在**契约签字文本**上——两句会被 item C 弄假，一句开轮前就已假且全仓
-  零记录；三次皆走 `E10` must-fix 通道。rider 新增三条、兑付两条，`announced-set-anchor` 维持并重指
-  下一个设计轮。**队首 ＝ 批 `CORE-ONLY`（未开轮；六个开轮问题 2026-08-29 全部答毕）：把构造侧降级为
-  harness 的一个普通调用者**——十五条裁决、量程、验收、三轮切法 `LAYER`→`CODE`→`RUN` 全在 plan
-  [`core-only.plan.md`](document-harness/plans/core-only.plan.md)，本条只留指针。**产品 run 首跑
-  已并入该批作验收**（轮 3，在调用者仓 Thesis 跑），故该批跨两个仓。其后：**候选隔离**（未裁是否
-  开轮）· **dispatch-economy**。分发形态由 `HD-66` 承载。
-  **⚠ 本档 20/20 条已顶满**——`CORE-ONLY` 要新增条目须先按抬头 archive 程序腾位。
-
+- **轮 `V1-RESULT-RETIRE` CLOSED 且已合入 `main` 2026-08-29**（PR #2 → `b6c40a2`；FULL
+  `REVIEWED_NO_BLOCKER` `be59ad6`）：v1 评审 schema 退役，pack 15→14，电池 830，`E9` 修腿未花。三条用户
+  裁决（`HD-63`/`HD-64`/`HD-65`）、十二条验收与逐条处置全在 plan
+  [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)。**队首 ＝ 批 `CORE-ONLY`
+  （构造侧降级为 harness 的普通调用者；三轮 `LAYER`→`CODE`→`RUN`，跨两个仓——轮 3 产品 run 首跑在
+  调用者仓 Thesis）：轮 1 `CORE-ONLY-LAYER` 于 2026-08-29 OPEN，`base_commit` = `db1bfa1`**；十八条
+  裁决、量程、验收与轮 1 步骤清单全在 plan
+  [`core-only.plan.md`](document-harness/plans/core-only.plan.md)，本条只留指针。其后：**候选隔离**
+  （未裁是否开轮）· **dispatch-economy**。分发形态由 `HD-66` 承载。**⚠ 本档 20/20 条已顶满**——要新增
+  条目须先按抬头 archive 程序腾位。
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan
   [`harness-batch-b.plan.md`](document-harness/plans/harness-batch-b.plan.md)）：R1 `run_all` 接线
   （`HD-25`）· R2 io-design v1 签字（`HD-35`）· R3 ledger 解耦（`HD-31`）· R4 三角色重指 +

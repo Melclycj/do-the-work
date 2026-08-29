@@ -1,8 +1,11 @@
 # Plan — batch `CORE-ONLY`: the construction side becomes an ordinary caller of the harness
 
-> **Status: NOT OPENED.** Rewritten 2026-08-29 after the framing below replaced the one this file
-> carried at `18d120d`. **base_commit**: the `dev` tip when the first round opens — stated then,
-> not derived from `main`, for the reason `V1-RESULT-RETIRE`'s own base correction records.
+> **Status: OPEN — round 1 `CORE-ONLY-LAYER` opened 2026-08-29, third sitting, off the `E11`
+> card.** **base_commit: `db1bfa1`**, the `dev` tip at opening — stated here and not derived from
+> `main` (31 commits behind `dev` at that moment), for the reason `V1-RESULT-RETIRE`'s own base
+> correction records. Rounds 2 and 3 are not open. The round's steps are the *Steps — round 1*
+> checklist below. Rewritten 2026-08-29 (second sitting) after the framing below replaced the
+> one this file carried at `18d120d`.
 >
 > **This file is the carrier of the user's rulings of 2026-08-29** in *Rulings*. Until they land
 > here they live only in the conversation that took them, which is chat-only load-bearing material
@@ -138,6 +141,28 @@ additions, and a repository that mounts only the harness can open, run and close
     the user's to rule.
 15. **This sitting lands the design and opens nothing** (2026-08-29). The round opens in a later
     session, and `base_commit` is stated then.
+16. **The opening cold read runs in the narrow form** (2026-08-29, third sitting, off the `E11`
+    card): `document-harness/README.md` end to end, the other eight members by citation of
+    `v3-cold-read-006138e.md`, `HARNESS-DECISIONS.md` `§live` in full. Ground, measured at
+    `db1bfa1` before the card: `git diff --stat 006138e db1bfa1 --` over the nine members
+    returns `document-harness/README.md | 2 +-` and nothing else, the one commit being
+    `1f3e213`. The reader derives the coverage itself; the dispatch hands it the ruling and no
+    member table (`R2`; journal `core-set-layer-2026-08-26.md` §4).
+17. **Every cold session this round — reader, executor, reviewer — runs as its own `claude -p`
+    session on `opus`** (2026-08-29, third sitting): the `E1` / `HD-55` form, the model chosen
+    because the round rewrites the membership sentence and the contract, where a wrong edit is
+    expensive.
+18. **`HD-67` is the orchestrator's to write and lands before the cold read** (2026-08-29, third
+    sitting): it transcribes rulings 4 and 11 above and decides nothing new, so that the `§live`
+    the reader reads at the subject already carries it; status `live`, and flipping it is the
+    user's (`HD-2`).
+
+**Disclosed at opening, not softened.** Before the card was rendered the orchestrator ran
+`dtw dispatch --read db1bfa1` to see the prompt's shape; that command writes the freeze marker
+`.harness/review-pending.json` as a side effect. No reader session was launched on it, no commit
+landed while it existed, and the orchestrator deleted it by hand — so in `E9`'s terms no
+dispatch occurred, since a dispatch has occurred only when its record's commit lands. The
+marker is per-checkout and gitignored; nothing committed carries it.
 
 ## Measured starting state — 2026-08-29 at `607728a`
 
@@ -387,19 +412,39 @@ which is a known cost: every fresh clone rewrites it.
 12. This repository's own `harness.json` declares the checklist, and `layer_path_check.py`
     blocks a dangling path newly written into it — seen red once.
 
+## Steps — round 1 `CORE-ONLY-LAYER`
+
+Checked off as each lands; a box that reads done names the commit that made it so.
+
+- [x] 1. **Open.** `E11` card rendered and approved 2026-08-29; rulings 16–18 taken off it;
+  `base_commit` `db1bfa1` written above; the ledger's queue-head row rewritten in place. This
+  commit.
+- [ ] 2. **`HD-67`** — the ruling commit for the contract's provenance (rulings 4, 11, 18), in
+  `HARNESS-DECISIONS.md` `§live`, before the read.
+- [ ] 3. **Opening cold read** (`E10`, ruling 16): `dtw dispatch --read <tip>` → cold `claude -p`
+  → record committed unchanged, freeze marker deleted in that act. Must-fix, if any, takes the
+  `E10` channel (amendment + independent re-read, no budget).
+- [ ] 4. **Execute** items A, B, E, G, the guards' half of H, and I: `dtw dispatch
+  --construction-executor` plus the instruction, subject and this plan → cold `claude -p`
+  executor. The executor proposes this repository's `policy` value in its candidate and reports
+  it back; the orchestrator hand-edits no work product.
+- [ ] 5. **The `policy` gate** (ruling 14): the proposal put to the user before the FULL; a
+  changed answer lands as a pre-submission correction (`E9`: no FULL yet, nothing consumed).
+- [ ] 6. **FULL** on `db1bfa1..<tip>` via `dtw dispatch --range` → cold `claude -p` reviewer →
+  record committed unchanged → at most one user-approved fix → targeted VERIFY → closeout: this
+  checklist, the ledger row, riders, and a journal if detail needs a home.
+
 ## Resume pointer
 
-当前指针: **not opened — all six questions answered (rulings 8–15), design landed 2026-08-29,
-nothing else done.** Next: a later session opens round 1 `CORE-ONLY-LAYER` — the `E11` card,
-`base_commit` = the `dev` tip at that moment, then the opening cold read. Cold-read baseline
-measured at `ea6485d`, to be re-derived at opening: eight of the nine member blobs are
-unchanged since the last recorded end-to-end read, `v3-cold-read-006138e.md`;
-`document-harness/README.md` moved once (`1f3e213`, one table row), so the narrow form —
-README end to end, eight by citation, `§live` in full (ten entries at `ea6485d`: `HD-66`,
-`HD-65`, `HD-62`, `HD-59`, `HD-41`, `HD-36`, `HD-35`, `HD-34`, `HD-23`, `HD-9`) — is available.
-Two things stay open by design and are settled at their rounds' openings, not before: what this
-repository's `harness.json` names as `policy` (ruling 14, round 1) and which piece of work the
-product run is (ruling 12, round 3).
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`, step 1 done, step 2 (`HD-67`) next.**
+The step list above is the pointer; a cold session reads it, then `CONSTRUCTION-LEDGER.md`'s
+queue-head row, then continues at the first unchecked box. Cold-read ground stands as ruling 16
+records it — re-derive `git diff --stat 006138e <tip> --` over the nine before dispatching,
+since the `HD-67` commit lands between opening and the read and touches no member. `§live` at
+opening: ten entries (`HD-66`, `HD-65`, `HD-62`, `HD-59`, `HD-41`, `HD-36`, `HD-35`, `HD-34`,
+`HD-23`, `HD-9`), eleven once `HD-67` lands. Two things stay open by design and are settled at
+their rounds' steps, not before: what this repository's `harness.json` names as `policy`
+(ruling 14, step 5) and which piece of work the product run is (ruling 12, round 3).
 
 ## Notes
 
