@@ -231,7 +231,7 @@ after witnessed reuse, verifier/reviewer implementation if local, core only for 
 defects shared across multiple profiles. V3 has no Retrospective state machine, dedup registry or
 automatic maintenance stage.
 
-## 12. Dependency and historical map (plan §7)
+## 12. Removed from the v3 default interface (plan §7)
 
 Removed from the v3 default interface (never to be reintroduced without a user-approved plan
 amendment): capabilities/enforcement floors, resource grants, generalized URI/intersection algebra,
@@ -340,8 +340,8 @@ state machines.
 ## 14. Signature
 
 User signature means: this contract's interfaces, enums, invariants, version boundaries and
-dependency map are frozen as the operative text for v3-family construction, and this file
-supersedes the v3 contract and its two supersessions as one operative document. The
+default-interface removals are frozen as the operative text for v3-family construction, and
+this file supersedes the v3 contract and its two supersessions as one operative document. The
 signature record (exact contract blob + date) lives with this instrument's own construction
 record and not with a repository that runs against it, written after
 review — never inside this file.

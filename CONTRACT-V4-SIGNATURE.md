@@ -130,6 +130,35 @@ read.
     clause is not an improvement. What the contract does is what the fifth write recorded — it
     names this file once, at `:9`, machine-read and pinned by a test. So the sentence's reason
     survives and its enumeration does not: of the two carriers it named, one remains.
+  - **Seventh post-signature write, 2026-08-30 — round `CORE-ONLY-LAYER`'s second corrections
+    commit, this commit.** Two sites, one authorisation, and both of them the class `HD-63` already
+    covers. **§12's heading now reads *Removed from the v3 default interface (plan §7)*** where it
+    read *Dependency and historical map (plan §7)*: the sixth write deleted that section's first
+    paragraph entire, so since that commit §12 has held its *Removed from the v3 default interface*
+    paragraph and nothing else, and a heading naming a dependency map named something the section no
+    longer contained. **§14's freeze list now reads *default-interface removals*** where it read
+    *dependency map*, for the same reason and so that the list names what §12 actually holds; the
+    other four items — interfaces, enums, invariants, version boundaries — are untouched, and so is
+    the rest of the sentence. `HD-63` authorises both and no new entry opens: its class is a
+    statement true at signing and made false by a later ruling or deletion elsewhere, its own
+    boundary paragraph fixes the test as whether the sentence states a fact or imposes an
+    obligation, and both sites state a fact about what this document contains. The user confirmed
+    that reading and that the write happens now, on 2026-08-30 (plan
+    `document-harness/plans/core-only.plan.md` ruling 25, answering the corrections pass's second
+    question — that pass reported §12's heading and did not touch it, for want of an authorisation
+    it could see). What the contract requires is unchanged, so `E10`'s design test does not fire and
+    no round opens; and no valid independent FULL has occurred on this round's candidate, so under
+    `E9` this is a pre-submission correction and consumes nothing. The signed blob above is
+    unchanged and v4 is **not** re-signed; this write's `E2` disclosure rides its own commit body,
+    naming `contract/Document-Work-Assurance-Contract-v4.md` site by site, and the changed text owes
+    `E10`'s independent re-read, riding this round's next read of that layer.
+    **One statement in this file goes stale with this write and is corrected forward here rather
+    than in place (`HD-59`); the original stands below word for word.** The bullet *What the
+    signature means* paraphrases §14's freeze list and so still says *dependency map*. What was
+    signed is unchanged and that bullet records it correctly as of the signature; what it no longer
+    reproduces is the contract's **current** §14, whose fifth item is now the default-interface
+    removals. The set is the same either way — §12's surviving paragraph is what both names reach —
+    and only the name of the fifth item differs between the signed text and the text in force.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.
