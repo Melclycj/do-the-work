@@ -214,6 +214,14 @@ additions, and a repository that mounts only the harness can open, run and close
     `tooling/rsclib/document_harness/__init__.py:12` drops its reference to the contract's
     default and to the N0 record and keeps the code fact — the two primitives are adaptations,
     not imports.
+27. **The seven remaining descriptive references to the N0 record in the product tier go**
+    (2026-08-30, answering the second corrections pass's question 1, on the same deletion
+    principle): `document-harness/README.md:17` — the sentence deleted; and the six code
+    docstrings `tooling/rsclib/document_harness/candidate.py:4`, `:16`,
+    `tooling/rsclib/document_harness/checks.py:9`, `:479`, `:526`, `:595` — each rewritten to
+    keep the code fact and drop the record. A fourth pre-submission pass before the FULL; none of
+    the three files is an announced path. The class was found by changing the scan key
+    (`grep -rn 'N0 record'` over the product tier), which is `HD-41` ④ working as intended.
 
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
@@ -525,19 +533,28 @@ Checked off as each lands; a box that reads done names the commit that made it s
   (45 → 33). Three questions came back and became rulings 25–26 plus the re-classification.
   Original text: §12 ¶1 deleted entire and the `:29` wikilink de-linked in one contract commit;
   item J's twelve deletions; the journal's §7 answered forward; acceptance 1 and 2 re-measured.
-- [ ] 5c. **Corrections, second pass** (rulings 25–26), a third cold executor dispatch before
-  any FULL, still pre-submission under `E9`: §12's heading and §14's phrase under `HD-63` in one
-  contract commit with `E2` disclosure and the signature record's seventh block;
-  `document-harness/README.md:30` deleted and the `__init__.py` docstring rewritten; the
-  journal's second-pass questions answered forward and acceptance 1 and 2 re-measured.
+- [x] 5c. **DONE.** Third cold executor, 18 minutes, three pre-submission corrections:
+  `40f20eb` (ruling 25 under `HD-63`, `E2` disclosed, signature record's seventh block),
+  `110924f` (ruling 26), `360cff5` (journal). Orchestrator re-measured at `360cff5`: 853 passed,
+  both guards exit 0, sweep 13 here and 33 on the harness-only tree; **acceptance 1 is now four
+  sites, all item D's** (the two stub path tokens in `RULES.md` and the two `MISSING` members).
+  Reported up: seven more `N0 record` references → ruling 27; rider `PD`'s two `__init__.py`
+  line numbers drifted by three (recorded in `110924f`'s body, the row untouched under `R10`);
+  the contract's three amendments owe the `E10` re-read that rides the next opening read.
+  Original text: §12's heading and §14's phrase under `HD-63`; README `:30` deleted and the
+  `__init__.py` docstring rewritten; the journal answered forward and acceptance 1 and 2
+  re-measured.
+- [ ] 5d. **Corrections, third pass** (ruling 27), a fourth cold executor dispatch before any
+  FULL, still pre-submission under `E9`: the seven `N0 record` sites; the journal's third-pass
+  question answered forward and acceptance 1 and 2 re-measured.
 - [ ] 6. **FULL** on `db1bfa1..<tip>` via `dtw dispatch --range` → cold `claude -p` reviewer →
   record committed unchanged → at most one user-approved fix → targeted VERIFY → closeout: this
   checklist, the ledger row, riders, and a journal if detail needs a home.
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5b done, the candidate stands
-at `70839b1` plus this ruling commit; step 5c (the second corrections dispatch) next, then the
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5c done, the candidate stands
+at `360cff5` plus this ruling commit; step 5d (the third corrections dispatch) next, then the
 FULL.** The step list above is the pointer; a cold session reads it, then
 `CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box. `§live`
 holds twelve entries, `HD-67` (with its forward correction) and `HD-68` among them. One thing
