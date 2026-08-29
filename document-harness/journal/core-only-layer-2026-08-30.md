@@ -270,6 +270,72 @@ line and exits **1**, naming three path tokens — `RULES.md`'s two stub paths a
 two are item D's; it is recorded because the ordinary caller act of committing a first checkout is
 exactly the state that produces it.
 
+### Re-measured after the second corrections dispatch — written forward, both blocks above left word for word (`HD-59`)
+
+Every figure below was taken at `110924f`, this dispatch's last content commit, by the same two
+instruments and the same two trees as the blocks above. The harness-only tree is this working
+tree's product tier copied into a fresh git repository and committed: **59 files**, the same 59,
+enumerated by `git ls-files` over
+`contract/Document-Work-Assurance-Contract-v4.md · schema/document-assurance-v3 ·
+document-harness/{RULES,README,EXECUTION,REVIEW,ORCHESTRATION,ONBOARDING}.md ·
+document-harness/templates · tooling/dtw.py · tooling/do-the-work.py ·
+tooling/rsclib/document_harness · tooling/hooks · assurance/templates/run-v2`. Nothing between
+that commit and this journal changes what any of them measures, for the reason the block above
+gives: this file is neither an instruction-layer member nor a declared rule file, no sweep and no
+guard reads it, and no test enumerates `document-harness/journal/`.
+
+**Acceptance 2 — `python tooling/sweep_refs.py`, both trees.** On this repository:
+`13 caller-held or unresolvable references over 10 members and declared rule files`, unchanged
+from both blocks above and unchanged by both of this dispatch's content commits. On the
+harness-only tree: **33**, likewise unchanged, against 45 in the first block and 48 at the round's
+base. Neither commit changes a reference form — the contract's two corrected sites carry no link,
+path token or backticked bare name; the `document-harness/README.md` sentence that went carried
+none either; and a docstring in a non-member module is not a swept surface.
+
+**Acceptance 1 — zero, except item D.** Every remaining non-resolving site on the harness tree
+that names an **instrument-held** artifact, with its owner:
+
+| site | artifact | owner |
+|---|---|---|
+| `RULES.md:87`, `:88` (PATHTOK) + the two `MISSING` members | the two retired-contract stubs | item D, round `CORE-ONLY-CODE` |
+
+That one row is the whole table. **The second row of the block above is withdrawn** — the three
+`EXECUTION.md` sites it marked *contested* (`:375`, `:377`, `:394`) are not instrument-held, the
+orchestrator put that measurement to the user, and the plan now carries the correction under its
+rulings (`HD-23`): ruling 24's twelve sites are nine, item J is complete at `b235701`, and those
+three leave the instrument-held class rather than waiting for an item to reach them. Acceptance 1
+therefore stands at **four sites, all item D's, all round `CORE-ONLY-CODE`'s** — which is the
+figure plan ruling 24 projected.
+
+Everything else the sweep prints on that tree is the compliant caller-held form, *reported
+separately and still present*, exactly as in the block above: the caller's own run artifacts and
+review records, `harness.json` at nine sites, `HARNESS-DECISIONS.md` and `HARNESS-RIDERS.md` —
+both files `dtw init` writes into a caller's own root — `.githooks/`, which every repository wires
+for itself, the three names the plan's forward correction re-classified — the five battery
+commands the bullet at `EXECUTION.md:373-380` declares caller-held in its own words, and the
+past-tense pair at `:394` that `HD-42`'s own history sentence carries — and the contract's
+past-tense `review.schema.json` under plan ruling 19.
+
+**Acceptance 5 — unchanged.** `grep -rn 'CONSTRUCTION-CHECKLIST'` over the harness tree still
+returns exactly the one accounted-for line,
+`tooling/rsclib/document_harness/dispatch.py:776`, which is item C's in round `CORE-ONLY-CODE`.
+
+**Acceptance 7 — `python -m pytest tests -q` run from `tooling`, on the full repository, at
+`110924f`: `853 passed in 150.85s`, exit 0.** The delta across both of this dispatch's commits is
+**zero**: 853 at the previous block's last content commit, 853 at the contract commit `40f20eb`
+and 853 here. Nothing in this dispatch adds, removes or edits a test. Two modules do read a
+changed file and both stay green with the edited bytes: `test_readme_enumeration.py`, which pins
+every schema stem in `document-harness/README.md` — the deleted sentence held no stem — and the
+package import path, since the only change to `tooling/rsclib/document_harness/__init__.py` is
+inside its module docstring.
+
+**Acceptance 9 — the guards exit 0 and the membership resolves N/N, on both trees.**
+`tooling/hooks/layer_path_check.py` exits **0** on this repository and **0** on the harness-only
+tree with a clean index. Membership resolution: **9 of 9** here; **7 of 9** there, the two absent
+being the stubs, item D again — unchanged, because this dispatch neither adds nor removes a
+member. The staged-as-new caveat the block above records is unchanged too and for the same three
+tokens, none of them this dispatch's.
+
 ## 5. Every guard change, seen red once, with its control (`E4`)
 
 | mutation | must fire | control that stays green |
@@ -349,6 +415,44 @@ which is the exact defect `r9-terminal-no-carrier` is open about.
    rather than by filename so no sweep sees it and ruling 24's site list does not reach it; and
    `tooling/rsclib/document_harness/__init__.py:12`, a docstring citing the same record for the
    same default. Both are outside every ruling in force.
+
+   **Answered 2026-08-30 — plan rulings 25 and 26, written forward; both paragraphs above stand
+   word for word (`HD-59`).** Both residues are ruled, and both are carried out in this dispatch.
+   **The heading.** The user confirms it is `HD-63`'s standing class — a statement true at signing
+   that a later deletion elsewhere made false — so no new entry opens and the write happens now,
+   as a pre-submission correction. §12's heading now reads *Removed from the v3 default interface
+   (plan §7)*, the phrase its one surviving paragraph opens with; the cross-reference stays because
+   plan §7 *V2 disposition* is where that paragraph's sentence is written. The ruling also reaches
+   a **second site this block did not measure**: §14's statement of what the signature freezes
+   listed a *dependency map* among five things, and it now lists the default-interface removals —
+   the same set under a name that matches what §12 holds. Carried out at `40f20eb`, with the `E2`
+   disclosure in that body naming `contract/Document-Work-Assurance-Contract-v4.md` site by site
+   and `CONTRACT-V4-SIGNATURE.md`'s **seventh** post-signature write appended in the same commit;
+   that block also corrects forward, rather than in place, the one statement in the signature
+   record that goes stale with the write — its *What the signature means* bullet, which paraphrases
+   §14 and so still says *dependency map*, records the signature correctly and is left alone.
+   **The two `historical-only` survivors.** Deleted and rewritten on ruling 24's principle, at
+   `110924f`: `document-harness/README.md`'s *Predecessors …* sentence goes entire, and the
+   docstring at `tooling/rsclib/document_harness/__init__.py` drops the contract's historical-only
+   default and both N0-record citations while keeping the code fact — that both primitives are
+   adaptations rather than imports and are re-implemented here with v3 shapes and their own tests.
+   Neither file is an announced path, so neither owes an `E2` disclosure.
+
+   **One residue this dispatch found and did not touch, reported rather than fixed — and it is a
+   finding against the scan that produced the two sites just closed.** The class scan `HD-41` ④
+   owes here used the keys `historical-only`, `non-nominated`, `nominated old component`, and on
+   this dispatch's bytes it returns zero tracked hits over the product tier. A wider key finds
+   siblings those three cannot see: `grep -rn 'N0 record'` over the same surface returns **seven**
+   sites, every one a descriptive citation of a record only this instrument holds —
+   `document-harness/README.md:17` (a parenthetical saying the v1/v2 historical material stayed
+   with the caller, *N0 record §3 still locates them there*),
+   `tooling/rsclib/document_harness/candidate.py:4` and `:16`, and
+   `tooling/rsclib/document_harness/checks.py:9`, `:479`, `:526` and `:595`. They are the shape
+   ruling 24 disposes of and the shape ruling 26 has just deleted twice, and no ruling in force
+   reaches any of them. This dispatch does not widen itself past the two sites its ruling names,
+   for the reason the first corrections pass gave about the sites acceptance 1 asks for: a round
+   that reached them would be doing an item nobody wrote.
+
 2. **Rider `contract-wikilink-tier` needs a fourth ruling in the `HD-63` / `HD-64` / `HD-67`
    family.** Its arm and its deadline both arrived with commit 3. Its fix is an in-place edit of
    signed contract text, §13 still forbids that, and each of the three existing overrides covers
@@ -377,6 +481,20 @@ which is the exact defect `r9-terminal-no-carrier` is open about.
    premise fails at them and carrying them out would strike two entries from an enumeration `HD-42`
    guards. §4's re-measured block above holds the evidence. Acceptance 1 therefore reaches item D's
    four sites plus those three, rather than item D's four alone.
+
+   **Settled 2026-08-30 by the plan's own forward correction, written forward; the paragraph above
+   stands word for word (`HD-59`).** The orchestrator put this dispatch's predecessor's measurement
+   to the user and the plan now carries the correction under its rulings (`HD-23`, the class that
+   covers a journal's or a plan's **numbers** rather than its conclusions): **ruling 24's twelve
+   sites are nine.** `EXECUTION.md:375`, `:377` and `:394` are the compliant caller-held form the
+   paragraph they sit in declares in its own words — five battery commands named rather than
+   pathed because their scripts live in the caller's tree — reported by the harness-only sweep only
+   because this repository happens to hold same-named files, and deleting two of them would strike
+   entries from an enumeration `HD-42` guards. The plan's 34-site table and this journal's first §4
+   table classed them as instrument-held and were wrong. Item J is therefore complete at `b235701`
+   and nothing about it is owed here; acceptance 1 reaches **item D's four sites and nothing else**,
+   which §4's third block measures at this dispatch's tip.
+
 4. **`RULES.md`'s `## Execution side` gloss** — §2's second bullet.
 
    **Left to the FULL 2026-08-30 (plan ruling 24's closing sentence), written forward; the line
