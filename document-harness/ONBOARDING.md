@@ -8,8 +8,9 @@ records transcription as a drift surface).
 **This file is not an instruction-layer member.** It has authority over nothing: every "must"
 below belongs to the rule named in its Owner column, and where this file and that rule disagree
 the rule governs. `E10`'s membership sentence names the members, and it does not name this one.
-The round that created this file recorded that question and its answer —
-`journal/caller-onboarding-2026-08-19.md`.
+The round that created this file recorded that question and its answer in its journal,
+`caller-onboarding-2026-08-19.md`, held by this instrument's own construction history and
+not by a repository that runs against it.
 
 **Read once before starting:** `README.md` beside this file, the instrument's navigation
 surface. That is the whole of it — the decision log is not read here, because at this moment
@@ -64,7 +65,7 @@ branch and worktree of that repository committing with no hook at all until the 
 reached their base. Neither is a defect in the harness; both are what "config is not tracked"
 does when it is assumed away.
 
-## The nine items
+## The ten items
 
 ### 1 — Mount the instrument as a submodule, and pin a revision
 
@@ -90,7 +91,7 @@ an artefact of testing without a network, not a step a caller with a real remote
 |---|---|
 | **Do** | `python <mount-path>/tooling/dtw.py init --repo-root .` from the caller's root — it creates `.harness/` with the default scan-surface declaration `scan-surfaces.json` inside it (the file both caller-side guards read — the second note under item 9 says what it declares), appends `.harness/` to `.gitignore` (creating that file if absent), and does items 3 and 4. By hand it is `mkdir .harness` plus one line in `.gitignore`; the declaration is only needed once the caller's layout leaves the defaults. |
 | **See** | `git check-ignore -v .harness/x` names the `.gitignore` line that ignores it. `dtw init` prints every path it created and every one it left alone. |
-| **Owner** | `HD-33`: the run directory and the freeze marker `.harness/review-pending.json` belong to the caller and may be gitignored. The marker is written by `dtw dispatch` and is `E9`'s review window — not `E2`'s byte freeze, which is a different thing with a similar name. Which of these nine items `init` may absorb at all is bounded by the criterion in the onboarding row of `README.md` beside this file: the tree half may enter `init`, the machine half never does. |
+| **Owner** | `HD-33`: the run directory and the freeze marker `.harness/review-pending.json` belong to the caller and may be gitignored. The marker is written by `dtw dispatch` and is `E9`'s review window — not the byte freeze on the announced paths, which is a different thing with a similar name and belongs to this instrument's own rules rather than to any caller's. Which of these ten items `init` may absorb at all is bounded by the criterion in the onboarding row of `README.md` beside this file: the tree half may enter `init`, the machine half never does. |
 
 ### 3 — The decision log
 
@@ -185,13 +186,21 @@ Three things worth knowing before wiring, all measured rather than argued:
   new default). This layer states the advice and writes nothing outside this repository; the
   caller decides when to apply it.
 
-## When the nine are done
+### 10 — `harness.json`, the tracked declaration of what this repository adds
+
+| | |
+|---|---|
+| **Do** | `dtw init` writes an empty `harness.json` at the caller's root — `{"policy": null, "rules": []}` — and neither field's value, both being judgment. Fill them: `policy` takes the path of the file item 7 wrote, or stays null where the caller has written none; `rules` takes the caller's own rule files, the ones this repository obeys on top of the harness's. Tracked, unlike `.harness/scan-surfaces.json` beside it — a fresh clone must still receive it, because the files it names are read by cold sessions and not only by this checkout's guards. |
+| **See** | `python -c "import json;print(json.load(open('harness.json')))"` prints both fields. Then prove the declaration is read rather than assumed: stage a rule file of your own carrying a backticked path that resolves nowhere, run `layer_path_check.py`, and read the exit code — 1 with the file declared, 0 with `rules` empty. |
+| **Owner** | `E10`'s second sentence: a repository adds its own rules rather than joining the harness's list, `dtw dispatch` names the declared files in the prompt it writes, `layer_path_check.py` and `sweep_refs.py` scan them as they scan the members, and a declared rule binds only the repository declaring it. Absence is a real answer and not a defect — a repository that declares nothing adds no rules and has no policy file, which is what the defaults say. |
+
+## When the ten are done
 
 The caller can open a round: the orchestrator reads the instruction layer and `§live`, the
 executor works, `dtw dispatch` writes the freeze marker and prints the dispatch, the reviewer
 returns a record, and the policy file says what happens to the conclusions. Nothing in this
 file certifies that state; there is no `onboarded` flag and deliberately no command that emits
-one — what a caller has is nine checkable facts, each verified by the *See* row above.
+one — what a caller has is ten checkable facts, each verified by the *See* row above.
 
 ## Execution record
 
@@ -210,7 +219,8 @@ revision; the procedure was executed by its own author on the machine that grew 
 it is not evidence that a stranger can follow it; and nine items were confirmed executable and
 sufficient *for this run*, which is not evidence that a tenth is not missing. A real second caller was what
 would close the last two; the section below is that run, and closes one of them. The run, its command outputs, and the membership
-question this round was obliged to record are in `journal/caller-onboarding-2026-08-19.md`.
+question this round was obliged to record are in that same journal,
+`caller-onboarding-2026-08-19.md`, held by this instrument's own construction history.
 
 ## Second execution — 2026-08-24, a second caller on a different layout
 
@@ -219,8 +229,9 @@ share nothing with the first: the mount three directories deep at `lib/vendor/as
 rather than two, the entry file `AGENTS.md` rather than `CLAUDE.md`, the policy file, ledger,
 decision log and returned records all under `docs/policy/` rather than at the root, and the
 scan-surface declaration edited away from the shipped defaults because of it. The full record —
-every command, its pasted output, and whether each item's own *See* check held — is
-`journal/stranger-proof-walk-2026-08-24.md`.
+every command, its pasted output, and whether each item's own *See* check held — is the
+journal `stranger-proof-walk-2026-08-24.md`, held by this instrument's own construction
+history and not by a repository that runs against it.
 
 **What that run changed in this file.** Three of the nine items were wrong or short as written,
 and all three are fixed above: the runtime dependencies were never installed by any item (item

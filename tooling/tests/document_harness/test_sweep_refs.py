@@ -12,9 +12,11 @@ would become a guard nobody chartered). Each reference-form must-report case is 
 a clean baseline asserted in the same test (E4's negative-control shape, applied to a
 reporter); the MISSING case's baseline is the clean-layer test beside it.
 
-The member list is patched per test: the real `LAYER` tuple would tie every assertion to the
-live instruction layer's current contents, which is the staleness this module itself avoids
-by importing the list instead of copying it.
+The swept surface is patched per test: the real one — `layer_path_check.scanned_paths`, the
+members plus whatever the swept repository declares in its `harness.json` — would tie every
+assertion to the live instruction layer's current contents, which is the staleness this module
+itself avoids by importing the list instead of copying it. That the declared half of that
+surface is swept at all is pinned in `test_harness_config.py`, with its negative control.
 """
 from __future__ import annotations
 
@@ -26,6 +28,11 @@ from unittest import mock
 from _harness import TempRepo, git
 
 import sweep_refs
+
+
+def patched_surface(*members: str):
+    """Sweep exactly these paths — `scanned_paths` is the seam the sweep reads its list from."""
+    return mock.patch.object(sweep_refs, "scanned_paths", lambda root: members)
 
 
 def run_sweep(repo: TempRepo) -> tuple[int, str]:
@@ -108,7 +115,7 @@ class Sweep(unittest.TestCase):
                     "docs/real.py": "x\n",
                 },
             )
-            with mock.patch.object(sweep_refs, "LAYER", ("docs/member.md",)):
+            with patched_surface("docs/member.md"):
                 code, out = run_sweep(repo)
         self.assertEqual(code, 0)
         # must-report, one per form:
@@ -126,14 +133,14 @@ class Sweep(unittest.TestCase):
         # expected a report here would be pinning behaviour the module disclaims.
         with TempRepo() as repo:
             tracked(repo, {"docs/member.md": "at `migration/<round>/record.md`\n"})
-            with mock.patch.object(sweep_refs, "LAYER", ("docs/member.md",)):
+            with patched_surface("docs/member.md"):
                 code, out = run_sweep(repo)
         self.assertEqual(code, 0)
         self.assertIn("-- 0 caller-held or unresolvable references over 1 members", out)
 
     def test_a_missing_member_is_reported_and_exit_stays_zero(self):
         with TempRepo() as repo:
-            with mock.patch.object(sweep_refs, "LAYER", ("docs/absent.md",)):
+            with patched_surface("docs/absent.md"):
                 code, out = run_sweep(repo)
         self.assertEqual(code, 0)  # a sweep, not a guard: hits never move the exit code
         self.assertIn("MISSING docs/absent.md", out)
@@ -143,7 +150,7 @@ class Sweep(unittest.TestCase):
         with TempRepo() as repo:
             tracked(repo, {"docs/member.md": "[good](target.md) and `docs/member.md`\n",
                            "docs/target.md": "x\n"})
-            with mock.patch.object(sweep_refs, "LAYER", ("docs/member.md",)):
+            with patched_surface("docs/member.md"):
                 code, out = run_sweep(repo)
         self.assertEqual(code, 0)
         self.assertIn("-- 0 caller-held or unresolvable references over 1 members", out)

@@ -1,0 +1,6 @@
+{
+ "policy": "CONSTRUCTION-LEDGER.md",
+ "rules": [
+  "document-harness/CONSTRUCTION-CHECKLIST.md"
+ ]
+}

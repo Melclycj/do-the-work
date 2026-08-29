@@ -174,6 +174,90 @@ def render_declaration(surfaces: ScanSurfaces = DEFAULTS) -> str:
     )
 
 
+#: The caller's own tracked declaration, at its repository root: which rule files it adds to
+#: the harness's own instruction layer, and where its policy file is. Tracked, unlike
+#: `.harness/scan-surfaces.json` beside it — a fresh clone must still receive it, because the
+#: files it names are read by people and by cold sessions, not only by this checkout's guards.
+HARNESS_CONFIG = "harness.json"
+
+
+@dataclasses.dataclass(frozen=True)
+class HarnessConfig:
+    """`harness.json`, as E10's second sentence describes it: two fields, both paths.
+
+    `policy` is the caller's policy file — the one `ORCHESTRATION.md`'s *Reading the caller's
+    policy file* addresses — or `None` where the caller has written none, which that section
+    says is not a defect. `rules` are the caller's own rule files: `dtw dispatch` names them
+    in the prompt it writes, and both `layer_path_check.py` and `sweep_refs.py` scan them as
+    they scan the members. A declared rule binds only the repository declaring it.
+
+    Paths only. Rule and policy text stay markdown so that a person and a cold session read
+    the same bytes; a config that carried the rules themselves would be a second copy of them.
+    """
+
+    policy: str | None
+    rules: tuple[str, ...]
+
+
+DEFAULT_HARNESS_CONFIG = HarnessConfig(policy=None, rules=())
+
+
+class HarnessConfigError(ValueError):
+    """`harness.json` exists but cannot be read as declared."""
+
+
+def load_harness_config(repo_root: pathlib.Path | str) -> HarnessConfig:
+    """The repository's declared rules and policy; `DEFAULT_HARNESS_CONFIG` when absent.
+
+    Absent is a real answer and not an error: a repository that declares nothing adds no
+    rules and has no policy file, which is exactly what the defaults say. Present but
+    unreadable is refused loudly — never silently defaulted — for the reason the module
+    docstring gives one field over: a typo that quietly emptied `rules` would stop both
+    guards scanning a caller's rule files while every check still passed green.
+    """
+    path = pathlib.Path(repo_root) / HARNESS_CONFIG
+    if not path.is_file():
+        return DEFAULT_HARNESS_CONFIG
+    try:
+        declared = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise HarnessConfigError(f"{HARNESS_CONFIG} is not readable JSON: {exc}") from exc
+    if not isinstance(declared, dict):
+        raise HarnessConfigError(
+            f"{HARNESS_CONFIG} must hold one JSON object, not {type(declared).__name__}"
+        )
+    unknown = sorted(set(declared) - {"policy", "rules"})
+    if unknown:
+        raise HarnessConfigError(
+            f"{HARNESS_CONFIG} declares no such field: {', '.join(unknown)} "
+            "(the fields are policy, rules)"
+        )
+    policy = declared.get("policy")
+    if policy is not None and not (isinstance(policy, str) and policy):
+        raise HarnessConfigError(
+            f"{HARNESS_CONFIG} policy must be a non-empty string or null"
+        )
+    rules = declared.get("rules", [])
+    if not isinstance(rules, list) or not all(
+        isinstance(entry, str) and entry for entry in rules
+    ):
+        raise HarnessConfigError(f"{HARNESS_CONFIG} rules must be a list of non-empty strings")
+    return HarnessConfig(policy=policy, rules=tuple(rules))
+
+
+def render_harness_config(config: HarnessConfig = DEFAULT_HARNESS_CONFIG) -> str:
+    """The config file's bytes — what `dtw init` writes, empty by default.
+
+    Empty rather than guessed: which rules a repository adds and where its policy lives are
+    both judgment, and `init` writes only the mechanical half. Both fields are emitted even
+    when empty, because the file is also how a caller discovers what it may declare.
+    """
+    return (
+        json.dumps({"policy": config.policy, "rules": list(config.rules)}, indent=1)
+        + "\n"
+    )
+
+
 def discover_repo_root(start: pathlib.Path | str) -> pathlib.Path:
     """The toplevel of the git work tree holding `start` — or a refusal, never a guess.
 

@@ -24,6 +24,11 @@ prefix are imported from it rather than written a fourth time (`HD-22` keeps thr
 the membership; a sweep that hand-copied the list would quietly become a fourth). A NAMETOK
 hit is not necessarily a defect: a bare name is the compliant form for a caller-held artifact
 (XREPO-REFS §1), and this sweep surfaces it so a reader can check the holder sentence exists.
+
+The surface swept is the guard's own — `scanned_paths`, so the members plus whatever the swept
+repository declares under `rules` in its `harness.json` (E10's second sentence). Sweeping a
+repository's declared rules is the point of the sweep for a caller: its own rule file is where
+it will write a path that resolves for it and nowhere else.
 """
 from __future__ import annotations
 
@@ -33,7 +38,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "hooks"))
-from layer_path_check import LAYER, PATHLIKE, RUNTIME_PREFIX, TOKEN  # noqa: E402
+from layer_path_check import PATHLIKE, RUNTIME_PREFIX, TOKEN, scanned_paths  # noqa: E402
 
 LINK = re.compile(r"\]\(([^)\s]+)\)")
 NAME = re.compile(r"^[A-Za-z0-9_.\-]+\.(?:md|py|json|yaml|yml|txt|js)$")
@@ -61,8 +66,9 @@ def resolves(repo_root: pathlib.Path, member: str, target: str) -> bool:
 
 def sweep(repo_root: pathlib.Path) -> int:
     basenames = tracked_basenames(repo_root)
+    swept = scanned_paths(repo_root)
     hits = 0
-    for member in LAYER:
+    for member in swept:
         path = repo_root / member
         if not path.exists():
             print(f"MISSING {member} — member absent from the working tree")
@@ -82,7 +88,10 @@ def sweep(repo_root: pathlib.Path) -> int:
                 elif NAME.match(token) and token not in basenames:
                     print(f"NAMETOK {member}:{lineno}  {token}")
                     hits += 1
-    print(f"-- {hits} caller-held or unresolvable references over {len(LAYER)} members")
+    print(
+        f"-- {hits} caller-held or unresolvable references over {len(swept)} "
+        "members and declared rule files"
+    )
     return 0
 
 

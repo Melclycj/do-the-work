@@ -45,6 +45,7 @@ CHECK = RS_ROOT / "tooling" / "hooks" / "layer_path_check.py"
 #: The hook has run two scripts since 2026-08-28; a fixture that installs only the first one
 #: makes the hook exit 1 on its own missing-script branch, which is the branch working.
 LEDGER_CHECK = RS_ROOT / "tooling" / "ledger_cap_check.py"
+PACKAGE_ROOT = RS_ROOT / "tooling" / "rsclib"
 
 #: Hand-written expectations (E5): independent of the hook and the check they guard, whole
 #: lines a mutation cannot half-satisfy.
@@ -76,6 +77,15 @@ def _scratch_repo(root: pathlib.Path, *, with_check: bool) -> None:
         check_dir.mkdir(parents=True)
         shutil.copy(CHECK, check_dir / "layer_path_check.py")
         shutil.copy(LEDGER_CHECK, root / "tooling" / "ledger_cap_check.py")
+        # The check reads the repository's `harness.json` through the package, as the two
+        # caller-side guards beside it already do, so the fixture carries `tooling/rsclib/`
+        # too — a wired checkout always has it (both directories are product tier), and a
+        # fixture missing it would test an import failure rather than the wrapper.
+        shutil.copytree(
+            PACKAGE_ROOT,
+            root / "tooling" / "rsclib",
+            ignore=shutil.ignore_patterns("__pycache__"),
+        )
     (root / "scratch.txt").write_text("scratch\n", encoding="utf-8")
     subprocess.run(
         ["git", "-C", str(root), "add", "scratch.txt"],

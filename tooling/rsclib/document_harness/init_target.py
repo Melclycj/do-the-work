@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """`dtw init` — the mechanical half of caller onboarding, and nothing beyond it.
 
-Onboarding a repository that has never seen this harness is nine items
+Onboarding a repository that has never seen this harness is ten items
 (`ONBOARDING.md` beside this package's `document-harness/` docs). Five of them are
 judgment: what the caller's policy file says, where its pointer line goes, which guards its
 hook runs, which revision the submodule pins, and when its first journal is written. The
@@ -9,7 +9,8 @@ mechanical slice — and mechanical work done by hand is work done differently e
 is this command's whole job: `.harness/` with the default scan-surface declaration inside
 it (round STRANGER-GUARDS; the guards read `.harness/scan-surfaces.json` and this write is
 how a caller discovers the schema to edit), the ignore entry, the two template instances,
-and refusal to overwrite. It says, in its own output, that it did not do the rest.
+the empty `harness.json` at the target root, and refusal to overwrite. It says, in its own
+output, that it did not do the rest.
 
 Two design points, both deliberate:
 
@@ -56,7 +57,8 @@ TEMPLATE_DIR = pathlib.Path(__file__).resolve().parents[3] / "document-harness" 
 #: them here would be a second copy of `ONBOARDING.md`'s ordering, free to drift from it.
 NOT_DONE = (
     "mount the instrument as a submodule, and pin a revision",
-    "write the caller's policy file",
+    "write the caller's policy file, and name it in harness.json's policy field",
+    "declare the caller's own rule files in harness.json's rules field",
     "add the one-line pointer to that policy file in CLAUDE.md / AGENTS.md",
     "wire a pre-commit hook, and run the per-machine core.hooksPath step",
     "the journal is not pre-created (one file per round) and the ledger has no template",
@@ -112,7 +114,7 @@ def _ensure_ignore_entry(target: pathlib.Path) -> tuple[bool, bool]:
 
 
 def init_target(repo_root: pathlib.Path) -> InitResult:
-    """Create `.harness/`, its ignore entry, and the two empty instance files."""
+    """Create `.harness/`, its ignore entry, `harness.json`, and the two instance files."""
     target = pathlib.Path(repo_root).resolve()
     if not target.is_dir():
         raise NotADirectoryError(f"target repository root does not exist: {target}")
@@ -138,6 +140,18 @@ def init_target(repo_root: pathlib.Path) -> InitResult:
     else:
         declaration.write_text(caller.render_declaration(), encoding="utf-8")
         created.append(caller.DECLARATION)
+
+    # The caller's own tracked declaration, empty (`caller.render_harness_config`): which
+    # rules it adds and where its policy file is are both judgment, so `init` writes the
+    # file and neither field's value. Tracked, unlike the scan-surface declaration above —
+    # the files it names are read by cold sessions, not only by this checkout's guards — so
+    # it lands at the target root beside the two template instances. Never overwritten.
+    config = target / caller.HARNESS_CONFIG
+    if config.is_file():
+        already.append(caller.HARNESS_CONFIG)
+    else:
+        config.write_text(caller.render_harness_config(), encoding="utf-8")
+        created.append(caller.HARNESS_CONFIG)
 
     copied, present = _copy_templates(target)
     created += copied

@@ -24,6 +24,13 @@ token elsewhere in the file is not this batch's to repair (`v3-review-full-8ec4c
 the standing stock the guard never re-scans is likewise the clause's, not this script's. The
 member list mirrors E10's membership sentence.
 
+What it scans is that list **plus whatever this repository declares** under `rules` in its own
+`harness.json` — E10's second sentence, which says a repository adds its own rules rather than
+joining the harness's list. The union is read here rather than in the hook wiring so that both
+readers of this module get it: a declared rule file is scanned exactly as a member is, and a
+repository that declares nothing is scanned exactly as before. A `harness.json` that exists and
+cannot be read is a refusal, never an empty declaration silently taken (`caller.load_harness_config`).
+
 Advisory and per-machine, bypassable with --no-verify (README "Local enforcement" row).
 """
 from __future__ import annotations
@@ -32,6 +39,10 @@ import pathlib
 import re
 import subprocess
 import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+
+from rsclib.document_harness.caller import load_harness_config  # noqa: E402
 
 #: Mirrors E10's membership sentence. Drift here is caught by the next layer read.
 LAYER = (
@@ -110,10 +121,21 @@ def added_lines_by_path(repo_root: pathlib.Path) -> dict[str, list[str]]:
     return added
 
 
+def scanned_paths(repo_root: pathlib.Path) -> tuple[str, ...]:
+    """E10's nine members, then this repository's own declared rule files.
+
+    Order is members first so a refusal reads in the same order the membership sentence
+    does; duplicates are kept out because a repository that declares a member would
+    otherwise have it reported twice for one token.
+    """
+    declared = load_harness_config(repo_root).rules
+    return LAYER + tuple(path for path in declared if path not in LAYER)
+
+
 def check(repo_root: pathlib.Path) -> int:
     added = added_lines_by_path(repo_root)
     failures: list[tuple[str, str, str]] = []
-    for layer_path in LAYER:
+    for layer_path in scanned_paths(repo_root):
         if layer_path not in added:
             continue
         text = "\n".join(added[layer_path])

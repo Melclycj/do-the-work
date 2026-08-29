@@ -108,7 +108,7 @@ python -m pip install "jsonschema>=4.18" referencing
 git submodule add https://github.com/Melclycj/do-the-work.git <mount-path>
 git submodule status          # prints the pinned SHA and the mount path
 
-# 2. create .harness/, its ignore entry, and the two instance files
+# 2. create .harness/, its ignore entry, harness.json, and the two instance files
 python <mount-path>/tooling/dtw.py init --repo-root .
 
 # 3. a pre-commit hook script in YOUR tree, committed executable
@@ -141,9 +141,9 @@ it prints that it does not — so the script is yours to commit. And git only ru
 directory `core.hooksPath` names; that config is per-checkout, so a clone carries the hook file
 but not the wiring, and step 4 must be repeated in every fresh checkout.
 
-That is the mechanical half of onboarding — five of nine items. The intended way to run the
+That is the mechanical half of onboarding — six of ten items. The intended way to run the
 whole walk is to hand [`document-harness/ONBOARDING.md`](document-harness/ONBOARDING.md) to
-your agent: it carries all nine items in order, each with its command, how you see it took,
+your agent: it carries all ten items in order, each with its command, how you see it took,
 and which rule owns it, and it is written for a session that starts knowing nothing.
 
 The other four items are judgment. Three are files whose content only you can decide; the
@@ -215,7 +215,7 @@ probing.
 | Do the instruction layer's nine members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
 | Do the pre-commit guards bind? | stage a path that resolves nowhere into an instruction-layer file, then run each of `tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py` and read the exit codes |
 | Is a hook wired in THIS checkout? | `git config --get core.hooksPath` — exit 1 means nothing runs, whatever the tree carries; then `ls .githooks/pre-commit` for what would run |
-| How do I onboard a repository that has never seen this? | `document-harness/ONBOARDING.md` — nine items, each with its command, its check, and the rule that owns it |
+| How do I onboard a repository that has never seen this? | `document-harness/ONBOARDING.md` — ten items, each with its command, its check, and the rule that owns it |
 | Is there a CLI? | `ls tooling/dtw.py`; `python tooling/dtw.py --help` lists its commands — a count written here went stale twice (rider `RA` in [`HARNESS-RIDERS.md`](HARNESS-RIDERS.md)), so none is written |
 | What do the CLI, the guards and the suite need? | Python ≥ 3.12 and `python -m pip install pytest "jsonschema>=4.18" referencing` — not the suite's alone: every `dtw` command and both caller-side guards import `jsonschema` too, so without it a wired hook fails every commit (measured 2026-08-24). The floor is measured, not decorative: Ubuntu 24.04's system jsonschema 4.10.3 fails 571 of these tests |
 | Which files travelled and which stayed? | `document-harness/split-travel-manifest.md` — it carries the rule, not just the list |
@@ -262,5 +262,5 @@ until it does the submodule mount is the only supported path.
   exactly which files travelled here and which stayed with the caller, with the rule that
   decided each.
 - [`document-harness/ONBOARDING.md`](document-harness/ONBOARDING.md) — if you are a repository
-  that has never used this harness, start there instead: nine items, in order, each with how
+  that has never used this harness, start there instead: ten items, in order, each with how
   you see it took.

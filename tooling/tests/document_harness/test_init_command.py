@@ -119,6 +119,7 @@ class FreshTarget(unittest.TestCase):
                     ".harness/scan-surfaces.json",
                     "HARNESS-DECISIONS.md",
                     "HARNESS-RIDERS.md",
+                    "harness.json",
                 ],
             )
 
@@ -144,6 +145,35 @@ class FreshTarget(unittest.TestCase):
                 " ]\n"
                 "}\n",
             )
+
+
+    def test_the_config_ships_empty_with_both_fields_present(self):
+        """E5: hand-written bytes, never `caller.render_harness_config()` re-run here.
+
+        Empty is the whole claim — which rules a repository adds and where its policy file
+        lives are judgment, so `init` writes the file and neither value. Both fields appear
+        even when empty, because this file is also how a caller discovers what it may
+        declare (ONBOARDING item 10)."""
+        with Target() as root:
+            result = init_target.init_target(root)
+            self.assertIn("harness.json", result.created)
+            self.assertEqual(
+                (root / "harness.json").read_text(encoding="utf-8"),
+                "{\n"
+                ' "policy": null,\n'
+                ' "rules": []\n'
+                "}\n",
+            )
+
+    def test_an_edited_config_keeps_its_bytes(self):  # must fire
+        with Target() as root:
+            init_target.init_target(root)
+            edited = '{"policy": "POLICY.md", "rules": ["docs/MY-RULES.md"]}'
+            (root / "harness.json").write_text(edited, encoding="utf-8")
+            result = init_target.init_target(root)
+            self.assertEqual((root / "harness.json").read_text(encoding="utf-8"), edited)
+            self.assertIn("harness.json", result.already_present)
+            self.assertNotIn("harness.json", result.created)
 
 
 class TheCopyIsVerbatim(unittest.TestCase):
@@ -318,7 +348,8 @@ class ThroughTheCommandLine(unittest.TestCase):
             )
             for item in (
                 "  - mount the instrument as a submodule, and pin a revision",
-                "  - write the caller's policy file",
+                "  - write the caller's policy file, and name it in harness.json's policy field",
+                "  - declare the caller's own rule files in harness.json's rules field",
                 "  - add the one-line pointer to that policy file in CLAUDE.md / AGENTS.md",
                 "  - wire a pre-commit hook, and run the per-machine core.hooksPath step",
                 "  - the journal is not pre-created (one file per round) and the ledger has no template",
