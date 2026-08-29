@@ -108,9 +108,7 @@ addition: there is no review package to regenerate, and the repair must land a *
 evidence commit**. Reusing round 0's is the same defect in a new place: the subject would
 name a control plane that describes the candidate the repair replaced. Until that
 signature, every run is package-bound and the paragraph above stands unqualified.
-Signature state: **signed 2026-07-24** — recorded at `ac1b383` in the W2 record's §log
-(`W2-record.md`, held by this instrument's own construction record and not by a repository
-that runs against it);
+Signature state: **signed 2026-07-24**;
 newly opened runs are successor runs, and the package-bound form is pre-wave-2 history.*
 
 ## Authoring obligations under WorkSpec v2 — what the two sentences are for
@@ -348,8 +346,8 @@ evidence pass and for a construction batch's pre-commit verification alike:
 - **Doc-only change set** (every changed path is prose/markdown outside the schema,
   tooling, and generated trees): run the batch-specific checks only; the full battery
   is not owed. Exception, and what it turns on is the **path**, not the prose: code and
-  tests pin the *paths* of certain doc files — today `document-harness/README.md`
-  under `test_readme_enumeration.py`, the member paths in the layer-path mirror,
+  tests pin the *paths* of certain doc files — today `document-harness/README.md`,
+  whose path a test pins, the member paths in the layer-path mirror,
   `tooling/hooks/layer_path_check.py`, the two shipped instance templates under
   `document-harness/templates/` that `tooling/rsclib/document_harness/init_target.py`
   copies, and `contract/Document-Work-Assurance-Contract-v4.md` under
@@ -398,10 +396,8 @@ evidence pass and for a construction batch's pre-commit verification alike:
 - The tier is derived from the actual diff and stated where the verification is
   recorded (commit body or CandidateRecord), so review can re-classify it.
 
-Witnessed cost, **corrected 2026-08-03 under `E3`** by the 保障面二期复盘 (journal
-`retro-2026-08-03.md` §3, held by this instrument's own construction history and not by a
-repository that runs against it): the battery is **~85% of an
-evidence pass, and a pass is ~2.4 minutes, not ~10**. Measured — the p5a-shells pass ran
+Witnessed cost, **corrected 2026-08-03 under `E3`** by the 保障面二期复盘: the battery is
+**~85% of an evidence pass, and a pass is ~2.4 minutes, not ~10**. Measured — the p5a-shells pass ran
 its 17 checks in 2m22s (`chk-*.out.txt` mtimes `00:08:34`→`00:10:56`), the pytest leg
 alone ~108s of it; the battery run directly totalled 130s **at the p5a-shells revision**
 (P2 29 + P4 80 + P5A 32 + fixtures 58 + pytest 556). Those sub-tallies are a measurement

@@ -87,9 +87,7 @@ binds what the reviewer produced.
 one whose dispatch is a single evidence commit SHA rather than a package file. Supersession
 1 — merged since round `CONTRACT-V4` into
 [`Document-Work-Assurance-Contract-v4.md`](../contract/Document-Work-Assurance-Contract-v4.md) §13.1 —
-**signed 2026-07-24** — recorded at `ac1b383` in the W2 record's §log (`W2-record.md`,
-held by this instrument's own construction record and not by a repository that runs against
-it);
+**signed 2026-07-24**;
 this section governs newly opened runs, and the package-bound sections it succeeded are gone:
 set aside in 2026-07-27 for reading pre-wave-2 history, removed from the tree in round
 `CORE-SET-LAYER`, and their machinery retired in round `CORE-SET-CODE` with the `--package`
