@@ -156,6 +156,19 @@ additions, and a repository that mounts only the harness can open, run and close
     sitting): it transcribes rulings 4 and 11 above and decides nothing new, so that the `§live`
     the reader reads at the subject already carries it; status `live`, and flipping it is the
     user's (`HD-2`).
+19. **Contract `:302`'s bare `review.schema.json` gains a holder-or-history clause in this
+    round's contract commit** (2026-08-29, answering the opening read's `L-1`,
+    `v3-cold-read-a542c6d.md`): the file left the pack at `1f3e213` and the sentence naming it,
+    true as history, carries no holder. The executor writes the bytes and discloses them under
+    `E2`; this ruling is the authorisation, since `HD-64`'s boundary reaches only its own bullet
+    and `HD-67` only its two blocks. Chosen over banking because such a rider's redeem-when
+    would be the very write this round is already making.
+20. **Contract `:9`'s `signature_owner` field stays as it is** (2026-08-29, answering the same
+    read's `M-1`): a machine-read owner-delegating key, test-pinned, already carrying its holder
+    phrase. `HD-67` is corrected forward (`HD-59`) to count three sites and name this disposal,
+    in the commit that carries this ruling. The read's `O-1` is accepted with it: ruling 11's
+    *re-pointed at the new blob* has had no object since `184387c`, `HD-67`'s *fifth
+    post-signature write* is what is executed, and ruling 11 is read that way from here.
 
 **Disclosed at opening, not softened.** Before the card was rendered the orchestrator ran
 `dtw dispatch --read db1bfa1` to see the prompt's shape; that command writes the freeze marker
@@ -421,9 +434,17 @@ Checked off as each lands; a box that reads done names the commit that made it s
   commit.
 - [ ] 2. **`HD-67`** — the ruling commit for the contract's provenance (rulings 4, 11, 18), in
   `HARNESS-DECISIONS.md` `§live`, before the read.
-- [ ] 3. **Opening cold read** (`E10`, ruling 16): `dtw dispatch --read <tip>` → cold `claude -p`
-  → record committed unchanged, freeze marker deleted in that act. Must-fix, if any, takes the
-  `E10` channel (amendment + independent re-read, no budget).
+- [x] 3. **DONE.** Read at subject `a542c6d`, its own `claude -p` session, narrow form as
+  ruled; record `v3-cold-read-a542c6d.md` committed unchanged at `ac39d35`, marker deleted in
+  that act: **1 must-fix, 1 low, 7 observations**, no verdict, no budget. `M-1` (a third
+  `CONTRACT-V4-SIGNATURE.md` site `HD-67` did not count) and `L-1` (a bare name for a deleted
+  schema at contract `:302`) both put to the user the same sitting → rulings 19 and 20, `HD-67`
+  corrected forward — the `E10` channel does not apply, the object being a `§live` entry.
+  `O-5` (README `:22` stale "tenth member", a touch record owed on rider
+  `r9-terminal-no-carrier`) and `O-6` (a test docstring's row count) go to the executor with
+  the instruction; `O-2`, `O-3`, `O-4`, `O-7` confirm and owe nothing. Original text: `dtw
+  dispatch --read <tip>` → cold `claude -p` → record committed unchanged, freeze marker deleted
+  in that act; must-fix, if any, takes the `E10` channel.
 - [ ] 4. **Execute** items A, B, E, G, the guards' half of H, and I: `dtw dispatch
   --construction-executor` plus the instruction, subject and this plan → cold `claude -p`
   executor. The executor proposes this repository's `policy` value in its candidate and reports
@@ -436,15 +457,14 @@ Checked off as each lands; a box that reads done names the commit that made it s
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`, step 1 done, step 2 (`HD-67`) next.**
-The step list above is the pointer; a cold session reads it, then `CONSTRUCTION-LEDGER.md`'s
-queue-head row, then continues at the first unchecked box. Cold-read ground stands as ruling 16
-records it — re-derive `git diff --stat 006138e <tip> --` over the nine before dispatching,
-since the `HD-67` commit lands between opening and the read and touches no member. `§live` at
-opening: ten entries (`HD-66`, `HD-65`, `HD-62`, `HD-59`, `HD-41`, `HD-36`, `HD-35`, `HD-34`,
-`HD-23`, `HD-9`), eleven once `HD-67` lands. Two things stay open by design and are settled at
-their rounds' steps, not before: what this repository's `harness.json` names as `policy`
-(ruling 14, step 5) and which piece of work the product run is (ruling 12, round 3).
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–3 done (`257235b` open,
+`a542c6d` `HD-67`, `ac39d35` read record), the read's two findings answered as rulings 19–20;
+step 4 (the cold executor) next.** The step list above is the pointer; a cold session reads it,
+then `CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box.
+`§live` holds eleven entries, `HD-67` (with its forward correction) among them. Two things stay
+open by design and are settled at their rounds' steps, not before: what this repository's
+`harness.json` names as `policy` (ruling 14, step 5) and which piece of work the product run is
+(ruling 12, round 3).
 
 ## Notes
 

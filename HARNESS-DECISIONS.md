@@ -61,6 +61,16 @@
   裁决 11「轻路线」、裁决 18「由 orchestrator 转写并先于冷读落」）· 同 plan 量程表
   *The contract's provenance — ruling 4's object, in blocks rather than lines*（四块四判）· `HD-63` /
   `HD-64`（同族前两条，各自的边界段正是把本类排除在外的那段）· `HD-59` 向前更正（原文各段逐字留着）
+- **向前更正（2026-08-29，开轮冷读 `migration/document-work-assurance-v3/v3-cold-read-a542c6d.md`
+  `M-1`，用户当日裁；上文各段逐字留着，`HD-59`）。** 后果段「余两处（`CONTRACT-V4-SIGNATURE.md`）由
+  holder 句处置」**少算一处**：契约里指向签字记录的站点是**三处**，第三处是 front matter `:9`
+  的 `signature_owner: CONTRACT-V4-SIGNATURE.md (this instrument's v4 signature record)`——无反引号，
+  故 `sweep_refs.py` 的 NAMETOK 普查在结构上看不见它。错在推断不在量程声明：上文把 NAMETOK 普查当成了
+  「调用者够不到的引用」的普查。**用户裁：`:9` 留原样，一字不改**——它是机器读的 owner 委托键
+  （`checks.py:486` 记为正确模式、`test_candidate_checks.py:1997-2000` 钉住必须存在），值里已自带
+  holder 短语。executor 写契约的 commit 正文按 `E2` 点名三处及各自处置（`:9` 维持；`:16`/`:365` 依上文），
+  `HD-41` ④ 的扫类以三处为准。同一冷读 `O-1` 所记——本条以「第五笔签署后写入」取代 plan 裁决 11 的
+  「重指新 blob」字面，因后者自 `184387c` 起无对象——照记，不改本条。
 
 ### HD-66 · 分发形态：submodule 是默认**而非终局**——core 分发若最终做不到，就上 plugin（推翻 2026-08-24 裁决的该半边）
 - 2026-08-29 · user · scope: standing · status: **live**（层内零承载：指令层没有任何一处讲分发形态，
