@@ -169,6 +169,38 @@ additions, and a repository that mounts only the harness can open, run and close
     in the commit that carries this ruling. The read's `O-1` is accepted with it: ruling 11's
     *re-pointed at the new blob* has had no object since `184387c`, `HD-67`'s *fifth
     post-signature write* is what is executed, and ruling 11 is read that way from here.
+21. **`policy` is `CONSTRUCTION-LEDGER.md`** (2026-08-30, step 5, the user's word 「账本」): the
+    executor's proposal stands as written into `harness.json` at `cbaee8e`. The ledger's
+    header block is this repository's closeout policy — what may enter, what may not, where
+    each other kind of conclusion goes, the caps and their check — and a separate file would
+    be a second copy of it. Stated because the question was misread once: `policy` is not
+    the split's product. The split produced `RULES.md` and left `CONSTRUCTION-CHECKLIST.md`
+    as this repository's `rules`; `policy` is ruling 9's second field, the file
+    `ORCHESTRATION.md`'s *Reading the caller's policy file* has always asked a caller for.
+22. **§12's first paragraph goes entire** (2026-08-30, answering the executor's question 1 in
+    journal `core-only-layer-2026-08-30.md` §7). The user's ground: v4 depends on no v1/v2
+    component, so nothing about them is referenced and all of it goes — verified before the
+    ruling was taken: the contract's remaining v1/v2 mentions are §13's version-boundary
+    statements about results and history, not dependencies. The two obligation sentences the
+    executor kept at `228df32` (immutability of v1/v2 material; `SPEC_GAP` on referencing a
+    non-nominated old component) are history together with the nomination list and go with
+    it; `HD-67`'s named block governs over the executor's reading of its criterion, for this
+    block. A pre-submission correction (`E9`: no FULL yet), disclosed under `E2`, recorded in
+    `CONTRACT-V4-SIGNATURE.md` as the sixth post-signature write.
+23. **`HD-68` is ruled** (2026-08-30, answering question 2): the wikilink at contract `:29`
+    (`:36` at `607728a`) ceases to be a followable link, in this round, as a pre-submission
+    correction; rider `contract-wikilink-tier` is deleted in that commit. The entry lands in
+    the commit that carries this ruling.
+24. **Item J joins the Sketch and this round** (2026-08-30, answering question 3): the twelve
+    product-tier sites naming instrument-held artifacts that no item owned —
+    `document-harness/README.md` `:16` (four record names), `:20` (a path token into
+    `tooling/tests/`), `:24`, `:26`, `:29`; `document-harness/EXECUTION.md`'s six;
+    `document-harness/REVIEW.md:90` — are **deleted, not de-named**. The user's words: 倾向删除，
+    不能再名字+holder句子. Where a sentence cannot stand without the reference, the sentence is
+    rewritten without it; the executor writes and discloses. Acceptance 1 then reaches zero
+    except item D's two stubs, which are round 2's. Question 4 — whether `RULES.md`'s `##
+    Execution side` gloss is too narrow for a file a product run answers to — is left to the
+    FULL: wording, no actor's action changes today.
 
 **Disclosed at opening, not softened.** Before the card was rendered the orchestrator ran
 `dtw dispatch --read db1bfa1` to see the prompt's shape; that command writes the freeze marker
@@ -396,6 +428,9 @@ which is a known cost: every fresh clone rewrites it.
   (`E4`).
 - **I — this repository as a caller** (ruling 14). The three-line `CLAUDE.md` and this
   repository's own `harness.json`.
+- **J — the product-tier residue** (ruling 24, added 2026-08-30). The twelve references from
+  product-tier documents to instrument-held artifacts that A–I reached: deleted, the sentence
+  rewritten where it cannot stand without them. Round 1.
 
 ## Acceptance (done = ?)
 
@@ -445,26 +480,36 @@ Checked off as each lands; a box that reads done names the commit that made it s
   the instruction; `O-2`, `O-3`, `O-4`, `O-7` confirm and owe nothing. Original text: `dtw
   dispatch --read <tip>` → cold `claude -p` → record committed unchanged, freeze marker deleted
   in that act; must-fix, if any, takes the `E10` channel.
-- [ ] 4. **Execute** items A, B, E, G, the guards' half of H, and I: `dtw dispatch
-  --construction-executor` plus the instruction, subject and this plan → cold `claude -p`
-  executor. The executor proposes this repository's `policy` value in its candidate and reports
-  it back; the orchestrator hand-edits no work product.
-- [ ] 5. **The `policy` gate** (ruling 14): the proposal put to the user before the FULL; a
-  changed answer lands as a pre-submission correction (`E9`: no FULL yet, nothing consumed).
+- [x] 4. **DONE.** Cold `claude -p` executor, dispatched with `dtw dispatch
+  --construction-executor` plus the instruction, subject and this plan; 82 minutes; four
+  candidates — `cbaee8e` (H guards' half + I), `4b81dd9` (A + B, rider
+  `checklist-cited-not-carried` deleted), `228df32` (E under `HD-67`, rulings 19–20 applied),
+  `eadcfe0` (journal `core-only-layer-2026-08-30.md`). The orchestrator re-ran at the tip: 853
+  passed, both guards exit 0, sweep 13 on this repository. It reported the `policy` proposal and
+  four questions (journal §7). Original text: execute items A, B, E, G, the guards' half of H,
+  and I; the executor proposes `policy` and reports back; the orchestrator hand-edits nothing.
+- [x] 5. **DONE.** `policy` ruled 「账本」 → ruling 21, value unchanged; the four questions
+  answered as rulings 22–24 and `HD-68`, the fourth left to the FULL. Original text: the
+  proposal put to the user before the FULL; a changed answer lands as a pre-submission
+  correction.
+- [ ] 5b. **Corrections** (rulings 22–24, `HD-68`), a second cold executor dispatch before any
+  FULL, every commit a pre-submission correction under `E9`: §12 ¶1 deleted entire and the
+  `:29` wikilink de-linked in one contract commit with `E2` disclosure and the signature
+  record's sixth block, rider `contract-wikilink-tier` deleted there; item J's twelve deletions;
+  the journal's §7 answered forward; acceptance 1 and 2 re-measured on both trees.
 - [ ] 6. **FULL** on `db1bfa1..<tip>` via `dtw dispatch --range` → cold `claude -p` reviewer →
   record committed unchanged → at most one user-approved fix → targeted VERIFY → closeout: this
   checklist, the ledger row, riders, and a journal if detail needs a home.
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–3 done (`257235b` open,
-`a542c6d` `HD-67`, `ac39d35` read record), the read's two findings answered as rulings 19–20;
-step 4 (the cold executor) next.** The step list above is the pointer; a cold session reads it,
-then `CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box.
-`§live` holds eleven entries, `HD-67` (with its forward correction) among them. Two things stay
-open by design and are settled at their rounds' steps, not before: what this repository's
-`harness.json` names as `policy` (ruling 14, step 5) and which piece of work the product run is
-(ruling 12, round 3).
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5 done, the candidate stands
+at `eadcfe0` plus this ruling commit; step 5b (the corrections dispatch) next, then the FULL.**
+The step list above is the pointer; a cold session reads it, then `CONSTRUCTION-LEDGER.md`'s
+queue-head row, then continues at the first unchecked box. `§live` holds twelve entries, `HD-67`
+(with its forward correction) and `HD-68` among them. One thing stays open by design and is
+settled at its round's opening, not before: which piece of work the product run is (ruling 12,
+round 3).
 
 ## Notes
 

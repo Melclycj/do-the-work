@@ -28,6 +28,34 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-68 · 契约 v4 `:29` 的 wikilink 准予就地去链接——本裁**明写盖过契约 §13**，`HD-63` / `HD-64` / `HD-67` 之后本族第四条，盖的对象是「可跟随、但调用者拿不到字节、且既无路径也无 holder」的**引用形态**
+- 2026-08-30 · user · scope: one-shot · status: **live**（层内零承载：§13 说反面；前三条各只盖自己那一类，
+  本类不在其中；rider `contract-wikilink-tier` 两次到期——`CORE-SET-CODE` 冷读入 bank、本轮 `228df32`
+  触碰记录——皆因无授权而不兑。承载 = 本轮 executor 的 pre-submission correction commit +
+  `CONTRACT-V4-SIGNATURE.md` 记入签署后写入 + `E10` 对被改文本的独立复读；落地后转 `implemented`、
+  复读回来后 `retired`，两次翻态皆归用户（`HD-2`））
+- 裁决：准予 executor 就地改 `contract/Document-Work-Assurance-Contract-v4.md:29`（`607728a` 时 `:36`）
+  的 `[[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]]`：**链接形态消失**——
+  该 plan 以标题指称，不给任何可跟随的路径或链接；紧随其后括号里的 SHA-256 与「digest 对本仓无 blob
+  可验」（`HD-57`）那段说明是纯建造史，可随之删；「Plan §2 decisions V3-D1–D10 are the locked design
+  authority; a genuine conflict between this contract and the plan is a `SPEC_GAP`」这句义务**留**。
+  字节归 executor 写并在 commit 正文披露。本裁**明写盖过 §13** "Signed contracts are never amended in
+  place"，依据同前三条。
+- **与前三条的区别照记**：`HD-63` 盖「签署时为真后来变假的陈述」，`HD-64` 盖「对空集生效的要求」，
+  `HD-67` 盖「调用者不可达的历史」；本条盖的是**引用形态**——内容留、形态变。理由是 rider 的实测：
+  `layer_path_check` 的 `TOKEN` 要反引号、`PATHLIKE` 白名单无 `.plan`、`sweep_refs` 的 `LINK` 只认
+  `](…)`，wikilink 三个守卫都在结构上看不见，是全层唯一一处两边都够不着的形态。四条各自独立，互不作
+  先例扩张。
+- 边界：只此一站点、只此一种形态；不开「契约里的链接随手可改」的通道；不动 §3 接口 / §5 枚举 / §7
+  不变量 / §13 版本边界。
+- 后果：写它的 commit 按 `E2` 在正文逐点点名 `contract/Document-Work-Assurance-Contract-v4.md`；
+  `CONTRACT-V4-SIGNATURE.md` 同 commit 记入签署后写入，不重指签字 blob；rider `contract-wikilink-tier`
+  同 commit 删行（`R10`：兑付 = 同 commit 删行）；改后文本欠 `E10` 独立复读，随本轮下一次层读。
+- basis: 用户裁决 2026-08-30（对话：「现在裁 HD-68，本轮一并改」；载体 plan
+  `document-harness/plans/core-only.plan.md` 裁决 23）· rider `contract-wikilink-tier`
+  （`v3-cold-read-b737742.md` `L-1`）· `228df32` 正文的触碰记录（「redeeming it wants a fourth ruling
+  in that family」）· `HD-63` / `HD-64` / `HD-67`
+
 ### HD-67 · 契约 v4 里两块**纯建造史**准予就地删除——本裁**明写盖过契约 §13** 的 in-place 禁令，且不开设计轮；`HD-63` / `HD-64` 之后本族第三条，盖的对象是「调用者够不到的历史」
 - 2026-08-29 · user · scope: one-shot · status: **live**（层内零承载：契约 §13 说的是反面；`E10` 的 design test
   管的是「改变规则要求什么」而本条不改任何要求，故 design test 不触发，但 §13 的字面禁令仍须明裁盖过，
