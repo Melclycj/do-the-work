@@ -14,6 +14,14 @@
 > **This is design.** It changes what the instruction-layer membership rule says, so a round opens
 > and the opening cold read is not waivable by this file.
 >
+> **Second sitting, 2026-08-29: all six open questions are answered — rulings 8–15.** The user
+> directed that this sitting lands the design and opens nothing; the round opens in a later
+> session. Re-measured at `ea6485d` before writing (`E3`): `git ls-files | wc -l` 410 · the eight
+> product-tier rows 58 · `python tooling/sweep_refs.py` on this repository **14** · on a
+> `git archive` harness-only tree **48** (3 MISSING · 5 LINK · 2 PATHTOK · 38 NAMETOK, 14 of them
+> the full-repository set) — identical to the `607728a` figures below; `python -m pytest
+> tooling/tests -q` **830 passed**.
+>
 > A cold session reads this file, then `CONSTRUCTION-LEDGER.md`'s current pointer, then works.
 
 ## What changed from the version at `18d120d`, written forward rather than over
@@ -65,6 +73,64 @@ additions, and a repository that mounts only the harness can open, run and close
 7. **How a caller declares its additions is decided at round open, not here** (2026-08-29, answer
    to *这个留到开轮再做吗*). This file enumerates the candidate shapes so the decision is one
    sitting rather than research, and records what `E6` asks of any of them.
+8. **The shared half is `document-harness/RULES.md`** (2026-08-29). A new product-tier file
+   beside the three role charters, linked by the same bare same-directory form the six
+   checklist pointers use today; the `E*` / `R*` identifiers the 36 citations carry do not
+   change. `CONSTRUCTION-CHECKLIST.md` keeps its name and its place in `document-harness/` as
+   this instrument's own rule file: the product tier is a list and not a directory prefix
+   (core-set rulings 11 and 19), so the folder's 68 construction-side files cost a caller
+   nothing on a harness-only tree. Moving the checklist beside the root registers was priced
+   — 15 live files name its path, 10 of them outside surfaces this batch rewrites — and is
+   out of scope.
+9. **A caller declares its own rules and its policy in one tracked config, `harness.json`, at
+   its repository root** (2026-08-29). Two fields, both paths: `policy` — the caller's policy
+   file, or null — and `rules` — the caller's own rule files. Four readers, each a decision
+   that changes when the file is absent (`E6`): `dtw dispatch`, in every mode, adds one line
+   to the prompt naming the declared rules, to be read after the charter — so a cold session
+   receives a caller's rules by the channel it receives `EXECUTION.md` / `REVIEW.md`;
+   `layer_path_check.py` and `sweep_refs.py` scan the declared files as they scan the harness
+   members; the orchestrator reads `policy` where it read the entry-file pointer line; `dtw
+   init` writes an empty default. The config holds paths only — rule and policy text stay
+   markdown, read by people and by sessions and subject to the layer's amendment discipline.
+   Of the three shapes enumerated under question 2: **(b)** is rejected because
+   `.harness/scan-surfaces.json` is per-checkout by design and `caller.py`'s own docstring
+   records what a fresh clone loses; **(c)** is rejected because only the caller's `CLAUDE.md`
+   is injected into a session automatically — every other file enters context by being named
+   and then read, and a dispatch prompt cannot name a file no machine can find.
+   `review_record_dirs` stays where it is: it is checkout state, and folding it in is another
+   question. The entry-file pointer line (README `:163-167`, ONBOARDING item 7) remains as the
+   human path; ONBOARDING gains an item for the config.
+10. **The membership rule reads in two sentences** (2026-08-29). The first names the harness's
+    own members and nothing else; the second says a repository declares its own rules in
+    `harness.json`, that dispatch names them and the guards scan them, and that a declared
+    rule binds only the repository declaring it. The exact words are the executor's. Rider
+    `E10-sync` binds the sentence, `LAYER` and the test's `EXPECTED` to one commit, with the
+    five prose sites it lists.
+11. **The contract's provenance takes the light route** (2026-08-29): a recorded ruling
+    permitting in-place removal of the pure-history blocks — the shape of `HD-63` / `HD-64` —
+    plus `CONTRACT-V4-SIGNATURE.md` re-pointed at the new blob, plus the independent re-read
+    `E10` owes. The ruling entry lands as a ruling commit inside round 1, as `HD-64` did at
+    `4a380be`, not here. §12's third paragraph stays.
+12. **The product run happens in the caller `D:/Thesis-stage-control-refactor`** (2026-08-29) —
+    the one real caller on this machine, mounting this repository at `ResearchSystem/harness`
+    (gitlink `2522ce1` when this was written), and it has been waiting to start one. The
+    gitlink is bumped to this batch's tip and the run is a small real piece of work, not a
+    scratch.
+13. **Three rounds** (2026-08-29): **`CORE-ONLY-LAYER`** — A, B, E, G, the guards' half of H,
+    and I; **`CORE-ONLY-CODE`** — C, D, and the dispatch half of H; **`CORE-ONLY-RUN`** — F, in
+    the caller. The cut follows the surfaces: `E10-sync` binds the membership sentence and the
+    guard to one commit, so the guard's change is round 1's; C, D and the dispatch line touch
+    no member; F is in another repository.
+14. **This repository gets a three-line `CLAUDE.md`** (2026-08-29): where `harness.json` is,
+    where the ledger's pointer is, where the registers are — an entry file and nothing more.
+    The checklist's text does not move into it: `CLAUDE.md` is injected into every session in
+    this repository, and the checklist carries the layer's amendment discipline, which an
+    injected file does not. This repository's own `harness.json` lists
+    `document-harness/CONSTRUCTION-CHECKLIST.md` under `rules`; what its `policy` names is the
+    executor's to propose — the ledger header's *What may enter* already plays that role — and
+    the user's to rule.
+15. **This sitting lands the design and opens nothing** (2026-08-29). The round opens in a later
+    session, and `base_commit` is stated then.
 
 ## Measured starting state — 2026-08-29 at `607728a`
 
@@ -221,6 +287,8 @@ which is a known cost: every fresh clone rewrites it.
 
 ## Open questions — answered at round open, before any work
 
+**All six answered 2026-08-29 — rulings 8–13 in order.** The questions stand as written.
+
 1. **What is the shared half called and where does it live?** It decides what a dispatch prompt
    points at, and therefore whether the two stubs survive (ruling 6's condition).
 2. **How does a caller declare its additions?** Ruling 7 defers the choice; the candidates are:
@@ -251,6 +319,8 @@ which is a known cost: every fresh clone rewrites it.
 - OUT: sparse-checkout as a substitute — it materialises fewer files and makes no reference resolve.
 - OUT: repairing the 14 sites that fail on the full repository. Repairing them breaks the rule they
   satisfy.
+- OUT: moving `CONSTRUCTION-CHECKLIST.md` out of `document-harness/` (ruling 8).
+- OUT: folding `review_record_dirs` into `harness.json` (ruling 9).
 
 ## Sketch of the work — not a decomposition; the executor writes its own
 
@@ -258,7 +328,8 @@ which is a known cost: every fresh clone rewrites it.
   product documents' 11 path references and 36 code citations follow whichever names result.
 - **B — the membership rule and its guard.** The sentence per question 3; `layer_path_check.py`'s
   `LAYER` and `sweep_refs.py` both import from it rather than being edited in parallel, so they
-  follow.
+  follow. Since ruling 10 the sentence is two, and since ruling 9 the guard and the sweep also
+  read `harness.json`'s `rules`.
 - **C — the code split.** `dispatch.py`'s three construction modes, `cli.py`'s branches, and both
   hard-coded constants. `CONSTRUCTION-INDEX.md`'s tier table changes with every one, row 8 included.
 - **D — the stubs.** Removable once no dispatch prompt names them (ruling 6's condition); that
@@ -268,6 +339,12 @@ which is a known cost: every fresh clone rewrites it.
 - **F — the product run.** Ruling 3's acceptance, in a caller repository.
 - **G — riders.** `checklist-cited-not-carried` redeemed; `onboarding-carries-construction` checked
   for whether it redeems with it.
+- **H — the caller config** (ruling 9). `harness.json`: its two fields, `dtw init`'s empty
+  default, the guards reading `rules` and the ONBOARDING item in round 1; `dtw dispatch` naming
+  the declared rules in round 2. Every guard change mutation-tested with a negative control
+  (`E4`).
+- **I — this repository as a caller** (ruling 14). The three-line `CLAUDE.md` and this
+  repository's own `harness.json`.
 
 ## Acceptance (done = ?)
 
@@ -290,11 +367,22 @@ which is a known cost: every fresh clone rewrites it.
 9. The guards exit 0 and the membership rule resolves N/N for whatever N it ends up naming, on
    **both** trees.
 10. Rider `checklist-cited-not-carried` deleted in the commit that earns it.
+11. On the harness-only tree, `dtw init` writes a default `harness.json`; with one rule file
+    declared, every `dtw dispatch` mode's prompt carries the line naming it and both guards scan
+    it — each guard change seen red once (`E4`), paired with a negative control.
+12. This repository's own `harness.json` declares the checklist, and `layer_path_check.py`
+    blocks a dangling path newly written into it — seen red once.
 
 ## Resume pointer
 
-当前指针: **not opened.** The six open questions go to the user first; question 2 is the one ruling
-7 deliberately left for that moment, and question 5 gates acceptance 4.
+当前指针: **not opened — all six questions answered (rulings 8–15), design landed 2026-08-29,
+nothing else done.** Next: a later session opens round 1 `CORE-ONLY-LAYER` — the `E11` card,
+`base_commit` = the `dev` tip at that moment, then the opening cold read. Cold-read baseline
+measured at `ea6485d`, to be re-derived at opening: eight of the nine member blobs are
+unchanged since the last recorded end-to-end read, `v3-cold-read-006138e.md`;
+`document-harness/README.md` moved once (`1f3e213`, one table row), so the narrow form —
+README end to end, eight by citation, `§live` in full (ten entries at `ea6485d`: `HD-66`,
+`HD-65`, `HD-62`, `HD-59`, `HD-41`, `HD-36`, `HD-35`, `HD-34`, `HD-23`, `HD-9`) — is available.
 
 ## Notes
 

@@ -172,11 +172,11 @@
   [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)**，本条只留指针。
   **代价照记**：三条 must-fix 全出在**契约签字文本**上——两句会被 item C 弄假，一句开轮前就已假且全仓
   零记录；三次皆走 `E10` must-fix 通道。rider 新增三条、兑付两条，`announced-set-anchor` 维持并重指
-  下一个设计轮。**队首 ＝ 批 `CORE-ONLY`（未开轮）：把构造侧降级为 harness 的一个普通调用者**——
-  七条裁决、量程、六个开轮问题、验收全在 plan
+  下一个设计轮。**队首 ＝ 批 `CORE-ONLY`（未开轮；六个开轮问题 2026-08-29 全部答毕）：把构造侧降级为
+  harness 的一个普通调用者**——十五条裁决、量程、验收、三轮切法 `LAYER`→`CODE`→`RUN` 全在 plan
   [`core-only.plan.md`](document-harness/plans/core-only.plan.md)，本条只留指针。**产品 run 首跑
-  已并入该批作验收**（用户 2026-08-29 裁：机械检查 + 产品 run 实测），故该批跨两个仓、不再是独立队
-  首。其后：**候选隔离**（未裁是否开轮）· **dispatch-economy**。分发形态由 `HD-66` 承载。
+  已并入该批作验收**（轮 3，在调用者仓 Thesis 跑），故该批跨两个仓。其后：**候选隔离**（未裁是否
+  开轮）· **dispatch-economy**。分发形态由 `HD-66` 承载。
   **⚠ 本档 20/20 条已顶满**——`CORE-ONLY` 要新增条目须先按抬头 archive 程序腾位。
 
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan
