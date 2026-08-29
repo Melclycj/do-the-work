@@ -336,6 +336,68 @@ being the stubs, item D again — unchanged, because this dispatch neither adds 
 member. The staged-as-new caveat the block above records is unchanged too and for the same three
 tokens, none of them this dispatch's.
 
+### Re-measured after the third corrections dispatch — written forward, all three blocks above left word for word (`HD-59`)
+
+Every figure below was taken at `02bb0bc`, this dispatch's only content commit, by the same two
+instruments as the blocks above. The harness-only tree was built this time by the method
+acceptance 1 names rather than by the copy the two blocks above used — `git archive HEAD` over the
+product-tier paths, extracted into a fresh directory, made a git repository and committed:
+**59 tracked files**, the same 59, over
+`contract/Document-Work-Assurance-Contract-v4.md · schema/document-assurance-v3 ·
+document-harness/{RULES,README,EXECUTION,REVIEW,ORCHESTRATION,ONBOARDING}.md ·
+document-harness/templates · tooling/dtw.py · tooling/do-the-work.py ·
+tooling/rsclib/document_harness · tooling/hooks · assurance/templates/run-v2`. Both methods were
+run at this tip and they agree on every figure below, which is why only one set is printed.
+Nothing between that commit and this journal changes what any of them measures, for the reason
+the blocks above give: this file is neither an instruction-layer member nor a declared rule file,
+no sweep and no guard reads it, and no test enumerates `document-harness/journal/`.
+
+**Acceptance 2 — `python tooling/sweep_refs.py`, both trees.** On this repository:
+`13 caller-held or unresolvable references over 10 members and declared rule files`, unchanged
+from all three blocks above. On the harness-only tree:
+`33 caller-held or unresolvable references over 9 members and declared rule files`, likewise
+unchanged, against 45 in the first block and 48 at the round's base. This dispatch changes no
+reference form: six of its seven sites are docstrings and a comment banner in modules no sweep
+scans, and the seventh — the deleted `document-harness/README.md:17` sentence — carried one
+backticked path token, `` `contract/` ``, which resolved on both trees and so was never among the
+reported sites.
+
+**Acceptance 1 — zero, except item D, unchanged.** Every remaining non-resolving site on the
+harness tree that names an **instrument-held** artifact, with its owner:
+
+| site | artifact | owner |
+|---|---|---|
+| `RULES.md:87`, `:88` (PATHTOK) + the two `MISSING` members | the two retired-contract stubs | item D, round `CORE-ONLY-CODE` |
+
+That one row is again the whole table — four sites, all round `CORE-ONLY-CODE`'s, which is where
+the block above left it and what plan ruling 24 projected. Everything else the sweep prints on
+that tree is the compliant caller-held form, *reported separately and still present*, exactly as
+in the blocks above: the caller's own run artifacts and review records, `harness.json` at nine
+sites, `HARNESS-DECISIONS.md` and `HARNESS-RIDERS.md` — both files `dtw init` writes into a
+caller's own root — `.githooks/`, which every repository wires for itself, the five battery
+commands and the past-tense pair the plan's forward correction re-classified, and the contract's
+past-tense `review.schema.json` under plan ruling 19.
+
+**Acceptance 5 — unchanged.** `grep -rn 'CONSTRUCTION-CHECKLIST'` over the harness tree still
+returns exactly the one accounted-for line,
+`tooling/rsclib/document_harness/dispatch.py:776`, which is item C's in round `CORE-ONLY-CODE`.
+
+**Acceptance 7 — `python -m pytest tests -q` run from `tooling`, on the full repository, at
+`02bb0bc`: `853 passed in 142.51s`, exit 0.** The delta across this dispatch is **zero**: 853 at
+`110924f`, 853 here. Nothing in this dispatch adds, removes or edits a test, and nothing needed
+to move with the edits — measured rather than assumed, since the ruling's own instruction was
+that a test enumerating one of the six docstrings travels with it in the same commit:
+`grep -rn 'N0 record'` over `tooling/tests/` returns nothing, no test names any of the six
+docstrings' distinctive strings, and the one `__doc__` consumer in the whole of `tooling/` reads
+its own module's docstring in an unrelated file.
+
+**Acceptance 9 — the guards exit 0 and the membership resolves N/N, on both trees.**
+`tooling/hooks/layer_path_check.py` exits **0** on this repository and **0** on the harness-only
+tree with a clean index. Membership resolution: **9 of 9** here; **7 of 9** there, the two absent
+being the stubs, item D again — unchanged, because this dispatch neither adds nor removes a
+member. The staged-as-new caveat the first re-measured block records is unchanged and for the
+same three tokens, none of them this dispatch's.
+
 ## 5. Every guard change, seen red once, with its control (`E4`)
 
 | mutation | must fire | control that stays green |
@@ -452,6 +514,40 @@ which is the exact defect `r9-terminal-no-carrier` is open about.
    reaches any of them. This dispatch does not widen itself past the two sites its ruling names,
    for the reason the first corrections pass gave about the sites acceptance 1 asks for: a round
    that reached them would be doing an item nobody wrote.
+
+   **Answered 2026-08-30 — plan ruling 27, written forward; the paragraph above stands word for
+   word (`HD-59`).** The user ruled the seven on the same deletion principle as rulings 24 and 26:
+   `document-harness/README.md:17`'s sentence deleted, and the six docstrings at
+   `tooling/rsclib/document_harness/candidate.py:4` and `:16` and
+   `tooling/rsclib/document_harness/checks.py:9`, `:479`, `:526` and `:595` each rewritten to keep
+   the code fact and drop the record. Carried out at `02bb0bc`, one commit, seven sites, each named
+   in that body with what it now says; none of the three files is an announced path, so no `E2`
+   disclosure is owed and none is claimed. The class scan `HD-41` ④ owes was re-run either side of
+   the write on the same key and the same surface: seven tracked hits at the parent, at exactly the
+   seven line numbers the ruling names, and **zero** on this commit's bytes. The thirty-seven hits
+   the key returns elsewhere in the tracked repository are committed records — the N1, N2 and N3
+   records, the supersession-2 signature, three cold-read and review records, the contract
+   signature record, the archived construction ledger, three older plans, and this round's own
+   plan and journal — and `HD-59` forbids editing those in place.
+
+   **What the sibling key found, reported and not acted on — the same shape of finding this
+   block's own question was.** Re-running the class scan on the key that found the class is what
+   this round has twice measured to be insufficient, so a hyphenated sibling was run over the same
+   surface: `N0-record` returns **two** further sites, `schema/document-assurance-v3/`
+   `local-check-spec.schema.json:14` and `:175`, each citing `N0-record R1` — the very same record
+   item that two of the six docstrings carried — inside a schema description. They are not this
+   dispatch's, and the reason is decidable by inspection rather than by judgement: that file is in
+   the schema pack, the pack is an announced path, and ruling 27 authorises three files while
+   stating in its own words that none of them is announced, so writing them would owe an `E2`
+   disclosure no ruling in force reaches. They go to the orchestrator. A **second and wider**
+   family was measured and deliberately left alone: the identifier form — `N0-A5`, `N0-A6`,
+   `N0-A8`, `N0 residual R2`, `N1-A5`, `N1-A8`, `N2-A3`, `N2-A7`, `W2-A10`, `V3-N0` — returns
+   **102** hits over thirty product-tier files. This executor judges it a different class rather
+   than a sibling, and says so as a judgement and not as a measurement: those tokens name signed
+   design decisions and node names that the product tier uses as its own vocabulary throughout —
+   the docstring ruling 26 rewrote kept *the `N0` schemas actually declare* for that reason —
+   whereas the seven sites and the two above cite a document. Whether the wider family is the same
+   defect is the user's, not this dispatch's.
 
 2. **Rider `contract-wikilink-tier` needs a fourth ruling in the `HD-63` / `HD-64` / `HD-67`
    family.** Its arm and its deadline both arrived with commit 3. Its fix is an in-place edit of
