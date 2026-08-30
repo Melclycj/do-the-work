@@ -37,7 +37,9 @@ Why this role had no charter until now: the **reviewer, the reader and — since
 each its charter at startup, and `dtw dispatch` does: three review-side modes, and two
 executor-side modes, one per side of the work — the product-run executor's charter is
 [EXECUTION.md](EXECUTION.md), the construction-round executor's is that repository's own
-rule file — the one its `harness.json` declares, which names [RULES.md](RULES.md) as its
+rule file — the one its `harness.json` declares, which the command is held to deriving
+from the declaration rather than from a constant of its own, and which names
+[RULES.md](RULES.md) as its
 counterpart, and whose *Execution side* heading already binds that role by name — and what
 each mode may emit is the dispatch module's to state, not this file's. The orchestrator is the session already in the conversation, so
 nothing ever had to hand it a file. Nothing dispatches the orchestrator, and this file does

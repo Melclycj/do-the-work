@@ -98,8 +98,10 @@
   `harness.json` at its own root: two fields, both paths — `policy`, naming the policy
   file [ORCHESTRATION.md](ORCHESTRATION.md) addresses, or null; and `rules`, naming that
   repository's own rule files. Four readers, each a decision that changes when the file
-  is absent: `dtw dispatch` names the declared files in every prompt it writes, so a cold
-  session receives a repository's rules by the channel it receives its charter;
+  is absent: `dtw dispatch` is held to naming the declared files in every prompt it writes,
+  so that a cold session receives a repository's rules by the channel it receives its
+  charter — the one of the four stated as an obligation on the command rather than as
+  behaviour already built;
   `tooling/hooks/layer_path_check.py` scans the declared files exactly as it scans the
   members above, and so does the reference sweep this instrument runs over the same list;
   the orchestrator reads `policy`; and `dtw init` writes the file empty, both fields
