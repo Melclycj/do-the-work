@@ -165,18 +165,16 @@
 
 ## 待办 backlog — 构造侧
 
-- **轮 `V1-RESULT-RETIRE` CLOSED 且已合入 `main` 2026-08-29**（PR #2 → `b6c40a2`；FULL
-  `REVIEWED_NO_BLOCKER` `be59ad6`；裁决与处置在 plan [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)）。
-  **批 `CORE-ONLY`（构造侧降级为 harness 的普通调用者；三轮 `LAYER`→`CODE`→`RUN`，跨两个仓）：
-  轮 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30**（base `db1bfa1`；FULL `8997d94` → 修 `c7f9c8d` → VERIFY
-  `8214f50`）。**轮 2 `CORE-ONLY-CODE` CLOSED 2026-08-30**（base `fff2203`；冷读 `69a9a71` → amendment
-  `5a9c0fd` + 再读 `d771cc4` → 候选 `70c82b4` → FULL `CHANGES_REQUIRED` `affacc2` → 唯一修腿 `894bc92` →
-  VERIFY `REVIEWED_NO_BLOCKER` `552b405`）：构造侧 dispatch 独立成 `tooling/construction_dispatch.py`、两 stub 删、
-  成员 9→7、每份 dispatch 点名 `harness.json` 声明的规则；剥史树指向仪器持有物者 4→0（余 1 处按裁决 19
-  准入）；电池 853→873。38 条裁决与处置全在 plan [`core-only.plan.md`](document-harness/plans/core-only.plan.md)。
-  **队首 ＝ 轮 3 `CORE-ONLY-RUN`**（item F，在调用者仓开；冷读付三成员 + 声明规则的 `E10` 复读债）。
-  其后：候选隔离 · dispatch-economy。分发形态由 `HD-66` 承载。
-  **⚠ 本档 20/20 条已顶满**。
+- **批 `CORE-ONLY`（构造侧降级为 harness 的普通调用者；三轮 `LAYER`→`CODE`→`RUN`，跨两个仓；裁决与处置全在
+  plan [`core-only.plan.md`](document-harness/plans/core-only.plan.md)）：轮 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30**
+  （base `db1bfa1`；FULL `8997d94` → 修 `c7f9c8d` → VERIFY `8214f50`）。**轮 2 `CORE-ONLY-CODE` CLOSED 2026-08-30**
+  （base `fff2203`；冷读 `69a9a71` → 候选 `70c82b4` → FULL `affacc2` → 修 `894bc92` → VERIFY `552b405`；成员 9→7、
+  构造侧 dispatch 独立、剥史树指向仪器持有物者 4→0）。**轮 3 `CORE-ONLY-RUN` OPEN 2026-08-30，仪器侧 base
+  `78d51ac`**（item F：真产品 run 在调用者 `D:/Thesis-stage-control-refactor` 开，其 base 在该仓准备 commit 落地时
+  声明；裁决 39–43：sparse 只留 59 件 + 冷会话禁网 · 调用者收轮路由改回自己根上的簿 · run 由调用者里新起的冷
+  orchestrator 会话跑 · 读审计 hook · 开轮冷读窄形；run 的活＝P5C A4 amendment 草案）。轮 `V1-RESULT-RETIRE`
+  CLOSED 且已合入 `main` 2026-08-29（PR #2 → `b6c40a2`）。其后：候选隔离 · dispatch-economy。分发形态由 `HD-66`
+  承载。**⚠ 本档 20/20 条已顶满**。
 - **公开化三批 —— 让本仓成为适合公开的 git repo**（用户方向 2026-08-23；同日并裁：产品 run 首跑**不归本仓**，在调用者仓另行开工）：**批 A 门面件**（LICENSE + 双平台 CI——ubuntu 腿即本仓首次 POSIX 验证、顺势兑 rider `posix-mode-wording`；根 README 除锈兑 `readme-cli-stale`）· **批 B 重签打包批**（契约 v4 + 已签件除锈——`six-signed`/`design-route`/`io-hiroute-stale` 等的那个「打包批」）· **批 C 陌生人可用性**（`chk-caller-prefixes` 设计题 + `amend-exempt-caller` + ONBOARDING 第二调用者实证 + 10 解析点并入）。两裁已收（2026-08-23：**MIT** · **A→B→C**，载体 `document-harness/plans/publicization-a.plan.md`）。**批 A = 轮 `PUB-FACADE` CLOSED 2026-08-23**（见指针卷；「余一件用户动作：push 首跑 CI」**已陈旧**——实测 `gh run list` 2026-08-24：用户已于 2026-08-23 起三次 push、三次 CI 全绿，首跑发生于批 A 收批当日 05:21；本句更正随轮 `STRANGER-PROOF` 收批落，依其 plan 变更面所载）。**批 C 增列一件：观众向根 README 重写**（用户 2026-08-23 问「面向观众的 README 在哪批」，对话中拟归批 C——第二调用者实证的实走记录即 quickstart 素材，符合 commands-over-claims；切法批 C 开轮时再裁。现根 README 无假话但仍是 agent/内部视角）。**批 B = 轮 `CONTRACT-V4` CLOSED 2026-08-23**（见指针卷；v4 已签署生效 `HD-56`）。**下一队首＝批 C 陌生人可用性**，清单增至六件：`chk-caller-prefixes` 设计题 · `amend-exempt-caller` · ONBOARDING 第二调用者实证 · 10 解析点收尾 · **观众向根 README 重写**（2026-08-23 对话拟归此批）· **§10.5 两问立案**（分发形态 submodule vs plugin 安装 · `.claude/` 下要不要放 harness 件——用户 2026-08-23 裁「立案挪后」，本行即其家，批 C 开轮时摆给用户裁或另开独立轮）。**批 C 已开且第一轮 CLOSED（2026-08-23）**：开轮四裁（切两轮 `STRANGER-GUARDS`→`STRANGER-PROOF` · `submod-index` 接下 · §10.5 批 C 收批带实证再裁 · 冷读照派）载 plan `stranger-guards.plan.md`；**轮 `STRANGER-GUARDS` CLOSED**（见指针卷——六件中前四件落定：`chk-caller-prefixes` 设计题 + `amend-exempt-caller` + 10 解析点 + `submod-index` 顺带）。**下一队首＝轮 `STRANGER-PROOF`**（第二调用者实证 + 观众向根 README 重写），其收批时裁 §10.5 两问。**轮 `STRANGER-PROOF` ＋ 插入批 `SUBMOD-HOOKENV` 已于 2026-08-24 合并收批 CLOSED**（见指针卷）；批 C 六件全落，**仅余 §10.5 两问**（分发形态 submodule vs plugin · `.claude/` 放不放 harness 件）——收批当日携实走证据摆给用户，答案届时另记。**已裁（2026-08-24，user「维持吧」）：两问皆维持现状——分发形态维持 submodule（实走刚证可用、pin 即版本追溯，plugin/包装等真外部需求出现再议，`E6`）· `.claude/` 不放 harness 件（实走九条零触及，且该区在守卫 VENDORED 豁免盲区，治理件不进盲区）。§10.5 就此关，**批 C 整体 CLOSED**。**仓已于 2026-08-24 翻 public**（用户动作，批 C 收官同日；实测 `visibility=public`）；调用者仓同日 gitlink bump 至 `733cb80` 并按用户裁决收窄其 repo-audit 扫描面（caller commit `931a3fa`，rider `decited-paths` 跨仓兑付毕）。**该队首已由轮 `README-BILINGUAL` 消费**（2026-08-24 落 `2522ce1`，用户 2026-08-25 裁免轮；见指针卷 CLOSED 卷末）。**轮 `RIDER-SETTLEMENT` 已于 2026-08-25 CLOSED**（见指针卷；bank 30→16）。**本仓下一队首＝dispatch-economy 构造批**（原两件 + 本轮增列的九条 design rider，见下条）；**产品 run 首跑不在本仓**，在调用者仓另行开工。**该队首已于 2026-08-25 由批 `CORE-SET` 接过**（用户当日方向 + 当日即令推进，见下第二条）；dispatch-economy 顺延其后。
 
 - **dispatch-economy 构造批候选**（用户 2026-08-24 裁「往后记」，排批 C 之后、无 deadline）：把派发省时纪律做实——① must-fix 结对复读的**窄 subject 出单形态**（`E10` 通道原文本就是 "re-read of the amended text"，而 `dtw dispatch --read` 只有全层形态；命令面改动按 `HD-47` 逐案归用户）② 快 read 并入 executor 无 commit 窗口的重叠纪律找承载。**本批已增列第三件（用户 2026-08-25 裁，轮 `RIDER-SETTLEMENT` 开批裁决 3）：bank 里 13 条 design rider 中的 9 条并入本批一次收**——六条在 checklist 的 `E9`/`E10`/`R9`/`R10` 措辞面（`wl-route` / `hd38-both-ways` / `e9-pair-budget` / `e10-cannot-see` / `read-name-split` / `waiver-live`），三条在 `ORCHESTRATION.md` 义务表面（`charter-qualifiers` / `e1-table` / `e1-reader`），与本批要动的正是同两个表面；余 4 条是机器题（`pin-drift` / `delta-prose` / `argv-cap` / `freeze-audit`）另候用户裁。**`R5` 观察一条**（FULL `8aa9f6e` `O-4`，用户 2026-08-25 裁「先记下」）：bank 现存 16 行中 13 行需开轮才可兑，该比例是否说明 bank 没在做它该做的事，**待本批收完 9 条、bank 降到 7 行时再评**。起因＝轮 `STRANGER-PROOF` 开轮读链约一小时 wall-clock，一个表格单元格的修被按全层复读（1640 行 + 电池重跑）；教训当轮曾写进该轮 plan 的 Dispatch economy 节，但**写于其所辖派发已跑完之后，用户指其无效**——本行才是排期载体。**与批 `CORE-SET` 的交叠（2026-08-25 记）**：本批领的九条 design rider 里有两条

@@ -1,6 +1,8 @@
 # Plan — batch `CORE-ONLY`: the construction side becomes an ordinary caller of the harness
 
-> **Status: rounds 1 and 2 CLOSED 2026-08-30; round 3 `CORE-ONLY-RUN` is not open.** Round 1
+> **Status: round 3 `CORE-ONLY-RUN` OPEN 2026-08-30 at instrument-side base_commit `78d51ac`**,
+> the `dev` tip at opening and 84 commits ahead of `main`; the caller-side base is stated at
+> step 4 of *Steps — round 3*. Rounds 1 and 2 CLOSED 2026-08-30. Round 1
 > `CORE-ONLY-LAYER`: opened 2026-08-29 at `db1bfa1`; read `ac39d35` → candidate → FULL
 > `CHANGES_REQUIRED` `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` →
 > closeout `cfa73df`. Round 2 `CORE-ONLY-CODE`: opened 2026-08-30 at `fff2203`, the `dev` tip
@@ -413,6 +415,23 @@ additions, and a repository that mounts only the harness can open, run and close
     (`E4`): a throwaway session reads one construction file on purpose and the line is seen to
     land. Per-machine and advisory, like the pre-commit guards; a caller-side adaptation
     recorded in the caller's decision log.
+
+43. **Round 3's opening cold read runs in the narrow form, and every cold session this round
+    runs on `opus` with the tool restriction ruling 39 names** (2026-08-30, off the approved
+    `E11` card): the four files whose blobs moved since `v3-cold-read-e88094c.md` —
+    `document-harness/RULES.md`, `document-harness/README.md`,
+    `document-harness/ORCHESTRATION.md` and this repository's declared rule
+    `document-harness/CONSTRUCTION-CHECKLIST.md` — end to end; the other four members —
+    `document-harness/EXECUTION.md`, `document-harness/REVIEW.md`,
+    `contract/Document-Work-Assurance-Contract-v4.md` and
+    `schema/document-assurance-v3/paragraph-map.schema.json` — by citation of that record,
+    their blobs unmoved since it; `HARNESS-DECISIONS.md` `§live` in full. Ground, measured at
+    `78d51ac` before the card: `git diff --stat e88094c 78d51ac --` over the seven members and
+    the checklist returns exactly those four files at 29 insertions and 23 deletions. The
+    subject is the round's opening commit, whose members are byte-identical to `78d51ac`'s.
+    This is the read debt round 2's closeout stated at step 7: until the record lands, no
+    conclusion of this round rests on the changed bytes. The reader derives the coverage
+    itself; the dispatch hands it this ruling and no member table (`R2`).
 
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
@@ -886,21 +905,55 @@ Checked off as each lands; a box that reads done names the commit that made it s
   `CONSTRUCTION-INDEX.md` re-measured by its own commands; the `E10` read debt for round 3's
   opening stated with the reliance it withholds.
 
+## Steps — round 3 `CORE-ONLY-RUN`
+
+- [x] 1. **Open — this commit.** The status line, ruling 43 (39–42 landed at `78d51ac`), this
+  checklist, the ledger's queue-head row rewritten in place, and the instrument-side
+  `base_commit` `78d51ac` stated. No dispatch mode was run before this commit and no freeze
+  marker exists.
+- [ ] 2. **Opening cold read** (ruling 43): `python tooling/construction_dispatch.py --read
+  <this commit>` → its own `claude -p` session on `opus` with `--disallowedTools
+  WebFetch,WebSearch` → the record committed unchanged under `R6`, the marker deleted in that
+  act. A must-fix takes `E10`'s channel — amendment plus independent re-read, not a round.
+- [ ] 3. **The user pushes `dev`**, or rules a fetch from the local path, so the caller's
+  submodule can reach the tip carrying step 2's record.
+- [ ] 4. **Caller preparation, this session, one caller commit**: gitlink → that tip; sparse
+  checkout of the 59 product-tier paths (ruling 39); `dtw init`; `harness.json` with `policy`
+  naming the caller's policy file and `rules` empty; the caller's `.harness/scan-surfaces.json`
+  declaring its record, review-record and specification surfaces; the policy file's §2, the
+  harness ledger's closeout list and the five pointer sites rewritten (ruling 40); the
+  `__pycache__` residue under the caller's own `tooling/rsclib/document_harness/` deleted; the
+  read-audit hook installed and mutation-tested (ruling 42); the caller's decision log opened
+  with the three adaptations; the caller's five battery legs, output in the body. **That commit
+  is the round's caller-side `base_commit`**, stated here when it lands.
+- [ ] 5. **The user starts the cold orchestrator session in the caller** (ruling 41). From here
+  until step 8 this session touches neither repository.
+- [ ] 6. **The run, in the caller**, orchestrated there: the instruction in the enumerated form
+  — the P5C A4 amendment draft the caller's own plan names as its next action — with
+  `build_run.py` importing only from the mount and its checker; the pre-freeze gate; the
+  freeze; `dtw preview`; the user's START; `dtw dispatch --executor` → a cold executor on an
+  isolated candidate branch, one session from START to FULL (`HD-69`; a ruling comes back by
+  `--resume`), the evidence commit; `dtw dispatch --subject` → a cold FULL, its record
+  committed unchanged; the verdict to the user; at most one user-approved fix and one targeted
+  VERIFY (`E9`); FINAL.
+- [ ] 7. **Caller closeout by the cold orchestrator**, under the rewritten policy: the caller's
+  own registers; the C4 `O-1` line; the read-audit log diffed against the 59-path list; every
+  identifier the cold sessions could not resolve, as they reported it under `R4`, collected
+  for the `R5` question.
+- [ ] 8. **Instrument closeout, this session**: acceptance 4 recorded with the caller's evidence,
+  record and FINAL SHAs; the read-audit result; the ledger's `R5` observation answered from
+  the run's own evidence and put to the user; riders touched or redeemed; the ledger's row
+  rewritten in place; batch `CORE-ONLY` closed, or what remains named.
+
 ## Resume pointer
 
-当前指针: **round 2 `CORE-ONLY-CODE` CLOSED 2026-08-30; round 3 `CORE-ONLY-RUN` not open;
-rulings 39–42 taken 2026-08-30 before its opening.** Three questions remain the user's before
-the `E11` card is approved: which piece of work the run is (ruling 12 — the candidates put to the
-user are the P5C A4 amendment draft that the caller's own plan names as its next action, or the
-design chapter's §2.2 as w1-r1's successor); how the caller's submodule reaches this batch's tip
-(`dev` stands 23 commits ahead of `origin/dev` at this writing — a push, which is the user's act
-under `E8`, or a fetch from the local path); and the ledger's `R5` observation on tool-keyed
-class scans, which the ledger routes to this opening. Next: those three answered → the card
-approved → this session dispatches the opening cold read (the read debt under round 2's step 7
-plus `§live`), prepares the caller under rulings 39, 40 and 42, and states `base_commit`; the
-user starts the cold session ruling 41 names, and the run proceeds there. A cold session
-continues from the *Steps — round 2* checklist above: the first unchecked box is the pointer;
-round 3's own steps are written at its opening.
+当前指针: **round 3 `CORE-ONLY-RUN` OPEN 2026-08-30 at instrument-side base `78d51ac`.** The
+user's word of 2026-08-30 approved the `E11` card with its recommendations: the run's work is
+the P5C A4 amendment draft (ruling 12), the ledger's `R5` observation is answered by the run's
+own cold sessions rather than by a new instrument, and the push that lets the caller reach this
+tip is the user's act. A cold session continues from the *Steps — round 3* checklist above: the
+first unchecked box is the pointer. Steps 5–7 happen in the caller, orchestrated by the cold
+session ruling 41 names; this repository's part resumes at step 8.
 
 ## Notes
 
