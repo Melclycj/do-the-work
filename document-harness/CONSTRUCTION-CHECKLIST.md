@@ -9,9 +9,9 @@
 > under `rules` in the `harness.json` at this repository's root, and it binds this repository
 > alone.
 >
-> Compressed 2026-07-27 from the two operating contracts
-> (`../migration/document-work-assurance-v3/v3-harness-{operating,review}-contract.md`, now
-> stubs; full text at `7011916`) — Phase A of
+> Compressed 2026-07-27 from the two operating contracts that preceded it, whose full text
+> is at `7011916`; the stubs that stood at their paths were deleted in round
+> `CORE-ONLY-CODE` once no dispatch prompt named them — Phase A of
 > `document-harness/plans/harness-deletion-first-stabilization.plan.md`. Like any instruction-layer
 > amendment (E10), relied on only after an independent read.
 >

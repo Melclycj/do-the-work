@@ -51,8 +51,6 @@ LAYER = (
     "document-harness/EXECUTION.md",
     "document-harness/REVIEW.md",
     "document-harness/ORCHESTRATION.md",
-    "migration/document-work-assurance-v3/v3-harness-operating-contract.md",
-    "migration/document-work-assurance-v3/v3-harness-review-contract.md",
     "contract/Document-Work-Assurance-Contract-v4.md",
     "schema/document-assurance-v3/paragraph-map.schema.json",
 )
@@ -122,7 +120,7 @@ def added_lines_by_path(repo_root: pathlib.Path) -> dict[str, list[str]]:
 
 
 def scanned_paths(repo_root: pathlib.Path) -> tuple[str, ...]:
-    """E10's nine members, then this repository's own declared rule files.
+    """E10's seven members, then this repository's own declared rule files.
 
     Order is members first so a refusal reads in the same order the membership sentence
     does; duplicates are kept out because a repository that declares a member would

@@ -83,14 +83,12 @@
   the cap was a renamed round. A dispatched FULL, VERIFY or read has occurred only when its
   record's commit lands; from dispatch to that commit the branch takes no commit but the
   record itself.
-- **E10** The harness's own instruction layer is exactly these nine paths and nothing else:
+- **E10** The harness's own instruction layer is exactly these seven paths and nothing else:
   `document-harness/RULES.md` (this file),
   `document-harness/README.md`,
   `document-harness/EXECUTION.md`,
   `document-harness/REVIEW.md`,
-  `document-harness/ORCHESTRATION.md`, the two retired contracts' stubs
-  `migration/document-work-assurance-v3/v3-harness-operating-contract.md`
-  and `migration/document-work-assurance-v3/v3-harness-review-contract.md`,
+  `document-harness/ORCHESTRATION.md`,
   `contract/Document-Work-Assurance-Contract-v4.md` — a member by the user's 2026-08-23
   ruling, as the prose successor to the three signed texts it merges — and
   `schema/document-assurance-v3/paragraph-map.schema.json`.
@@ -112,7 +110,10 @@
   defective: the list above is then the whole of what it answers to. The two contract
   supersessions
   were members until round `CONTRACT-V4`, as prose successors to signed text; they merged
-  into contract v4 and left the tree with it. Its
+  into contract v4 and left the tree with it. The two retired operating contracts' stubs
+  were members until round `CORE-ONLY-CODE`, which deleted them once no dispatch prompt
+  named them and took this list from nine to seven; what they pointed at, a repository's
+  own rules, the sentence above now reaches directly. Its
   edits are additive or subtractive, never re-typed "with the same content"; each amendment
   passes an independent read before any round relies on it — that read's subject is the
   amendment text itself, never the work it governs, and it is never banked as the round's

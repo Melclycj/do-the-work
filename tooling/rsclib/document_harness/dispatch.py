@@ -509,8 +509,8 @@ def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch
 # as a declared limitation — and routing it through a prompt is neither.
 #
 # **Cite the reviewer's OWN instruction, never the other side's.** The product-run reviewer
-# reads `REVIEW.md`, whose sections are named and unnumbered; the numbered `§n` form belongs
-# to the construction-side `v3-harness-review-contract.md`, which governs a different role.
+# reads `REVIEW.md`, whose sections are named and unnumbered; the numbered `§n` form belonged
+# to the retired construction-side review contract, which governed a different role.
 # An earlier version of this module emitted "your §8" into a product-run dispatch and a real
 # reviewer reported it: the citation pointed at a document that was not their charter. Two
 # charters, one module — so every reference here names its document explicitly.

@@ -177,7 +177,7 @@ and
 
 ## Layout
 
-Everything sits at the repository root: `document-harness/` (the instruction layer — the nine
+Everything sits at the repository root: `document-harness/` (the instruction layer — the seven
 paths rule `E10` fixes — and its records), `tooling/`, `schema/`, `contract/`,
 `migration/`, `assurance/`, and the governance registers beside this file.
 
@@ -212,7 +212,7 @@ probing.
 |---|---|
 | Does the suite pass? | `python -m pytest -q` |
 | Why does a test fail? | `python -m pytest -q --tb=line` |
-| Do the instruction layer's nine members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
+| Do the instruction layer's seven members resolve here? | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
 | Do the pre-commit guards bind? | stage a path that resolves nowhere into an instruction-layer file, then run each of `tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py` and read the exit codes |
 | Is a hook wired in THIS checkout? | `git config --get core.hooksPath` — exit 1 means nothing runs, whatever the tree carries; then `ls .githooks/pre-commit` for what would run |
 | How do I onboard a repository that has never seen this? | `document-harness/ONBOARDING.md` — ten items, each with its command, its check, and the rule that owns it |
@@ -232,7 +232,7 @@ What stays true of this repository regardless of when you read it:
   wired in the checkout you are reading is the table row above, not this paragraph.
 - **`E10-sync` falls due whenever the membership sentence is touched** — `HD-22` (a ruling in
   [`HARNESS-DECISIONS.md`](HARNESS-DECISIONS.md), the decision log) made it a per-touch
-  checklist item. The nine member paths are hard-coded in three places — the `E10` membership
+  checklist item. The seven member paths are hard-coded in three places — the `E10` membership
   sentence in `document-harness/RULES.md`, the `LAYER` constant in
   `tooling/hooks/layer_path_check.py`, and the `EXPECTED` tuple in
   `tooling/tests/document_harness/test_precommit_checks.py`. Whether they resolve *today* is

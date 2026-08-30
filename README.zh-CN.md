@@ -167,7 +167,7 @@ hook；这条 config 是每个 checkout 各自的，clone 带得走 hook 文件�
 
 ## 目录结构
 
-一切都在仓库根部：`document-harness/`（指令层——`E10` 规则固定的那九个路径——及其记录）、
+一切都在仓库根部：`document-harness/`（指令层——`E10` 规则固定的那七个路径——及其记录）、
 `tooling/`、`schema/`、`contract/`、`migration/`、`assurance/`，以及与本文件并排的治理
 登记簿。
 
@@ -198,7 +198,7 @@ Ubuntu 只带 `python3`，Windows 通常是 `python`；两个都在时它们未�
 |---|---|
 | 测试套件过吗？ | `python -m pytest -q` |
 | 某个测试为什么挂？ | `python -m pytest -q --tb=line` |
-| 指令层九个成员在这里都解析得到吗？ | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
+| 指令层七个成员在这里都解析得到吗？ | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
 | pre-commit 守卫真的咬合吗？ | 往一个指令层文件里 stage 一个哪里都解析不到的路径，然后分别运行 `tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py`，读退出码 |
 | 这个 checkout 里接了 hook 吗？ | `git config --get core.hooksPath`——退出码 1 意味着无论树里带着什么，都没有东西在跑；再 `ls .githooks/pre-commit` 看接上之后会跑的是什么 |
 | 一个从没见过这套东西的仓库怎么 onboard？ | `document-harness/ONBOARDING.md`——十项，每项带它的命令、它的核验方式、以及归属的规则 |
@@ -216,7 +216,7 @@ Ubuntu 只带 `python3`，Windows 通常是 `python`；两个都在时它们未�
   「什么都没在跑」开始，直到敲下那条命令。调用方那一侧同理。你正读着的这个 checkout 里
   hook 接没接，看上表那一行，不看本段。
 - **`E10-sync` 在成员句每次被触碰时到期**——`HD-22`（[`HARNESS-DECISIONS.md`](HARNESS-DECISIONS.md)
-  这份决策日志里的一条裁决）把它定为按次触碰的 checklist 项。九个成员路径硬编码在三处
+  这份决策日志里的一条裁决）把它定为按次触碰的 checklist 项。七个成员路径硬编码在三处
   ——`document-harness/RULES.md` 里的 `E10` 成员句、
   `tooling/hooks/layer_path_check.py` 里的 `LAYER` 常量、
   `tooling/tests/document_harness/test_precommit_checks.py` 里的 `EXPECTED` 元组。它们
