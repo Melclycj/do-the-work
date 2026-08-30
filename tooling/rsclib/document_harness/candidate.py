@@ -87,7 +87,7 @@ class TreeReader:
         return self.read(path) is not None
 
     def observed_tree(self) -> dict[str, str]:
-        """The R1 disclosure every CheckResult carries."""
+        """The subject-tree disclosure every CheckResult carries."""
         return {"kind": self.kind, "revision": self.revision}
 
 
@@ -471,7 +471,7 @@ def check_locators(record: Mapping[str, Any], reader: TreeReader) -> Report:
     A claim is not evidence. This is the check that separates "the executor says it did the
     work" from "the work is at a locatable place in this exact candidate", and it must read
     the candidate tree — reading the working tree here would certify bytes the candidate
-    does not contain (R1).
+    does not contain.
     """
     issues: list[Issue] = []
     if reader.kind != "candidate_commit":

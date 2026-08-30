@@ -1,4 +1,4 @@
-"""The closed deterministic check union and its results (plan §5.3, N1-A8, R1, R4).
+"""The closed deterministic check union and its results (plan §5.3, N1-A8, R4).
 
 V3 is not a tool plug-in framework. Six kinds exist, they are enumerated in the signed
 contract, and an unknown kind is a `SPEC_GAP` that stops the run — never an invitation to
@@ -60,7 +60,7 @@ from rsclib.document_harness.candidate import (
 CODE = "V3-CHECK"
 
 #: Kinds whose claim is *about the payload candidate*. Observing anything else is a
-#: wrong-subject defect, not a softer result (V3-D5, R1).
+#: wrong-subject defect, not a softer result (V3-D5).
 CANDIDATE_SUBJECT_KINDS = frozenset(
     {"file_exists", "json_schema", "markdown_link", "locator_exists", "git_diff_boundary"}
 )
@@ -321,7 +321,7 @@ def _check_git_diff_boundary(check, ctx, reader):
 
 
 def _check_command_exit(check, ctx, reader):
-    """Run the command against the tree the request declared (R1).
+    """Run the command against the tree the request declared.
 
     `candidate_commit` never means the checkout: the exact candidate is materialized into a
     disposable Git worktree and the process runs there, so the declaration is satisfied by
@@ -410,7 +410,7 @@ _ORACLES = {
 
 
 def _wrong_subject(check: Mapping[str, Any], ctx: CheckContext) -> dict[str, Any] | None:
-    """The subject-tree ruling, or None when the request may observe what it declared (R1).
+    """The subject-tree ruling, or None when the request may observe what it declared.
 
     `command_exit` is not ruled here: a candidate-declared command is *honoured* by running
     it inside a materialization of the exact candidate commit (`_check_command_exit`), so

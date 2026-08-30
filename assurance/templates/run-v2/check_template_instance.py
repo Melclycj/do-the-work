@@ -32,7 +32,8 @@ the form branch itself lives in ``rsclib.document_harness.instruction.resolve_fo
 place, so no caller can spell "could not decide" as the cheap answer; ``main`` is the IO
 shell.
 The instruction is read at the pinned revision when it resolves there, else from the
-worktree — and which tree was read is disclosed rather than silent (the R1 discipline).
+worktree — and which tree was read is disclosed rather than silent (the subject-tree
+discipline).
 
 Usage:  python check_template_instance.py <run-dir> [<repo-root>]
 """
