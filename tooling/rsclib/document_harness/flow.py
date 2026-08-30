@@ -24,7 +24,7 @@ the accepted finding IDs and their minimum boundary; C2 must regenerate every pi
 evidence rather than inherit it; and a blocker still standing after VERIFY stops the run —
 there is no second fix and no review-of-review.
 
-**The governance obligation (N1 residual R2).** N1 made the R4 governance scan mechanical and
+**The governance obligation (N1 residual R2).** N1 made the governance scan mechanical and
 reachable, but nothing obliged a run to invoke it, so an operator who never called it got no
 signal at all. A run cannot reach a final decision here without stating whether the scan ran;
 a skip is legal, but it is a *recorded, reasoned, user-visible* skip. The obligation is to

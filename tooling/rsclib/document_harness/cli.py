@@ -55,7 +55,7 @@ def _rooted(args: argparse.Namespace) -> pathlib.Path | None:
 
 
 def _cmd_v3_governance_scan(args: argparse.Namespace) -> int:
-    """Reject a governance document that carries its own approval status (V3-N1, R4).
+    """Reject a governance document that carries its own approval status (V3-N1).
 
     Reached through the closed `command_exit` check kind rather than a seventh check kind,
     because the LocalCheckSpec union is frozen by the signed Contract v3 §5.

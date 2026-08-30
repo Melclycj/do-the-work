@@ -106,7 +106,7 @@
           "then": { "required": ["skip_reason"] }
         }
       ],
-      "description": "Discharges N1-R2. The R4 governance scan was mechanical and reachable after N1, but nothing obliged a run to invoke it, so an operator who never called it got no signal at all. This field makes the state REPORTED either way: the run cannot reach a FINAL decision without saying whether the scan ran, and a skip is a visible, reasoned skip rather than silence. It deliberately does not force the scan to run — forcing verification is the wrong endpoint; making the unverified visible is the reachable one."
+      "description": "Discharges N1-R2. The governance scan was mechanical and reachable after N1, but nothing obliged a run to invoke it, so an operator who never called it got no signal at all. This field makes the state REPORTED either way: the run cannot reach a FINAL decision without saying whether the scan ran, and a skip is a visible, reasoned skip rather than silence. It deliberately does not force the scan to run — forcing verification is the wrong endpoint; making the unverified visible is the reachable one."
     },
     "disclosure": {
       "type": "object",

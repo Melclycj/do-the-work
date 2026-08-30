@@ -1,4 +1,4 @@
-"""The closed deterministic check union and its results (plan §5.3, N1-A8, R4).
+"""The closed deterministic check union and its results (plan §5.3, N1-A8).
 
 V3 is not a tool plug-in framework. Six kinds exist, they are enumerated in the signed
 contract, and an unknown kind is a `SPEC_GAP` that stops the run — never an invitation to
@@ -630,7 +630,7 @@ def governance_scan(
     paths: Sequence[str],
     exemptions: Mapping[str, Exemption] | None = None,
 ) -> GovernanceScan:
-    """Reject a governance document that carries its own approval status (R4).
+    """Reject a governance document that carries its own approval status.
 
     The rule already exists in prose — contract §14 and plan §0 both say the approval status
     lives in the append-only record, never inside the approved bytes. This makes it
