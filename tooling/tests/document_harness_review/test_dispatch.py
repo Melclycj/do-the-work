@@ -30,6 +30,18 @@ from rsclib.document_harness import dispatch as D
 
 FAKE_REV = "f" * 40
 
+#: Hand-written whole lines (`E5`), never imported from the module under test: the two
+#: forms of the declared-rules line `E10`'s second sentence obliges every prompt to carry.
+NO_RULES_LINE = (
+    "**This repository's own rules:** none. Its `harness.json` declares no rule files, "
+    "which E10 makes a repository that has declared nothing rather than a defective one."
+)
+ONE_RULE_LINE = (
+    "**This repository's own rules:** `rules/CALLER-RULES.md` \u2014 declared under "
+    "`rules` in its `harness.json`, to be read after the charter above. They bind this "
+    "repository alone."
+)
+
 REPAIR_DECISION = {
     "decision_id": "repair-run-one",
     "work_id": "work-one",
@@ -366,87 +378,6 @@ class AnUnderivableDispatchRefusesInsteadOfRendering(unittest.TestCase):
         self.assertIn("review.v2.schema.json", D.RESULT_SCHEMA)
 
 
-class ConstructionRoundsGenerateToo(unittest.TestCase):
-    """The one irreducible input is the round's boundary; the prompt is a constant.
-
-    This class used to hold eleven tests (counted at `d55d5ce`) guarding a derived churn list
-    and the sliced constant that carried its caveat. The derivation is gone (see the module's construction section),
-    and with it F1, V1, V2, V3 and V4 — every one of which existed only to hold churn up. What
-    remains is the assertion those five were reaching for and never made: the emitted document
-    equals the expected document exactly, which catches an added line, a missing line and a
-    reordered line with one comparison.
-    """
-
-    def _round(self):
-        scn = build_scenario()
-        repo = scn.repo
-        base = git(repo.root, "rev-parse", "HEAD").strip()
-        (repo.root / "a.md").write_text("one\n", encoding="utf-8")
-        git(repo.root, "add", "a.md")
-        git(repo.root, "commit", "-q", "-m", "round commit")
-        return repo, base, git(repo.root, "rev-parse", "HEAD").strip()
-
-    #: The expected prompt lives in a committed fixture, not in this file. A golden file is
-    #: the ordinary idiom for "the output must be exactly this", and it removes the reason the
-    #: two previous guards failed: an expectation sitting next to the source it checks reads as
-    #: duplication and invites being collapsed into a reference, which makes the comparison
-    #: compare the module to itself. In a separate data file there is nothing to collapse.
-    FIXTURE = pathlib.Path(__file__).parents[1] / "fixtures" / "expected-construction-prompt.txt"
-
-    #: Hand-written, never read back from the module: the charter a subject repository that
-    #: does NOT contain the instrument gets. Every scenario here builds such a repository.
-    CHARTER_OUTSIDE = "migration/document-work-assurance-v3/v3-harness-review-contract.md"
-
-    def test_the_prompt_is_exactly_the_golden_file(self):
-        """Added, missing and reordered lines all fail here, in one comparison."""
-        repo, base, tip = self._round()
-        d = D.construction_dispatch_of(repo.root, base, tip)
-        self.assertTrue(d.report.ok, codes(d.report))
-        expected = self.FIXTURE.read_text(encoding="utf-8").format(
-            base=base, tip=tip, charter=self.CHARTER_OUTSIDE
-        )
-        self.assertEqual(D.render_construction_dispatch(d), expected)
-
-    def test_the_prompt_carries_nothing_but_the_charter_and_the_range(self):
-        """Stated as absences too, so the intent survives an edit to the constant."""
-        repo, base, tip = self._round()
-        prompt = D.render_construction_dispatch(D.construction_dispatch_of(repo.root, base, tip))
-        self.assertIn(D.CONSTRUCTION_ROLE_INSTRUCTION, prompt)
-        self.assertIn(f"{base}..{tip}", prompt)
-        self.assertNotIn("Churn", prompt)
-        self.assertNotIn("commits", prompt)
-        self.assertNotIn("upper bound", prompt)
-        # §n is correct in THIS direction only — but nothing is cited here at all now.
-        self.assertNotIn(D.ROLE_INSTRUCTION, prompt)
-
-    def test_a_reversed_range_does_not_bound_a_round(self):
-        repo, base, tip = self._round()
-        d = D.construction_dispatch_of(repo.root, tip, base)
-        self.assertIn(f"{D.CODE}-RANGE-NOT-ANCESTRAL", codes(d.report))
-
-    def test_a_range_containing_no_commit_is_refused(self):
-        repo, base, tip = self._round()
-        d = D.construction_dispatch_of(repo.root, tip, tip)
-        self.assertIn(f"{D.CODE}-EMPTY-RANGE", codes(d.report))
-
-    def test_an_unresolvable_endpoint_is_reported(self):
-        repo, base, tip = self._round()
-        d = D.construction_dispatch_of(repo.root, "no-such-ref", tip)
-        self.assertIn(f"{D.CODE}-COMMIT-UNREADABLE", codes(d.report))
-
-    def test_a_refusal_is_not_a_prompt_and_names_no_subject(self):
-        repo, base, tip = self._round()
-        doc = D.render_construction_dispatch(D.construction_dispatch_of(repo.root, tip, base))
-        self.assertIn("NOT DISPATCHABLE", doc)
-        self.assertNotIn("Subject:", doc)
-
-    def test_both_endpoints_are_routed_in_full(self):
-        repo, base, tip = self._round()
-        d = D.construction_dispatch_of(repo.root, base[:7], tip[:7])
-        self.assertEqual((len(d.base), len(d.tip)), (40, 40))
-        self.assertIn(f"{base}..{tip}", D.render_construction_dispatch(d))
-
-
 class TheCharterIsNamedWhereTheReviewerCanOpenIt(unittest.TestCase):
     """`instrument_relative`: the charter path is a deployment fact, not a constant.
 
@@ -460,7 +391,10 @@ class TheCharterIsNamedWhereTheReviewerCanOpenIt(unittest.TestCase):
     than the module's own constant (`E5`).
     """
 
-    MEMBER = "migration/document-work-assurance-v3/v3-harness-review-contract.md"
+    #: A member this module still names, hand-written and not read back from it (`E5`).
+    #: It was the review-side contract stub until round CORE-ONLY-CODE moved the mode
+    #: that named it out of this module and deleted the stub with it.
+    MEMBER = "document-harness/REVIEW.md"
 
     #: Both deployments are BUILT, never read off the live checkout. The first form of these
     #: two tests derived its subject from where this clone happens to sit
@@ -503,57 +437,13 @@ class TheCharterIsNamedWhereTheReviewerCanOpenIt(unittest.TestCase):
 
     def test_the_resolved_charter_is_what_reaches_the_prompt(self):
         scn = build_scenario()
-        d = D.read_dispatch_of(scn.repo.root, "HEAD")
+        d = D.dispatch_of(scn.repo.root, scn.evidence_commit)
         self.assertEqual(d.charter, self.MEMBER)
-        self.assertIn(f"`{self.MEMBER}`", D.render_read_dispatch(d))
-
-
-class ReadDispatchesGenerateToo(unittest.TestCase):
-    """The third family (E10 layer reads): one commit, a constant prompt, no member list.
-
-    The member set stays with E10's sentence on purpose — the hand-written read dispatch
-    this mode replaces enumerated the members and got the set wrong
-    (`v3-cold-read-451e8b0.md` M-1), which is the anchoring failure the module exists to
-    remove.
-    """
-
-    FIXTURE = pathlib.Path(__file__).parents[1] / "fixtures" / "expected-read-prompt.txt"
-
-    CHARTER_OUTSIDE = "migration/document-work-assurance-v3/v3-harness-review-contract.md"
-
-    def test_the_prompt_is_exactly_the_golden_file(self):
-        scn = build_scenario()
-        d = D.read_dispatch_of(scn.repo.root, "HEAD")
-        self.assertTrue(d.report.ok, codes(d.report))
-        expected = self.FIXTURE.read_text(encoding="utf-8").format(
-            commit=d.commit, charter=self.CHARTER_OUTSIDE
-        )
-        self.assertEqual(D.render_read_dispatch(d), expected)
-
-    def test_the_subject_is_routed_in_full(self):
-        scn = build_scenario()
-        d = D.read_dispatch_of(scn.repo.root, scn.evidence_commit[:7])
-        self.assertTrue(d.report.ok, codes(d.report))
-        self.assertEqual(len(d.commit), 40)
-
-    def test_no_member_enumeration_reaches_the_reader(self):
-        scn = build_scenario()
-        prompt = D.render_read_dispatch(D.read_dispatch_of(scn.repo.root, "HEAD"))
-        self.assertIn("E10's own", prompt)
-        self.assertNotIn("CONSTRUCTION-CHECKLIST.md", prompt)
-        self.assertNotIn("supersession", prompt)
-
-    def test_an_unresolvable_revision_refuses_and_names_no_subject(self):
-        scn = build_scenario()
-        d = D.read_dispatch_of(scn.repo.root, "no-such-ref")
-        self.assertIn(f"{D.CODE}-COMMIT-UNREADABLE", codes(d.report))
-        doc = D.render_read_dispatch(d)
-        self.assertIn("NOT DISPATCHABLE", doc)
-        self.assertNotIn("Subject:", doc)
+        self.assertIn(f"`{self.MEMBER}`", D.render_dispatch(d))
 
 
 class ExecutorDispatchesGenerateToo(unittest.TestCase):
-    """The fourth family (round EXECUTOR-CHARTER, 2026-08-22 ruling): the executor's own
+    """The second family (round EXECUTOR-CHARTER, 2026-08-22 ruling): the executor's own
     charter, delivered instead of hand-copied.
 
     Three facts and nothing more — run id, frozen instruction path and revision, charter
@@ -581,6 +471,7 @@ class ExecutorDispatchesGenerateToo(unittest.TestCase):
             self.assertTrue(d.report.ok, codes(d.report))
             expected = self.FIXTURE.read_text(encoding="utf-8").format(
                 charter=self.CHARTER_OUTSIDE,
+                declared_rules=NO_RULES_LINE,
                 run_id="run-one",
                 instruction_path=f"{self.RUN_DIR}/instruction.md",
                 revision=repo.base,
@@ -673,58 +564,71 @@ class ExecutorDispatchesGenerateToo(unittest.TestCase):
                 )
 
 
-class ConstructionExecutorDispatchGeneratesToo(unittest.TestCase):
-    """The construction-side executor mode: one sentence, the charter, nothing derived.
+class EveryPromptNamesWhatTheRepositoryDeclares(unittest.TestCase):
+    """`E10`'s second sentence, built (round CORE-ONLY-CODE, plan ruling 9 and item H).
 
-    A construction round has no control plane, and hand-fed round facts would reproduce
-    the anchoring this module exists to abolish — so the mode's whole honesty is that it
-    emits the charter pointer and refuses to know anything else.
+    Until this round the sentence was an obligation on this command that the command did not
+    meet: a cold session reached a repository's own rules only if something outside the
+    dispatch happened to name them. Both prompts this module still writes now carry the line,
+    and both forms of it are pinned — a repository that declares rules, and one that declares
+    none, which is the negative control (`E4`) and also the case a caller starts in.
+
+    Both expectations are hand-written whole lines (`E5`), never read back from the module:
+    an expectation taken from the constant would pass whatever the constant said.
     """
 
-    FIXTURE = (
-        pathlib.Path(__file__).parents[1]
-        / "fixtures"
-        / "expected-construction-executor-prompt.txt"
-    )
+    RULE = "rules/CALLER-RULES.md"
 
-    #: Hand-written (`E5`); distinct from the review side's contract stub — two roles,
-    #: two charters, and citing the other side's is the module's recorded incident.
-    CHARTER_OUTSIDE = "document-harness/CONSTRUCTION-CHECKLIST.md"
-
-    def test_the_prompt_is_exactly_the_golden_file(self):
-        scn = build_scenario()
-        d = D.construction_executor_dispatch_of(scn.repo.root)
-        self.assertTrue(d.report.ok, codes(d.report))
-        expected = self.FIXTURE.read_text(encoding="utf-8").format(charter=self.CHARTER_OUTSIDE)
-        self.assertEqual(D.render_construction_executor_dispatch(d), expected)
-
-    def test_nothing_is_derived_beyond_the_charter(self):
-        scn = build_scenario()
-        d = D.construction_executor_dispatch_of(scn.repo.root)
-        prompt = D.render_construction_executor_dispatch(d)
-        self.assertIn(self.CHARTER_OUTSIDE, prompt)
-        self.assertNotIn("Subject:", prompt)
-        self.assertNotIn("Everything else you derive", prompt)
-        self.assertIn(
-            "nothing else is derived", D.render_construction_executor_derivation(d)
+    def _declare(self, repo_root, *rules):
+        (repo_root / "harness.json").write_text(
+            json.dumps({"policy": None, "rules": list(rules)}, indent=1) + "\n",
+            encoding="utf-8",
         )
 
-    def test_the_charter_is_not_the_review_sides(self):
+    def test_the_product_review_prompt_names_the_declaration(self):
         scn = build_scenario()
-        prompt = D.render_construction_executor_dispatch(
-            D.construction_executor_dispatch_of(scn.repo.root)
-        )
-        self.assertNotIn("v3-harness-review-contract.md", prompt)
-        self.assertNotIn("REVIEW.md", prompt)
+        self._declare(scn.repo.root, self.RULE)
+        doc = D.render_dispatch(D.dispatch_of(scn.repo.root, scn.evidence_commit))
+        self.assertIn(ONE_RULE_LINE, doc)
 
-    def test_a_caller_that_mounts_the_instrument_gets_the_path_through_the_mount(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = pathlib.Path(tmp).resolve()
-            instrument = root / "ResearchSystem" / "harness"
-            instrument.mkdir(parents=True)
-            with mock.patch("rsclib.document_harness.RS_ROOT", instrument):
-                d = D.construction_executor_dispatch_of(root)
-                self.assertEqual(d.charter, "ResearchSystem/harness/" + self.CHARTER_OUTSIDE)
+    def test_the_product_review_prompt_says_so_when_nothing_is_declared(self):
+        """Negative control: the line is present and says which case this is."""
+        scn = build_scenario()
+        doc = D.render_dispatch(D.dispatch_of(scn.repo.root, scn.evidence_commit))
+        self.assertIn(NO_RULES_LINE, doc)
+        self.assertNotIn(self.RULE, doc)
+
+    def test_the_executor_prompt_names_the_declaration(self):
+        with TempRepo({"assurance/runs/run-one/instruction.md": "# Task\n"}) as repo:
+            self._declare(repo.root, self.RULE)
+            doc = D.render_executor_dispatch(
+                D.executor_dispatch_of(repo.root, "assurance/runs/run-one")
+            )
+            self.assertIn(ONE_RULE_LINE, doc)
+
+    def test_the_executor_prompt_says_so_when_nothing_is_declared(self):  # negative control
+        with TempRepo({"assurance/runs/run-one/instruction.md": "# Task\n"}) as repo:
+            doc = D.render_executor_dispatch(
+                D.executor_dispatch_of(repo.root, "assurance/runs/run-one")
+            )
+            self.assertIn(NO_RULES_LINE, doc)
+
+    def test_two_declarations_are_both_named(self):
+        with TempRepo({"assurance/runs/run-one/instruction.md": "# Task\n"}) as repo:
+            self._declare(repo.root, "rules/A.md", "rules/B.md")
+            doc = D.render_executor_dispatch(
+                D.executor_dispatch_of(repo.root, "assurance/runs/run-one")
+            )
+            self.assertIn("`rules/A.md` \u00b7 `rules/B.md`", doc)
+
+    def test_the_declaration_is_the_swept_repositorys_and_not_this_ones(self):
+        """The defect a generator reading its own root would have, asserted directly."""
+        with TempRepo({"assurance/runs/run-one/instruction.md": "# Task\n"}) as repo:
+            self._declare(repo.root, self.RULE)
+            doc = D.render_executor_dispatch(
+                D.executor_dispatch_of(repo.root, "assurance/runs/run-one")
+            )
+            self.assertNotIn("CONSTRUCTION-CHECKLIST.md", doc)
 
 
 class NamedIssueReachability(unittest.TestCase):
@@ -743,7 +647,7 @@ class NamedIssueReachability(unittest.TestCase):
             set(),
             "codes declared in dispatch.py with no test asserting them by name",
         )
-        self.assertEqual(len(declared), 15, f"code surface moved: {sorted(declared)}")
+        self.assertEqual(len(declared), 13, f"code surface moved: {sorted(declared)}")
 
 
 if __name__ == "__main__":

@@ -2,9 +2,9 @@
 """The command line of the Document Work Assurance v3 harness.
 
 Eight operations: `governance-scan` / `status` / `flow` / `dispatch` / `disposition` /
-`review` / `init` / `preview`. Six are read-only. `dispatch`'s review-side modes write the
+`review` / `init` / `preview`. Six are read-only. `dispatch`'s review mode writes the
 freeze marker `.harness/review-pending.json` (E9's review window) in the repository it is
-run against — its executor-side modes write nothing, an executor dispatch opening no
+run against — its executor mode writes nothing, an executor dispatch opening no
 review window — and
 `init` writes into a target repository being onboarded — the mechanical slice of onboarding's
 ten items, and nothing else (`init_target.py`; the user ruled on 2026-08-18 that a seventh
@@ -162,50 +162,33 @@ def _cmd_v3_flow(args: argparse.Namespace) -> int:
 
 
 def _cmd_v3_dispatch(args: argparse.Namespace) -> int:
-    """Derive a dispatch from committed state — the cold entry for every dispatched role.
+    """Derive a dispatch from committed state — the cold entry for a product run's roles.
 
-    Three review-side modes (product evidence commit, construction range, E10 layer read)
-    hand a cold reviewer or reader its subject, and — since round EXECUTOR-CHARTER, the
-    2026-08-22 ruling — two executor-side modes hand a cold executor its charter. Until the
-    review-side modes existed every dispatch was hand-composed and its facts were the
-    dispatcher's rather than the repository's (`issue-p3-corr-no-dispatch-generator`);
-    until the executor-side modes existed the executor had no dispatch at all, and every
-    product instruction hand-copied a charter pointer into its Context section instead.
+    One review-side mode (the run's evidence commit) hands a cold reviewer its subject,
+    and — since round EXECUTOR-CHARTER, the 2026-08-22 ruling — one executor-side mode
+    hands the run's cold executor its charter. Until the review-side mode existed every
+    dispatch was hand-composed and its facts were the dispatcher's rather than the
+    repository's (`issue-p3-corr-no-dispatch-generator`); until the executor-side mode
+    existed the executor had no dispatch at all, and every product instruction
+    hand-copied a charter pointer into its Context section instead.
+
+    The three modes only a round against a repository's own declared rules uses — a
+    commit range, an E10 layer read, and that round's executor — left this command in
+    round CORE-ONLY-CODE (`core-only.plan.md` item C, acceptance 6). They are of no use
+    to a repository that mounts this harness, so they are not in the tree it mounts.
 
     A dispatch that could not be derived cleanly is still printed, with its issues, and
     exits 1: the dispatcher needs to see what is wrong more than they need a success.
     """
     from rsclib.document_harness import AssuranceFault, SpecGap
     from rsclib.document_harness import dispatch as v3_dispatch
+    from rsclib.document_harness.caller import HarnessConfigError
 
     repo_root = _rooted(args)
     if repo_root is None:
         return 2
     try:
-        if args.range:
-            # A CONSTRUCTION round: no control plane declares where it began, so the two
-            # revisions bounding it are the one irreducible input — and, unlike the product
-            # path, very nearly the only input. This half derives nothing but two resolved
-            # SHAs; the reasoning for that lives in dispatch.py's construction section.
-            base, sep, tip = args.range.partition("..")
-            if not sep or not base or not tip:
-                print(f"FATAL: --range takes BASE..TIP, got {args.range!r}", file=sys.stderr)
-                return 2
-            derived = v3_dispatch.construction_dispatch_of(repo_root, base, tip)
-            render, render_derivation = (
-                v3_dispatch.render_construction_dispatch,
-                v3_dispatch.render_construction_derivation,
-            )
-        elif getattr(args, "read", None):
-            # An E10 instruction-layer read: one commit, no control plane. The member set
-            # is deliberately not derived here — E10's sentence owns it (dispatch.py's
-            # read section).
-            derived = v3_dispatch.read_dispatch_of(repo_root, args.read)
-            render, render_derivation = (
-                v3_dispatch.render_read_dispatch,
-                v3_dispatch.render_read_derivation,
-            )
-        elif getattr(args, "executor", None):
+        if getattr(args, "executor", None):
             # A PRODUCT run's executor: three facts from the run directory's committed
             # state — run id, frozen instruction path and revision, charter pointer —
             # and nothing more (dispatch.py's executor section).
@@ -214,22 +197,13 @@ def _cmd_v3_dispatch(args: argparse.Namespace) -> int:
                 v3_dispatch.render_executor_dispatch,
                 v3_dispatch.render_executor_derivation,
             )
-        elif getattr(args, "construction_executor", False):
-            # A CONSTRUCTION round's executor: the charter pointer, deriving nothing —
-            # a construction round has no control plane, and hand-fed round facts would
-            # reproduce what this command exists to abolish.
-            derived = v3_dispatch.construction_executor_dispatch_of(repo_root)
-            render, render_derivation = (
-                v3_dispatch.render_construction_executor_dispatch,
-                v3_dispatch.render_construction_executor_derivation,
-            )
         else:
             derived = v3_dispatch.dispatch_of(repo_root, args.subject)
             render, render_derivation = (
                 v3_dispatch.render_dispatch,
                 v3_dispatch.render_derivation,
             )
-    except (SpecGap, AssuranceFault) as exc:
+    except (SpecGap, AssuranceFault, HarnessConfigError) as exc:
         print(f"FATAL: {exc}", file=sys.stderr)
         return 2
 
@@ -249,47 +223,15 @@ def _cmd_v3_dispatch(args: argparse.Namespace) -> int:
     # The freeze marker below is STATE, not the prompt: a successful dispatch opens E9's
     # window (dispatch -> record commit, no other commit lands), and the tracked
     # `review_freeze_check.py` reads this file to hold that window mechanically. The
-    # executor deletes it in the act that commits the returned record.
-    # The marker records the SUBJECT and nothing about what kind of work it is. It used to
-    # carry a `kind`, derived from which flag was typed rather than from what was dispatched,
-    # so a product run forced onto `--range` was labelled "construction-round" (p5b-firewall,
-    # issue-p5b-firewall-dispatch-types-product-run-as-construction). The field was deleted
-    # rather than taught: nothing branches on it — `review_freeze_check.py` read it only to
-    # print a display line — and `R2` forbids a reviewer trusting anything handed to them, so
-    # a value no code consumes and no reviewer may rely on can only ever mislead. The subject
-    # itself says which family it is: a `..` range, or one 40-hex commit.
+    # executor deletes it in the act that commits the returned record. What the marker
+    # records, and what it deliberately does not, is `dispatch.write_freeze_marker`'s to
+    # say — one live copy, called by every review-side dispatch wherever its mode lives.
     #
     # An EXECUTOR dispatch writes no marker: the marker opens E9's review window, inside
     # which only the returned record may land — and an executor dispatch starts precisely
     # the work that window would freeze.
-    executor_side = bool(
-        getattr(args, "executor", None) or getattr(args, "construction_executor", False)
-    )
-    if derived.report.ok and not executor_side:
-        import datetime
-        import json as _json
-
-        if args.range:
-            subject = f"{derived.base}..{derived.tip}"
-        elif getattr(args, "read", None):
-            subject = derived.commit
-        else:
-            subject = derived.evidence_commit
-        marker = repo_root / ".harness" / "review-pending.json"
-        marker.parent.mkdir(parents=True, exist_ok=True)
-        marker.write_text(
-            _json.dumps(
-                {
-                    "subject": subject,
-                    "dispatched_at": datetime.datetime.now(
-                        datetime.timezone.utc
-                    ).isoformat(timespec="seconds"),
-                },
-                indent=1,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
+    if derived.report.ok and not getattr(args, "executor", None):
+        marker = v3_dispatch.write_freeze_marker(repo_root, derived.evidence_commit)
         print(
             f"freeze marker written: {marker} — delete it in the act that commits the "
             "returned record",
@@ -544,30 +486,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     dispatch_cmd = sub.add_parser(
         "dispatch",
-        help="derive a dispatch from committed state: a review subject, a layer read, "
-             "or an executor's charter",
+        help="derive a dispatch from committed state: a run's review subject, "
+             "or its executor's charter",
     )
     dispatch_mode = dispatch_cmd.add_mutually_exclusive_group(required=True)
     dispatch_mode.add_argument(
         "--subject", help="PRODUCT run review: the evidence commit — the only input needed"
     )
     dispatch_mode.add_argument(
-        "--range",
-        help="CONSTRUCTION round review: BASE..TIP, the one thing no control plane records",
-    )
-    dispatch_mode.add_argument(
-        "--read",
-        help="E10 layer read: the commit whose instruction layer is the subject",
-    )
-    dispatch_mode.add_argument(
         "--executor",
         metavar="RUN",
         help="PRODUCT run executor: the run directory holding the frozen instruction.md",
-    )
-    dispatch_mode.add_argument(
-        "--construction-executor",
-        action="store_true",
-        help="CONSTRUCTION round executor: one sentence naming the charter; nothing derived",
     )
     dispatch_cmd.add_argument("--repo-root", help="repository root (default: the git toplevel of the current directory, or a loud refusal)")
     dispatch_cmd.set_defaults(func=_cmd_v3_dispatch)

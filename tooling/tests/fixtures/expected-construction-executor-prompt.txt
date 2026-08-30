@@ -1,3 +1,6 @@
-You are the executor for a construction round of Document Work Assurance
-Harness v3: your standing instructions are `{charter}`, whose *Execution side*
-heading already binds this role by name — read it before anything else.
+You are the executor for a construction round of Document Work Assurance Harness v3.
+Your standing instructions are the rule files this repository declares under
+`rules` in its `harness.json`:
+{rules}
+Read them, and the counterpart they name, before anything else — their
+execution-side heading binds this role by name.

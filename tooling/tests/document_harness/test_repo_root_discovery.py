@@ -14,8 +14,16 @@ Three layers, because each hides a different regression:
 * the six call sites, pinned structurally — one command exercised end-to-end proves the
   helper works, and the source pin is what stops a seventh site (or a regressed sixth)
   from quietly going back to `Path.cwd()`;
-* the real command line, subprocess with a real cwd — `init` for where writes land, and
-  `dispatch` for the freeze marker, the write whose mis-homing disarms `E9`'s window.
+* the real command line, subprocess with a real cwd — `init` for where writes land, and the
+  construction dispatch for the freeze marker, the write whose mis-homing disarms `E9`'s
+  window.
+
+The freeze-marker case moved entry in round `CORE-ONLY-CODE`: the range mode it drove left
+`dtw dispatch` for `tooling/construction_dispatch.py` (`core-only.plan.md` item C), and that
+script resolves the root through a second copy of the same contract rather than through
+`cli._rooted`. So the end-to-end case follows the copy that is now unpinned by anything else,
+which is what E7 asks — the defect class is a command taking the cwd, not a command called
+`dtw`.
 """
 from __future__ import annotations
 
@@ -37,6 +45,9 @@ CLI_SOURCE = (
     _harness.TOOLING_DIR / "rsclib" / "document_harness" / "cli.py"
 ).read_text(encoding="utf-8")
 
+CONSTRUCTION_DISPATCH = _harness.TOOLING_DIR / "construction_dispatch.py"
+CONSTRUCTION_SOURCE = CONSTRUCTION_DISPATCH.read_text(encoding="utf-8")
+
 
 def outside_any_repository(case: unittest.TestCase) -> pathlib.Path:
     """A directory this test owns and no git work tree holds.
@@ -54,6 +65,16 @@ def outside_any_repository(case: unittest.TestCase) -> pathlib.Path:
 def run_dtw(cwd: pathlib.Path, *argv: str) -> subprocess.CompletedProcess:
     return subprocess.run(
         [sys.executable, str(_harness.TOOLING_DIR / "dtw.py"), *argv],
+        cwd=str(cwd),
+        capture_output=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+
+
+def run_construction_dispatch(cwd: pathlib.Path, *argv: str) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [sys.executable, str(CONSTRUCTION_DISPATCH), *argv],
         cwd=str(cwd),
         capture_output=True,
         encoding="utf-8",
@@ -146,6 +167,16 @@ class TheFiveCommandsShareTheDefault(unittest.TestCase):
     def test_no_site_takes_the_bare_cwd_default(self):
         self.assertEqual(CLI_SOURCE.count("else pathlib.Path.cwd().resolve()"), 0)
 
+    def test_the_construction_dispatch_asks_git_too(self):
+        """The sixth site, outside `cli.py`: its own copy of the same contract.
+
+        It cannot route through `_rooted`, which lives in the product tier's CLI and takes an
+        argparse namespace of that parser's shape. So the property is pinned where the copy
+        is: git is asked, and the bare cwd is never resolved into a root.
+        """
+        self.assertEqual(CONSTRUCTION_SOURCE.count("discover_repo_root(pathlib.Path.cwd())"), 1)
+        self.assertEqual(CONSTRUCTION_SOURCE.count("else pathlib.Path.cwd().resolve()"), 0)
+
 
 class ThroughTheCommandLine(unittest.TestCase):
     def test_init_from_a_nested_directory_writes_at_the_toplevel(self):
@@ -186,13 +217,16 @@ class ThroughTheCommandLine(unittest.TestCase):
         # The concrete harm of the old default: a dispatch from a subdirectory wrote
         # `.harness/review-pending.json` beside the operator, where the tracked freeze
         # guard — reading from the repository root — would never see it, so E9's window
-        # never actually held.
-        with TempRepo({"a.md": "one\n"}) as repo:
+        # never actually held. Driven through the construction dispatch since round
+        # CORE-ONLY-CODE, which is where the range mode and its own root resolution live.
+        declaration = '{\n "policy": null,\n "rules": ["OWN-RULES.md"]\n}\n'
+        with TempRepo({"a.md": "one\n", "harness.json": declaration,
+                       "OWN-RULES.md": "# rules\n"}) as repo:
             repo.write({"b.md": "two\n"})
             tip = repo.commit_all("tip")
             nested = repo.root / "docs"
             nested.mkdir(exist_ok=True)
-            completed = run_dtw(nested, "dispatch", "--range", f"{repo.base}..{tip}")
+            completed = run_construction_dispatch(nested, "--range", f"{repo.base}..{tip}")
             self.assertEqual(completed.returncode, 0, completed.stderr)
             self.assertTrue((repo.root / ".harness" / "review-pending.json").is_file())
             self.assertFalse((nested / ".harness").exists())

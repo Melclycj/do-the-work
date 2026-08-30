@@ -4,6 +4,8 @@ Your role instruction is `{charter}`;
 read it before anything else. It governs your work in this run.
 This prompt does not — it exists only to hand you the run.
 
+{declared_rules}
+
 **Run: `{run_id}`**
 **Instruction: `{instruction_path}`, frozen at `{revision}`**
 

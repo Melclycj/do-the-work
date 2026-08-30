@@ -7,10 +7,25 @@ runs and the hand-written `W2/W2-dispatch-*.md` — was composed by hand from va
 off a screen, which makes the facts a reviewer is anchored by the *dispatcher's* rather than
 the *repository's*. That is avoidable: role, subject, control root, boundary, accepted
 findings and result schema are all derivable from committed state
-(`issue-p3-corr-no-dispatch-generator`, routed CORE_CANDIDATE 2026-07-25). Four dispatch
-families live here — product review, construction review, layer read, and, since round
-EXECUTOR-CHARTER (2026-08-22 ruling), the executor's own charter; each family's section
-below carries its reasoning.
+(`issue-p3-corr-no-dispatch-generator`, routed CORE_CANDIDATE 2026-07-25). Two dispatch
+families live here — a product run's review and, since round EXECUTOR-CHARTER (2026-08-22
+ruling), that run's executor's own charter; each family's section below carries its
+reasoning.
+
+**Three families left in round CORE-ONLY-CODE** (plan `core-only.plan.md` item C): the
+bounded review of a round's commit range, the E10 instruction-layer read, and that round's
+executor. All three are of use only to a repository running rounds against its own declared
+rules, so acceptance 6 bounds them out of the tree a caller mounts, and they live outside it
+now. What went with them is only their own prompts and their own derivation; the generic
+plumbing — `resolve_subject`, `write_freeze_marker`, `declared_rules_line` — stays here in
+one live copy and is imported rather than duplicated.
+
+**Every prompt names what the repository declares.** `E10`'s second sentence holds this
+command to naming the declared files in every prompt it writes, so that a cold session
+receives a repository's rules by the channel it receives its charter. The line is generated
+from `harness.json` (`declared_rules_line` below), never hand-copied into each prompt
+constant, and it is emitted even when nothing is declared: a cold session cannot otherwise
+tell "this repository declares no rules" from "the generator forgot to say".
 
 **What this module deliberately does not generate.** An earlier version emitted a marked gap
 for the dispatcher to fill with what *this* round was worth hunting for. That is gone: once
@@ -29,9 +44,10 @@ import dataclasses
 import json
 import pathlib
 import subprocess
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
 
 from rsclib.document_harness import Issue, Report, report_of
+from rsclib.document_harness.caller import load_harness_config
 from rsclib.document_harness.candidate import CandidateTreeReader
 from rsclib.document_harness.review_subject import (
     STATE_PATH,
@@ -78,6 +94,91 @@ def instrument_relative(repo_root: pathlib.Path | str, member: str) -> str:
         return member
     return (prefix / member).as_posix()
 
+
+#: The one sentence every prompt carries about the repository's own rules, in one live copy
+#: rather than repeated into each prompt constant (E10's second sentence; plan ruling 9).
+DECLARED_RULES_LINE = (
+    "**This repository's own rules:** {rules} — declared under `rules` in its "
+    "`harness.json`, to be read after the charter above. They bind this repository alone."
+)
+
+#: What that line says where a repository declares nothing. Stated rather than omitted: an
+#: absent line reads the same as a generator that failed, and E10 says a repository that has
+#: declared nothing is not defective — so the prompt says which of the two it is.
+DECLARED_RULES_ABSENT_LINE = (
+    "**This repository's own rules:** none. Its `harness.json` declares no rule files, "
+    "which E10 makes a repository that has declared nothing rather than a defective one."
+)
+
+
+def declared_rules(repo_root: pathlib.Path | str) -> tuple[str, ...]:
+    """The rule files this repository declares — repo-root-relative, never mount-relative.
+
+    Unlike a charter, which is a path inside this instrument and needs `instrument_relative`
+    to be openable from a caller, a declared rule belongs to the repository being dispatched
+    in and is already named from that repository's own root.
+    """
+    return load_harness_config(repo_root).rules
+
+
+def declared_rules_phrase(rules: Sequence[str]) -> str:
+    """How any prompt names the declarations, so the naming has one live copy."""
+    return " · ".join(f"`{path}`" for path in rules)
+
+
+def declared_rules_line(rules: Sequence[str]) -> str:
+    """The prompt's declared-rules line — two sentences, because none is not a short list.
+
+    Formatting an empty list into the sentence below would emit "your own rules: — declared
+    under rules in its harness.json", which is a defect that reads like a template bug. The
+    absence gets a sentence of its own instead.
+    """
+    if not rules:
+        return DECLARED_RULES_ABSENT_LINE
+    return DECLARED_RULES_LINE.format(rules=declared_rules_phrase(rules))
+
+
+#: E9's review window, held mechanically by the tracked `review_freeze_check.py`, which reads
+#: this file. Written by a review-side dispatch; deleted by the act that commits the returned
+#: record. An executor-side dispatch writes none — the marker freezes precisely the work an
+#: executor dispatch starts.
+FREEZE_MARKER = ".harness/review-pending.json"
+
+
+def write_freeze_marker(repo_root: pathlib.Path | str, subject: str) -> pathlib.Path:
+    """Open E9's window for `subject` and return where the marker was written.
+
+    One live copy, called by every review-side dispatch wherever its mode lives. The marker
+    records the SUBJECT and nothing about what kind of work it is. It used to carry a `kind`
+    derived from which flag was typed rather than from what was dispatched, so a product run
+    forced onto a range was labelled "construction-round" (p5b-firewall,
+    issue-p5b-firewall-dispatch-types-product-run-as-construction). The field was deleted
+    rather than taught: nothing branches on it — `review_freeze_check.py` read it only to
+    print a display line — and `R2` forbids a reviewer trusting anything handed to them, so a
+    value no code consumes and no reviewer may rely on can only ever mislead. The subject
+    itself says which family it is: a `..` range, or one 40-hex commit.
+    """
+    import datetime
+    import json as _json
+
+    marker = pathlib.Path(repo_root) / FREEZE_MARKER
+    marker.parent.mkdir(parents=True, exist_ok=True)
+    marker.write_text(
+        _json.dumps(
+            {
+                "subject": subject,
+                "dispatched_at": datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat(timespec="seconds"),
+            },
+            indent=1,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    return marker
+
+
 #: Closed per-round verdicts (contract §5). A VERIFY cannot return `CHANGES_REQUIRED`:
 #: there is no second repair for it to request, and a remaining blocker stops the round.
 VERDICTS: dict[str, tuple[str, ...]] = {
@@ -115,6 +216,8 @@ class Dispatch:
     #: Instrument paths resolved for THIS subject repository (`instrument_relative`).
     charter: str = ""
     result_schema: str = ""
+    #: What THIS repository declares under `rules`; repo-root-relative, so no resolution.
+    declared_rules: tuple[str, ...] = ()
 
 
 def control_root_of(
@@ -290,12 +393,13 @@ def _repair_binding(
 def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch:
     """Derive the whole dispatch from one SHA. Failures are reported, never raised."""
     repo_root = pathlib.Path(repo_root)
+    rules = declared_rules(repo_root)
     resolved, resolve_report = resolve_subject(repo_root, evidence_commit)
     if resolved is None:
         return Dispatch(evidence_commit, None, None, None, None, None, None, None, None,
                         (), None, None, None, None, resolve_report,
                         instrument_relative(repo_root, ROLE_INSTRUCTION),
-                        instrument_relative(repo_root, RESULT_SCHEMA))
+                        instrument_relative(repo_root, RESULT_SCHEMA), rules)
     evidence_commit = resolved
 
     control_root, report = control_root_of(repo_root, evidence_commit)
@@ -303,7 +407,7 @@ def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch
         return Dispatch(evidence_commit, None, None, None, None, None, None, None, None,
                         (), None, None, None, None, report,
                         instrument_relative(repo_root, ROLE_INSTRUCTION),
-                        instrument_relative(repo_root, RESULT_SCHEMA))
+                        instrument_relative(repo_root, RESULT_SCHEMA), rules)
 
     plane = read_control_plane(repo_root, evidence_commit, control_root)
     report = report + plane.report
@@ -369,6 +473,7 @@ def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch
         report=report + report_of(issues),
         charter=instrument_relative(repo_root, ROLE_INSTRUCTION),
         result_schema=instrument_relative(repo_root, RESULT_SCHEMA),
+        declared_rules=rules,
     )
 
 
@@ -469,6 +574,10 @@ def render_dispatch(dispatch: Dispatch) -> str:
         "  the commit that lands your returned record deletes it (see your role",
         "  instruction's deliverables section).",
         "",
+        # E10's second sentence, generated rather than restated: the charter above is the
+        # harness's, and this line is whatever THIS repository adds to it.
+        declared_rules_line(dispatch.declared_rules),
+        "",
         "Everything else you derive from the repository: which round this is and what budget",
         "it carries, what was authorized and by whom, what the work was obliged to do, and how",
         "to report. All of it is committed; none of it is restated here, because a fact you",
@@ -513,224 +622,7 @@ def render_derivation(dispatch: Dispatch) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Construction rounds — the other charter, and almost nothing else
-# ---------------------------------------------------------------------------
-#
-# A PRODUCT run's control plane declares its own identity, and the machinery above earns its
-# keep by REFUSING: a closed run, an incomplete evidence set, a commit staging two control
-# roots, a commit that is not an evidence commit. Those are real mis-routes a human cannot
-# see. What it emits is, by design, a template with two slots.
-#
-# A CONSTRUCTION round has no control plane, and correspondingly almost nothing to refuse.
-# So this half is what it should always have been: a constant prompt with the charter and the
-# round's two bounding revisions substituted in, plus three checks that are one git call each.
-#
-# It was not always this. An earlier version derived a churn list — "paths revised more than
-# once inside the range" — on the strength of the construction charter's §8 calling that
-# useful. Removing it removed five review findings at once, because every one of them existed
-# only to hold up churn: walking commits one at a time made merges invisible; fixing that
-# double-counted a branch merged in, so a caveat was needed; the caveat grew the prompt's
-# fixed text, so the fixed text became a sliced constant; and a sliced constant needed a guard
-# against leaking, which then needed a guard against being one-directional.
-#
-# The deletion is not a judgment that churn is uninteresting. It is that supplying it was
-# never this side's job. The same §8 opens with "One commit SHA. Nothing else. Everything else
-# I read from the repository myself", and §5.1 forbids the reviewer to accept a reported
-# number — so a dispatched churn list must be recomputed by its recipient, and both reviewers
-# did exactly that. It bought nobody anything. Worse, the quantity is not well defined on a
-# DAG: count a merge and a path revised once on the merged branch is reported as churn, do not
-# count it and the merge's own content is invisible, and there is no third answer. The
-# computation was deterministic; the thing it computed was not. A caveat declaring the number
-# an upper bound was a confession dressed as a feature.
-
-#: Instrument-relative; the resolved form travels on `ConstructionDispatch.charter` and
-#: `ReadDispatch.charter`.
-CONSTRUCTION_ROLE_INSTRUCTION = (
-    "migration/document-work-assurance-v3/v3-harness-review-contract.md"
-)
-
-#: The whole reviewer-facing prompt. One constant, two substitutions — so the test can assert
-#: the emitted document equals this exactly, which catches an added line, a missing line and a
-#: reordered line alike. The partition guard it replaces could only ever catch the first.
-CONSTRUCTION_PROMPT = """\
-You are the independent bounded reviewer for Document Work Assurance Harness v3.
-
-Your standing instructions are `{charter}`;
-read it, and the counterpart it names, before anything else. It governs this round.
-This prompt does not — it exists only to hand you the subject.
-
-**Subject: `{base}..{tip}`**
-
-Everything else you derive from the repository: which round this is and what budget
-it carries, what was authorized and by whom, what the work was obliged to do, and how
-to report. All of it is committed; none of it is restated here, because a fact you
-were handed is a fact you did not check.
-"""
-
-
-@dataclasses.dataclass(frozen=True)
-class ConstructionDispatch:
-    """The two bounding revisions, resolved. `None` means derivation stopped; see report."""
-
-    base: str | None
-    tip: str | None
-    report: Report
-    #: The construction charter, resolved for THIS subject repository.
-    charter: str = ""
-
-
-def construction_dispatch_of(
-    repo_root: pathlib.Path | str, base: str, tip: str
-) -> ConstructionDispatch:
-    """Resolve and sanity-check the two revisions that bound a construction round."""
-    repo_root = pathlib.Path(repo_root)
-    charter = instrument_relative(repo_root, CONSTRUCTION_ROLE_INSTRUCTION)
-    base_sha, base_report = resolve_subject(repo_root, base)
-    tip_sha, tip_report = resolve_subject(repo_root, tip)
-    report = base_report + tip_report
-    if base_sha is None or tip_sha is None:
-        return ConstructionDispatch(base_sha, tip_sha, report, charter)
-
-    # An unordered pair does not bound a round, and picking an order for the caller would
-    # invent a round they did not mean.
-    ancestry = subprocess.run(
-        ["git", "-C", str(repo_root), "merge-base", "--is-ancestor", base_sha, tip_sha],
-        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-    )
-    if ancestry.returncode != 0:
-        return ConstructionDispatch(base_sha, tip_sha, charter=charter, report=report + report_of([
-            Issue(
-                f"{CODE}-RANGE-NOT-ANCESTRAL",
-                f"{base_sha[:12]} is not an ancestor of {tip_sha[:12]}, so these two do not "
-                "bound a round",
-                "base",
-            )
-        ]))
-
-    revs = subprocess.run(
-        ["git", "-C", str(repo_root), "rev-list", "--count", f"{base_sha}..{tip_sha}"],
-        check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-    )
-    if revs.returncode != 0 or int(revs.stdout.decode().strip() or 0) == 0:
-        return ConstructionDispatch(base_sha, tip_sha, charter=charter, report=report + report_of([
-            Issue(
-                f"{CODE}-EMPTY-RANGE",
-                f"{base_sha[:12]}..{tip_sha[:12]} contains no commit, so there is nothing to "
-                "review",
-                "tip",
-            )
-        ]))
-
-    return ConstructionDispatch(base=base_sha, tip=tip_sha, report=report, charter=charter)
-
-
-def render_construction_dispatch(dispatch: ConstructionDispatch) -> str:
-    """The reviewer-facing prompt: the charter, the range, and nothing else."""
-    if not dispatch.report.ok:
-        lines = [
-            "# NOT DISPATCHABLE",
-            "",
-            "The two revisions given do not bound a reviewable round, so no dispatch was",
-            "produced. Resolve the following, then re-run.",
-            "",
-        ]
-        lines += [f"- {issue.render()}" for issue in dispatch.report.issues]
-        return "\n".join(lines) + "\n"
-
-    return CONSTRUCTION_PROMPT.format(
-        charter=dispatch.charter or CONSTRUCTION_ROLE_INSTRUCTION,
-        base=dispatch.base,
-        tip=dispatch.tip,
-    )
-
-
-def render_construction_derivation(dispatch: ConstructionDispatch) -> str:
-    """One line for the dispatcher: what the typed revisions resolved to.
-
-    Deliberately not a second view of the prompt. The dispatcher types abbreviations; this
-    confirms what they became, and nothing else is derived to show.
-    """
-    lines = [f"derived round     : {_value(dispatch.base)}..{_value(dispatch.tip)}"]
-    for issue in dispatch.report.issues:
-        lines.append("  ! " + issue.render())
-    return "\n".join(lines)
-
-
-# ---------------------------------------------------------------------------
-# Instruction-layer reads (E10) — the third dispatch family
-# ---------------------------------------------------------------------------
-#
-# A read's subject is the instruction layer at one commit — no control plane, no range.
-# Until 2026-07-29 reads had no generator path, so their dispatches were hand-written, and
-# the second of them handed the reader a member table that was wrong
-# (`v3-cold-read-451e8b0.md` M-1) — the exact anchoring failure this module's docstring
-# names. Same shape as the construction prompt: the charter, one subject, and the
-# derive-everything paragraph. The member set is NOT enumerated here: E10's own sentence
-# owns it, and the reader derives it there.
-
-READ_PROMPT = """\
-You are the independent reader for Document Work Assurance Harness v3.
-
-Your standing instructions are `{charter}`;
-read it, and the counterpart it names, before anything else. It governs this read.
-This prompt does not — it exists only to hand you the subject.
-
-**Subject: the instruction layer at `{commit}` (an E10 read)**
-
-Everything else you derive from the repository: the layer's member set from E10's own
-sentence, each member's bytes at the subject commit, and how to report. All of it is
-committed; none of it is restated here, because a fact you were handed is a fact you
-did not check.
-"""
-
-
-@dataclasses.dataclass(frozen=True)
-class ReadDispatch:
-    """The one resolved revision a layer read is bound to. `None` means see report."""
-
-    commit: str | None
-    report: Report
-    #: The construction charter, resolved for THIS subject repository.
-    charter: str = ""
-
-
-def read_dispatch_of(repo_root: pathlib.Path | str, revision: str) -> ReadDispatch:
-    """Resolve the commit whose instruction layer is the read's subject."""
-    commit, report = resolve_subject(pathlib.Path(repo_root), revision)
-    return ReadDispatch(
-        commit=commit,
-        report=report,
-        charter=instrument_relative(repo_root, CONSTRUCTION_ROLE_INSTRUCTION),
-    )
-
-
-def render_read_dispatch(dispatch: ReadDispatch) -> str:
-    """The reader-facing prompt: the charter, the commit, and nothing else."""
-    if not dispatch.report.ok:
-        lines = [
-            "# NOT DISPATCHABLE",
-            "",
-            "The revision given does not resolve to a commit, so no read dispatch was",
-            "produced. Resolve the following, then re-run.",
-            "",
-        ]
-        lines += [f"- {issue.render()}" for issue in dispatch.report.issues]
-        return "\n".join(lines) + "\n"
-    return READ_PROMPT.format(
-        charter=dispatch.charter or CONSTRUCTION_ROLE_INSTRUCTION, commit=dispatch.commit
-    )
-
-
-def render_read_derivation(dispatch: ReadDispatch) -> str:
-    """One line for the dispatcher: what the typed revision resolved to."""
-    lines = [f"derived subject   : {_value(dispatch.commit)} (instruction-layer read)"]
-    for issue in dispatch.report.issues:
-        lines.append("  ! " + issue.render())
-    return "\n".join(lines)
-
-
-# ---------------------------------------------------------------------------
-# Executor dispatches — the fourth family: the work side's own charter
+# Executor dispatches — the second family: the work side's own charter
 # ---------------------------------------------------------------------------
 #
 # Until round EXECUTOR-CHARTER (user ruling 2026-08-22) every dispatch above was
@@ -753,14 +645,7 @@ def render_read_derivation(dispatch: ReadDispatch) -> str:
 # commit has frozen, and worktree bytes that drifted from the frozen blob — each a real
 # mis-route the dispatcher cannot see, each one git call.
 #
-# The CONSTRUCTION mode emits one sentence — the charter pointer — and derives nothing. A
-# construction round has no control plane to derive from (its range is "the one thing no
-# control plane records"), and feeding the round's name or boundary in by hand would
-# reproduce exactly what this module exists to abolish. The charter it names is the
-# construction checklist itself, whose *Execution side* heading already binds the role by
-# name, so the sentence points at an existing obligation rather than creating one.
-#
-# Neither mode writes the freeze marker: that marker opens E9's REVIEW window, and an
+# This mode writes no freeze marker: that marker opens E9's REVIEW window, and an
 # executor dispatch starts precisely the work that window would freeze. The CLI holds
 # that split.
 
@@ -769,13 +654,7 @@ def render_read_derivation(dispatch: ReadDispatch) -> str:
 #: repository.
 EXECUTOR_ROLE_INSTRUCTION = "document-harness/EXECUTION.md"
 
-#: The construction-round executor's charter. Distinct from CONSTRUCTION_ROLE_INSTRUCTION
-#: above, which is the REVIEW side's contract stub — two roles, two documents, and the
-#: recorded incident about citing the other side's charter is why neither constant serves
-#: both.
-CONSTRUCTION_EXECUTOR_CHARTER = "document-harness/CONSTRUCTION-CHECKLIST.md"
-
-#: The whole product-executor prompt. One constant, four substitutions — the test asserts
+#: The whole product-executor prompt. One constant, five substitutions — the test asserts
 #: the emitted document equals it exactly, the shape that catches an added, missing or
 #: reordered line alike.
 EXECUTOR_PROMPT = """\
@@ -785,6 +664,8 @@ Your role instruction is `{charter}`;
 read it before anything else. It governs your work in this run.
 This prompt does not — it exists only to hand you the run.
 
+{declared_rules}
+
 **Run: `{run_id}`**
 **Instruction: `{instruction_path}`, frozen at `{revision}`**
 
@@ -792,13 +673,6 @@ Everything else you derive from the repository, and the WorkSpec is yours to
 author — nothing here says what to do or what to check, because such a list
 would be a WorkSpec nobody approved. A fact you were handed is a fact you did
 not check.
-"""
-
-#: The whole construction-executor prompt: one sentence, one substitution.
-CONSTRUCTION_EXECUTOR_PROMPT = """\
-You are the executor for a construction round of Document Work Assurance
-Harness v3: your standing instructions are `{charter}`, whose *Execution side*
-heading already binds this role by name — read it before anything else.
 """
 
 
@@ -813,14 +687,8 @@ class ExecutorDispatch:
     report: Report
     #: The executor charter, resolved for THIS subject repository.
     charter: str = ""
-
-
-@dataclasses.dataclass(frozen=True)
-class ConstructionExecutorDispatch:
-    """The charter and nothing else — a construction round derives nothing."""
-
-    report: Report
-    charter: str = ""
+    #: What THIS repository declares under `rules`; repo-root-relative, so no resolution.
+    declared_rules: tuple[str, ...] = ()
 
 
 def executor_dispatch_of(
@@ -836,9 +704,12 @@ def executor_dispatch_of(
     """
     repo_root = pathlib.Path(repo_root)
     charter = instrument_relative(repo_root, EXECUTOR_ROLE_INSTRUCTION)
+    rules = declared_rules(repo_root)
 
     def refused(issue: Issue) -> ExecutorDispatch:
-        return ExecutorDispatch(str(run_dir), None, None, None, report_of([issue]), charter)
+        return ExecutorDispatch(
+            str(run_dir), None, None, None, report_of([issue]), charter, rules
+        )
 
     root = pathlib.Path(run_dir)
     if not root.is_absolute():
@@ -909,6 +780,7 @@ def executor_dispatch_of(
         revision=revision,
         report=report_of([]),
         charter=charter,
+        declared_rules=rules,
     )
 
 
@@ -926,6 +798,7 @@ def render_executor_dispatch(dispatch: ExecutorDispatch) -> str:
         return "\n".join(lines) + "\n"
     return EXECUTOR_PROMPT.format(
         charter=dispatch.charter or EXECUTOR_ROLE_INSTRUCTION,
+        declared_rules=declared_rules_line(dispatch.declared_rules),
         run_id=dispatch.run_id,
         instruction_path=dispatch.instruction_path,
         revision=dispatch.revision,
@@ -943,63 +816,30 @@ def render_executor_derivation(dispatch: ExecutorDispatch) -> str:
     return "\n".join(lines)
 
 
-def construction_executor_dispatch_of(
-    repo_root: pathlib.Path | str,
-) -> ConstructionExecutorDispatch:
-    """Resolve the construction executor's charter. Nothing else exists to derive."""
-    return ConstructionExecutorDispatch(
-        report=report_of([]),
-        charter=instrument_relative(pathlib.Path(repo_root), CONSTRUCTION_EXECUTOR_CHARTER),
-    )
-
-
-def render_construction_executor_dispatch(dispatch: ConstructionExecutorDispatch) -> str:
-    """One sentence: the charter pointer."""
-    return CONSTRUCTION_EXECUTOR_PROMPT.format(
-        charter=dispatch.charter or CONSTRUCTION_EXECUTOR_CHARTER
-    )
-
-
-def render_construction_executor_derivation(dispatch: ConstructionExecutorDispatch) -> str:
-    """One line for the dispatcher; the mode derives nothing, and this says so."""
-    return (
-        f"derived charter   : {dispatch.charter or CONSTRUCTION_EXECUTOR_CHARTER} "
-        "(construction executor — nothing else is derived)"
-    )
-
-
 __all__ = [
-    "CONSTRUCTION_EXECUTOR_CHARTER",
-    "CONSTRUCTION_EXECUTOR_PROMPT",
-    "CONSTRUCTION_ROLE_INSTRUCTION",
+    "DECLARED_RULES_ABSENT_LINE",
+    "DECLARED_RULES_LINE",
     "DISPATCHABLE_STATUS",
-    "ConstructionDispatch",
-    "ConstructionExecutorDispatch",
     "Dispatch",
     "EXECUTOR_PROMPT",
     "EXECUTOR_ROLE_INSTRUCTION",
     "ExecutorDispatch",
-    "READ_PROMPT",
+    "FREEZE_MARKER",
     "RESULT_SCHEMA",
     "ROLE_INSTRUCTION",
-    "ReadDispatch",
     "VERDICTS",
-    "construction_dispatch_of",
-    "construction_executor_dispatch_of",
     "control_root_of",
+    "declared_rules",
+    "declared_rules_line",
+    "declared_rules_phrase",
     "dispatch_of",
     "executor_dispatch_of",
-    "read_dispatch_of",
-    "render_construction_derivation",
-    "render_construction_dispatch",
-    "render_construction_executor_derivation",
-    "render_construction_executor_dispatch",
+    "instrument_relative",
     "render_derivation",
     "render_dispatch",
     "render_executor_derivation",
     "render_executor_dispatch",
-    "render_read_derivation",
-    "render_read_dispatch",
     "resolve_subject",
     "role_for",
+    "write_freeze_marker",
 ]
