@@ -297,6 +297,36 @@ additions, and a repository that mounts only the harness can open, run and close
     construction-only code path — and ruling 9's last sentence the obligation: that dispatch,
     wherever it lands, names the declared rules too.
 
+36. **Ruling 35's proposal stands** (2026-08-30, step 4): the construction-side dispatch is
+    `tooling/construction_dispatch.py`, a standalone script at `tooling/` beside `sweep_refs.py`,
+    `ledger_cap_check.py` and `announced_path_disclosure.py`, on the construction side and not
+    travelling; all three construction modes derive the standing instruction from the `rules` a
+    repository declares in its `harness.json`, the charter line and the declared-rules line folded
+    into one, and a repository declaring nothing is refused (`V3-DISPATCH-NO-DECLARED-RULES`)
+    rather than handed a prompt naming no charter; `dtw dispatch` keeps `--subject` and
+    `--executor` and nothing else. The consequence the executor reported (journal §7.2) — a
+    caller amending its own declared rules owes `E10`'s independent read and now has no generator
+    for that read's dispatch — is **banked**, not answered: a design rider, redeem-when = the
+    `dispatch-economy` batch's first item (the read dispatch's narrow-subject form), deadline =
+    the first caller that amends a declared rule file; the correction pass writes the row.
+37. **The three reported sites are corrected before the FULL, in one cold executor pass**
+    (2026-08-30, step 4; pre-submission corrections under `E9`, and — `HD-69` having been ruled
+    the same sitting and assigned to `dispatch-economy` — the last cold correction pass this
+    instrument runs): **(a)** `document-harness/ORCHESTRATION.md:37-38`, made false by item C,
+    takes the executor's bytes from journal §7.1, the `:40-42` clause the amendment `5a9c0fd`
+    landed left word for word, and `:69-70`, which names a flag `dtw dispatch` no longer has, is
+    corrected in the same shape; `ONBOARDING.md:200` stands. **(b)** The five bare `R4`
+    citations — `tooling/rsclib/document_harness/checks.py:1`, `:633`,
+    `tooling/rsclib/document_harness/cli.py:58`, `tooling/rsclib/document_harness/flow.py:27` and
+    `schema/document-assurance-v3/assurance.schema.json:109` — go on rulings 24 and 30's
+    principle with journal §7.3's bytes; the schema file is an announced path, so its commit
+    names it in full under `E2` and the disclosure alarm is run over the range; the class scan
+    runs with the widened key, every bare `R<n>` colliding with `RULES.md`'s identifiers, and
+    anything beyond the five is reported rather than widened to. **(c)**
+    `document-harness/ONBOARDING.md:150`'s instrument-held `.githooks/pre-commit` token is
+    de-named on ruling 24's principle, rider `e10-cannot-see`'s touch note updated in the same
+    commit.
+
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
 sit in says the five battery commands are *named here rather than written as paths (`E10`)
@@ -669,15 +699,40 @@ Checked off as each lands; a box that reads done names the commit that made it s
 - [x] 1. **Open.** `E11` card rendered and approved 2026-08-30; rulings 32–35 taken off it;
   `base_commit` `fff2203` written above; the ledger's queue-head row rewritten in place. This
   commit.
-- [ ] 2. **Read.** `dtw dispatch --read <tip>` → cold `claude -p` reader, wide form per ruling
-  32 → record committed unchanged, freeze marker deleted in that act; a must-fix, if any, takes
-  the `E10` channel; the rest route by `R10`.
-- [ ] 3. **Execute.** Cold `claude -p` executor, dispatched with `dtw dispatch
-  --construction-executor` plus the instruction, subject and this plan: items C, D, the dispatch
-  half of H, and K; the executor proposes the construction-side dispatch's location (ruling 35)
-  and reports back; the orchestrator hand-edits nothing.
-- [ ] 4. **Rule.** The proposal and every question put to the user before the FULL; a changed
-  answer lands as a pre-submission correction.
+- [x] 2. **DONE.** Read at subject `e88094c`, its own `claude -p` session, wide form as ruled;
+  record `v3-cold-read-e88094c.md` committed unchanged at `69a9a71`, marker deleted in that act:
+  **1 must-fix, 1 low, 1 observation**, no verdict, no budget. `M-1` — `E10`'s and
+  `ORCHESTRATION.md`'s indicative claim that `dtw dispatch` names the declared rules, which the
+  code did not do — took the `E10` must-fix channel: amendment `5a9c0fd` with the reader's bytes,
+  its independent re-read `v3-checkpoint-read-5a9c0fd.md` committed unchanged at `d771cc4`,
+  **0 must-fix, 0 low, 3 observations**, the pair spending nothing. `L-1` (nine commit ids in
+  travelling members) banked by the executor as rider `caller-cannot-resolve-ids` at `e8b120c`;
+  `O-1` is ruling 34. Original text: `dtw dispatch --read <tip>` → cold `claude -p` reader, wide
+  form per ruling 32 → record committed unchanged, freeze marker deleted in that act; a must-fix,
+  if any, takes the `E10` channel; the rest route by `R10`.
+- [x] 3. **DONE.** Cold `claude -p` executor, 67 minutes, four candidates — `7bcdace` (item C
+  and the dispatch half of H: `tooling/construction_dispatch.py`, `dtw dispatch` down to
+  `--subject` / `--executor`, every prompt naming the declared rules), `08d3137` (item D: both
+  stubs deleted, membership nine → seven, `E10-sync`'s sites in that commit), `8ce93f7` (item K:
+  the seven bare `R1` sites and the README hook token), `e8b120c` (riders and journal
+  `core-only-code-2026-08-30.md`). The orchestrator re-ran at the tip: **873 passed**; on a
+  `git archive` harness-only tree of 59 files against 422, sweep **28**, all NAMETOK, **0**
+  naming an instrument-held artifact; `grep CONSTRUCTION-CHECKLIST` on that tree 0; the three
+  guards exit 0 there; `dtw --help` 0; `dtw init` into a fresh repository 0; sweep here 13. It
+  reported the location proposal and four questions (journal §7). `HD-69` — the user's ruling of
+  the same sitting that a later batch replaces cold correction passes with same-session
+  continuation — landed at `1a24140` while this step was open. Original text: cold `claude -p`
+  executor, dispatched with `dtw dispatch --construction-executor` plus the instruction, subject
+  and this plan: items C, D, the dispatch half of H, and K; the executor proposes the
+  construction-side dispatch's location (ruling 35) and reports back; the orchestrator hand-edits
+  nothing.
+- [x] 4. **DONE.** The proposal accepted as ruling 36, its consequence banked; the three
+  reported sites ruled to one correction pass as ruling 37. This commit. Original text: the
+  proposal and every question put to the user before the FULL; a changed answer lands as a
+  pre-submission correction.
+- [ ] 4b. **Correction pass.** One cold `claude -p` executor under ruling 33 — the last cold
+  correction pass before `HD-69` takes effect — carrying ruling 37's (a), (b) and (c), ruling
+  36's rider row, and the journal's §7 written forward; acceptances 1 and 2 re-measured.
 - [ ] 5. **FULL.** `dtw dispatch --range fff2203..<tip>` → cold `claude -p` → record committed
   unchanged, marker deleted in that act.
 - [ ] 6a. **Fix gate.** Only on `CHANGES_REQUIRED`: the user rules the boundary; one cold
@@ -691,8 +746,8 @@ Checked off as each lands; a box that reads done names the commit that made it s
 
 ## Resume pointer
 
-当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; step 1 done, step 2 — the
-opening cold read, ruling 32 — is next.** A cold session continues from the *Steps — round 2*
+当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; steps 1–4 done, step 4b —
+the correction pass under ruling 37 — is next, then the FULL.** A cold session continues from the *Steps — round 2*
 checklist above: the first unchecked box is the pointer. Round 3 `CORE-ONLY-RUN` — item F, in
 the caller — opens after this round closes; which piece of work the product run is stays open
 until then (ruling 12).
