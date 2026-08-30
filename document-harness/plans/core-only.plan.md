@@ -233,6 +233,14 @@ additions, and a repository that mounts only the harness can open, run and close
     section headings among them — name the signed design decisions themselves, not a file a
     caller lacks. Not the deletion class of rulings 24, 26, 27 and 28; the FULL reads them as
     in scope for wording only.
+30. **The seven bare `R1` references go to round 2, and the candidate is closed for the FULL**
+    (2026-08-30, answering the fourth pass's question): `candidate.py:90`, `:474`,
+    `checks.py:1`, `:63`, `:324`, `:413` and `assurance/templates/run-v2/check_template_instance.py:35`
+    name the N0 record's subject-tree item by its bare number, which on a harness-only tree
+    collides with `RULES.md`'s own `R1`. All seven are code files, so they join round
+    `CORE-ONLY-CODE` as its own item — listed under *Sketch* as **K** — rather than a sixth
+    pre-FULL pass; the user's reason for stopping the loop is `R5`'s shape, five passes having
+    each found the next form of the same reference while no FULL had yet run.
 
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
@@ -474,6 +482,9 @@ which is a known cost: every fresh clone rewrites it.
 - **J — the product-tier residue** (ruling 24, added 2026-08-30). The twelve references from
   product-tier documents to instrument-held artifacts that A–I reached: deleted, the sentence
   rewritten where it cannot stand without them. Round 1.
+- **K — the bare `R1` references in product-tier code** (ruling 30, added 2026-08-30). Seven
+  sites naming the N0 record's subject-tree item by number alone; the same deletion principle.
+  Round 2.
 
 ## Acceptance (done = ?)
 
@@ -562,19 +573,23 @@ Checked off as each lands; a box that reads done names the commit that made it s
   scan 0. Reported up: two `N0-record R1` sites in the schema pack → ruling 28; the wider
   identifier family → ruling 29. Original text: the seven `N0 record` sites; the journal's
   third-pass question answered forward and acceptance 1 and 2 re-measured.
-- [ ] 5e. **Corrections, fourth pass** (ruling 28), a fifth cold executor dispatch before any
-  FULL, still pre-submission under `E9`: the two schema sites with `E2` disclosure; the
-  journal's fourth-pass question answered forward, ruling 29 noted there, acceptance 1 and 2
-  re-measured. Then the FULL.
+- [x] 5e. **DONE.** Fifth cold executor, 17 minutes, two pre-submission corrections: `0290eb9`
+  (ruling 28's two schema sites, `E2` disclosed and confirmed by `announced_path_disclosure.py`
+  exit 0), `a5b1dc2` (journal). Orchestrator re-measured at `a5b1dc2`: 853 passed, both guards
+  exit 0, sweep 13 here and 33 on the harness-only tree, both class-scan keys 0 over the
+  product tier, acceptance 1 still item D's four. Reported up: seven bare `R1` sites → ruling 30,
+  round 2's item K. **The candidate is closed here**; no further pre-FULL pass. Original text:
+  the two schema sites with `E2` disclosure; the journal answered forward, ruling 29 noted,
+  acceptance 1 and 2 re-measured; then the FULL.
 - [ ] 6. **FULL** on `db1bfa1..<tip>` via `dtw dispatch --range` → cold `claude -p` reviewer →
   record committed unchanged → at most one user-approved fix → targeted VERIFY → closeout: this
   checklist, the ledger row, riders, and a journal if detail needs a home.
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5d done, the candidate stands
-at `2f6743e` plus this ruling commit; step 5e (the fourth corrections dispatch) next, then the
-FULL.** The step list above is the pointer; a cold session reads it, then
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5e done, the candidate is
+closed at `a5b1dc2` plus this ruling commit; step 6 — the FULL over `db1bfa1..<tip>` — is being
+dispatched.** While its freeze marker stands, `dev` takes no commit but the record. The step list above is the pointer; a cold session reads it, then
 `CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box. `§live`
 holds twelve entries, `HD-67` (with its forward correction) and `HD-68` among them. One thing
 stays open by design and is settled at its round's opening, not before: which piece of work the
