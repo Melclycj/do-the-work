@@ -911,10 +911,19 @@ Checked off as each lands; a box that reads done names the commit that made it s
   checklist, the ledger's queue-head row rewritten in place, and the instrument-side
   `base_commit` `78d51ac` stated. No dispatch mode was run before this commit and no freeze
   marker exists.
-- [ ] 2. **Opening cold read** (ruling 43): `python tooling/construction_dispatch.py --read
-  <this commit>` → its own `claude -p` session on `opus` with `--disallowedTools
-  WebFetch,WebSearch` → the record committed unchanged under `R6`, the marker deleted in that
-  act. A must-fix takes `E10`'s channel — amendment plus independent re-read, not a round.
+- [x] 2. **DONE.** `python tooling/construction_dispatch.py --read 006d0d5`, one `claude -p`
+  session on `opus` without web tools; record `v3-cold-read-006d0d5.md` committed unchanged at
+  `0ef455c`, the marker deleted in that act. **0 must-fix, 2 low, 2 observation**; the reader
+  derived the coverage itself and reproduced ruling 43's ground. The two lows' bytes taken by
+  `E10`'s free channel in the commit that checks this box — `RULES.md:99-102`'s appositive
+  claiming the dispatch behaviour is not built deleted (L-1; built at `7bcdace`), `:16-18`
+  rewritten as a claim anchored at the split (L-2; `E12` moved at `894bc92`) — on the
+  orchestrator's finding that neither adds a clause or changes what a rule requires and that
+  no round has relied on either sentence; their independent read rides the next read of this
+  layer at per-member digest cost. O-1 and O-2 banked as riders `orch-caller-rule-counterpart`
+  and `e10-its-referent`. The read debt round 2's closeout stated is discharged. Original
+  text: the dispatch command, the cold session, the record committed unchanged, a must-fix
+  taking `E10`'s channel.
 - [ ] 3. **The user pushes `dev`**, or rules a fetch from the local path, so the caller's
   submodule can reach the tip carrying step 2's record.
 - [ ] 4. **Caller preparation, this session, one caller commit**: gitlink → that tip; sparse

@@ -13,9 +13,9 @@
 > Split out of this instrument's construction checklist on 2026-08-30, round
 > `CORE-ONLY-LAYER`, under the user's ruling of 2026-08-29 that the construction side is an
 > instance of the harness applied to itself, so its own rules are an *addition* to the
-> harness rather than a part of it. Every rule below carries the identifier it has always
-> carried and, apart from the two disclosed in that round's commit body, the bytes it has
-> always carried; what changed is which file holds it.
+> harness rather than a part of it. At that split every rule below kept the identifier it
+> had and, apart from the two disclosed in that round's commit body, its bytes; what
+> changed was which file holds it.
 >
 > One identifier is absent below and the gap is deliberate: `E2`, the announced-surface
 > rule, binds the bytes of the instrument that owns them and stayed with it, so a
@@ -98,8 +98,7 @@
   repository's own rule files. Four readers, each a decision that changes when the file
   is absent: `dtw dispatch` is held to naming the declared files in every prompt it writes,
   so that a cold session receives a repository's rules by the channel it receives its
-  charter — the one of the four stated as an obligation on the command rather than as
-  behaviour already built;
+  charter;
   `tooling/hooks/layer_path_check.py` scans the declared files exactly as it scans the
   members above, and so does the reference sweep this instrument runs over the same list;
   the orchestrator reads `policy`; and `dtw init` writes the file empty, both fields
