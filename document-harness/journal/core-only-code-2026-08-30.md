@@ -405,6 +405,70 @@ No commit of this round changes an announced path, and none was expected to (`E2
 and the schema pack are the announced set). §7 names the one place where a fix would have had
 to, and why it did not happen.
 
+### Re-measured after the correction pass under ruling 37 — written forward, every block above left word for word (`HD-59`)
+
+Every figure below was taken at `6c93c98`, the correction pass's last content commit, by the same
+two instruments and the same two trees as the blocks above. The harness-only tree is `git archive`
+of the product-tier paths out of `git write-tree` into a fresh git repository: **59 files**, the
+same 59. Nothing between that commit and this file changes what any of them measures — this
+journal is neither an instruction-layer member nor a declared rule file, so no sweep and no guard
+reads it, and no test enumerates `document-harness/journal/`.
+
+**Acceptance 1 — the instrument-held class is still zero.** The harness-only tree returns
+**0 `MISSING`, 0 `PATHTOK`, 28 `NAMETOK`**, the same 28 as the block above and the same hand
+classification: `harness.json` (8) is the caller's own file at its own root, `HARNESS-DECISIONS.md`
+(2) and `HARNESS-RIDERS.md` (1) are what `dtw init` writes into a caller's root, twelve are the
+caller's own run artifacts and battery commands, two are the caller's own review records, and
+`review.schema.json` is the contract's past-tense sentence under plan ruling 19. Four of the 28
+moved line: `document-harness/ORCHESTRATION.md` `:40` to `:41`, `:54` to `:55` and `:95` to `:96`,
+because ruling 37 (a)'s first replacement is one line longer than what it replaced, while `:9` is
+above the edit and did not move. No site was added and none was removed.
+
+**Acceptance 2 — the sweep on both trees.**
+
+```
+this repository : -- 13 caller-held or unresolvable references over 8 members and declared rule files
+harness-only    : -- 28 caller-held or unresolvable references over 7 members and declared rule files
+```
+
+Both unchanged from the block above. Neither number could have moved: the five bare `R<n>`
+citations live in files no sweep scans, the `ONBOARDING.md` token was never in the swept set —
+which is rider `e10-cannot-see`'s whole point — and `ORCHESTRATION.md`'s two replacements name no
+artifact at all.
+
+**The battery.**
+
+```
+after 6c93c98 : 873 passed in 148.18s
+```
+
+Delta zero against `8ce93f7`'s 873 and against the figure taken inside this pass at `691ddff`. The
+pass changes four code and schema strings and no behaviour, and the suite holds no `__doc__`
+assertion for any of them to break.
+
+**The two class scans, either side of the write (`HD-41` ④).** The widened bare-`R<n>` key over the
+product tier's code, schemas, contract, run template and six documents — `document-harness/RULES.md`
+excluded, its `R` tokens being the identifiers collided *with* — returned **40** lines before and
+**36** after; the class ruling 37 (b) names, five sites, is **zero**, and the 36 survivors are the
+four families the commit body enumerates, every one correct as written. The `.githooks` key over
+`document-harness/ONBOARDING.md` returned **5** before and **4** after, the instrument-held count in
+that file going 1 to 0; over the seven members and this repository's declared rule file it returns
+**0** either side, which item K already brought about.
+
+**The announced-path alarm, over the range this pass sits inside.**
+
+```
+$ python tooling/announced_path_disclosure.py --before fff2203 --after HEAD
+announced-path disclosure: range fff2203..HEAD
+  floor 1d4d9aa1f6b1daca3fbf1a7765985abaec350b18; 12 non-merge commit(s) judged
+  every announced path changed in this range is named by the commit that changed it
+exit=0
+```
+
+One commit of this pass changes an announced path — `691ddff`, at
+`schema/document-assurance-v3/assurance.schema.json` — and its body names that path in full, which
+is what the alarm confirms and the whole of what it certifies.
+
 ## 6. The rider bank against this round's change list
 
 Read row by row against the files this round touched. Four rows are touched, one row is new, and
@@ -426,6 +490,25 @@ none is redeemed — every fix in reach is design, which `R10` says may not ride
 | `RA` | no | `run_all`'s signature untouched; `dtw` still has eight commands, none added or removed |
 | `wl-route`, `hd38-both-ways`, `e9-pair-budget`, `charter-qualifiers`, `e1-table`, `e10-freeze-exception`, `announced-set-anchor` | no | all name `RULES.md` clauses (the free-channel enumeration, `R9`'s opener, `R10`'s routing sentence, `HD-38`'s deferral clause, `E9`/`E10`'s budget vocabulary, `ORCHESTRATION.md`'s cite-only lines, `E2`'s anchor). This round changes exactly one `RULES.md` passage, the `E10` membership sentence and one added history sentence beside it; none of those clauses is touched |
 | `freeze-audit`, `pin-drift`, `delta-prose`, `argv-cap`, `template-clause-unguarded`, `archive-header-selfcount`, `r9-terminal-no-carrier`, `alarm-mutation-gaps`, `alarm-yaml-range-untested` | no | none of their named surfaces is in this round's change list |
+
+### The bank after the correction pass — written forward, the table above left word for word (`HD-59`)
+
+Two changes, one row each, and still no redemption. `e10-cannot-see` is touched a second time at
+`65ecdac` and its row gains a second touch record: the instance its first record named, the
+`ONBOARDING.md:150` hook path, is de-named there, so same-shape instrument-held tokens in that file
+go 1 to 0 while the four caller-side siblings at `:32`, `:52`, `:63` and `:148` stay by instruction;
+the blind spot itself — `E10`'s *what the guard still cannot see* enumeration, the *the class
+entire* sentence above it, and `layer_path_check`'s `PATHLIKE` — is unchanged, so the row keeps its
+redeem-when and its deadline. And one row is **new** at `6c93c98`: `caller-rule-read-no-generator`,
+plan ruling 36's banked consequence, carrying §7.2 below into the bank with the redeem-when and
+deadline that ruling gave it.
+
+One further row is **touched and reported rather than written to**, because acting on it is outside
+ruling 37: `onboarding-carries-construction` names `ONBOARDING.md`'s Owner column as one of three
+touch surfaces for its (a) arm, and `:150` is an Owner cell, so `65ecdac` reaches that condition.
+Its (a) arm is design — a clause carrying the four Owner cells at items 4 to 7 whose owner is
+`io-design.md` — and none of those four cells is touched. Whether the row owes a touch note for
+this pass is the orchestrator's to route.
 
 ## 7. Reported up — questions and boundaries, decided by nobody here
 
@@ -466,6 +549,25 @@ which is now the construction dispatch's flag and not that command's; and `docum
 ONBOARDING.md:200`'s *`dtw dispatch` writes the freeze marker and prints the dispatch* stays
 true for a caller, whose only review-side mode is `--subject`.
 
+**Answered 2026-08-30 — plan ruling 37 (a), written forward; both paragraphs above stand word for
+word (`HD-59`).** The user ruled the minimum bytes above and they are applied verbatim at
+`23e69d6`, a pre-submission correction: `:37-38` now says *and a dispatch generator does: `dtw
+dispatch`, one review-side mode and one executor-side mode for a product run, and a repository's
+own construction-side dispatch for the rounds it runs against its own rules*. The `:40-42` clause
+the `E10` must-fix amendment `5a9c0fd` landed stands unchanged in bytes inside that same sentence,
+as the ruling required, and is now true of both generators; the re-read that cleared it at
+`d771cc4` is not disturbed. The second site went with it: `:69-70`, which named a
+`--construction-executor` flag `dtw dispatch` no longer has, now reads *a repository's own
+construction-side dispatch in its executor mode (construction round)* — the same shape, and
+deliberately no path token, because the construction-side dispatch is instrument-held while this
+file travels, so writing its path would create exactly the class ruling 24 deletes and acceptance 1
+measures at zero. `document-harness/ONBOARDING.md:200` stands, as the ruling directed. Two things
+that commit discloses rather than leaves to be inferred: three further lines of the second
+paragraph are re-wrapped with no change of content, because the shorter replacement would otherwise
+have left a 105-character line beside a 27-character one; and the change owes the independent
+re-read `E10` requires of an amended member, which rides the next opening read of this layer and
+which the round's closeout states as read debt.
+
 ### 7.2 A caller amending its own declared rules now has no read-dispatch generator
 
 `E10` binds a declared rule to the layer's amendment discipline *including the independent
@@ -475,6 +577,20 @@ amends its own rule file therefore still owes the read and has no command to dis
 This is `R5`'s shape — whether the mode should be there at all is the user's question, not
 mine — and it is the strongest argument against §2's proposal, which is why it is stated beside
 it rather than under it.
+
+**Answered 2026-08-30 — plan ruling 36, written forward; the paragraph above stands word for word
+(`HD-59`).** The user accepted §2's proposal and **banked** this consequence rather than answering
+it: it is a design rider, so `E10` opens a round for it and no batch may carry it. The row
+`caller-rule-read-no-generator` lands at `6c93c98` with the redeem-when and deadline the ruling
+gave — redeem-when the `dispatch-economy` batch's **first item**, the must-fix pair's narrow-subject
+read dispatch, which is `CONSTRUCTION-LEDGER.md`'s `dispatch-economy` backlog entry clause ①, and
+that item is itself the command-surface design that opens a round under `HD-47`, so `R10`'s rule
+that a design-shaped row names only a round-eligible **surface** is met rather than skirted;
+deadline the first caller that amends a declared rule file, a moment `HD-37` ① requires to fall
+outside the round that writes the row, which it does, no caller having amended one yet. The row
+supplies no bytes on purpose: both fixes in reach — a narrow-subject read mode added back to the
+product tier, or a clause in `E10` saying how a caller discharges the read — add a command surface
+or a clause, and `R5` puts that question to the user.
 
 ### 7.3 A sibling class item K did not widen to, because a fifth site is announced
 
@@ -489,6 +605,25 @@ none of the five was touched. The bytes, if ruled: the four drop the number from
 parenthetical or say *the governance scan*; the schema description says *the governance scan*
 while keeping *Discharges N1-R2*, which is prefixed and stays under ruling 29.
 
+**Answered 2026-08-30 — plan ruling 37 (b), written forward; the paragraph above stands word for
+word (`HD-59`).** All five go together, which is what refusing to fix four of five asked for, and
+the bytes this section drafted are applied at `691ddff` as a pre-submission correction. Line
+numbers were re-derived at `23e69d6` before writing rather than copied from above (`E3`) and had
+not moved. `checks.py:1` drops `R4` from its citation list and keeps *plan §5.3, N1-A8*;
+`checks.py:633` drops its whole trailing parenthetical; `cli.py:58` keeps `V3-N1` and drops `R4`;
+`flow.py:27` says *the governance scan*, its own *(N1 residual R2)* untouched under ruling 29; and
+`schema/document-assurance-v3/assurance.schema.json:109` says *the governance scan* while keeping
+*Discharges N1-R2*. That schema is an announced path, so `691ddff`'s body names it in full under
+`E2` and the alarm over `fff2203..HEAD` returns exit 0. The class scan ran with the widened key as
+ruled — every bare `R<n>` in the product tier, not only `R4` — and found **nothing beyond the
+five**: the 36 survivors are qualified construction round and batch names, a product run's own
+requirement identifiers, correct citations of `RULES.md`'s own rules, and ruling 29's prefixed
+record identifiers. One thing outside that range is reported and not fixed, because the range is
+the product tier and this is not in it: the phrase *R4 governance scan* survives three times in
+`tooling/tests` — `run_tests.py:6` and `test_flow_repair_disposition.py:31` and `:1600`, all prose
+in test docstrings. `tooling/tests` is construction-side and does not travel, so no caller ever
+holds a tree where those collide.
+
 ### 7.4 `document-harness/ONBOARDING.md:150` names an instrument-held hook path
 
 *the hook is `.githooks/pre-commit` at this repository's root, and a caller does not wire it* —
@@ -497,6 +632,16 @@ is **not** an instruction-layer member, so neither `sweep_refs` nor `layer_path_
 it, and ruling 24's measured nine did not include it. Four sibling tokens in the same file
 (`:32`, `:52`, `:63`, `:148`) are instructions to a caller to create its own hook and are
 caller-held. Recorded in rider `e10-cannot-see`, not fixed.
+
+**Answered 2026-08-30 — plan ruling 37 (c), written forward; the paragraph above stands word for
+word (`HD-59`).** The token is de-named at `65ecdac` on ruling 24's principle, the sentence being
+one that can stand without the reference: `:150` now ends *the hook that calls it is the
+instrument's own, at the instrument's own root, and a caller does not wire it* — no path and no
+name, and the whole of its meaning kept. The four siblings at `:32`, `:52`, `:63` and `:148` stay,
+each an instruction to a caller about the hook it writes for itself and so caller-held. Rider
+`e10-cannot-see`'s touch note is updated in the same commit and the row is kept: what it banks is
+that the guard cannot see this token shape at all, which is unchanged, and adding an item to
+`E10`'s enumeration is design.
 
 ## 8. Disclosed rather than softened
 
