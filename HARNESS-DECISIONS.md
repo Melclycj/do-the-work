@@ -28,6 +28,31 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-69 · 修正派发不再另起冷 executor：executor 停在决策点、裁决回来**同会话续跑**（落地归批 `dispatch-economy`）
+- 2026-08-30 · user · scope: standing · status: **live**（层内零承载：`ORCHESTRATION.md` 三角色表只说
+  executor 是「a full session」，《The executor's report back》只说上报、不说报完之后谁接着做；
+  `E1` / `HD-55` 只要求 executor 与 orchestrator 是不同会话。轮 `CORE-ONLY-LAYER` 的实测形态——一个
+  主 executor（82 分钟）后跟**四个冷修正 executor**（19 / 18 / 11 / 17 分钟，plan 步骤 5b–5e），
+  每个只为套一条新裁决——就是本条要改掉的东西）
+- 裁决：**从 START 到 FULL 之间，一轮只有一个 executor 会话。** executor 撞到它不能裁的事时**停在
+  决策点**（报给 orchestrator，orchestrator 送用户），裁决回来后**同一会话续跑**
+  （`claude -p --resume <session-id>` 一类的续接），而不是另派一个冷 executor 去套裁决。冷启动只属于
+  一轮的第一次派发；修正派发是续跑。
+- 后果：`HD-55` / `E1` 的分离**不变**——executor 仍是与 orchestrator 不同的独立会话，续跑不改变 `R1`
+  四持有的归属（仍由 orchestrator 派发、提示、划界、转报）；变的只是会话的寿命，从「报完即死」改为
+  「停下等裁决」。reviewer 与 reader **不受本条影响**，它们每次都冷（`R1` 的独立性靠的就是这个）。
+  多 executor 的编排责任本来就在 orchestrator（运输），干活与分解本来就在 executor；本条消除的是
+  **会话形态把一个 executor 的工作切成 N 段**这件事，不是把责任挪来挪去。
+- 边界：**落地归批 `dispatch-economy`**（用户原话「落到 scope economy 一起做」，读作账本 backlog 里
+  排在队首之后、无 deadline 的 `dispatch-economy` 构造批候选，作其第四件），**不在轮 `CORE-ONLY-CODE`
+  内改形态**——本轮若再出修正派发，仍按 plan 裁决 33 的冷形态走，closeout 记为本条生效前的最后实例。
+  载体由该批的设计轮定：`ORCHESTRATION.md`《The executor's report back》要不要加一句、`dtw dispatch
+  --construction-executor` 要不要记 session id 以便续接（命令面改动按 `HD-47` 逐案归用户）。
+- basis: 用户裁决 2026-08-30（对话：「不能是冷 executor 啊，我的原本意思是 executor 停在决策点，等
+  裁决回来就继续，也就是同会话续跑。这个落到 scope economy 一起做吧」）· 实证＝轮 `CORE-ONLY-LAYER`
+  plan `document-harness/plans/core-only.plan.md` 步骤 4–5e（1 主 + 4 冷修正 executor）·
+  `ORCHESTRATION.md`《The executor's report back》· `HD-55` · 账本 `dispatch-economy` backlog 条
+
 ### HD-66 · 分发形态：submodule 是默认**而非终局**——core 分发若最终做不到，就上 plugin（推翻 2026-08-24 裁决的该半边）
 - 2026-08-29 · user · scope: standing · status: **live**（层内零承载：指令层没有任何一处讲分发形态，
   `CONSTRUCTION-INDEX.md` 只分「travel / 不 travel」而不说怎么送达；原裁只活在
