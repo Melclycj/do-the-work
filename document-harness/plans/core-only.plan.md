@@ -355,6 +355,65 @@ additions, and a repository that mounts only the harness can open, run and close
     the closeout's read-debt statement, `RULES.md` being touched again by this fix. Then a
     targeted VERIFY over the accepted findings plus the whole repair diff (`R3`).
 
+39. **The seal is a sparse checkout plus a tool restriction — level 2 of four** (2026-08-30,
+    before round 3 opens, answering the orchestrator's core-only question; the user's 封2).
+    Inside the caller's submodule checkout at this batch's tip, `git sparse-checkout set
+    --no-cone --stdin` over the 59 product-tier paths that `CONSTRUCTION-INDEX.md`'s own
+    commands enumerate, so the working tree holds those 59 and nothing else; and every cold
+    `claude -p` session the run dispatches runs with `--disallowedTools WebFetch,WebSearch`,
+    because this repository is public and a session could otherwise fetch what the checkout
+    hides. Per-checkout, untracked, reversible, the instrument untouched (`HD-34`), the gitlink
+    still naming this batch's tip. Measured before the ruling, on a fresh clone at `455a704`
+    with exactly those 59 paths: 59 files on disk; none of `CONSTRUCTION-LEDGER.md`,
+    `HARNESS-DECISIONS.md`, `document-harness/CONSTRUCTION-CHECKLIST.md` or
+    `tooling/construction_dispatch.py` present; `dtw --help` exit 0; `dtw init` into an empty
+    repository exit 0, six created; `tooling/hooks/review_freeze_check.py` and
+    `tooling/hooks/candidate_path_check.py` exit 0; and `git show HEAD:CONSTRUCTION-LEDGER.md`
+    still returns the file — the seal is of the filesystem, not the object store, and the
+    closeout says so rather than claiming more. Level 3 — a 59-file repository built by
+    `git archive` with the gitlink pointed at it — is not taken: it is a new distribution form
+    and `HD-66`'s question, not this round's.
+40. **The caller's closeout routing is rewritten to its own root registers** (2026-08-30; the
+    user's 改). The caller's policy file, `HARNESS-POLICY.md` in its ResearchSystem tree,
+    instructs the orchestrator at closeout to write rulings into this instrument's decision log,
+    unresolved findings into this instrument's rider bank and the pointer into this
+    instrument's construction ledger — six sites at the caller's `3f0b920`, its §4 citation of
+    `document-harness/split-design.md` §6 among them — which on a core-only mount is
+    contamination by instruction: every one names a file the mount does not carry. §2 is
+    rerouted to the caller's own `HARNESS-DECISIONS.md` and `HARNESS-RIDERS.md` at its root,
+    which `dtw init` creates, and to its own ledger; the closeout list in the caller's
+    `HARNESS-LEDGER.md` (its items 1–3) follows; and the five pointer sites that navigate a
+    session into the mount's construction files — one in the caller's `CLAUDE.md`, four in its
+    `HARNESS-LEDGER.md` — are rewritten as history rather than navigation. A caller-side
+    adaptation, recorded in the caller's own decision log as `HD-34` asks; this instrument is
+    not edited. The caller's `harness.json` keeps `rules` empty: the construction checklist is
+    this instrument's rule and never a caller's.
+41. **The product run's orchestrator is a cold session started in the caller** (2026-08-30; the
+    user's 换). The session that opens round 3 here has read this repository's construction
+    side end to end — this plan, the ledger, `§live`, the journals — and no mechanism makes
+    that unread; `R2` names session-side load-bearing material a defect, and a run
+    orchestrated from it could pass on what a stranger's session would lack. So the run —
+    instruction, freeze, START, the dispatches, the verdict, FINAL, the caller's closeout — is
+    orchestrated by a session the user starts in `D:/Thesis-stage-control-refactor`, which
+    reaches the harness by the caller's entry file, the policy file ruling 40 rewrote, and the
+    59 files ruling 39 leaves on disk. This session keeps the round's two instrument-side
+    ends: before the cold session exists, the opening cold read (the `E10` debt round 2's
+    closeout stated) and the caller-side preparation — the gitlink bump, the sparse checkout,
+    `dtw init`, the declarations, ruling 40's rewrites, ruling 42's hook; after FINAL, this
+    repository's closeout. `ORCHESTRATION.md`'s three-roles table is unchanged — the
+    orchestrator is still the session the user is talking to; which session that is, for this
+    run, is what this ruling fixes.
+42. **A read-audit hook is installed in the caller, as evidence and never as a guarantee**
+    (2026-08-30; the user's 装). A `PreToolUse` hook in the caller's project settings, firing
+    for every `Read`, `Grep`, `Glob` and `Bash` call of any session started there — the cold
+    `claude -p` sessions included — appends the tool and its path or command to a
+    `read-audit.jsonl` under the caller's `.harness/`. At closeout the log is diffed against
+    the 59-path list: a path under the mount and outside the list is a leak, and a `git show`
+    or `git log` aimed into the mount is an object-store leak. Mutation-tested before the run
+    (`E4`): a throwaway session reads one construction file on purpose and the line is seen to
+    land. Per-machine and advisory, like the pre-commit guards; a caller-side adaptation
+    recorded in the caller's decision log.
+
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
 sit in says the five battery commands are *named here rather than written as paths (`E10`)
@@ -829,15 +888,19 @@ Checked off as each lands; a box that reads done names the commit that made it s
 
 ## Resume pointer
 
-当前指针: **round 2 `CORE-ONLY-CODE` CLOSED 2026-08-30; round 3 `CORE-ONLY-RUN` not open.** Next:
-a later session opens round 3 in the caller (ruling 12) — item F, the real product run — with the
-`E11` card, the gitlink bumped to this batch's tip, `base_commit` stated then, and the opening
-cold read covering the three members and the declared rule this round changed (the read debt
-under step 7) plus `§live`; which piece of work the run is gets chosen on the caller's side then.
-`HD-69`'s landing is the `dispatch-economy` batch's, not round 3's. A cold session continues from the *Steps — round 2*
-checklist above: the first unchecked box is the pointer. Round 3 `CORE-ONLY-RUN` — item F, in
-the caller — opens after this round closes; which piece of work the product run is stays open
-until then (ruling 12).
+当前指针: **round 2 `CORE-ONLY-CODE` CLOSED 2026-08-30; round 3 `CORE-ONLY-RUN` not open;
+rulings 39–42 taken 2026-08-30 before its opening.** Three questions remain the user's before
+the `E11` card is approved: which piece of work the run is (ruling 12 — the candidates put to the
+user are the P5C A4 amendment draft that the caller's own plan names as its next action, or the
+design chapter's §2.2 as w1-r1's successor); how the caller's submodule reaches this batch's tip
+(`dev` stands 23 commits ahead of `origin/dev` at this writing — a push, which is the user's act
+under `E8`, or a fetch from the local path); and the ledger's `R5` observation on tool-keyed
+class scans, which the ledger routes to this opening. Next: those three answered → the card
+approved → this session dispatches the opening cold read (the read debt under round 2's step 7
+plus `§live`), prepares the caller under rulings 39, 40 and 42, and states `base_commit`; the
+user starts the cold session ruling 41 names, and the run proceeds there. A cold session
+continues from the *Steps — round 2* checklist above: the first unchecked box is the pointer;
+round 3's own steps are written at its opening.
 
 ## Notes
 
