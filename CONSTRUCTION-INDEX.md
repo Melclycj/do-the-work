@@ -24,10 +24,13 @@
 
 ## Product-run tier — what a caller mounts
 
-Nothing outside these rows travels. **59 files** against a repository of **415**, measured
-2026-08-30 at `4b81dd9` by the commands at the foot — re-run them rather than citing these,
+Nothing outside these rows travels. **59 files** against a repository of **421**, measured
+2026-08-30 at `8ce93f7` by the commands at the foot — re-run them rather than citing these,
 because a count is invalidated by the next commit and this round's own records invalidate it
-several times over (`E3`).
+several times over (`E3`). Round `CORE-ONLY-CODE` moved the tier's ratio and not its size: it
+added a construction-side dispatch generator and two test files and deleted the two
+retired-contract stubs, all of them outside these rows, so the tier stayed at 59 while the
+repository moved 415 → 421.
 
 | # | What travels | Where | Files |
 |---|---|---|---|
