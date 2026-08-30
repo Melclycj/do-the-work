@@ -34,8 +34,9 @@ disclosed through `E1`'s exception channel, and the disclosure mechanics are `E1
 
 Why this role had no charter until now: the **reviewer, the reader and — since round
 `EXECUTOR-CHARTER` (2026-08-22 ruling) — the executor** start cold, so something must hand
-each its charter at startup, and `dtw dispatch` does: three review-side modes, and two
-executor-side modes, one per side of the work — the product-run executor's charter is
+each its charter at startup, and a dispatch generator does: `dtw dispatch`, one review-side
+mode and one executor-side mode for a product run, and a repository's own construction-side
+dispatch for the rounds it runs against its own rules — the product-run executor's charter is
 [EXECUTION.md](EXECUTION.md), the construction-round executor's is that repository's own
 rule file — the one its `harness.json` declares, which the command is held to deriving
 from the declaration rather than from a constant of its own, and which names
@@ -67,13 +68,13 @@ This table assigns them. It does not restate them — read the rule.
 
 The orchestrator delivers the round's **instruction, subject and governing plans**, and stops
 there. Since round `EXECUTOR-CHARTER` the delivery opens with a generated half: `dtw dispatch
---executor` (product run) or `dtw dispatch --construction-executor` (construction round) hands
-the executor its charter at startup — the orchestrator runs the command rather than
-hand-copying the pointer. It does not hand over a decomposition: since the three-role model
-(`HD-35`) the WorkSpec author is the executor of that run, and a decomposition supplied from
-outside is an answer the executor would be checking instead of writing. What the orchestrator
-does with the result is render it for the user's approval — the START card for a product run,
-the preview card for a construction round (`E11`).
+--executor` (product run) or a repository's own construction-side dispatch in its executor
+mode (construction round) hands the executor its charter at startup — the orchestrator runs
+the command rather than hand-copying the pointer. It does not hand over a decomposition:
+since the three-role model (`HD-35`) the WorkSpec author is the executor of that run, and a
+decomposition supplied from outside is an answer the executor would be checking instead of
+writing. What the orchestrator does with the result is render it for the user's approval —
+the START card for a product run, the preview card for a construction round (`E11`).
 
 The plans joined that list on 2026-08-22 (round `PRERUN-RIDERS`) for two reasons that arrive
 together. Standing discipline lives in them, and since round `EXECUTOR-CHARTER` closed the
