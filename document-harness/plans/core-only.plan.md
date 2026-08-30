@@ -730,9 +730,25 @@ Checked off as each lands; a box that reads done names the commit that made it s
   reported sites ruled to one correction pass as ruling 37. This commit. Original text: the
   proposal and every question put to the user before the FULL; a changed answer lands as a
   pre-submission correction.
-- [ ] 4b. **Correction pass.** One cold `claude -p` executor under ruling 33 — the last cold
-  correction pass before `HD-69` takes effect — carrying ruling 37's (a), (b) and (c), ruling
-  36's rider row, and the journal's §7 written forward; acceptances 1 and 2 re-measured.
+- [x] 4b. **DONE.** Cold `claude -p` executor, 28 minutes, six pre-submission corrections —
+  `23e69d6` (ruling 37 (a): `ORCHESTRATION.md:37-38` with journal §7.1's bytes, `:69-70` in the
+  same shape, the `:40-42` amendment clause untouched), `691ddff` (ruling 37 (b): the five bare
+  `R4` sites, `assurance.schema.json` disclosed under `E2`), `65ecdac` (ruling 37 (c):
+  `ONBOARDING.md:150` de-named, rider `e10-cannot-see` touched), `6c93c98` (ruling 36's rider
+  row `caller-rule-read-no-generator`), `c08de13` (journal §5–§7 written forward), `90c62a9`
+  (errata, `HD-23` class: a journal figure taken at an earlier commit than the block said). The
+  widened class scan, bare `R<n>` over the product tier, 40 → 36 lines, the 36 survivors all
+  correctly formed and reported, not widened to. Reported up, decided at closeout: rider
+  `onboarding-carries-construction`'s arm (a) is touched by `65ecdac` and carries no touch note;
+  three `R4 governance scan` docstrings in `tooling/tests` are construction-side and stay;
+  `ORCHESTRATION.md` owes the `E10` re-read that rides round 3's opening. **The candidate is
+  closed here** — this commit, on the orchestrator's re-measurement at `90c62a9`: 873 passed,
+  harness-only tree 59 files, sweep 28 all NAMETOK and 0 instrument-held, sweep here 13, three
+  guards and `dtw --help` exit 0 on that tree, `grep CONSTRUCTION-CHECKLIST` there 0, the
+  disclosure alarm green over `fff2203..90c62a9`. This is the last cold correction pass before
+  `HD-69` takes effect. Original text: one cold `claude -p` executor under ruling 33 — the last
+  cold correction pass before `HD-69` takes effect — carrying ruling 37's (a), (b) and (c),
+  ruling 36's rider row, and the journal's §7 written forward; acceptances 1 and 2 re-measured.
 - [ ] 5. **FULL.** `dtw dispatch --range fff2203..<tip>` → cold `claude -p` → record committed
   unchanged, marker deleted in that act.
 - [ ] 6a. **Fix gate.** Only on `CHANGES_REQUIRED`: the user rules the boundary; one cold
@@ -746,8 +762,8 @@ Checked off as each lands; a box that reads done names the commit that made it s
 
 ## Resume pointer
 
-当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; steps 1–4 done, step 4b —
-the correction pass under ruling 37 — is next, then the FULL.** A cold session continues from the *Steps — round 2*
+当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; steps 1–4b done, the
+candidate closed; step 5 — the FULL over `fff2203..<this commit>` — is next.** A cold session continues from the *Steps — round 2*
 checklist above: the first unchecked box is the pointer. Round 3 `CORE-ONLY-RUN` — item F, in
 the caller — opens after this round closes; which piece of work the product run is stays open
 until then (ruling 12).
