@@ -100,6 +100,14 @@
   `CONSTRUCTION-LEDGER.md` 公开化三批条目，按 `HD-59` 不就地改，原句留作当日历史）· 实测依据＝
   `tooling/sweep_refs.py` 三棵树对照 · rider `checklist-cited-not-carried`
 
+- **向前更正（2026-08-30，轮 `CORE-ONLY-CODE` 之后）：本条「结构性的那一条」所记的冲突已经消失，
+  三处事实均已被本批推翻。** `E10` 的成员数自轮 `CORE-ONLY-CODE` 起为 **七**（item D 删掉两份
+  retired contract stub）；`CONSTRUCTION-CHECKLIST.md` 自轮 `CORE-ONLY-LAYER` 起不是成员，而是本仓
+  在 `harness.json` 里声明的自有规则文件；两份 stub 已不在树上。故本条所说的「九分之三不 travel、
+  两张清单互不相容」不再成立，rider `checklist-cited-not-carried` 亦已于轮 `CORE-ONLY-LAYER` 兑付
+  删行（见 `CONSTRUCTION-INDEX.md` 抬头）。**本段只更正措辞与事实，不动本条裁决实质**：分发形态仍
+  是「submodule 为默认、core 分发若最终做不到就上 plugin」，本条仍 `live`，边界段的三条路仍未走完。
+
 ### HD-65 · 契约 §13.1 的「not accepted」只指**验证路径**，够不到 accessor 与决策检查
 - 2026-08-29 · user · scope: standing · status: **live**（这是对签字文本一个词的**解释**，契约自身
   不携带自己的解释，指令层也没有任何一处说这个词该读多严；`HD-64` 的边界段只管「准予改哪一类」，

@@ -165,17 +165,17 @@
 ## 待办 backlog — 构造侧
 
 - **轮 `V1-RESULT-RETIRE` CLOSED 且已合入 `main` 2026-08-29**（PR #2 → `b6c40a2`；FULL
-  `REVIEWED_NO_BLOCKER` `be59ad6`）：v1 评审 schema 退役，pack 15→14；三条裁决（`HD-63`/`HD-64`/
-  `HD-65`）与逐条处置全在 plan [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)。
+  `REVIEWED_NO_BLOCKER` `be59ad6`；裁决与处置在 plan [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)）。
   **批 `CORE-ONLY`（构造侧降级为 harness 的普通调用者；三轮 `LAYER`→`CODE`→`RUN`，跨两个仓）：
-  轮 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30**（base `db1bfa1`；冷读 `ac39d35` → 候选 + 五次 pre-FULL
-  修正 → FULL `CHANGES_REQUIRED` `8997d94` → 唯一修腿 `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50`；
-  剥史树非解析 48→32，余 4 处全是 item D 两 stub；电池 830→853）。**轮 2 `CORE-ONLY-CODE` OPEN
-  2026-08-30，base `fff2203`**（C · D · dispatch 半 H · K；卡上四裁＝plan 裁决 32–35：宽形冷读付
-  八成员 + `CONSTRUCTION-CHECKLIST.md` 复读债、三冷角色各自 `claude -p` opus、item D 执行且成员句
-  9→7、构造侧 dispatch 落点由 executor 提案）。三十五条裁决、验收与逐条处置全在 plan
-  [`core-only.plan.md`](document-harness/plans/core-only.plan.md)。其后：轮 3 `CORE-ONLY-RUN`
-  （调用者仓）· 候选隔离 · dispatch-economy。分发形态由 `HD-66` 承载。**⚠ 本档 20/20 条已顶满**。
+  轮 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30**（base `db1bfa1`；FULL `8997d94` → 修 `c7f9c8d` → VERIFY
+  `8214f50`）。**轮 2 `CORE-ONLY-CODE` CLOSED 2026-08-30**（base `fff2203`；冷读 `69a9a71` → amendment
+  `5a9c0fd` + 再读 `d771cc4` → 候选 `70c82b4` → FULL `CHANGES_REQUIRED` `affacc2` → 唯一修腿 `894bc92` →
+  VERIFY `REVIEWED_NO_BLOCKER` `552b405`）：构造侧 dispatch 独立成 `tooling/construction_dispatch.py`、两 stub 删、
+  成员 9→7、每份 dispatch 点名 `harness.json` 声明的规则；剥史树指向仪器持有物者 4→0（余 1 处按裁决 19
+  准入）；电池 853→873。38 条裁决与处置全在 plan [`core-only.plan.md`](document-harness/plans/core-only.plan.md)。
+  **队首 ＝ 轮 3 `CORE-ONLY-RUN`**（item F，在调用者仓开；冷读付三成员 + 声明规则的 `E10` 复读债）。
+  其后：候选隔离 · dispatch-economy。分发形态由 `HD-66` 承载。
+  **⚠ 本档 20/20 条已顶满**。
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan
   [`harness-batch-b.plan.md`](document-harness/plans/harness-batch-b.plan.md)）：R1 `run_all` 接线
   （`HD-25`）· R2 io-design v1 签字（`HD-35`）· R3 ledger 解耦（`HD-31`）· R4 三角色重指 +

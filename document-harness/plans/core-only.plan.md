@@ -1,13 +1,16 @@
 # Plan — batch `CORE-ONLY`: the construction side becomes an ordinary caller of the harness
 
-> **Status: round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at base_commit `fff2203`**, the `dev`
-> tip at opening and 60 commits ahead of `main`, stated rather than derived for the reason
-> `V1-RESULT-RETIRE`'s own base correction records. Round 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30
-> (opened 2026-08-29 at `db1bfa1`; chain: read `ac39d35` → candidate → FULL `CHANGES_REQUIRED`
-> `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` → closeout `cfa73df`).
-> Round 3 is not open. Round 2's steps are the *Steps — round 2* checklist below; the *Resume
-> pointer* at the foot is the pointer a cold session continues from. Rewritten 2026-08-29
-> (second sitting) after the framing below replaced the one this file carried at `18d120d`.
+> **Status: rounds 1 and 2 CLOSED 2026-08-30; round 3 `CORE-ONLY-RUN` is not open.** Round 1
+> `CORE-ONLY-LAYER`: opened 2026-08-29 at `db1bfa1`; read `ac39d35` → candidate → FULL
+> `CHANGES_REQUIRED` `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` →
+> closeout `cfa73df`. Round 2 `CORE-ONLY-CODE`: opened 2026-08-30 at `fff2203`, the `dev` tip
+> then and 60 commits ahead of `main`, stated rather than derived for the reason
+> `V1-RESULT-RETIRE`'s own base correction records; read `69a9a71` → `E10` amendment `5a9c0fd`
+> and its re-read `d771cc4` → candidate `70c82b4` → FULL `CHANGES_REQUIRED` `affacc2` → fix
+> `894bc92` → VERIFY `REVIEWED_NO_BLOCKER` `552b405` → closeout. Round 3's `base_commit` is stated at its
+> opening, in the caller (ruling 12). The *Resume pointer* at the foot is the pointer a cold
+> session continues from. Rewritten 2026-08-29 (second sitting) after the framing below
+> replaced the one this file carried at `18d120d`.
 >
 > **This file is the carrier of the user's rulings of 2026-08-29** in *Rulings*. Until they land
 > here they live only in the conversation that took them, which is chat-only load-bearing material
@@ -781,19 +784,57 @@ Checked off as each lands; a box that reads done names the commit that made it s
   observations — the implementation re-run and found to hold; both blockers a literal this round
   made false and then declared swept. Fix gate → ruling 38. Original text: `dtw dispatch --range
   fff2203..<tip>` → cold `claude -p` → record committed unchanged, marker deleted in that act.
-- [ ] 6a. **Fix gate.** Only on `CHANGES_REQUIRED`: the user rules the boundary; one cold
-  executor, one commit, `E9`'s single user-approved fix.
-- [ ] 6b. **VERIFY.** Targeted, over the accepted findings plus the whole repair diff, via `dtw
-  dispatch --range` → cold `claude -p` → record committed unchanged.
-- [ ] 7. **Closeout.** Each low's spend/bank choice put to the user (`R10`); this checklist; the
+- [x] 6a. **DONE.** Fix gate → ruling 38 (`8d59758`); cold executor, 30 minutes, one commit
+  `894bc92` (review fix), six files, all inside ruling 38: B-1, B-2 and the four lows with the
+  reviewer's bytes, `io-design.md` left unedited with the reason in the body, the six committed
+  conclusions corrected forward under `HD-69`, the ledger untouched. One thing said rather than
+  done silently: the `E10-sync` residual enumeration's line number for `ORCHESTRATION.md`'s
+  obligations moved `:48` → `:49` and was written in the same sentence. Reported, not fixed:
+  `CONSTRUCTION-LEDGER.md:143`, a dated closure record naming the old flag, ninth site of B-2's
+  class, outside ruling 38. Original text: only on `CHANGES_REQUIRED`: the user rules the
+  boundary; one cold executor, one commit, `E9`'s single user-approved fix.
+- [x] 6b. **DONE.** Subject `70c82b4..894bc92`, dispatched with `tooling/construction_dispatch.py
+  --range`, its own `claude -p` session; record `v3-review-verify-894bc92.md` committed unchanged at `552b405`,
+  marker deleted in that act. Verdict **`REVIEWED_NO_BLOCKER`**. `E9`: one FULL, one fix, one VERIFY —
+  exactly spent. Original text: targeted, over the accepted findings plus the whole repair diff,
+  via `dtw dispatch --range` → cold `claude -p` → record committed unchanged.
+- [x] 7. **DONE — round 2 CLOSED 2026-08-30**, this commit: the FULL's four lows rode the fix leg
+  and none is banked; the VERIFY's `F-1` takes the `HD-59` forward correction under `HD-66` the
+  user ruled 2026-08-30, the reviewer's bytes verbatim, carried by this commit, and its `F-2` —
+  the fix body's B-2 scan counting sixteen files where the command returns seventeen on both
+  sides with an unchanged file set — is corrected forward in this commit's body (`R9`,
+  wording-level, riding this batch); the ledger's queue-head row rewritten in place to name
+  round 3 `CORE-ONLY-RUN`; rider `onboarding-carries-construction`'s arm (a) takes the touch
+  note the correction pass reported as owed (`65ecdac` re-wrote the Owner cell at
+  `ONBOARDING.md:150` without touching items 4–7's cells, so the arm stays open);
+  `CONSTRUCTION-INDEX.md` stands as
+  re-measured at `e8b120c` by the executor (product tier 59, row 8's prose agreeing with its
+  count) and the tier is 59 of 423 at this commit. **Acceptance 1 read literally is one, not
+  zero**: the contract's past-tense `review.schema.json` at `:279` is instrument-held and stands
+  by ruling 19's holder-or-history clause, the other 27 sites caller-held (FULL `L-1`, journal
+  §5 forward). **The `E10` read debt, stated with the reliance it withholds**: three of the
+  seven members changed in `fff2203..894bc92` — `document-harness/RULES.md`,
+  `document-harness/ORCHESTRATION.md`, `document-harness/README.md` — and this repository's
+  declared rule `document-harness/CONSTRUCTION-CHECKLIST.md`; the amendment `5a9c0fd` had its
+  own read, the rest has had none; it rides round 3's opening cold read, and until that read
+  returns no conclusion of round 3 may rest on the changed bytes. Round 2's own acceptances rest
+  on two independent reviews of those bytes, not on the read. `HD-69` recorded this round's
+  correction pass as the last cold one; the FULL's `O-1` (`E10`'s *four readers* and the
+  construction dispatch as a fifth) and `O-3` (tool-keyed class scans against a class defined by
+  what a caller cannot resolve) are the user's design questions and are not answered here.
+  Original text: each low's spend/bank choice put to the user (`R10`); this checklist; the
   ledger row naming round 3 `CORE-ONLY-RUN` as the queue head; riders touched or redeemed;
   `CONSTRUCTION-INDEX.md` re-measured by its own commands; the `E10` read debt for round 3's
   opening stated with the reliance it withholds.
 
 ## Resume pointer
 
-当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; steps 1–5 done, FULL
-`CHANGES_REQUIRED`; step 6a — the one fix under ruling 38 — is next, then the VERIFY.** A cold session continues from the *Steps — round 2*
+当前指针: **round 2 `CORE-ONLY-CODE` CLOSED 2026-08-30; round 3 `CORE-ONLY-RUN` not open.** Next:
+a later session opens round 3 in the caller (ruling 12) — item F, the real product run — with the
+`E11` card, the gitlink bumped to this batch's tip, `base_commit` stated then, and the opening
+cold read covering the three members and the declared rule this round changed (the read debt
+under step 7) plus `§live`; which piece of work the run is gets chosen on the caller's side then.
+`HD-69`'s landing is the `dispatch-economy` batch's, not round 3's. A cold session continues from the *Steps — round 2*
 checklist above: the first unchecked box is the pointer. Round 3 `CORE-ONLY-RUN` — item F, in
 the caller — opens after this round closes; which piece of work the product run is stays open
 until then (ruling 12).
