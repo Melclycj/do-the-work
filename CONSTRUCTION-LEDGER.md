@@ -170,8 +170,7 @@
   （base `db1bfa1`；FULL `8997d94` → 修 `c7f9c8d` → VERIFY `8214f50`）。**轮 2 `CORE-ONLY-CODE` CLOSED 2026-08-30**
   （base `fff2203`；冷读 `69a9a71` → 候选 `70c82b4` → FULL `affacc2` → 修 `894bc92` → VERIFY `552b405`；成员 9→7、
   构造侧 dispatch 独立、剥史树指向仪器持有物者 4→0）。**轮 3 `CORE-ONLY-RUN` OPEN 2026-08-30，仪器侧 base
-  `78d51ac`**（item F：真产品 run 在调用者 `D:/Thesis-stage-control-refactor` 开，其 base 在该仓准备 commit 落地时
-  声明；裁决 39–43：sparse 只留 59 件 + 冷会话禁网 · 调用者收轮路由改回自己根上的簿 · run 由调用者里新起的冷
+  `78d51ac`**（item F：真产品 run 在调用者 `D:/Thesis-stage-control-refactor` 开，调用者侧 base `2b1ad3b`、挂载 `3060a23`；裁决 39–43：sparse 只留 59 件 + 冷会话禁网 · 调用者收轮路由改回自己根上的簿 · run 由调用者里新起的冷
   orchestrator 会话跑 · 读审计 hook · 开轮冷读窄形；run 的活＝P5C A4 amendment 草案）。轮 `V1-RESULT-RETIRE`
   CLOSED 且已合入 `main` 2026-08-29（PR #2 → `b6c40a2`）。其后：候选隔离 · dispatch-economy。分发形态由 `HD-66`
   承载。**⚠ 本档 20/20 条已顶满**。

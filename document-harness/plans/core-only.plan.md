@@ -924,17 +924,26 @@ Checked off as each lands; a box that reads done names the commit that made it s
   and `e10-its-referent`. The read debt round 2's closeout stated is discharged. Original
   text: the dispatch command, the cold session, the record committed unchanged, a must-fix
   taking `E10`'s channel.
-- [ ] 3. **The user pushes `dev`**, or rules a fetch from the local path, so the caller's
-  submodule can reach the tip carrying step 2's record.
-- [ ] 4. **Caller preparation, this session, one caller commit**: gitlink → that tip; sparse
-  checkout of the 59 product-tier paths (ruling 39); `dtw init`; `harness.json` with `policy`
-  naming the caller's policy file and `rules` empty; the caller's `.harness/scan-surfaces.json`
-  declaring its record, review-record and specification surfaces; the policy file's §2, the
-  harness ledger's closeout list and the five pointer sites rewritten (ruling 40); the
-  `__pycache__` residue under the caller's own `tooling/rsclib/document_harness/` deleted; the
-  read-audit hook installed and mutation-tested (ruling 42); the caller's decision log opened
-  with the three adaptations; the caller's five battery legs, output in the body. **That commit
-  is the round's caller-side `base_commit`**, stated here when it lands.
+- [x] 3. **DONE.** The user pushed `dev` at `3060a23` (`fff2203..3060a23`, 27 commits), the tip
+  carrying step 2's record and its disposition. Original text: the user pushes `dev`, or rules a
+  fetch from the local path, so the caller's submodule can reach the tip.
+- [x] 4. **DONE — the round's caller-side `base_commit` is the caller's `2b1ad3b`**
+  (`V3-GITLINK-BUMP-3060a23-CORE-ONLY-CALLER-v1`, on its branch `document-work-assurance-v3`).
+  Gitlink `2522ce1` → `3060a23`; inside the mount a no-cone sparse checkout of the 59 tier paths
+  — measured 59 files on disk, 0 of 4 construction markers, `dtw --help` exit 0 — after 106
+  ignored build artifacts left there by earlier sessions were cleaned; `dtw init` wrote the two
+  root instances, `harness.json` (`policy` the caller's policy file, `rules` empty) and the
+  scan-surface declaration, then corrected to the caller's own surfaces (its first attempt used
+  wrong key names and `candidate_path_check` refused it loudly, as declared); the policy's §2,
+  the caller ledger's closeout list and the five pointer sites rewritten (ruling 40); the
+  shadowing `__pycache__` residue removed and the shadow measured gone; the read-audit hook
+  installed in the caller's project settings and mutation-tested with a throwaway `haiku`
+  session — 3 calls logged, the diff naming 1 LEAK (a read of the mount's construction ledger)
+  and 1 LEAK-git (`git -C` into the mount) against 1 tier read (ruling 42); the caller's
+  decision log opened with four entries `CD-1`…`CD-4` (the three adaptations and the run's
+  orchestration form); guards and repo-audit exit 0; five battery legs green (29 / 80 / 39 /
+  58 / compile clean), output in that commit's body. Original text: the list of those items,
+  and that the commit is the caller-side base.
 - [ ] 5. **The user starts the cold orchestrator session in the caller** (ruling 41). From here
   until step 8 this session touches neither repository.
 - [ ] 6. **The run, in the caller**, orchestrated there: the instruction in the enumerated form
@@ -962,7 +971,10 @@ the P5C A4 amendment draft (ruling 12), the ledger's `R5` observation is answere
 own cold sessions rather than by a new instrument, and the push that lets the caller reach this
 tip is the user's act. A cold session continues from the *Steps — round 3* checklist above: the
 first unchecked box is the pointer. Steps 5–7 happen in the caller, orchestrated by the cold
-session ruling 41 names; this repository's part resumes at step 8.
+session ruling 41 names; this repository's part resumes at step 8. Steps 1–4 are done: the
+caller's base is its `2b1ad3b`, the mount is at `3060a23`. The next box is step 5 — the user
+starts the cold orchestrator session in the caller — and nothing here moves until the caller's
+FINAL.
 
 ## Notes
 
