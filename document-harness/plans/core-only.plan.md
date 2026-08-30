@@ -241,6 +241,20 @@ additions, and a repository that mounts only the harness can open, run and close
     `CORE-ONLY-CODE` as its own item — listed under *Sketch* as **K** — rather than a sixth
     pre-FULL pass; the user's reason for stopping the loop is `R5`'s shape, five passes having
     each found the next form of the same reference while no FULL had yet run.
+31. **The fix leg is spent, once, and the VERIFY is owed** (2026-08-30, the fix gate after FULL
+    `v3-review-full-8f6b3ef.md`, record `8997d94`, verdict `CHANGES_REQUIRED`). The user chose
+    `E9`'s route over `E10`'s free channel for the two blockers, on the ground that a FULL's
+    blockers taken through a channel that spends nothing is the renamed-round shape `E9` warns
+    of. One user-approved fix commit carries: **B-1** — both retired-contract stubs' first
+    sentence replaced with the reviewer's bytes, naming the checklist as what this repository
+    obeys alone and `RULES.md` as the counterpart where `E1`, `E3`–`E12` and `R1`–`R10` live;
+    **B-2** — the reviewer's sentence added to `RULES.md`'s header naming `E2` as the one
+    deliberate gap, the schema site left as it is; **L-1** — `document-harness/README.md:26`'s
+    `.githooks/` path token deleted on ruling 24's principle, the sentence saying only that the
+    hook became tracked and is reached by a per-machine `core.hooksPath`; **L-2**, **L-3**,
+    **L-4**, **L-5** — the reviewer's bytes as supplied. `O-1`, `O-3`, `O-4` are recorded and
+    owe nothing now; `O-2` is the user's question and was answered at ruling 30. Then a
+    targeted VERIFY over the accepted findings plus the whole repair diff (`R3`).
 
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
@@ -581,15 +595,22 @@ Checked off as each lands; a box that reads done names the commit that made it s
   round 2's item K. **The candidate is closed here**; no further pre-FULL pass. Original text:
   the two schema sites with `E2` disclosure; the journal answered forward, ruling 29 noted,
   acceptance 1 and 2 re-measured; then the FULL.
-- [ ] 6. **FULL** on `db1bfa1..<tip>` via `dtw dispatch --range` → cold `claude -p` reviewer →
-  record committed unchanged → at most one user-approved fix → targeted VERIFY → closeout: this
-  checklist, the ledger row, riders, and a journal if detail needs a home.
+- [x] 6a. **FULL DONE.** Subject `db1bfa1..8f6b3ef`, its own `claude -p` session; record
+  `v3-review-full-8f6b3ef.md` committed unchanged at `8997d94`, marker deleted in that act.
+  Verdict **`CHANGES_REQUIRED`**: 2 blockers, 5 lows, 4 observations. Fix gate → ruling 31.
+- [ ] 6b. **The fix leg** (ruling 31): one cold executor, one commit, `E9`'s single
+  user-approved fix.
+- [ ] 6c. **Targeted VERIFY** over the accepted findings plus the whole repair diff, via
+  `dtw dispatch --range <FULL tip>..<fix tip>` → cold `claude -p` → record committed unchanged.
+- [ ] 6d. **Closeout**: this checklist, the ledger row, riders (`R10`'s low choices are made at
+  ruling 31), `HD-67`/`HD-68` status proposals for the user, the `E10` read debt on the changed
+  members recorded for round 2's opening.
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5e done, the candidate is
-closed at `a5b1dc2` plus this ruling commit; step 6 — the FULL over `db1bfa1..<tip>` — is being
-dispatched.** While its freeze marker stands, `dev` takes no commit but the record. The step list above is the pointer; a cold session reads it, then
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–6a done; FULL returned
+`CHANGES_REQUIRED` (`8997d94`); step 6b — the one fix leg under ruling 31 — is being dispatched,
+then the VERIFY.** The step list above is the pointer; a cold session reads it, then
 `CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box. `§live`
 holds twelve entries, `HD-67` (with its forward correction) and `HD-68` among them. One thing
 stays open by design and is settled at its round's opening, not before: which piece of work the
