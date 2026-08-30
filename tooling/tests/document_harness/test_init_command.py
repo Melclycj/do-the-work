@@ -340,7 +340,7 @@ class ThroughTheCommandLine(unittest.TestCase):
 
     def test_the_report_names_what_it_deliberately_did_not_do(self):
         # The command's own output is the only place a caller who runs *only* this command
-        # meets the five items it does not perform.
+        # meets the six items it does not perform.
         with Target() as root:
             lines = self.run_init(root).stdout.splitlines()
             self.assertIn(

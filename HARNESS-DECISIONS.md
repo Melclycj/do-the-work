@@ -28,78 +28,6 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
-### HD-68 · 契约 v4 `:29` 的 wikilink 准予就地去链接——本裁**明写盖过契约 §13**，`HD-63` / `HD-64` / `HD-67` 之后本族第四条，盖的对象是「可跟随、但调用者拿不到字节、且既无路径也无 holder」的**引用形态**
-- 2026-08-30 · user · scope: one-shot · status: **live**（层内零承载：§13 说反面；前三条各只盖自己那一类，
-  本类不在其中；rider `contract-wikilink-tier` 两次到期——`CORE-SET-CODE` 冷读入 bank、本轮 `228df32`
-  触碰记录——皆因无授权而不兑。承载 = 本轮 executor 的 pre-submission correction commit +
-  `CONTRACT-V4-SIGNATURE.md` 记入签署后写入 + `E10` 对被改文本的独立复读；落地后转 `implemented`、
-  复读回来后 `retired`，两次翻态皆归用户（`HD-2`））
-- 裁决：准予 executor 就地改 `contract/Document-Work-Assurance-Contract-v4.md:29`（`607728a` 时 `:36`）
-  的 `[[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]]`：**链接形态消失**——
-  该 plan 以标题指称，不给任何可跟随的路径或链接；紧随其后括号里的 SHA-256 与「digest 对本仓无 blob
-  可验」（`HD-57`）那段说明是纯建造史，可随之删；「Plan §2 decisions V3-D1–D10 are the locked design
-  authority; a genuine conflict between this contract and the plan is a `SPEC_GAP`」这句义务**留**。
-  字节归 executor 写并在 commit 正文披露。本裁**明写盖过 §13** "Signed contracts are never amended in
-  place"，依据同前三条。
-- **与前三条的区别照记**：`HD-63` 盖「签署时为真后来变假的陈述」，`HD-64` 盖「对空集生效的要求」，
-  `HD-67` 盖「调用者不可达的历史」；本条盖的是**引用形态**——内容留、形态变。理由是 rider 的实测：
-  `layer_path_check` 的 `TOKEN` 要反引号、`PATHLIKE` 白名单无 `.plan`、`sweep_refs` 的 `LINK` 只认
-  `](…)`，wikilink 三个守卫都在结构上看不见，是全层唯一一处两边都够不着的形态。四条各自独立，互不作
-  先例扩张。
-- 边界：只此一站点、只此一种形态；不开「契约里的链接随手可改」的通道；不动 §3 接口 / §5 枚举 / §7
-  不变量 / §13 版本边界。
-- 后果：写它的 commit 按 `E2` 在正文逐点点名 `contract/Document-Work-Assurance-Contract-v4.md`；
-  `CONTRACT-V4-SIGNATURE.md` 同 commit 记入签署后写入，不重指签字 blob；rider `contract-wikilink-tier`
-  同 commit 删行（`R10`：兑付 = 同 commit 删行）；改后文本欠 `E10` 独立复读，随本轮下一次层读。
-- basis: 用户裁决 2026-08-30（对话：「现在裁 HD-68，本轮一并改」；载体 plan
-  `document-harness/plans/core-only.plan.md` 裁决 23）· rider `contract-wikilink-tier`
-  （`v3-cold-read-b737742.md` `L-1`）· `228df32` 正文的触碰记录（「redeeming it wants a fourth ruling
-  in that family」）· `HD-63` / `HD-64` / `HD-67`
-
-### HD-67 · 契约 v4 里两块**纯建造史**准予就地删除——本裁**明写盖过契约 §13** 的 in-place 禁令，且不开设计轮；`HD-63` / `HD-64` 之后本族第三条，盖的对象是「调用者够不到的历史」
-- 2026-08-29 · user · scope: one-shot · status: **live**（层内零承载：契约 §13 说的是反面；`E10` 的 design test
-  管的是「改变规则要求什么」而本条不改任何要求，故 design test 不触发，但 §13 的字面禁令仍须明裁盖过，
-  否则 executor 无据可写。承载 = 轮 `CORE-ONLY-LAYER` executor 写契约的那个 commit + `CONTRACT-V4-SIGNATURE.md`
-  记入第五笔签署后写入 + `E10` 对被改文本的独立复读；落地后转 `implemented`、复读回来后 `retired`，两次翻态
-  皆归用户（`HD-2`）。本条由 orchestrator 按 plan 裁决 18 转写 plan 裁决 4 与 11，不加新裁决）
-- 裁决：准予 executor **就地删除** `contract/Document-Work-Assurance-Contract-v4.md` 里两块只属于本仪器
-  建造史、任何调用者都够不到的文字：① 抬头的**合并来源段**（本 commit 时 `:21-33`：v4 合并了哪三份签字
-  文本、各自 blob、签字日期与记录文件名 `N0-record.md` / `W2-record.md` / `supersession-2-signature.md`、
-  措辞差异归 `contract-v4.plan.md`）② **§12 *Dependency and historical map* 的前两段**（`:248-257`：
-  v1/v2 不可变性、A4 作为 v2 史、`N0-record.md` §4 提名的复用候选）。**§12 第三段留**（`:259-263`，
-  v3 默认接口移除了什么、无用户批准的 plan 修正不得回归——那是对调用者有效的义务）；签字语义抬头块与
-  §14 留，其中对 `CONTRACT-V4-SIGNATURE.md` 的指称可由 holder 句替代文件名，归 executor 定。改后的文字
-  **该说什么归 executor 写并在 commit 正文披露**（`HD-64` 同款）。本裁**明写盖过 §13** "Signed contracts
-  are never amended in place; corrections create a versioned successor"，依据同前两条：本簿抬头
-  「细则与裁决冲突，细则错」与 `E10` 自认 `§live` 冲突时压它。
-- **与前两条的区别照记，三条各自独立、互不作先例扩张**：`HD-63` 盖「签署时为真、后来变假的陈述」，
-  `HD-64` 盖「一条对空集生效的要求」；本条盖的**既不是真假也不是要求，是对调用者不可达的历史**——
-  plan 裁决 4 的原话是产品契约装着本仪器的建造史是对规则文本的污染，早先「逐条标 holder」的答法
-  治的是症状（实测七处站点里三处已带 holder 句，正是写它的人已知调用者够不到、却以标注代替删除的证据）。
-- 边界：只授权这两块。判据 = **该段对调用者是否可达、是否施加义务**——一句对调用者有义务效力的话不在
-  射程内，§12 第三段即例；本条**不**开「契约里的历史随手可删」的通道，也**不**授权改动 §3 接口 / §5
-  枚举 / §7 不变量 / §13 版本边界的任何一字。走的是 plan 裁决 11 的**轻路线**：不重签，签字对象仍是
-  `CONTRACT-V4-SIGNATURE.md` 记的 `614932de…`。
-- 后果：v4 是 announced 路径，executor 写它的 commit 按 `E2` 在正文逐点点名
-  `contract/Document-Work-Assurance-Contract-v4.md`；`CONTRACT-V4-SIGNATURE.md` 同 commit 记入第五笔
-  签署后写入，不重指签字 blob；改后文本欠 `E10` 独立复读，随本轮下一次层读（复读回来前，本轮任何
-  依赖被改文本的结论不成立）。剥史树上契约的 7 处 NAMETOK（plan 量程表 `:16/:27/:28/:31/:33/:254/:365`，
-  于 `607728a` 测）中五处随两块消失，余两处（`CONTRACT-V4-SIGNATURE.md`）由 holder 句处置。
-- basis: 用户裁决 2026-08-29（plan `document-harness/plans/core-only.plan.md` 裁决 4「要一起做了」、
-  裁决 11「轻路线」、裁决 18「由 orchestrator 转写并先于冷读落」）· 同 plan 量程表
-  *The contract's provenance — ruling 4's object, in blocks rather than lines*（四块四判）· `HD-63` /
-  `HD-64`（同族前两条，各自的边界段正是把本类排除在外的那段）· `HD-59` 向前更正（原文各段逐字留着）
-- **向前更正（2026-08-29，开轮冷读 `migration/document-work-assurance-v3/v3-cold-read-a542c6d.md`
-  `M-1`，用户当日裁；上文各段逐字留着，`HD-59`）。** 后果段「余两处（`CONTRACT-V4-SIGNATURE.md`）由
-  holder 句处置」**少算一处**：契约里指向签字记录的站点是**三处**，第三处是 front matter `:9`
-  的 `signature_owner: CONTRACT-V4-SIGNATURE.md (this instrument's v4 signature record)`——无反引号，
-  故 `sweep_refs.py` 的 NAMETOK 普查在结构上看不见它。错在推断不在量程声明：上文把 NAMETOK 普查当成了
-  「调用者够不到的引用」的普查。**用户裁：`:9` 留原样，一字不改**——它是机器读的 owner 委托键
-  （`checks.py:486` 记为正确模式、`test_candidate_checks.py:1997-2000` 钉住必须存在），值里已自带
-  holder 短语。executor 写契约的 commit 正文按 `E2` 点名三处及各自处置（`:9` 维持；`:16`/`:365` 依上文），
-  `HD-41` ④ 的扫类以三处为准。同一冷读 `O-1` 所记——本条以「第五笔签署后写入」取代 plan 裁决 11 的
-  「重指新 blob」字面，因后者自 `184387c` 起无对象——照记，不改本条。
-
 ### HD-66 · 分发形态：submodule 是默认**而非终局**——core 分发若最终做不到，就上 plugin（推翻 2026-08-24 裁决的该半边）
 - 2026-08-29 · user · scope: standing · status: **live**（层内零承载：指令层没有任何一处讲分发形态，
   `CONSTRUCTION-INDEX.md` 只分「travel / 不 travel」而不说怎么送达；原裁只活在
@@ -303,6 +231,78 @@
 - basis: [journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md) §1–2
 
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
+
+### HD-68 · 契约 v4 `:29` 的 wikilink 准予就地去链接——本裁**明写盖过契约 §13**，`HD-63` / `HD-64` / `HD-67` 之后本族第四条，盖的对象是「可跟随、但调用者拿不到字节、且既无路径也无 holder」的**引用形态**
+- 2026-08-30 · user · scope: one-shot · status: **implemented**（用户裁决 2026-08-30 翻态，挪节与翻转同 commit 按 `HD-2`；承载 = `322fd1c`，经 FULL `8997d94` + VERIFY `8214f50` 审毕；改后文本欠 `E10` 独立复读，随轮 2 开轮冷读，复读回来后转 `retired` 归用户；原 live 理由随本条挪节留在下文括号内：层内零承载：§13 说反面；前三条各只盖自己那一类，
+  本类不在其中；rider `contract-wikilink-tier` 两次到期——`CORE-SET-CODE` 冷读入 bank、本轮 `228df32`
+  触碰记录——皆因无授权而不兑。承载 = 本轮 executor 的 pre-submission correction commit +
+  `CONTRACT-V4-SIGNATURE.md` 记入签署后写入 + `E10` 对被改文本的独立复读；落地后转 `implemented`、
+  复读回来后 `retired`，两次翻态皆归用户（`HD-2`））
+- 裁决：准予 executor 就地改 `contract/Document-Work-Assurance-Contract-v4.md:29`（`607728a` 时 `:36`）
+  的 `[[document-work-assurance-harness-v3.plan|Document Work Assurance Harness v3]]`：**链接形态消失**——
+  该 plan 以标题指称，不给任何可跟随的路径或链接；紧随其后括号里的 SHA-256 与「digest 对本仓无 blob
+  可验」（`HD-57`）那段说明是纯建造史，可随之删；「Plan §2 decisions V3-D1–D10 are the locked design
+  authority; a genuine conflict between this contract and the plan is a `SPEC_GAP`」这句义务**留**。
+  字节归 executor 写并在 commit 正文披露。本裁**明写盖过 §13** "Signed contracts are never amended in
+  place"，依据同前三条。
+- **与前三条的区别照记**：`HD-63` 盖「签署时为真后来变假的陈述」，`HD-64` 盖「对空集生效的要求」，
+  `HD-67` 盖「调用者不可达的历史」；本条盖的是**引用形态**——内容留、形态变。理由是 rider 的实测：
+  `layer_path_check` 的 `TOKEN` 要反引号、`PATHLIKE` 白名单无 `.plan`、`sweep_refs` 的 `LINK` 只认
+  `](…)`，wikilink 三个守卫都在结构上看不见，是全层唯一一处两边都够不着的形态。四条各自独立，互不作
+  先例扩张。
+- 边界：只此一站点、只此一种形态；不开「契约里的链接随手可改」的通道；不动 §3 接口 / §5 枚举 / §7
+  不变量 / §13 版本边界。
+- 后果：写它的 commit 按 `E2` 在正文逐点点名 `contract/Document-Work-Assurance-Contract-v4.md`；
+  `CONTRACT-V4-SIGNATURE.md` 同 commit 记入签署后写入，不重指签字 blob；rider `contract-wikilink-tier`
+  同 commit 删行（`R10`：兑付 = 同 commit 删行）；改后文本欠 `E10` 独立复读，随本轮下一次层读。
+- basis: 用户裁决 2026-08-30（对话：「现在裁 HD-68，本轮一并改」；载体 plan
+  `document-harness/plans/core-only.plan.md` 裁决 23）· rider `contract-wikilink-tier`
+  （`v3-cold-read-b737742.md` `L-1`）· `228df32` 正文的触碰记录（「redeeming it wants a fourth ruling
+  in that family」）· `HD-63` / `HD-64` / `HD-67`
+
+### HD-67 · 契约 v4 里两块**纯建造史**准予就地删除——本裁**明写盖过契约 §13** 的 in-place 禁令，且不开设计轮；`HD-63` / `HD-64` 之后本族第三条，盖的对象是「调用者够不到的历史」
+- 2026-08-29 · user · scope: one-shot · status: **implemented**（用户裁决 2026-08-30 翻态，挪节与翻转同 commit 按 `HD-2`；承载 = `228df32` 两块 + `322fd1c` 按 plan 裁决 22 补删 §12 ¶1，经 FULL `8997d94` + VERIFY `8214f50` 审毕；改后文本欠 `E10` 独立复读，随轮 2 开轮冷读，复读回来后转 `retired` 归用户；原 live 理由随本条挪节留在下文括号内：层内零承载：契约 §13 说的是反面；`E10` 的 design test
+  管的是「改变规则要求什么」而本条不改任何要求，故 design test 不触发，但 §13 的字面禁令仍须明裁盖过，
+  否则 executor 无据可写。承载 = 轮 `CORE-ONLY-LAYER` executor 写契约的那个 commit + `CONTRACT-V4-SIGNATURE.md`
+  记入第五笔签署后写入 + `E10` 对被改文本的独立复读；落地后转 `implemented`、复读回来后 `retired`，两次翻态
+  皆归用户（`HD-2`）。本条由 orchestrator 按 plan 裁决 18 转写 plan 裁决 4 与 11，不加新裁决）
+- 裁决：准予 executor **就地删除** `contract/Document-Work-Assurance-Contract-v4.md` 里两块只属于本仪器
+  建造史、任何调用者都够不到的文字：① 抬头的**合并来源段**（本 commit 时 `:21-33`：v4 合并了哪三份签字
+  文本、各自 blob、签字日期与记录文件名 `N0-record.md` / `W2-record.md` / `supersession-2-signature.md`、
+  措辞差异归 `contract-v4.plan.md`）② **§12 *Dependency and historical map* 的前两段**（`:248-257`：
+  v1/v2 不可变性、A4 作为 v2 史、`N0-record.md` §4 提名的复用候选）。**§12 第三段留**（`:259-263`，
+  v3 默认接口移除了什么、无用户批准的 plan 修正不得回归——那是对调用者有效的义务）；签字语义抬头块与
+  §14 留，其中对 `CONTRACT-V4-SIGNATURE.md` 的指称可由 holder 句替代文件名，归 executor 定。改后的文字
+  **该说什么归 executor 写并在 commit 正文披露**（`HD-64` 同款）。本裁**明写盖过 §13** "Signed contracts
+  are never amended in place; corrections create a versioned successor"，依据同前两条：本簿抬头
+  「细则与裁决冲突，细则错」与 `E10` 自认 `§live` 冲突时压它。
+- **与前两条的区别照记，三条各自独立、互不作先例扩张**：`HD-63` 盖「签署时为真、后来变假的陈述」，
+  `HD-64` 盖「一条对空集生效的要求」；本条盖的**既不是真假也不是要求，是对调用者不可达的历史**——
+  plan 裁决 4 的原话是产品契约装着本仪器的建造史是对规则文本的污染，早先「逐条标 holder」的答法
+  治的是症状（实测七处站点里三处已带 holder 句，正是写它的人已知调用者够不到、却以标注代替删除的证据）。
+- 边界：只授权这两块。判据 = **该段对调用者是否可达、是否施加义务**——一句对调用者有义务效力的话不在
+  射程内，§12 第三段即例；本条**不**开「契约里的历史随手可删」的通道，也**不**授权改动 §3 接口 / §5
+  枚举 / §7 不变量 / §13 版本边界的任何一字。走的是 plan 裁决 11 的**轻路线**：不重签，签字对象仍是
+  `CONTRACT-V4-SIGNATURE.md` 记的 `614932de…`。
+- 后果：v4 是 announced 路径，executor 写它的 commit 按 `E2` 在正文逐点点名
+  `contract/Document-Work-Assurance-Contract-v4.md`；`CONTRACT-V4-SIGNATURE.md` 同 commit 记入第五笔
+  签署后写入，不重指签字 blob；改后文本欠 `E10` 独立复读，随本轮下一次层读（复读回来前，本轮任何
+  依赖被改文本的结论不成立）。剥史树上契约的 7 处 NAMETOK（plan 量程表 `:16/:27/:28/:31/:33/:254/:365`，
+  于 `607728a` 测）中五处随两块消失，余两处（`CONTRACT-V4-SIGNATURE.md`）由 holder 句处置。
+- basis: 用户裁决 2026-08-29（plan `document-harness/plans/core-only.plan.md` 裁决 4「要一起做了」、
+  裁决 11「轻路线」、裁决 18「由 orchestrator 转写并先于冷读落」）· 同 plan 量程表
+  *The contract's provenance — ruling 4's object, in blocks rather than lines*（四块四判）· `HD-63` /
+  `HD-64`（同族前两条，各自的边界段正是把本类排除在外的那段）· `HD-59` 向前更正（原文各段逐字留着）
+- **向前更正（2026-08-29，开轮冷读 `migration/document-work-assurance-v3/v3-cold-read-a542c6d.md`
+  `M-1`，用户当日裁；上文各段逐字留着，`HD-59`）。** 后果段「余两处（`CONTRACT-V4-SIGNATURE.md`）由
+  holder 句处置」**少算一处**：契约里指向签字记录的站点是**三处**，第三处是 front matter `:9`
+  的 `signature_owner: CONTRACT-V4-SIGNATURE.md (this instrument's v4 signature record)`——无反引号，
+  故 `sweep_refs.py` 的 NAMETOK 普查在结构上看不见它。错在推断不在量程声明：上文把 NAMETOK 普查当成了
+  「调用者够不到的引用」的普查。**用户裁：`:9` 留原样，一字不改**——它是机器读的 owner 委托键
+  （`checks.py:486` 记为正确模式、`test_candidate_checks.py:1997-2000` 钉住必须存在），值里已自带
+  holder 短语。executor 写契约的 commit 正文按 `E2` 点名三处及各自处置（`:9` 维持；`:16`/`:365` 依上文），
+  `HD-41` ④ 的扫类以三处为准。同一冷读 `O-1` 所记——本条以「第五笔签署后写入」取代 plan 裁决 11 的
+  「重指新 blob」字面，因后者自 `184387c` 起无对象——照记，不改本条。
 
 ### HD-64 · 契约 v4 `:279-281` 的 v1 验证路径规定准予就地改——**这次盖过 §13 的是「要求」，且明裁不开设计轮**
 - 2026-08-28 · user · scope: standing · status: **implemented**（用户裁决 2026-08-29 翻态，挪节与翻转同 commit 按 `HD-2`；承载 = amendment `2aabd5a`，经独立复读 `ff00a1d` 确认；其一致性条件由 `HD-65` 答毕；原 live 理由随本条挪节留在下文括号内：`HD-63` 的边界段把「改变契约**要求什么**」

@@ -498,7 +498,8 @@ which is a known cost: every fresh clone rewrites it.
   rewritten where it cannot stand without them. Round 1.
 - **K — the bare `R1` references in product-tier code** (ruling 30, added 2026-08-30). Seven
   sites naming the N0 record's subject-tree item by number alone; the same deletion principle.
-  Round 2.
+  Also the `.githooks/pre-commit` token at `document-harness/README.md:26`, ruled to this item at
+  closeout — invisible to both guards, rider `e10-cannot-see`'s named instance. Round 2.
 
 ## Acceptance (done = ?)
 
@@ -598,23 +599,35 @@ Checked off as each lands; a box that reads done names the commit that made it s
 - [x] 6a. **FULL DONE.** Subject `db1bfa1..8f6b3ef`, its own `claude -p` session; record
   `v3-review-full-8f6b3ef.md` committed unchanged at `8997d94`, marker deleted in that act.
   Verdict **`CHANGES_REQUIRED`**: 2 blockers, 5 lows, 4 observations. Fix gate → ruling 31.
-- [ ] 6b. **The fix leg** (ruling 31): one cold executor, one commit, `E9`'s single
-  user-approved fix.
-- [ ] 6c. **Targeted VERIFY** over the accepted findings plus the whole repair diff, via
-  `dtw dispatch --range <FULL tip>..<fix tip>` → cold `claude -p` → record committed unchanged.
-- [ ] 6d. **Closeout**: this checklist, the ledger row, riders (`R10`'s low choices are made at
-  ruling 31), `HD-67`/`HD-68` status proposals for the user, the `E10` read debt on the changed
-  members recorded for round 2's opening.
+- [x] 6b. **DONE.** Cold executor, 12 minutes, one commit `c7f9c8d` (review fix), nine files, all
+  inside ruling 31; the `.githooks/pre-commit` sibling token reported rather than deleted → item K.
+  Original text: one cold executor, one commit, `E9`'s single user-approved fix.
+- [x] 6c. **DONE.** Subject `8f6b3ef..c7f9c8d`, its own `claude -p` session, 14 minutes; record
+  `v3-review-verify-c7f9c8d.md` committed unchanged at `8214f50`, marker deleted in that act.
+  Verdict **`REVIEWED_NO_BLOCKER`**: all seven findings landed and measured; 1 low (`V-1`, bytes,
+  free channel → the closeout commit), 1 observation (`V-2` → stated under 6d). `E9`: one FULL,
+  one fix, one VERIFY — exactly spent. Original text: targeted VERIFY over the accepted findings
+  plus the whole repair diff, via `dtw dispatch --range` → cold `claude -p` → record committed
+  unchanged.
+- [x] 6d. **DONE — round 1 CLOSED 2026-08-30**, this commit: `V-1`'s two bytes applied through
+  `E10`'s free channel (`cli.py:10`, `test_init_command.py:343`; neither a member, no read owed);
+  `HD-67` and `HD-68` flipped to `implemented` by the user and moved to `§implemented` in this
+  same commit (`HD-2`); the ledger's queue-head row rewritten to name round 2; no rider row added
+  or deleted. **The `E10` read debt, stated with the reliance it withholds** (VERIFY `V-2`): eight
+  of the nine members changed in `db1bfa1..c7f9c8d` — every member but
+  `paragraph-map.schema.json` — and none has had its independent read; it rides round 2's
+  opening cold read, and until that read returns no conclusion of round 2 may rest on the
+  changed bytes. Round 1's own acceptances rest on two independent reviews of those bytes, not
+  on the read. Original text: this checklist, the ledger row, riders, `HD-67`/`HD-68` status
+  proposals for the user, the read debt recorded for round 2's opening.
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–6a done; FULL returned
-`CHANGES_REQUIRED` (`8997d94`); step 6b — the one fix leg under ruling 31 — is being dispatched,
-then the VERIFY.** The step list above is the pointer; a cold session reads it, then
-`CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box. `§live`
-holds twelve entries, `HD-67` (with its forward correction) and `HD-68` among them. One thing
-stays open by design and is settled at its round's opening, not before: which piece of work the
-product run is (ruling 12, round 3).
+当前指针: **round 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30; rounds 2 and 3 not open.** Next: a
+later session opens round 2 `CORE-ONLY-CODE` — items C, D, the dispatch half of H, and K — with
+the `E11` card, `base_commit` stated then, and the opening cold read covering the eight members
+this round changed (the read debt under step 6d) plus `§live`. Which piece of work the product
+run is stays open until round 3 (ruling 12).
 
 ## Notes
 

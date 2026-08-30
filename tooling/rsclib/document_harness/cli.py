@@ -7,7 +7,7 @@ freeze marker `.harness/review-pending.json` (E9's review window) in the reposit
 run against — its executor-side modes write nothing, an executor dispatch opening no
 review window — and
 `init` writes into a target repository being onboarded — the mechanical slice of onboarding's
-nine items, and nothing else (`init_target.py`; the user ruled on 2026-08-18 that a seventh
+ten items, and nothing else (`init_target.py`; the user ruled on 2026-08-18 that a seventh
 command may exist, overriding the reading of `split-design.md` §1 under which the six
 travelled as they were; `preview` joined as the eighth by the ruling of 2026-08-21, round
 PREVIEW-RENDER — adding or removing a command stays a per-case user ruling, `HD-47`).
