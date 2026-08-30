@@ -398,6 +398,65 @@ being the stubs, item D again — unchanged, because this dispatch neither adds 
 member. The staged-as-new caveat the first re-measured block records is unchanged and for the
 same three tokens, none of them this dispatch's.
 
+### Re-measured after the fourth corrections dispatch — written forward, all four blocks above left word for word (`HD-59`)
+
+Every figure below was taken at `0290eb9`, this dispatch's only content commit, by the same two
+instruments as the blocks above. The harness-only tree was built by copying this working tree's
+product-tier paths into a fresh git repository and committing them — **59 tracked files**, the
+same 59 and the same path list as the block above, which measured that method and the `git
+archive HEAD` method acceptance 1 names to agree on every figure. Nothing between that commit
+and this journal changes what any of them measures, for the reason the blocks above give: this
+file is neither an instruction-layer member nor a declared rule file, no sweep and no guard
+reads it, and no test enumerates `document-harness/journal/`.
+
+**Acceptance 2 — `python tooling/sweep_refs.py`, both trees.** On this repository:
+`13 caller-held or unresolvable references over 10 members and declared rule files`, unchanged
+from all four blocks above. On the harness-only tree:
+`33 caller-held or unresolvable references over 9 members and declared rule files`, likewise
+unchanged, against 45 in the first block and 48 at the round's base. Neither figure could have
+moved, and the reason is stronger than "this dispatch changed no reference form": the one file
+it wrote — `schema/document-assurance-v3/local-check-spec.schema.json` — is neither an
+instruction-layer member nor a declared rule file, so it is not a swept surface on either tree.
+
+**Acceptance 1 — zero, except item D, unchanged.** Every remaining non-resolving site on the
+harness tree that names an **instrument-held** artifact, with its owner:
+
+| site | artifact | owner |
+|---|---|---|
+| `RULES.md:87`, `:88` (PATHTOK) + the two `MISSING` members | the two retired-contract stubs | item D, round `CORE-ONLY-CODE` |
+
+That one row is again the whole table — four sites, all round `CORE-ONLY-CODE`'s, which is where
+the four blocks above left it. Everything else the sweep prints on that tree is the compliant
+caller-held form, *reported separately and still present*: the caller's own run artifacts and
+review records, `harness.json` at nine sites, `HARNESS-DECISIONS.md` and `HARNESS-RIDERS.md`,
+`.githooks/`, the five battery commands and the past-tense pair the plan's forward correction
+re-classified, and the contract's past-tense `review.schema.json` under plan ruling 19.
+
+**Acceptance 5 — unchanged.** `grep -rn 'CONSTRUCTION-CHECKLIST'` over the harness tree still
+returns exactly the one accounted-for line,
+`tooling/rsclib/document_harness/dispatch.py:776`, which is item C's in round `CORE-ONLY-CODE`.
+
+**Acceptance 7 — `python -m pytest tests -q` run from `tooling`, on the full repository, at
+`0290eb9`: `853 passed in 174.31s`, exit 0.** The delta across this dispatch is **zero**: 853 at
+`2f6743e`, 853 here, and 853 at every content commit of the four dispatches before it. Nothing
+in this dispatch adds, removes or edits a test, and nothing needed to move with the edit —
+measured rather than assumed, since the instruction was that a test or fixture pinning either
+description string travels in the same commit: the two test files that name
+`local-check-spec.schema.json` assert its membership of the announced list
+(`test_announced_path_disclosure.py:64`) and `commandExitConfig`'s four property names
+(`test_candidate_checks.py:940`), and a repository-wide grep for the two description strings
+returns the schema itself and one source comment that carries its own separate citation.
+
+**Acceptance 9 — the guards exit 0 and the membership resolves N/N, on both trees.**
+`tooling/hooks/layer_path_check.py` exits **0** on this repository with the change staged and
+**0** on the harness-only tree with a clean index. Membership resolution: **9 of 9** here;
+**7 of 9** there, the two absent being the stubs, item D again — unchanged, because this
+dispatch neither adds nor removes a member. `tooling/announced_path_disclosure.py`, which is not
+one of acceptance 9's guards but is the machine `E2` answers to, was run over
+`8532979..0290eb9` and reports *every announced path changed in this range is named by the
+commit that changed it*, exit 0. The staged-as-new caveat the first re-measured block records is
+unchanged and for the same three tokens, none of them this dispatch's.
+
 ## 5. Every guard change, seen red once, with its control (`E4`)
 
 | mutation | must fire | control that stays green |
@@ -548,6 +607,56 @@ which is the exact defect `r9-terminal-no-carrier` is open about.
    the docstring ruling 26 rewrote kept *the `N0` schemas actually declare* for that reason —
    whereas the seven sites and the two above cite a document. Whether the wider family is the same
    defect is the user's, not this dispatch's.
+
+   **Answered 2026-08-30 — plan rulings 28 and 29, written forward; the paragraph above stands
+   word for word (`HD-59`).** Both halves of the report are ruled. **The two schema sites go**
+   (ruling 28), on the same deletion principle as rulings 24, 26 and 27:
+   `schema/document-assurance-v3/local-check-spec.schema.json:14` drops its `N0-record R1`
+   citation and keeps the sentence with `V3-D5` beside it, and `:175` drops the same citation and
+   keeps its sentence. Carried out at `0290eb9`, one commit, two sites, the line numbers
+   re-derived from the parent's bytes before writing (`E3`) and found at exactly the two the
+   ruling names. That file **is** an announced path — `E2`'s list names the fifteen the pack held
+   at the 2026-08-03 re-baseline and this is one of them — so the commit body carries the `E2`
+   disclosure naming the path in full, site by site, and the alarm that decides whether it did,
+   `tooling/announced_path_disclosure.py`, run over `8532979..0290eb9`, reports *every announced
+   path changed in this range is named by the commit that changed it*, exit 0. **An asymmetry the
+   ruling's words leave open, resolved and stated rather than smoothed:** a decision id sat beside
+   the first citation and none beside the second, so `:175` now carries no id and none was added
+   — supplying one would author content no ruling in force names, where the principle these four
+   rulings share is that the reference **goes** rather than becomes something else. The class scan
+   `HD-41` ④ was run **with both keys** either side of the write over the same product tier: at
+   the parent, `N0 record` returns nothing and `N0-record` returns exactly the two ruled sites; on
+   the new bytes both keys return zero, tracked and untracked alike. Elsewhere in the tracked
+   repository the two keys return 49 lines in 19 files and 39 lines in 15, every one a committed
+   record `HD-59` forbids editing in place. Nothing moved with the write, measured rather than
+   assumed: no test or fixture reads either description, and the file's types, enums, `$ref`s,
+   `required` lists and `allOf` branches are untouched — 248 lines at the parent and 248 now, two
+   lines changed, so what a `LocalCheckSpec` must declare and what makes a `CheckResult`
+   `WRONG_SUBJECT` are exactly what they were. **The wider identifier family stays** (ruling 29),
+   and this is the boundary this dispatch did not cross: `V3-D1`…`V3-D10`, `N0-A5`, `N2-A8`,
+   `W2-A5`, *invariant 13* and their kin — 89 sites across the product tier at `2f6743e`, the
+   contract's own section headings among them — name the signed design decisions themselves
+   rather than a file a caller lacks, so they are not the deletion class of rulings 24, 26, 27 and
+   28, and the FULL reads them as in scope for wording only. The block above measured that same
+   family at 102 hits on a wider key and judged it a different class; the ruling agrees with the
+   judgement and fixes the count and the scope.
+
+   **A third form of the same reference, reported and not acted on — and the point of reporting
+   it is that neither class-scan key can see it.** The record item those two schema descriptions
+   cited is cited again in the product tier with the record's name dropped, as a bare `R1`, at
+   **seven sites in four files**: `assurance/templates/run-v2/check_template_instance.py:35`
+   (*the R1 discipline*), `tooling/rsclib/document_harness/candidate.py:90` and `:474`, and
+   `tooling/rsclib/document_harness/checks.py:1` (`R1` and `R4` together), `:63`, `:324` and
+   `:413`. Every one is the subject-tree discipline the two deleted citations named, so the
+   reference survives this round's deletions in an abbreviated form — and on a harness-only tree
+   the bare token collides with `document-harness/RULES.md`'s own `R1`, the independence rule,
+   which is the reading a caller reaches first. Whether that makes it the same defect or a
+   different one is not this dispatch's to say. One neighbouring site was read and **excluded**
+   rather than counted: `tooling/hooks/candidate_path_check.py:83`'s *ordinary R1 sentence* is a
+   run instruction's own requirement numbering, the `R0…Rn` form
+   `document-harness/EXECUTION.md:235-252` defines, not this record's item. This dispatch does not
+   widen past the two sites its ruling names, for the reason every pass before it gave: a round
+   that reached them would be doing an item nobody wrote. It goes to the orchestrator.
 
 2. **Rider `contract-wikilink-tier` needs a fourth ruling in the `HD-63` / `HD-64` / `HD-67`
    family.** Its arm and its deadline both arrived with commit 3. Its fix is an in-place edit of
