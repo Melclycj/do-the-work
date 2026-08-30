@@ -327,6 +327,31 @@ additions, and a repository that mounts only the harness can open, run and close
     de-named on ruling 24's principle, rider `e10-cannot-see`'s touch note updated in the same
     commit.
 
+38. **The fix leg is spent, once, and the VERIFY is owed** (2026-08-30, the fix gate after FULL
+    `v3-review-full-70c82b4.md`, record `affacc2`, verdict `CHANGES_REQUIRED`). One user-approved
+    fix commit carries **B-1**, **B-2** and the four lows, the reviewer's bytes throughout: **B-1**
+    — `CONTRACT-V4-SIGNATURE.md:197` stops stating a count (the reviewer's *`E10`'s membership
+    sentence does not name this one, and this file claims*); `HARNESS-RIDERS.md:15`'s residual
+    enumeration on the `E10-sync` row is corrected forward to name the three sites; and
+    `document-harness/io-design.md:8` and `:42` are **not edited** — the file's blob is the one
+    `HD-35`'s third signature binds, editing it owes a re-signature, and the fix commit's body
+    names both sites and says so, ruling 34's own *named in its body with why not*. **B-2** —
+    `document-harness/RULES.md:175`'s parenthetical naming `dtw dispatch` is deleted;
+    `tooling/rsclib/document_harness/dispatch.py:269`'s trailing clause is deleted; and the six
+    committed conclusions — `HD-69`'s own sentence, `HD-55`, `HD-53`'s title, rider `e1-reader`,
+    `CONSTRUCTION-LEDGER.md:190` and `:254` — are corrected **forward in one paragraph under
+    `HD-69`** in `HARNESS-DECISIONS.md`, naming all six with the wording `1a24140`'s body already
+    carries, the originals left word for word and the ledger's two lines untouched (`:190`'s
+    entry stands over its bound and may not grow); the reviewer's class scan is re-run either
+    side of the write and pasted. **L-1** — journal §5's closing sentence written forward:
+    twenty-seven caller-held and one instrument-held under ruling 19. **L-2** — a sentence
+    written forward naming the five bare unqualified sites as reported and left under ruling 30.
+    **L-3** — `dispatch.py:518` and `:522` take the reviewer's two sentences. **L-4** — the
+    journal notes forward that `c08de13`'s authorization is step 4b, not a ruling 37 (e). `O-1`
+    and `O-3` are the user's design questions and owe nothing now; `O-2` records; `O-4` enters
+    the closeout's read-debt statement, `RULES.md` being touched again by this fix. Then a
+    targeted VERIFY over the accepted findings plus the whole repair diff (`R3`).
+
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
 sit in says the five battery commands are *named here rather than written as paths (`E10`)
@@ -749,8 +774,13 @@ Checked off as each lands; a box that reads done names the commit that made it s
   `HD-69` takes effect. Original text: one cold `claude -p` executor under ruling 33 — the last
   cold correction pass before `HD-69` takes effect — carrying ruling 37's (a), (b) and (c),
   ruling 36's rider row, and the journal's §7 written forward; acceptances 1 and 2 re-measured.
-- [ ] 5. **FULL.** `dtw dispatch --range fff2203..<tip>` → cold `claude -p` → record committed
-  unchanged, marker deleted in that act.
+- [x] 5. **FULL DONE.** Subject `fff2203..70c82b4`, dispatched with the construction-side
+  dispatch this round built (`tooling/construction_dispatch.py --range`), its own `claude -p`
+  session, 25 minutes; record `v3-review-full-70c82b4.md` committed unchanged at `affacc2`,
+  marker deleted in that act. Verdict **`CHANGES_REQUIRED`**: 2 blockers, 4 lows, 4
+  observations — the implementation re-run and found to hold; both blockers a literal this round
+  made false and then declared swept. Fix gate → ruling 38. Original text: `dtw dispatch --range
+  fff2203..<tip>` → cold `claude -p` → record committed unchanged, marker deleted in that act.
 - [ ] 6a. **Fix gate.** Only on `CHANGES_REQUIRED`: the user rules the boundary; one cold
   executor, one commit, `E9`'s single user-approved fix.
 - [ ] 6b. **VERIFY.** Targeted, over the accepted findings plus the whole repair diff, via `dtw
@@ -762,8 +792,8 @@ Checked off as each lands; a box that reads done names the commit that made it s
 
 ## Resume pointer
 
-当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; steps 1–4b done, the
-candidate closed; step 5 — the FULL over `fff2203..<this commit>` — is next.** A cold session continues from the *Steps — round 2*
+当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; steps 1–5 done, FULL
+`CHANGES_REQUIRED`; step 6a — the one fix under ruling 38 — is next, then the VERIFY.** A cold session continues from the *Steps — round 2*
 checklist above: the first unchecked box is the pointer. Round 3 `CORE-ONLY-RUN` — item F, in
 the caller — opens after this round closes; which piece of work the product run is stays open
 until then (ruling 12).
