@@ -169,12 +169,13 @@
   `HD-65`）与逐条处置全在 plan [`v1-result-retire.plan.md`](document-harness/plans/v1-result-retire.plan.md)。
   **批 `CORE-ONLY`（构造侧降级为 harness 的普通调用者；三轮 `LAYER`→`CODE`→`RUN`，跨两个仓）：
   轮 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30**（base `db1bfa1`；冷读 `ac39d35` → 候选 + 五次 pre-FULL
-  修正 → FULL `CHANGES_REQUIRED` `8997d94` → 唯一修腿 `c7f9c8d` → VERIFY ``REVIEWED_NO_BLOCKER`` ``8214f50``）：
-  `RULES.md` 立、`E10` 成员句两句、`harness.json` + 本仓 `CLAUDE.md`、契约建造史删；剥史树非解析
-  48→32，指向仪器持有物者只剩 item D 两 stub；电池 830→853。三十一条裁决、`HD-67`/`HD-68`、验收与
-  逐条处置全在 plan [`core-only.plan.md`](document-harness/plans/core-only.plan.md)。**队首 ＝ 轮 2
-  `CORE-ONLY-CODE`**（C · D · dispatch 半 H · K；开轮冷读须覆盖本轮改动的八成员的 `E10` 复读债）。
-  其后：候选隔离 · dispatch-economy。分发形态由 `HD-66` 承载。**⚠ 本档 20/20 条已顶满**。
+  修正 → FULL `CHANGES_REQUIRED` `8997d94` → 唯一修腿 `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50`；
+  剥史树非解析 48→32，余 4 处全是 item D 两 stub；电池 830→853）。**轮 2 `CORE-ONLY-CODE` OPEN
+  2026-08-30，base `fff2203`**（C · D · dispatch 半 H · K；卡上四裁＝plan 裁决 32–35：宽形冷读付
+  八成员 + `CONSTRUCTION-CHECKLIST.md` 复读债、三冷角色各自 `claude -p` opus、item D 执行且成员句
+  9→7、构造侧 dispatch 落点由 executor 提案）。三十五条裁决、验收与逐条处置全在 plan
+  [`core-only.plan.md`](document-harness/plans/core-only.plan.md)。其后：轮 3 `CORE-ONLY-RUN`
+  （调用者仓）· 候选隔离 · dispatch-economy。分发形态由 `HD-66` 承载。**⚠ 本档 20/20 条已顶满**。
 - **批 B —— 「谁调用、谁绑定」CLOSED 2026-08-13**（plan
   [`harness-batch-b.plan.md`](document-harness/plans/harness-batch-b.plan.md)）：R1 `run_all` 接线
   （`HD-25`）· R2 io-design v1 签字（`HD-35`）· R3 ledger 解耦（`HD-31`）· R4 三角色重指 +

@@ -1,13 +1,13 @@
 # Plan — batch `CORE-ONLY`: the construction side becomes an ordinary caller of the harness
 
-> **Status: round 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30** (opened 2026-08-29 at
-> **base_commit `db1bfa1`**, the `dev` tip then, stated rather than derived from `main` for the
-> reason `V1-RESULT-RETIRE`'s own base correction records; chain: read `ac39d35` → candidate →
-> FULL `CHANGES_REQUIRED` `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` →
-> closeout `cfa73df`). **Rounds 2 and 3 are not open**; round 2's `base_commit` is stated at its
-> opening. The round's steps are the *Steps — round 1* checklist below, all checked; the
-> *Resume pointer* at the foot names what round 2 opens with. Rewritten 2026-08-29 (second sitting) after the framing below replaced the
-> one this file carried at `18d120d`.
+> **Status: round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at base_commit `fff2203`**, the `dev`
+> tip at opening and 60 commits ahead of `main`, stated rather than derived for the reason
+> `V1-RESULT-RETIRE`'s own base correction records. Round 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30
+> (opened 2026-08-29 at `db1bfa1`; chain: read `ac39d35` → candidate → FULL `CHANGES_REQUIRED`
+> `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` → closeout `cfa73df`).
+> Round 3 is not open. Round 2's steps are the *Steps — round 2* checklist below; the *Resume
+> pointer* at the foot is the pointer a cold session continues from. Rewritten 2026-08-29
+> (second sitting) after the framing below replaced the one this file carried at `18d120d`.
 >
 > **This file is the carrier of the user's rulings of 2026-08-29** in *Rulings*. Until they land
 > here they live only in the conversation that took them, which is chat-only load-bearing material
@@ -257,6 +257,45 @@ additions, and a repository that mounts only the harness can open, run and close
     **L-4**, **L-5** — the reviewer's bytes as supplied. `O-1`, `O-3`, `O-4` are recorded and
     owe nothing now; `O-2` is the user's question and was answered at ruling 30. Then a
     targeted VERIFY over the accepted findings plus the whole repair diff (`R3`).
+
+32. **Round 2's opening cold read runs in the wide form** (2026-08-30, off the `E11` card): the
+    eight members whose blobs moved since `v3-cold-read-a542c6d.md` — `document-harness/RULES.md`,
+    `document-harness/README.md`, `document-harness/EXECUTION.md`, `document-harness/REVIEW.md`,
+    `document-harness/ORCHESTRATION.md`, both retired-contract stubs and
+    `contract/Document-Work-Assurance-Contract-v4.md` — end to end, plus this repository's
+    declared rule `document-harness/CONSTRUCTION-CHECKLIST.md`, which `E10` subjects to the same
+    independent read and which the split rewrote; `schema/document-assurance-v3/paragraph-map.schema.json`
+    by citation of `v3-cold-read-006138e.md`, its blob `09aa8699` unmoved since that record;
+    `HARNESS-DECISIONS.md` `§live` in full. Ground, measured at `fff2203` before the card:
+    `git diff --stat a542c6d fff2203 --` over the nine members returns the eight at 306 insertions
+    and 82 deletions and the schema at nothing; over the checklist, 16 insertions and 199
+    deletions. This is the read debt round 1's closeout stated at step 6d: until the record
+    lands, no conclusion of this round rests on the changed bytes. The reader derives the
+    coverage itself; the dispatch hands it this ruling and no member table (`R2`).
+33. **Every cold session this round — reader, executor, reviewer — runs as its own `claude -p`
+    session on `opus`** (2026-08-30, off the card): the `E1` / `HD-55` form, ruling 17 carried
+    forward, the model chosen because the round rewrites the membership sentence and the
+    dispatch generator.
+34. **Item D is executed, not merely permitted** (2026-08-30, off the card, narrowing ruling 6's
+    *if the work permits* to *in this round*): the two retired-contract stubs are deleted once no
+    dispatch prompt names them, which items C and H bring about in this round. With them the
+    membership sentence goes from nine members to seven; rider `E10-sync` binds that sentence,
+    `LAYER`, `EXPECTED` and `test_precommit_hook.py`'s `MEMBER` to one commit that names them;
+    and the sites that count nine — measured at `fff2203` by a case-insensitive `git grep` for
+    the word *nine* and the character 九 over the product tier and this repository's wiring:
+    `.githooks/pre-commit:14-15`, `README.md:180`, `:215`, `:235`, `README.zh-CN.md:170`,
+    `:201`, `:219`, `document-harness/README.md:22`, `document-harness/RULES.md:86`,
+    `tooling/hooks/layer_path_check.py:125` — change in that commit or are named in its body with
+    why not. The deletion is the only route to acceptance 1 reaching zero: at `fff2203` the
+    harness-only tree's four sites naming an instrument-held artifact are exactly the two stub
+    path tokens at `RULES.md:92-93` and the two stubs absent as members.
+35. **Where the construction-side dispatch lands is the executor's to propose** (2026-08-30, off
+    the card, as ruling 14 left `policy`): the plan's *wherever item C puts it* stands; the
+    executor names the location and its reason in the candidate's commit body, the orchestrator
+    puts it to the user before the FULL, and a changed answer lands as a pre-submission
+    correction. Acceptance 6 is the bound — no file in the harness tree holds a
+    construction-only code path — and ruling 9's last sentence the obligation: that dispatch,
+    wherever it lands, names the declared rules too.
 
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
@@ -623,13 +662,40 @@ Checked off as each lands; a box that reads done names the commit that made it s
   on the read. Original text: this checklist, the ledger row, riders, `HD-67`/`HD-68` status
   proposals for the user, the read debt recorded for round 2's opening.
 
+## Steps — round 2 `CORE-ONLY-CODE`
+
+Checked off as each lands; a box that reads done names the commit that made it so.
+
+- [x] 1. **Open.** `E11` card rendered and approved 2026-08-30; rulings 32–35 taken off it;
+  `base_commit` `fff2203` written above; the ledger's queue-head row rewritten in place. This
+  commit.
+- [ ] 2. **Read.** `dtw dispatch --read <tip>` → cold `claude -p` reader, wide form per ruling
+  32 → record committed unchanged, freeze marker deleted in that act; a must-fix, if any, takes
+  the `E10` channel; the rest route by `R10`.
+- [ ] 3. **Execute.** Cold `claude -p` executor, dispatched with `dtw dispatch
+  --construction-executor` plus the instruction, subject and this plan: items C, D, the dispatch
+  half of H, and K; the executor proposes the construction-side dispatch's location (ruling 35)
+  and reports back; the orchestrator hand-edits nothing.
+- [ ] 4. **Rule.** The proposal and every question put to the user before the FULL; a changed
+  answer lands as a pre-submission correction.
+- [ ] 5. **FULL.** `dtw dispatch --range fff2203..<tip>` → cold `claude -p` → record committed
+  unchanged, marker deleted in that act.
+- [ ] 6a. **Fix gate.** Only on `CHANGES_REQUIRED`: the user rules the boundary; one cold
+  executor, one commit, `E9`'s single user-approved fix.
+- [ ] 6b. **VERIFY.** Targeted, over the accepted findings plus the whole repair diff, via `dtw
+  dispatch --range` → cold `claude -p` → record committed unchanged.
+- [ ] 7. **Closeout.** Each low's spend/bank choice put to the user (`R10`); this checklist; the
+  ledger row naming round 3 `CORE-ONLY-RUN` as the queue head; riders touched or redeemed;
+  `CONSTRUCTION-INDEX.md` re-measured by its own commands; the `E10` read debt for round 3's
+  opening stated with the reliance it withholds.
+
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30; rounds 2 and 3 not open.** Next: a
-later session opens round 2 `CORE-ONLY-CODE` — items C, D, the dispatch half of H, and K — with
-the `E11` card, `base_commit` stated then, and the opening cold read covering the eight members
-this round changed (the read debt under step 6d) plus `§live`. Which piece of work the product
-run is stays open until round 3 (ruling 12).
+当前指针: **round 2 `CORE-ONLY-CODE` OPEN 2026-08-30 at `fff2203`; step 1 done, step 2 — the
+opening cold read, ruling 32 — is next.** A cold session continues from the *Steps — round 2*
+checklist above: the first unchecked box is the pointer. Round 3 `CORE-ONLY-RUN` — item F, in
+the caller — opens after this round closes; which piece of work the product run is stays open
+until then (ruling 12).
 
 ## Notes
 
