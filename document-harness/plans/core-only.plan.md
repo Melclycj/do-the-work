@@ -1,10 +1,12 @@
 # Plan — batch `CORE-ONLY`: the construction side becomes an ordinary caller of the harness
 
-> **Status: OPEN — round 1 `CORE-ONLY-LAYER` opened 2026-08-29, third sitting, off the `E11`
-> card.** **base_commit: `db1bfa1`**, the `dev` tip at opening — stated here and not derived from
-> `main` (31 commits behind `dev` at that moment), for the reason `V1-RESULT-RETIRE`'s own base
-> correction records. Rounds 2 and 3 are not open. The round's steps are the *Steps — round 1*
-> checklist below. Rewritten 2026-08-29 (second sitting) after the framing below replaced the
+> **Status: round 1 `CORE-ONLY-LAYER` CLOSED 2026-08-30** (opened 2026-08-29 at
+> **base_commit `db1bfa1`**, the `dev` tip then, stated rather than derived from `main` for the
+> reason `V1-RESULT-RETIRE`'s own base correction records; chain: read `ac39d35` → candidate →
+> FULL `CHANGES_REQUIRED` `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` →
+> closeout `cfa73df`). **Rounds 2 and 3 are not open**; round 2's `base_commit` is stated at its
+> opening. The round's steps are the *Steps — round 1* checklist below, all checked; the
+> *Resume pointer* at the foot names what round 2 opens with. Rewritten 2026-08-29 (second sitting) after the framing below replaced the
 > one this file carried at `18d120d`.
 >
 > **This file is the carrier of the user's rulings of 2026-08-29** in *Rulings*. Until they land
