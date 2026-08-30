@@ -104,7 +104,7 @@ python -m pip install "jsonschema>=4.18" referencing
 git submodule add https://github.com/Melclycj/do-the-work.git <mount-path>
 git submodule status          # prints the pinned SHA and the mount path
 
-# 2. create .harness/, its ignore entry, and the two instance files
+# 2. create .harness/, its ignore entry, harness.json, and the two instance files
 python <mount-path>/tooling/dtw.py init --repo-root .
 
 # 3. a pre-commit hook script in YOUR tree, committed executable
@@ -137,8 +137,8 @@ git config core.hooksPath .githooks
 hook；这条 config 是每个 checkout 各自的，clone 带得走 hook 文件、带不走这根线，所以每个
 新 checkout 都要重跑第 4 步。
 
-以上是 onboarding 的机械一半——九项里的五项。走完整套流程的预期方式，是把
-[`document-harness/ONBOARDING.md`](document-harness/ONBOARDING.md) 交给你的 agent：九项按
+以上是 onboarding 的机械一半——十项里的六项。走完整套流程的预期方式，是把
+[`document-harness/ONBOARDING.md`](document-harness/ONBOARDING.md) 交给你的 agent：十项按
 顺序全在里面，每项带它的命令、带「如何看到它生效」、带归属的规则——整份文件就是写给一个
 冷启动、对这套 harness 一无所知的 session 执行的。
 
@@ -201,7 +201,7 @@ Ubuntu 只带 `python3`，Windows 通常是 `python`；两个都在时它们未�
 | 指令层九个成员在这里都解析得到吗？ | `python -c "import sys,pathlib; sys.path.insert(0,'tooling'); from hooks import layer_path_check as L; print([m for m in L.LAYER if not pathlib.Path(m).exists()])"` |
 | pre-commit 守卫真的咬合吗？ | 往一个指令层文件里 stage 一个哪里都解析不到的路径，然后分别运行 `tooling/hooks/{layer_path_check,candidate_path_check,review_freeze_check}.py`，读退出码 |
 | 这个 checkout 里接了 hook 吗？ | `git config --get core.hooksPath`——退出码 1 意味着无论树里带着什么，都没有东西在跑；再 `ls .githooks/pre-commit` 看接上之后会跑的是什么 |
-| 一个从没见过这套东西的仓库怎么 onboard？ | `document-harness/ONBOARDING.md`——九项，每项带它的命令、它的核验方式、以及归属的规则 |
+| 一个从没见过这套东西的仓库怎么 onboard？ | `document-harness/ONBOARDING.md`——十项，每项带它的命令、它的核验方式、以及归属的规则 |
 | 有 CLI 吗？ | `ls tooling/dtw.py`；`python tooling/dtw.py --help` 列出它的命令——写在这里的命令数过期过两次（rider `RA`，见 [`HARNESS-RIDERS.md`](HARNESS-RIDERS.md)），所以这里不写数 |
 | CLI、守卫和测试套件需要什么？ | Python ≥ 3.12 和 `python -m pip install pytest "jsonschema>=4.18" referencing`——不只是测试套件需要：每个 `dtw` 命令和两个调用方侧守卫也都 import `jsonschema`，缺了它，接好的 hook 会让每次 commit 都失败（2026-08-24 实测）。这个下限是量出来的，不是摆设：Ubuntu 24.04 系统自带的 jsonschema 4.10.3 会挂掉其中 571 个测试 |
 | 哪些文件迁来了、哪些留下了？ | `document-harness/split-travel-manifest.md`——它带着规则，而不只是清单 |
@@ -245,4 +245,4 @@ pin 住版本的 submodule，不从任何 registry 装任何东西。把它打�
 - [`document-harness/split-travel-manifest.md`](document-harness/split-travel-manifest.md)
   —— 哪些文件迁到了这里、哪些留在调用方，以及决定每一个去留的规则。
 - [`document-harness/ONBOARDING.md`](document-harness/ONBOARDING.md) —— 如果你是一个从未
-  用过这套 harness 的仓库，从这里开始：九项，按顺序，每项都写着如何看到它生效。
+  用过这套 harness 的仓库，从这里开始：十项，按顺序，每项都写着如何看到它生效。

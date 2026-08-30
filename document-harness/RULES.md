@@ -17,6 +17,11 @@
 > carried and, apart from the two disclosed in that round's commit body, the bytes it has
 > always carried; what changed is which file holds it.
 >
+> One identifier is absent below and the gap is deliberate: `E2`, the announced-surface
+> rule, binds the bytes of the instrument that owns them and stayed with it, so a
+> repository that mounts this harness has no `E2` and nothing of its own is frozen by it.
+> Where `E10` and a schema description mention it, they mention a rule that is not yours.
+>
 > Rationale is deliberately absent: every rule below was paid for by a recorded incident, and
 > the records — not this file — hold the stories.
 

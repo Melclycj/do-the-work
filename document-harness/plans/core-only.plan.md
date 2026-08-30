@@ -535,8 +535,8 @@ Checked off as each lands; a box that reads done names the commit that made it s
 - [x] 1. **Open.** `E11` card rendered and approved 2026-08-29; rulings 16–18 taken off it;
   `base_commit` `db1bfa1` written above; the ledger's queue-head row rewritten in place. This
   commit.
-- [ ] 2. **`HD-67`** — the ruling commit for the contract's provenance (rulings 4, 11, 18), in
-  `HARNESS-DECISIONS.md` `§live`, before the read.
+- [x] 2. **DONE.** `HD-67` written at `a542c6d`, before the read, per plan ruling 18;
+  corrected forward the same day under `HD-59` for ruling 20's `M-1`.
 - [x] 3. **DONE.** Read at subject `a542c6d`, its own `claude -p` session, narrow form as
   ruled; record `v3-cold-read-a542c6d.md` committed unchanged at `ac39d35`, marker deleted in
   that act: **1 must-fix, 1 low, 7 observations**, no verdict, no budget. `M-1` (a third

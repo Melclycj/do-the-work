@@ -2,9 +2,10 @@
 """`dtw init` — the mechanical half of caller onboarding, and nothing beyond it.
 
 Onboarding a repository that has never seen this harness is ten items
-(`ONBOARDING.md` beside this package's `document-harness/` docs). Five of them are
-judgment: what the caller's policy file says, where its pointer line goes, which guards its
-hook runs, which revision the submodule pins, and when its first journal is written. The
+(`ONBOARDING.md` beside this package's `document-harness/` docs). Six of them are
+judgment: what the caller's policy file says, which rules it declares, where its
+pointer line goes, which guards its hook runs, which revision the submodule pins, and
+when its first journal is written. The
 mechanical slice — and mechanical work done by hand is work done differently every time —
 is this command's whole job: `.harness/` with the default scan-surface declaration inside
 it (round STRANGER-GUARDS; the guards read `.harness/scan-surfaces.json` and this write is

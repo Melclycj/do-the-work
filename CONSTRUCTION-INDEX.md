@@ -25,7 +25,7 @@
 ## Product-run tier — what a caller mounts
 
 Nothing outside these rows travels. **59 files** against a repository of **415**, measured
-2026-08-30 at `cbaee8e` by the commands at the foot — re-run them rather than citing these,
+2026-08-30 at `4b81dd9` by the commands at the foot — re-run them rather than citing these,
 because a count is invalidated by the next commit and this round's own records invalidate it
 several times over (`E3`).
 
