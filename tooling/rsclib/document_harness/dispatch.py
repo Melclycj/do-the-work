@@ -265,8 +265,7 @@ def control_root_of(
                 f"{CODE}-NOT-AN-EVIDENCE-COMMIT",
                 f"no path in {evidence_commit} ends in {STATE_PATH}, so this commit does not "
                 "carry a run's control plane and is not a review subject; re-stage the run's "
-                "whole control root and commit it, then dispatch that commit — a range is the "
-                "construction-round door and does not carry a product run",
+                "whole control root and commit it, then dispatch that commit",
                 "evidence_commit",
             )
         )
@@ -515,14 +514,15 @@ def dispatch_of(repo_root: pathlib.Path | str, evidence_commit: str) -> Dispatch
 # reviewer reported it: the citation pointed at a document that was not their charter. Two
 # charters, one module — so every reference here names its document explicitly.
 #
-# The construction-side contract's §8 names one supplement as useful — which code was churned
-# late — and neither half of this module emits it. For a product run it is vacuous: a bounded
+# The retired construction-side review contract named one supplement as useful — which code was
+# churned late — and this module does not emit it. For a product run it is vacuous: a bounded
 # repair re-edits what round 0 edited, so "paths revised more than once" degenerates into the
 # write scope, and the precise version of the same fact is already committed in the REPAIR
 # decision's accepted findings and repair boundary. The construction half derived it for a
-# while and the attempt is written up at that section; the short version is that §8's own
-# opening ("One commit SHA. Nothing else") and §5.1's ban on accepting a reported number
-# together mean the recipient must recompute whatever is sent, so sending it buys nothing.
+# while; that half and its write-up left this module in round `CORE-ONLY-CODE`. The short
+# version is that §8's own opening ("One commit SHA. Nothing else") and §5.1's ban on
+# accepting a reported number together mean the recipient must recompute whatever is sent,
+# so sending it buys nothing.
 #
 # The derived table still matters, to the **dispatcher**: it is how a human confirms they
 # are routing the run they think they are. `render_derivation` is that view, and the CLI

@@ -194,7 +194,7 @@ retired block. Both stay findable in the archived entry.
 
 ## Is this an instruction-layer member? No — the `HD-21` question, asked and answered
 
-`E10`'s membership sentence names nine paths and does not name this one, and this file claims
+`E10`'s membership sentence does not name this one, and this file claims
 authority over no rule: it records a signature that already happened and states which bytes it
 binds. Every rule about what the signed text *requires* belongs to the contract. `E10-sync` does
 not fall due — the membership sentence is untouched.

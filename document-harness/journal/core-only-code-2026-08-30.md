@@ -498,6 +498,50 @@ unchanged — 36 lines, the five-site class at 0, and 4 tokens in `document-harn
 165.50s. The same mislabel is in `c08de13`'s own commit body, which quotes the 12; it is corrected
 by this paragraph and not rewritten there.
 
+### Written forward after the FULL, under the fix gate (plan ruling 38) — every block above left word for word (`HD-59`)
+
+The FULL over `fff2203..70c82b4` returned `CHANGES_REQUIRED` (record
+`v3-review-full-70c82b4.md`, committed at `affacc2`) and the user's fix gate is plan ruling 38.
+Three of its four lows are this journal's text; they are corrected here rather than in place, and
+the one fix commit carries this section.
+
+**`L-1` — acceptance 1's classification, corrected.** The acceptance 1 block above closes *Every
+one is the compliant caller-held form, reported separately and still present*, and the
+re-measured block repeats that classification. The 28 are not all caller-held. The twenty-eighth,
+`contract/Document-Work-Assurance-Contract-v4.md:279`'s past-tense `review.schema.json`, is
+**instrument-held**: the same contract sentence says of that schema *that schema was this
+instrument's own rather than any caller's: it left the tree*, and it is reachable only in this
+repository's git history. It stands not because a caller holds it but because plan ruling 19's
+holder-or-history clause admits it. So acceptance 1 reads, corrected: **twenty-seven caller-held,
+and one — the contract's past-tense `review.schema.json` — instrument-held and standing under
+plan ruling 19's holder-or-history clause**. Read literally against acceptance 1's own words —
+*zero non-resolving sites naming an instrument-held artifact* — the count is **one**, admitted by
+a ruling rather than being absent. The measurement does not move (`0 MISSING`, `0 PATHTOK`, `28
+NAMETOK` over 59 files, unchanged at every point in this round); what moves is one site's
+category. This matters because `HD-66` reads acceptance 1 to decide whether core distribution is
+achievable, and a category recorded wrong there is read as a clean zero by whoever asks that
+question next.
+
+**`L-2` — the widened bare-`R<n>` survivor report, corrected.** `691ddff`'s body says the 36
+survivors *are all correct as written* and files seven `assurance/templates/run-v2/` sites under
+*construction round and batch names, always qualified*. **Five of the 36 are bare and
+unqualified**: `assurance/templates/run-v2/README.md:48` and `:100`, and
+`assurance/templates/run-v2/compare_blocks.py:29` and `:68`, name a construction round of this
+instrument's own history by a bare `R2`, in files that travel to every caller; and
+`tooling/hooks/candidate_path_check.py:83`'s *the ordinary R1 sentence* was filed under *a product
+run's own requirement identifiers, which plan ruling 29 keeps*, while ruling 29's vocabulary is
+the prefixed `V3-D5` / `N0-A5` family and a bare `R1` is not in it. All five are **reported and
+left standing** under ruling 30's report-don't-widen instruction, which is what authorizes their
+staying; the fix gate's boundary (ruling 38) does not admit editing them. What was wrong is the
+report, and this paragraph is the report corrected.
+
+**`L-4` — what authorized `c08de13`.** Its body opens *Kind: pre-submission correction, round 2
+CORE-ONLY-CODE, plan ruling 37 (e)*. Ruling 37 has (a), (b) and (c) and no (e). The
+journal-forward write that commit carries is authorized by the plan's **step 4b**, which names
+*the journal's §7 written forward* among that pass's work. The commit body is not rewritten
+(`HD-59`); this sentence is its correction, and an audit tracing each correction-pass commit to
+its authorization lands here.
+
 ## 6. The rider bank against this round's change list
 
 Read row by row against the files this round touched. Four rows are touched, one row is new, and

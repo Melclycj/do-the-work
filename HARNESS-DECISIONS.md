@@ -52,6 +52,24 @@
   裁决回来就继续，也就是同会话续跑。这个落到 scope economy 一起做吧」）· 实证＝轮 `CORE-ONLY-LAYER`
   plan `document-harness/plans/core-only.plan.md` 步骤 4–5e（1 主 + 4 冷修正 executor）·
   `ORCHESTRATION.md`《The executor's report back》· `HD-55` · 账本 `dispatch-economy` backlog 条
+- **向前更正（轮 `CORE-ONLY-CODE` 修腿，2026-08-30；按 `HD-59`，被更正的六处原句一字未动）：本条
+  边界段末句与另五处已提交的结论把构造轮的派发写成 `dtw dispatch` 的某个模式，这自 `7bcdace`
+  起为假。** 正确的写法就是 `1a24140` 自己的正文已经在用的那个——**构造侧派发**：构造轮 executor
+  的派发是构造侧派发的 executor 模式 `tooling/construction_dispatch.py --construction-executor`，
+  而 `--range`（轮评审）与 `--read`（`E10` 层读）同样是那个脚本的；`dtw dispatch` 自 `7bcdace` 起
+  只剩 `--subject` 与 `--executor` 两个产品侧模式（两条 `--help` 的实测输出贴在本修腿 commit 正文）。
+  **被本段更正的六处**：① 本条边界段末句的「`dtw dispatch --construction-executor` 要不要记 session
+  id 以便续接」读作「构造侧派发要不要记 session id」——问题本身、归批与命令面按 `HD-47` 逐案归
+  用户，均不变；② `HD-55` 裁决段的「跑 `dtw dispatch --executor`（产品侧）/ `--construction-executor`
+  （构造侧）」，构造侧那半读作构造侧派发的 executor 模式；③ `HD-53` 的标题「`dtw dispatch` 收两个
+  执行者模式」——今天它收一个（产品侧 `--executor`），构造侧那个住在构造侧派发里，而该条 2026-08-22
+  裁决的实质（两侧各有执行者模式、各指自己的 charter）不变；④ rider `e1-reader` 的「`dtw dispatch
+  --read` 的第三个派发家族」，该模式是构造侧派发的；⑤ `CONSTRUCTION-LEDGER.md:190` 的「`dtw dispatch
+  --read` 只有全层形态」与 ⑥ 同文件 `:254` 的「评审走 `dtw dispatch --range`」——同上。**账本那两行按
+  plan 裁决 38 一字不动**（`:190` 那条自陈站在其上界之上、不得再长），本段即它们的更正所在。
+  **本段只更正措辞**：不翻任何条目的状态、不改归批、不动裁决实质——`HD-69` 仍 `live` 且落地仍归批
+  `dispatch-economy`，`HD-53` 仍 `implemented`。依据＝FULL `v3-review-full-70c82b4.md` `B-2` ·
+  plan `document-harness/plans/core-only.plan.md` 裁决 38
 
 ### HD-66 · 分发形态：submodule 是默认**而非终局**——core 分发若最终做不到，就上 plugin（推翻 2026-08-24 裁决的该半边）
 - 2026-08-29 · user · scope: standing · status: **live**（层内零承载：指令层没有任何一处讲分发形态，
