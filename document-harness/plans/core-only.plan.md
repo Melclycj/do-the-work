@@ -222,6 +222,17 @@ additions, and a repository that mounts only the harness can open, run and close
     keep the code fact and drop the record. A fourth pre-submission pass before the FULL; none of
     the three files is an announced path. The class was found by changing the scan key
     (`grep -rn 'N0 record'` over the product tier), which is `HD-41` ④ working as intended.
+28. **The two `N0-record R1` citations in the schema pack go** (2026-08-30, answering the third
+    pass's question): `schema/document-assurance-v3/local-check-spec.schema.json:14` and `:175`
+    each drop the record citation and keep the sentence and the decision id beside it
+    (`V3-D5`). An announced path, so the commit names it in full under `E2`; a fifth
+    pre-submission pass before the FULL.
+29. **The design-decision identifiers are the product tier's own vocabulary and stay**
+    (2026-08-30, the same sitting): `V3-D1`…`V3-D10`, `N0-A5`, `N2-A8`, `W2-A5`, *invariant
+    13* and their kin — 89 sites across the product tier at `2f6743e`, the contract's own
+    section headings among them — name the signed design decisions themselves, not a file a
+    caller lacks. Not the deletion class of rulings 24, 26, 27 and 28; the FULL reads them as
+    in scope for wording only.
 
 **Ruling 24's twelve are nine, corrected forward (`HD-23`, 2026-08-30).** The corrections pass
 measured that `EXECUTION.md:375`, `:377` and `:394` are not instrument-held: the paragraph they
@@ -544,17 +555,25 @@ Checked off as each lands; a box that reads done names the commit that made it s
   Original text: §12's heading and §14's phrase under `HD-63`; README `:30` deleted and the
   `__init__.py` docstring rewritten; the journal answered forward and acceptance 1 and 2
   re-measured.
-- [ ] 5d. **Corrections, third pass** (ruling 27), a fourth cold executor dispatch before any
-  FULL, still pre-submission under `E9`: the seven `N0 record` sites; the journal's third-pass
-  question answered forward and acceptance 1 and 2 re-measured.
+- [x] 5d. **DONE.** Fourth cold executor, 11 minutes, two pre-submission corrections:
+  `02bb0bc` (ruling 27's seven sites; class scan `N0 record` over the product tier 7 → 0),
+  `2f6743e` (journal). Orchestrator re-measured at `2f6743e`: 853 passed, both guards exit 0,
+  sweep 13 here and 33 on the harness-only tree, acceptance 1 still item D's four, the class
+  scan 0. Reported up: two `N0-record R1` sites in the schema pack → ruling 28; the wider
+  identifier family → ruling 29. Original text: the seven `N0 record` sites; the journal's
+  third-pass question answered forward and acceptance 1 and 2 re-measured.
+- [ ] 5e. **Corrections, fourth pass** (ruling 28), a fifth cold executor dispatch before any
+  FULL, still pre-submission under `E9`: the two schema sites with `E2` disclosure; the
+  journal's fourth-pass question answered forward, ruling 29 noted there, acceptance 1 and 2
+  re-measured. Then the FULL.
 - [ ] 6. **FULL** on `db1bfa1..<tip>` via `dtw dispatch --range` → cold `claude -p` reviewer →
   record committed unchanged → at most one user-approved fix → targeted VERIFY → closeout: this
   checklist, the ledger row, riders, and a journal if detail needs a home.
 
 ## Resume pointer
 
-当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5c done, the candidate stands
-at `360cff5` plus this ruling commit; step 5d (the third corrections dispatch) next, then the
+当前指针: **round 1 `CORE-ONLY-LAYER` OPEN at `db1bfa1`; steps 1–5d done, the candidate stands
+at `2f6743e` plus this ruling commit; step 5e (the fourth corrections dispatch) next, then the
 FULL.** The step list above is the pointer; a cold session reads it, then
 `CONSTRUCTION-LEDGER.md`'s queue-head row, then continues at the first unchecked box. `§live`
 holds twelve entries, `HD-67` (with its forward correction) and `HD-68` among them. One thing
