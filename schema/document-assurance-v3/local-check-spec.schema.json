@@ -11,7 +11,7 @@
     "kind": { "$ref": "common.schema.json#/$defs/checkKind" },
     "subject_tree": {
       "$ref": "#/$defs/treeKind",
-      "description": "Which tree this check is entitled to observe. A check whose subject is the payload candidate MUST declare 'candidate_commit'; observing the working tree instead is a wrong-subject defect (V3-D5; N0-record R1)."
+      "description": "Which tree this check is entitled to observe. A check whose subject is the payload candidate MUST declare 'candidate_commit'; observing the working tree instead is a wrong-subject defect (V3-D5)."
     },
     "config": {
       "description": "Exact per-kind subjects/config. Absent only for git_diff_boundary, whose subjects (base, candidate, effective boundary) are all bound at run time."
@@ -172,7 +172,7 @@
               "description": "For 'candidate_commit', the commit whose tree was read. For 'worktree', the HEAD at observation time — which does NOT certify the mutable files that were read."
             }
           },
-          "description": "Which tree this result actually observed (N0-record R1). A result whose observed_tree contradicts the request's subject_tree is WRONG_SUBJECT, never PASS."
+          "description": "Which tree this result actually observed. A result whose observed_tree contradicts the request's subject_tree is WRONG_SUBJECT, never PASS."
         },
         "subjects": {
           "type": "array",
