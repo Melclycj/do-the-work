@@ -469,6 +469,35 @@ One commit of this pass changes an announced path — `691ddff`, at
 `schema/document-assurance-v3/assurance.schema.json` — and its body names that path in full, which
 is what the alarm confirms and the whole of what it certifies.
 
+**Corrected forward, the block above left word for word (`HD-59`; a journal number, so `HD-23`).**
+Two of its figures are labelled with a commit they were not taken at, and the opening sentence
+*every figure below was taken at `6c93c98`* is too wide to be true of all of them. **The alarm
+output.** Its `12 non-merge commit(s) judged` was produced with `HEAD` at `691ddff`, not at
+`6c93c98`, where the same command reports **14**; at this pass's actual tip `c08de13` it reports
+**15**. The count is the number of commits in the range the alarm judged and moves with every
+commit the pass adds, so only the verdict line is invariant — and that line is identical at all
+four points, `every announced path changed in this range is named by the commit that changed it`,
+exit 0, floor `1d4d9aa`. Re-run at the tip and pasted rather than described:
+
+```
+$ python tooling/announced_path_disclosure.py --before fff2203 --after HEAD    # HEAD = c08de13
+announced-path disclosure: range fff2203..HEAD
+  floor 1d4d9aa1f6b1daca3fbf1a7765985abaec350b18; 15 non-merge commit(s) judged
+  every announced path changed in this range is named by the commit that changed it
+exit=0
+```
+
+**The two class scans.** A before-and-after pair cannot be taken at one commit by construction: the
+40 was taken at `c042017`, the round's tip when this pass opened, and the 36 at the worktree
+carrying ruling 37 (b)'s edits before `691ddff` committed them; likewise `.githooks` 5 at `c042017`
+and 4 at the worktree before `65ecdac`. Both after-figures were re-run at `c08de13` and are
+unchanged — 36 lines, the five-site class at 0, and 4 tokens in `document-harness/ONBOARDING.md`.
+**Unaffected**, because each was in fact taken at `6c93c98` on a clean worktree: acceptance 1's
+`0 MISSING / 0 PATHTOK / 28 NAMETOK` over 59 files, acceptance 2's 13 and 28, and the battery's
+873. All three were re-run at `c08de13` as well and are identical, the battery at 873 passed in
+165.50s. The same mislabel is in `c08de13`'s own commit body, which quotes the 12; it is corrected
+by this paragraph and not rewritten there.
+
 ## 6. The rider bank against this round's change list
 
 Read row by row against the files this round touched. Four rows are touched, one row is new, and
