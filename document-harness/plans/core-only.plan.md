@@ -1,8 +1,8 @@
 # Plan — batch `CORE-ONLY`: the construction side becomes an ordinary caller of the harness
 
-> **Status: round 3 `CORE-ONLY-RUN` OPEN 2026-08-30 at instrument-side base_commit `78d51ac`**,
-> the `dev` tip at opening and 84 commits ahead of `main`; the caller-side base is stated at
-> step 4 of *Steps — round 3*. Rounds 1 and 2 CLOSED 2026-08-30. Round 1
+> **Status: all three rounds CLOSED — round 3 `CORE-ONLY-RUN` CLOSED 2026-09-01** (instrument
+> base `78d51ac`, caller base the caller's `2b1ad3b`; chain and evidence in *Steps — round 3*;
+> the batch's remaining dispositions are the user's, listed at step 8). Round 1
 > `CORE-ONLY-LAYER`: opened 2026-08-29 at `db1bfa1`; read `ac39d35` → candidate → FULL
 > `CHANGES_REQUIRED` `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` →
 > closeout `cfa73df`. Round 2 `CORE-ONLY-CODE`: opened 2026-08-30 at `fff2203`, the `dev` tip
@@ -944,37 +944,67 @@ Checked off as each lands; a box that reads done names the commit that made it s
   orchestration form); guards and repo-audit exit 0; five battery legs green (29 / 80 / 39 /
   58 / compile clean), output in that commit's body. Original text: the list of those items,
   and that the commit is the caller-side base.
-- [ ] 5. **The user starts the cold orchestrator session in the caller** (ruling 41). From here
-  until step 8 this session touches neither repository.
-- [ ] 6. **The run, in the caller**, orchestrated there: the instruction in the enumerated form
-  — the P5C A4 amendment draft the caller's own plan names as its next action — with
-  `build_run.py` importing only from the mount and its checker; the pre-freeze gate; the
-  freeze; `dtw preview`; the user's START; `dtw dispatch --executor` → a cold executor on an
-  isolated candidate branch, one session from START to FULL (`HD-69`; a ruling comes back by
-  `--resume`), the evidence commit; `dtw dispatch --subject` → a cold FULL, its record
-  committed unchanged; the verdict to the user; at most one user-approved fix and one targeted
-  VERIFY (`E9`); FINAL.
-- [ ] 7. **Caller closeout by the cold orchestrator**, under the rewritten policy: the caller's
-  own registers; the C4 `O-1` line; the read-audit log diffed against the 59-path list; every
-  identifier the cold sessions could not resolve, as they reported it under `R4`, collected
-  for the `R5` question.
-- [ ] 8. **Instrument closeout, this session**: acceptance 4 recorded with the caller's evidence,
-  record and FINAL SHAs; the read-audit result; the ledger's `R5` observation answered from
-  the run's own evidence and put to the user; riders touched or redeemed; the ledger's row
-  rewritten in place; batch `CORE-ONLY` closed, or what remains named.
+- [x] 5. **DONE.** The user started the cold orchestrator session in the caller 2026-08-31.
+  From there to FINAL this session wrote to neither repository; its only acts were read-only
+  evidence checks answering the user's questions. Original text: the user starts the session;
+  this session touches neither repository until step 8.
+- [x] 6. **DONE — one work order, three runs, the instruction's `R0`–`R12` byte-identical
+  across all three; no finding in three FULLs, one VERIFY and two stops was ever against a
+  demand.** `p5c-firewall`: START → cold executor on an isolated candidate branch → FULL
+  `CHANGES_REQUIRED` (2 blockers) → the user's one repair → VERIFY found a second site of
+  `f2`'s defect outside the repair boundary and returned `SPEC_GAP` as the only non-clean
+  word its enum offers → `STOPPED_REPLAN`, closeout the caller's `1a634fe`. `p5c-firewall-r2`:
+  clean FULL (`0064fcd`) → bind refused (three disclosures over the schema's 500-character
+  cap; and with a clean verdict `REPAIRING` is unreachable, `R10`'s promise without a path)
+  → `STOPPED_REPLAN`, closeout `fe9f36a`, both instrument defects recorded there verbatim.
+  `p5c-firewall-r3`: every known fix carried from the start plus two preventions
+  (authoring-time disclosure-cap assertion; executor pre-submit `dtw review --subject`) →
+  FULL `REVIEWED_NO_BLOCKER` (record `413859e`; 24 obligations `SUPPORTED`; 8 lows banked by
+  the user's `R10` choice) → FINAL `ACCEPT` (`8509652`) → promotion `d6a5919` — the A4
+  P5C-scoped amendment lands, six files, 412 insertions, 0 deletions — → run CLOSED,
+  closeout `c184681`. Original text: the single-run shape this box was written as.
+- [x] 7. **DONE — three closeouts (`1a634fe`, `fe9f36a`, `c184681`), all under the rewritten
+  policy §2, all into the caller's own registers.** Its bank holds 13 rows; one new caller
+  ruling (`CD-5`) taken mid-order; the C4 `O-1` line honestly reports no object (enumerated
+  form, no paragraph map). Read audit over the whole order: 1229 calls examined, 17 flags,
+  every one settled into four false-positive shapes by measurement — the dangerous shape,
+  `git -C` aimed at the mount, matches **0** invocations in the entire log; the mount measured
+  at closeout is the 59 tier paths plus `.git`, `CD-1` held with one disclosed leg-2 deviation
+  (a scratch worktree initialised the submodule, reduced back at once). No cold session across
+  three runs reported an instrument-held identifier it could not resolve (`R4` sections and
+  records grepped). Original text: registers, `O-1` line, read-audit diff, `R4` collection.
+- [x] 8. **DONE — this commit.** Acceptance 4 met by the chain at step 6. Riders: this
+  repository's `caller-cannot-resolve-ids` stands untouched by evidence — three runs of cold
+  sessions never stumbled on the nine ids, which answers nothing about the rule and is
+  recorded as the observation it is; the two rows banked at the opening read stand. The two
+  free-channel applications to `RULES.md` (`3060a23`) still owe their independent read, riding
+  the next read of this layer. **What remains is the user's, three dispositions**: ① declare
+  batch `CORE-ONLY` closed — acceptances 1–3 and 5–8 were rounds 1–2's, measured there;
+  acceptance 4 is the chain above; `HD-66`'s reading of the whole batch (core distribution
+  worked end to end; what surfaced is which constraints lived only in construction-side
+  habit) is the user's to declare, per this plan's own note. ② Route the six instrument-side
+  observations the three closeout bodies carry (ISSUE_TRIAGE, contract §11) — proposal: one
+  construction batch, working name *promise-path conformance*: bind stops at `REVIEWED` and
+  the advance to `AWAITING_FINAL` becomes its own act after the spend/bank choice; a VERIFY
+  verdict value for a standing blocker; the `ACCEPT_WITH_LIMITATIONS` path; a schema plus an
+  authoring-time assertion for `bind-declarations.json`; the evidence commit's message
+  surface; the copied governance digest verified — plus an `E4`-inverse suite walking every
+  disposition the rule layer names. ③ The ledger's `R5` observation (tool-keyed class scans):
+  answered from evidence — the class was held by independent cold review plus the read audit,
+  not by any new scan; across three runs nothing instrument-held failed to resolve; proposal:
+  the entry retires as answered, and only the user flips it.
 
 ## Resume pointer
 
-当前指针: **round 3 `CORE-ONLY-RUN` OPEN 2026-08-30 at instrument-side base `78d51ac`.** The
-user's word of 2026-08-30 approved the `E11` card with its recommendations: the run's work is
-the P5C A4 amendment draft (ruling 12), the ledger's `R5` observation is answered by the run's
-own cold sessions rather than by a new instrument, and the push that lets the caller reach this
-tip is the user's act. A cold session continues from the *Steps — round 3* checklist above: the
-first unchecked box is the pointer. Steps 5–7 happen in the caller, orchestrated by the cold
-session ruling 41 names; this repository's part resumes at step 8. Steps 1–4 are done: the
-caller's base is its `2b1ad3b`, the mount is at `3060a23`. The next box is step 5 — the user
-starts the cold orchestrator session in the caller — and nothing here moves until the caller's
-FINAL.
+当前指针: **batch `CORE-ONLY` all three rounds CLOSED; round 3 CLOSED 2026-09-01.** The work
+order's chain and every measurement are in *Steps — round 3*; nothing in this batch is open on
+the instrument side. Three dispositions are the user's and are listed at step 8: the batch-close
+declaration (with `HD-66`'s reading), the ISSUE_TRIAGE routing of the six instrument-side
+observations, and the retirement of the ledger's `R5` observation. The read debt on `RULES.md`'s
+two free-channel applications rides the next read of this layer. Next in the queue per the
+ledger: the candidate-isolation design question (unruled) and the `dispatch-economy` batch
+(carries `HD-69`, and the six observations if the user routes them there). A cold session
+resumes from the ledger's queue rows.
 
 ## Notes
 
