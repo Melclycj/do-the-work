@@ -781,3 +781,29 @@
   源是本地克隆 · Windows 长路径要额外开关 · **作者在自己机器上走自己写的流程，不构成陌生人能照着走的
   证据**——真正的第二个调用者才关得掉后两条。
 
+
+### 2026-09-01 第三次搬入 —— 批 `CORE-ONLY` 行与 `R5` 观察条（从 `CONSTRUCTION-LEDGER.md` 原样搬入 — 只读，勿续写）
+
+> 用户 2026-09-01 三裁（批 `CORE-ONLY` 收口批准 · ISSUE_TRIAGE 六条路由批 `PROMISE-PATH` ·
+> `R5` 观察条退休）；授权与处置在搬迁 commit 正文与 `document-harness/plans/core-only.plan.md`
+> step 8。
+
+- **批 `CORE-ONLY` 三轮全 CLOSED（38+5 条裁决与全部处置在 plan [`core-only.plan.md`](document-harness/plans/core-only.plan.md)）**：
+  轮 1 `CORE-ONLY-LAYER`、轮 2 `CORE-ONLY-CODE` CLOSED 2026-08-30（链条见 plan）；**轮 3 `CORE-ONLY-RUN`
+  CLOSED 2026-09-01**——真产品 run 在调用者 `D:/Thesis-stage-control-refactor`（其 base `2b1ad3b`，挂载
+  `3060a23`，sparse 59 件，读审计全程）：一个工单三次 run 产出 A4 amendment 并 promote（前两次诚实停机，
+  各自收口正文即证据；r3 FULL 零 blocker → FINAL `ACCEPT` → promotion `d6a5919` → closeout `c184681`）。
+  验收 4 就此满足。**归用户三件**（plan step 8）：批收口宣告与 `HD-66` 读法 · 六条仪器侧观察的
+  ISSUE_TRIAGE 路由（拟并入 dispatch-economy 或独立批）· 本档 `R5` 观察条的退休。其后队列：候选隔离 ·
+  dispatch-economy。**⚠ 本档 20/20 条已顶满**。
+
+- **`R5` 观察：工具键扫类关不掉「调用者解析不到」这一类（用户 2026-08-30 裁「账本单立一项」）**：
+  批 `CORE-ONLY` 两轮共六次 pre-FULL 修正 + 轮 2 的两个 blocker，每一圈关掉的都只是当时那把量具看得见的
+  形状——`sweep_refs` 只认路径与文件名，漏裸标识符；grep 文件名漏裸 `R<n>`；grep「nine」漏清单外的
+  文件；反引号 7 位 commit id 两把量具都看不见（rider `caller-cannot-resolve-ids`）。会话形态那一半
+  `HD-69` 已答；**量具这一半未答**：要么换量法（在剥史树上以调用者视角逐 token 解析，而非按写法
+  grep），要么承认扫类对此类只能靠独立评审兜底。**再读时刻（用户裁，只此一处）：任何验收靠「对产品
+  层扫类」来量的批开轮时**——下一个即轮 3 `CORE-ONLY-RUN`。来源 FULL `v3-review-full-70c82b4.md` `O-3`。
+  → retired 2026-09-01（用户裁「退」）：三轮实证选定条目自陈两选中的第二选——此类由真实冷读者＋
+  独立评审＋读审计兜底，不造 token 级量具；两笔残差各有家：rider `caller-cannot-resolve-ids`
+  （`E10` 设计题）与批 `PROMISE-PATH`（层 3 盲区成文）。

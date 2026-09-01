@@ -2,7 +2,7 @@
 
 > **Status: all three rounds CLOSED — round 3 `CORE-ONLY-RUN` CLOSED 2026-09-01** (instrument
 > base `78d51ac`, caller base the caller's `2b1ad3b`; chain and evidence in *Steps — round 3*;
-> the batch's remaining dispositions are the user's, listed at step 8). Round 1
+> the user's three dispositions ruled 2026-09-01 — step 8's closing paragraph). Round 1
 > `CORE-ONLY-LAYER`: opened 2026-08-29 at `db1bfa1`; read `ac39d35` → candidate → FULL
 > `CHANGES_REQUIRED` `8997d94` → fix `c7f9c8d` → VERIFY `REVIEWED_NO_BLOCKER` `8214f50` →
 > closeout `cfa73df`. Round 2 `CORE-ONLY-CODE`: opened 2026-08-30 at `fff2203`, the `dev` tip
@@ -993,18 +993,21 @@ Checked off as each lands; a box that reads done names the commit that made it s
   answered from evidence — the class was held by independent cold review plus the read audit,
   not by any new scan; across three runs nothing instrument-held failed to resolve; proposal:
   the entry retires as answered, and only the user flips it.
+  **All three ruled 2026-09-01, this batch's last rulings, carried here and by the ledger
+  commit**: ① approved — batch `CORE-ONLY` is CLOSED entire. ② A — `PROMISE-PATH` stands
+  alone at the queue head, all six observations routed to it. ③ retired — the `R5` entry
+  moved verbatim to the archive's third move with its two residues named (rider
+  `caller-cannot-resolve-ids`; batch `PROMISE-PATH`).
 
 ## Resume pointer
 
-当前指针: **batch `CORE-ONLY` all three rounds CLOSED; round 3 CLOSED 2026-09-01.** The work
-order's chain and every measurement are in *Steps — round 3*; nothing in this batch is open on
-the instrument side. Three dispositions are the user's and are listed at step 8: the batch-close
-declaration (with `HD-66`'s reading), the ISSUE_TRIAGE routing of the six instrument-side
-observations, and the retirement of the ledger's `R5` observation. The read debt on `RULES.md`'s
-two free-channel applications rides the next read of this layer. Next in the queue per the
-ledger: the candidate-isolation design question (unruled) and the `dispatch-economy` batch
-(carries `HD-69`, and the six observations if the user routes them there). A cold session
-resumes from the ledger's queue rows.
+当前指针: **batch `CORE-ONLY` CLOSED entire — the user's three dispositions ruled 2026-09-01**
+(step 8's closing paragraph). Nothing of this batch is open anywhere. The queue head is batch
+`PROMISE-PATH` — the ledger's row carries its scope: the six rule-promised-path defects the three
+caller closeouts recorded, and the `E4`-inverse suite as its spine; the read debt on `RULES.md`'s
+two free-channel applications rides that batch's opening read. After it: the candidate-isolation
+design question (unruled) and `dispatch-economy` (carries `HD-69`). A cold session resumes from
+the ledger's queue rows.
 
 ## Notes
 
