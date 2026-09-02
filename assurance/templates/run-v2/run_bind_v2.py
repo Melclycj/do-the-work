@@ -26,6 +26,23 @@ round-shaped but verdict-shaped: at round 0 a verdict other than ``REVIEWED_NO_B
 binds no candidate at all and stops at REVIEWED, because the next act is the user's repair
 decision (``run_repair.py``) and AWAITING_FINAL is left only for CLOSED.
 
+A second branch stops at the same place for the opposite verdict, and is item 3 of batch
+``PROMISE-PATH`` (round ``PROMISE-PATH-ENGINE``, 2026-09-02). ``RULES.md`` ``R10`` says a
+FULL returning ``REVIEWED_NO_BLOCKER`` **with lows** does not bank them by default: the
+spend-the-fix-leg / bank choice is put to the user, and a late activation is still that
+round's one approved fix. This step used to advance REVIEWED, write the candidate and
+advance AWAITING_FINAL in one act, and ``flow._SUCCESSORS`` gives AWAITING_FINAL exactly one
+successor -- so the choice ``R10`` orders never got a moment to be put, and the caller's run
+p5c-firewall-r2 stopped exactly there: a clean FULL, three findings accepted for repair, and
+the decision could not be executed. Now a clean round-0 FULL carrying non-blocking findings
+stops at REVIEWED until the user's REPAIR decision is on disk, and the candidate plus
+AWAITING_FINAL are a **separate act** that only a recorded ``NO_REPAIR`` -- the choice not to
+spend the leg -- reaches. A clean FULL with no findings at all skips the stop: ``R10``'s
+trigger is the lows, and a decision point with nothing to decide is ceremony. Nothing about
+the banked lows is written into the candidate: a disclosure is a declaration with a source
+(V3-D5), the bound FULL already carries the findings, and a controller-authored line about
+them would be the controller speaking in its own voice.
+
 The assembly follows the worked precedents (round 0: ``../../runs/w1-r1/run_bind.py``;
 round 1: p3-corr above): rich in references, poor in claims (V3-D5) — assembling is not
 judging. ``unresolved_finding_ids`` is derived from the reviews in hand because N2-A9's
@@ -120,6 +137,40 @@ def unresolved_ids(reviews: Sequence[Mapping[str, Any]]) -> list[str]:
             for finding in blocking_findings(review)
         }
     )
+
+
+def emit_reviewed(
+    state: Mapping[str, Any],
+    *,
+    control_path: pathlib.Path,
+    review_path: str,
+    repo: pathlib.Path,
+    next_action: str,
+) -> bool:
+    """Advance the state to REVIEWED, binding this round's review by bytes, and save.
+
+    Returns whether it advanced, which is not decoration: already-REVIEWED is a **no-op**
+    rather than a self-transition, because the R10 branch below is reached a second time by
+    the run that returns with the user's decision in hand, and REVIEWED -> REVIEWED is not a
+    legal successor (``flow._SUCCESSORS``). ``assurance_state.advance`` does not check
+    legality, so without the no-op that illegal transition would be written with nothing to
+    show for it -- the same status, the same pointer, no visible difference. The return value
+    is what gives the no-op a consequence a test can hold: the caller says on stdout which of
+    the two passes this is, so deleting the no-op changes the output.
+
+    Both stopping branches land here and the candidate act passes through it, so the
+    transition is written once rather than three times -- the copy-class fork rider
+    ``decl-dup`` names that shape.
+    """
+    if state["status"] == "REVIEWED":
+        return False
+    advanced = assurance_state.advance(
+        state, "REVIEWED",
+        review_ref=assurance_state.pointer_for("review_ref", review_path, repo),
+        next_action=next_action,
+    )
+    assurance_state.save(advanced, control_path)
+    return True
 
 
 def digest_ref_of(ref: Mapping[str, Any], repo: pathlib.Path) -> dict[str, str]:
@@ -268,17 +319,88 @@ def main(argv: Sequence[str] | None = None) -> int:
               "bound at round 0")
         print(f"next action            : {next_action}")
         if args.emit:
-            state = assurance_state.load(CONTROL / "state.json")
-            state = assurance_state.advance(
-                state, "REVIEWED",
-                review_ref=assurance_state.pointer_for(
-                    "review_ref", f"{CONTROL_ROOT}/evidence/{names[-1]}", REPO),
+            emit_reviewed(
+                assurance_state.load(CONTROL / "state.json"),
+                control_path=CONTROL / "state.json",
+                review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
+                repo=REPO,
                 next_action=next_action,
             )
-            assurance_state.save(state, CONTROL / "state.json")
             print(f"emitted                : {names[-1]} -> state REVIEWED "
                   "(review_ref = bytes digest via pointer_for)")
         return 0
+
+    # --- R10: a clean FULL carrying lows is a DECISION POINT, not a green light ---------
+    #
+    # See the module docstring. The vocabulary is R10's: "lows" are the reviewer's
+    # non-blocking findings, read from the operative review rather than counted anywhere
+    # else, so the trigger is the reviewer's own claim. At round 1 there is no leg left to
+    # spend, so the stop is round-0's alone.
+    lows = [
+        finding["finding_id"]
+        for finding in operative.get("findings", [])
+        if not finding["blocking"]
+    ]
+    if REPAIR_ROUND == 0 and lows:
+        decision_path = CONTROL / "user-decision-repair.json"
+        r10_action = (
+            "user REPAIR decision on the non-blocking findings "
+            f"({', '.join(lows)}): APPLY_ACCEPTED_FINDINGS spends this round's one repair "
+            "leg on them and NO_REPAIR banks them; the AssuranceCandidate is bound only "
+            "after that decision is on disk"
+        )
+        print(f"verdict                : REVIEWED_NO_BLOCKER with {len(lows)} non-blocking "
+              f"finding(s): {', '.join(lows)}")
+        if not decision_path.is_file():
+            # The instruction is PRINTED and STORED as one string, never paraphrased into a
+            # second sentence beside it (rider `sg-print`: two rewrites of one fact diverge
+            # silently, where a copy diverges visibly).
+            print(f"next action            : {r10_action}")
+            if args.emit:
+                emit_reviewed(
+                    assurance_state.load(CONTROL / "state.json"),
+                    control_path=CONTROL / "state.json",
+                    review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
+                    repo=REPO,
+                    next_action=r10_action,
+                )
+                print(f"emitted                : {names[-1]} -> state REVIEWED "
+                      "(review_ref = bytes digest via pointer_for)")
+            return 0
+
+        # The decision is READ, never authored here (every UserDecision is the user's), and
+        # it is gated by the same function `run_repair.py` gates the other branch with: a
+        # NO_REPAIR naming another run's review would close this run's repair phase on a
+        # decision the user made about something else (defect M5), and this is the only step
+        # a NO_REPAIR ever reaches -- `run_repair.py` exists for the APPLY path.
+        r10_decision = load_json(decision_path)
+        r10_plan = load_json(CONTROL / "resolved-plan.json")
+        r10_report = flow.check_repair_decision(r10_decision, operative, r10_plan)
+        print(f"check_repair_decision  : {'clean' if r10_report.ok else 'ISSUES'}")
+        for issue in r10_report.issues:
+            print("  " + issue.render()[:160])
+        if not r10_report.ok:
+            return 1
+        if r10_decision["decision"] != "NO_REPAIR":
+            spend_action = (
+                "user chose to spend the repair leg on the non-blocking findings; the next "
+                "act is run_repair.py, which gates the decision and enters REPAIRING"
+            )
+            print(f"lows decision          : {r10_decision['decision']} — the leg is spent")
+            print(f"next action            : {spend_action}")
+            if args.emit:
+                emit_reviewed(
+                    assurance_state.load(CONTROL / "state.json"),
+                    control_path=CONTROL / "state.json",
+                    review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
+                    repo=REPO,
+                    next_action=spend_action,
+                )
+                print(f"emitted                : {names[-1]} -> state REVIEWED "
+                      "(review_ref = bytes digest via pointer_for)")
+            return 0
+        print("lows decision          : NO_REPAIR — the user banked the low(s); this bind "
+              "binds the AssuranceCandidate")
 
     spec = load_json(CONTROL / "work-spec.json")
     record = load_json(EVIDENCE / "candidate-record.json")
@@ -340,13 +462,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"candidate digest       : {cand_digest}")
 
     if args.emit:
-        state = assurance_state.advance(
-            state, "REVIEWED",
-            review_ref=assurance_state.pointer_for(
-                "review_ref", f"{CONTROL_ROOT}/evidence/{names[-1]}", REPO),
+        if not emit_reviewed(
+            state,
+            control_path=CONTROL / "state.json",
+            review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
+            repo=REPO,
             next_action="controller binds the AssuranceCandidate for the FINAL decision",
-        )
-        assurance_state.save(state, CONTROL / "state.json")
+        ):
+            print("state                  : already REVIEWED from the earlier pass; only "
+                  "the AWAITING_FINAL transition is owed")
+        # Re-read rather than carried forward: the helper above may have written a new state
+        # or, on the second pass of the R10 branch, deliberately left the REVIEWED one it
+        # found. Reading back is what makes the two paths converge on one document.
+        state = assurance_state.load(CONTROL / "state.json")
         emitted = write_canonical(CONTROL / "assurance-candidate.json", candidate)
         state = assurance_state.advance(
             state, "AWAITING_FINAL",

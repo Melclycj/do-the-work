@@ -110,26 +110,117 @@ def failing_report():
     return report_of([Issue("V3-TEST-STOP", "stop main here for the recorder", "test")])
 
 
-#: Hand-written review rounds. The FULL found one blocker and one non-blocker; the VERIFY
-#: covered the approved repair and stands clean. Shapes are the minimum the template's own
-#: helpers and the real faithfulness gate read — never copied from any run on disk.
-FULL_REVIEW = {
-    "result_id": "rv-full",
-    "review_round": "FULL",
-    "verdict": "CHANGES_REQUIRED",
-    "findings": [
-        {"finding_id": "f1", "blocking": True},
-        {"finding_id": "f2", "blocking": False},
-    ],
+#: Hand-written review rounds, never copied from any run on disk. The FULL found one blocker
+#: and one non-blocker; the VERIFY covered the approved repair and stands clean.
+#:
+#: They are whole v2 documents rather than the few keys the template's own helpers read,
+#: because round `PROMISE-PATH-ENGINE` gave the step two gates that validate a review before
+#: reading it: item 7's entry inside `flow.check_repair_decision`, which the R10 branch calls
+#: with the FULL, and the same entry inside `flow.check_verify_outcome`.
+BLOCKER_F1 = {
+    "finding_id": "f1",
+    "blocking": True,
+    "statement": "the changelog does not name the release the instruction froze",
+    "candidate_locator": {"path": "docs/changelog.md", "anchor": "## 1.2.0"},
+    "ground_truth_locator": {"path": "docs/instruction.md", "anchor": "## release"},
+    "minimum_fix": "name the release the instruction froze",
 }
+LOW_F2 = {
+    "finding_id": "f2",
+    "blocking": False,
+    "statement": "two headings use different capitalisation",
+}
+
+
+def full_review(*, result_id, verdict, findings, disposition):
+    """One round-0 FULL, spelled out once so the three below cannot drift apart.
+
+    Everything the schema requires is here; nothing is derived from the module under test.
+    """
+    review = {
+        "schema_version": "2",
+        "result_id": result_id,
+        "work_id": "w-test",
+        "run_id": "tr-nine",
+        "review_round": "FULL",
+        "subject": {
+            "evidence_commit": "a" * 40,
+            "candidate_ref": {"branch": "run/tr-nine", "commit": "c" * 40},
+            "base_revision": "d" * 40,
+            "control_root": "ResearchSystem/assurance/runs/tr-nine",
+            "repair_round": 0,
+        },
+        "verdict": verdict,
+        "instruction_completeness": {
+            "result": "COMPLETE",
+            "instruction_ref": {
+                "path": "ResearchSystem/assurance/runs/tr-nine/instruction.md",
+                "revision": "d" * 40,
+            },
+        },
+        "per_obligation_disposition": [disposition],
+        "residual_uncertainty": [],
+        "reviewed_by": "independent reviewer",
+    }
+    if findings:
+        review["findings"] = findings
+    return review
+
+
+FULL_REVIEW = full_review(
+    result_id="rv-full",
+    verdict="CHANGES_REQUIRED",
+    findings=[BLOCKER_F1, LOW_F2],
+    disposition={
+        "obligation_id": "ob-one",
+        "disposition": "NOT_SUPPORTED",
+        "note": "the frozen subjects contradict the fulfillment claim",
+        "finding_ids": ["f1"],
+    },
+)
 #: The other round-0 shape. The verdict — not the round — decides whether the bind builds an
 #: AssuranceCandidate at all, so a clean FULL is a distinct fixture rather than a flag on the
 #: one above; several negative controls below need a round 0 that walks the whole path.
-CLEAN_FULL_REVIEW = {
-    "result_id": "rv-full-clean",
-    "review_round": "FULL",
-    "verdict": "REVIEWED_NO_BLOCKER",
-    "findings": [{"finding_id": "f2", "blocking": False}],
+#: This one carries a LOW, which since round `PROMISE-PATH-ENGINE` makes it an `R10` decision
+#: point rather than a green light.
+CLEAN_FULL_REVIEW = full_review(
+    result_id="rv-full-clean",
+    verdict="REVIEWED_NO_BLOCKER",
+    findings=[LOW_F2],
+    disposition={"obligation_id": "ob-one", "disposition": "SUPPORTED"},
+)
+#: The third round-0 shape: clean AND carrying nothing to decide. `R10`'s trigger is the
+#: lows, so this is the one clean FULL that still walks straight through to the candidate,
+#: and it is what the negative controls below use when the property under test is about
+#: something other than the decision point.
+CLEAN_FULL_NO_LOWS = full_review(
+    result_id="rv-full-spotless",
+    verdict="REVIEWED_NO_BLOCKER",
+    findings=[],
+    disposition={"obligation_id": "ob-one", "disposition": "SUPPORTED"},
+)
+#: The user's recorded choice NOT to spend the repair leg on the low. Read by the bind's R10
+#: branch and gated by the real `flow.check_repair_decision`, so it binds this run's reviewed
+#: candidate, this work and this run by identity.
+NO_REPAIR_DECISION = {
+    "decision_id": "ud-repair",
+    "work_id": "w-test",
+    "run_id": "tr-nine",
+    "phase": "REPAIR",
+    "decision": "NO_REPAIR",
+    "target": {"candidate_ref": {"branch": "run/tr-nine", "commit": "c" * 40}},
+    "decided_by": "Melclycj (user)",
+    "decided_at": "2026-09-02",
+}
+#: The opposite choice, same bindings: the user spends the leg on the low.
+APPLY_LOWS_DECISION = {
+    **NO_REPAIR_DECISION,
+    "decision": "APPLY_ACCEPTED_FINDINGS",
+    "target": {
+        "candidate_ref": {"branch": "run/tr-nine", "commit": "c" * 40},
+        "accepted_finding_ids": ["f2"],
+        "repair_boundary": {"write_scope": ["docs"], "out": ["docs/private"]},
+    },
 }
 #: The round-1 VERIFY, written out whole. The other fixtures here carry the minimum the
 #: template's own helpers read, and this one cannot: round `PROMISE-PATH-ENGINE` (item 7)
@@ -181,6 +272,13 @@ BOUND_AT = "2026-07-30"
 #: that digest from its own serialisation rather than asking the template for it (E5).
 WORK_SPEC = {"work_id": "w-test"}
 WORK_SPEC_DIGEST = bytes_digest(json.dumps(WORK_SPEC).encode("utf-8"))
+#: The plan the R10 branch reads so the repair gate has a boundary to measure a spend
+#: against. A stand-in with no `effective_change_boundary` would make that gate report the
+#: boundary UNVERIFIED, which is the fail-open shape it exists to refuse.
+RESOLVED_PLAN = {
+    "note": "test resolved plan stand-in",
+    "effective_change_boundary": {"write_scope": ["docs"], "out": ["docs/private"]},
+}
 
 
 def evidenced_state(repair_round):
@@ -416,11 +514,13 @@ class TheOperativeReviewIsTheRoundsOwn(BindTemplateCase):
     def test_round_zero_never_asks_for_a_repair_decision(self):
         """Negative control: no repair happened, so no repair decision is demanded.
 
-        The round-0 fixture here is the CLEAN full, deliberately. A `CHANGES_REQUIRED`
-        round 0 now returns before the outcome gate is even reachable (the class below),
-        which would satisfy this assertion by construction and leave it proving nothing.
+        The round-0 fixture here is the clean full WITHOUT lows, deliberately, and for the
+        reason this docstring already gave once: a `CHANGES_REQUIRED` round 0 returns before
+        the outcome gate is reachable, and since round `PROMISE-PATH-ENGINE` so does a clean
+        round 0 carrying a low. Either would satisfy the assertion by construction and leave
+        it proving nothing.
         """
-        root = self.make_run(repair_round=0, reviews=[("review-full.json", CLEAN_FULL_REVIEW)])
+        root = self.make_run(repair_round=0, reviews=[("review-full.json", CLEAN_FULL_NO_LOWS)])
         self.template.RV = RecordingResultChecker(clean_report())
         gate = RecordingOutcomeGate(failing_report())
         self.template.flow = gate
@@ -461,7 +561,9 @@ class ARoundZeroBlockerBindsNoCandidate(BindTemplateCase):
         )
 
     def test_a_clean_round_zero_is_not_stopped(self):  # negative control
-        root = self.make_run(repair_round=0, reviews=[("review-full.json", CLEAN_FULL_REVIEW)])
+        # The lows-free clean FULL: this class's property is the VERDICT branch, and a
+        # fixture that the R10 branch stops would pass here for the wrong reason.
+        root = self.make_run(repair_round=0, reviews=[("review-full.json", CLEAN_FULL_NO_LOWS)])
         self.template.RV = RecordingResultChecker(clean_report())
         code, _ = run_main(self.template, self.argv(root))
         self.assertIsNone(code)  # walks on to the assembly and dies on the absent control docs
@@ -599,8 +701,9 @@ class TheBlockedRoundLandsOnReviewed(BindTemplateCase):
 
     def test_a_clean_round_zero_writes_no_reviewed_state_here(self):  # negative control
         # It walks past the branch into the assembly and dies on the absent WorkSpec, so the
-        # state it was seeded with is still on disk untouched.
-        root = self.make_run(repair_round=0, reviews=[("review-full.json", CLEAN_FULL_REVIEW)])
+        # state it was seeded with is still on disk untouched. Lows-free for the same reason
+        # as the class above: the R10 branch would stop a clean FULL that carried one.
+        root = self.make_run(repair_round=0, reviews=[("review-full.json", CLEAN_FULL_NO_LOWS)])
         self.template.RV = RecordingResultChecker(clean_report())
         code, _ = run_main(self.template, self.argv(root, "--emit"))
         self.assertIsNone(code)
@@ -777,13 +880,20 @@ class TheCleanRoundEmitsTheCandidateItPrinted(BindTemplateCase):
     prove it is engaged rather than merely present.
     """
 
-    def clean_round_zero(self, *, full=CLEAN_FULL_REVIEW, record=None, state=None):
+    def clean_round_zero(self, *, full=CLEAN_FULL_REVIEW, record=None, state=None,
+                         repair=NO_REPAIR_DECISION):
+        # The fixture carries the user's NO_REPAIR since round `PROMISE-PATH-ENGINE`: the
+        # clean FULL it uses carries a low, so `R10` makes the candidate a separate act that
+        # only the recorded choice not to spend the leg reaches. Every property this class
+        # asserts is about what the candidate act WRITES, so the decision is fixture, not
+        # subject -- `TheLowsDecisionIsPutBeforeTheCandidateIsBound` below is its subject.
         root = self.make_run(
             repair_round=0,
             reviews=[("review-full.json", full)],
+            repair=repair,
             control_files={
                 "work-spec.json": WORK_SPEC,
-                "resolved-plan.json": {"note": "test resolved plan stand-in"},
+                "resolved-plan.json": RESOLVED_PLAN,
                 "instruction-audit.json": {"note": "test audit stand-in"},
                 "bind-declarations.json": BIND_DECLARATIONS,
             },
@@ -878,7 +988,7 @@ class TheCleanRoundEmitsTheCandidateItPrinted(BindTemplateCase):
                 "resolved_plan_ref": {
                     "path": f"{CONTROL_ROOT}/control/resolved-plan.json",
                     "digest_sha256": bytes_digest(
-                        json.dumps({"note": "test resolved plan stand-in"}).encode("utf-8")),
+                        json.dumps(RESOLVED_PLAN).encode("utf-8")),
                 },
                 "instruction_audit_ref": {
                     "path": f"{CONTROL_ROOT}/control/instruction-audit.json",
@@ -964,13 +1074,186 @@ class TheCleanRoundEmitsTheCandidateItPrinted(BindTemplateCase):
         deriving could not both pass the gate and land this value.
         """
         root = self.clean_round_zero(
-            full={**CLEAN_FULL_REVIEW,
-                  "findings": [{"finding_id": "f1", "blocking": True},
-                               {"finding_id": "f2", "blocking": False}]},
+            full={**CLEAN_FULL_REVIEW, "findings": [BLOCKER_F1, LOW_F2]},
         )
         code, out = run_main(self.template, self.argv(root, "--emit"))
         self.assertEqual(code, 0, out)
         self.assertEqual(self.emitted_candidate(root)["unresolved_finding_ids"], ["f1"])
+
+
+class TheLowsDecisionIsPutBeforeTheCandidateIsBound(BindTemplateCase):
+    """`R10`: a clean FULL with lows is a decision point, and the candidate is a second act.
+
+    Item 3 of batch `PROMISE-PATH`. `RULES.md` `R10` says a FULL returning
+    `REVIEWED_NO_BLOCKER` with lows does not bank them by default -- the spend-the-fix-leg /
+    bank choice is put to the user. The engine gave that choice no moment to be put: this
+    step advanced REVIEWED, wrote the candidate and advanced AWAITING_FINAL in one act, and
+    `flow._SUCCESSORS` leaves AWAITING_FINAL exactly one successor, so a user who then chose
+    to repair had REPAIRING unreachable from where the run stood. The caller's run
+    p5c-firewall-r2 stopped there and cost a successor run.
+
+    The defect CLASS is the same one `ARoundZeroBlockerBindsNoCandidate` names -- a state
+    transition taken without consulting what licenses it -- with a different licence: there
+    the verdict, here the user's decision. All four positions are pinned, each against the
+    thing that distinguishes it from the next: no decision on disk (stop), APPLY (stop, and
+    a DIFFERENT next act), NO_REPAIR (the candidate act runs), and no lows at all (nothing to
+    decide, so no stop). The negative controls are the last two: a guard that always stopped
+    would fail them.
+    """
+
+    def lows_round_zero(self, *, repair=None, full=CLEAN_FULL_REVIEW):
+        root = self.make_run(
+            repair_round=0,
+            reviews=[("review-full.json", full)],
+            repair=repair,
+            control_files={
+                "work-spec.json": WORK_SPEC,
+                "resolved-plan.json": RESOLVED_PLAN,
+                "instruction-audit.json": {"note": "test audit stand-in"},
+                "bind-declarations.json": BIND_DECLARATIONS,
+            },
+            evidence_files={
+                "candidate-record.json": CLEAN_RECORD,
+                "check-results.json": [CHECK_RESULT],
+                "check-chk-one.json": CHECK_RESULT,
+                "coverage.json": {"rows": []},
+            },
+            state=clean_round_zero_state(),
+        )
+        self.template.RV = RecordingResultChecker(clean_report())
+        return root
+
+    #: The stored-and-printed instruction, written out here and never imported (E5).
+    R10_ACTION = (
+        "user REPAIR decision on the non-blocking findings (f2): APPLY_ACCEPTED_FINDINGS "
+        "spends this round's one repair leg on them and NO_REPAIR banks them; the "
+        "AssuranceCandidate is bound only after that decision is on disk"
+    )
+    SPEND_ACTION = (
+        "user chose to spend the repair leg on the non-blocking findings; the next act is "
+        "run_repair.py, which gates the decision and enters REPAIRING"
+    )
+
+    # --- (i) no decision on disk: the run stops and says what is owed -------------------
+
+    def test_a_clean_full_with_lows_stops_at_reviewed_and_binds_no_candidate(self):
+        root = self.lows_round_zero()
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertIn(
+            "verdict                : REVIEWED_NO_BLOCKER with 1 non-blocking finding(s): f2",
+            out.splitlines(),
+        )
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "REVIEWED")
+        self.assertEqual(saved["next_action"], self.R10_ACTION)
+        self.assertNotIn("assurance_candidate_ref", saved)
+        self.assertFalse(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").exists())
+
+    def test_the_stored_instruction_is_the_one_printed(self):
+        """Rider `sg-print`: without --emit the printed line is the only channel."""
+        root = self.lows_round_zero()
+        code, out = run_main(self.template, self.argv(root))
+        self.assertEqual(code, 0, out)
+        self.assertIn(f"next action            : {self.R10_ACTION}", out.splitlines())
+        self.assertEqual(self.saved_state(root)["status"], "EVIDENCED")
+
+    # --- (ii) the user spends the leg: still no candidate, and a different next act ----
+
+    def test_an_apply_decision_stops_too_and_names_the_repair_step(self):
+        root = self.lows_round_zero(repair=APPLY_LOWS_DECISION)
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertIn(
+            "lows decision          : APPLY_ACCEPTED_FINDINGS — the leg is spent",
+            out.splitlines(),
+        )
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "REVIEWED")
+        self.assertEqual(saved["next_action"], self.SPEND_ACTION)
+        self.assertFalse(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").exists())
+
+    def test_a_decision_about_another_run_is_refused_rather_than_acted_on(self):
+        """Defect M5's shape: a decline that binds something else closes nothing here.
+
+        This bind is the only step a NO_REPAIR ever reaches -- `run_repair.py` exists for
+        the APPLY path -- so an ungated read here would advance the run to AWAITING_FINAL on
+        a decision the user made about another run.
+        """
+        root = self.lows_round_zero(
+            repair={**NO_REPAIR_DECISION, "run_id": "another-run"})
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1)
+        self.assertIn("check_repair_decision  : ISSUES", out.splitlines())
+        self.assertEqual(self.saved_state(root)["status"], "EVIDENCED")
+        self.assertFalse(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").exists())
+
+    # --- (iii) negative controls: the two positions that must NOT stop ------------------
+
+    def test_a_recorded_no_repair_lets_the_candidate_act_run(self):
+        root = self.lows_round_zero(repair=NO_REPAIR_DECISION)
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertIn(
+            "lows decision          : NO_REPAIR — the user banked the low(s); this "
+            "bind binds the AssuranceCandidate",
+            out.splitlines(),
+        )
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "AWAITING_FINAL")
+        self.assertEqual(
+            saved.get("assurance_candidate_ref"),
+            {"path": f"{CONTROL_ROOT}/control/assurance-candidate.json"},
+        )
+        # Negative control for the no-op below: a run that reaches the candidate act in ONE
+        # pass advances REVIEWED itself and must not report the resumed position.
+        self.assertNotIn("state                  : already REVIEWED", out)
+
+    def test_a_clean_full_with_no_lows_never_reaches_the_decision_point(self):
+        root = self.lows_round_zero(full=CLEAN_FULL_NO_LOWS)
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertEqual(
+            [line for line in out.splitlines() if line.startswith("verdict ")], [])
+        self.assertEqual(self.saved_state(root)["status"], "AWAITING_FINAL")
+
+    # --- (iv) the second pass resumes from REVIEWED without an illegal self-transition --
+
+    def test_the_second_pass_resumes_from_the_reviewed_state_the_first_wrote(self):
+        """The real sequence: stop, the user writes the decision, run the step again.
+
+        REVIEWED -> REVIEWED is not a legal successor and `assurance_state.advance` does not
+        check legality, so a second pass that re-advanced would write an illegal transition
+        silently. The pass instead finds REVIEWED, leaves it, and takes the one transition it
+        is entitled to.
+        """
+        root = self.lows_round_zero()
+        first, _ = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(first, 0)
+        self.assertEqual(self.saved_state(root)["status"], "REVIEWED")
+
+        (root / CONTROL_ROOT / "control" / "user-decision-repair.json").write_text(
+            json.dumps(NO_REPAIR_DECISION), encoding="utf-8")
+        second, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(second, 0, out)
+        self.assertIn(
+            "state                  : already REVIEWED from the earlier pass; only the "
+            "AWAITING_FINAL transition is owed",
+            out.splitlines(),
+        )
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "AWAITING_FINAL")
+        self.assertEqual(
+            saved.get("review_ref"),
+            {
+                "path": f"{CONTROL_ROOT}/evidence/review-full.json",
+                "digest_sha256": bytes_digest(
+                    json.dumps(CLEAN_FULL_REVIEW).encode("utf-8")),
+            },
+        )
 
 
 class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
@@ -1013,9 +1296,11 @@ class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
         self.assertNotIn("STOP: control/bind-declarations.json", out)
 
     def clean_declared(self, *, declarations):
+        # Carries the NO_REPAIR for the same reason `clean_round_zero` does: this class's
+        # property is the declarations file, and the run has to reach the assembly to meet it.
         control_files = {
             "work-spec.json": WORK_SPEC,
-            "resolved-plan.json": {"note": "test resolved plan stand-in"},
+            "resolved-plan.json": RESOLVED_PLAN,
             "instruction-audit.json": {"note": "test audit stand-in"},
         }
         if declarations is not None:
@@ -1023,6 +1308,7 @@ class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
         root = self.make_run(
             repair_round=0,
             reviews=[("review-full.json", CLEAN_FULL_REVIEW)],
+            repair=NO_REPAIR_DECISION,
             control_files=control_files,
             evidence_files={
                 "candidate-record.json": CLEAN_RECORD,
