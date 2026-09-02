@@ -272,9 +272,32 @@ vocabulary change item 2 needs is none of their classes and larger than each, wh
 takes a fifth family ruling (path (i), taken) rather than riding any existing one — the
 alternative offered and not taken was a versioned successor (v5) for one table row.
 
+## Steps — round 1 `PROMISE-PATH-ENGINE`
+
+- [x] 1. **Open + read — DONE 2026-09-02.** Round 1 opened on the user's "开轮" at the `E11`
+  card; `python tooling/construction_dispatch.py --read 51bd4f6`, one cold `claude -p` session
+  on `opus` without web tools; record `v3-cold-read-51bd4f6.md` committed unchanged at
+  `b2f2c3b`, the freeze marker deleted in that act. **1 must-fix, 1 low, 2 observation**; the
+  `RULES.md` free-channel debt from `3060a23` discharged by the record's §3.
+- [x] 2. **Disposition — the commit that checks this box.** `M-1` (the record-commit owner
+  split between `R6` and `REVIEW.md`) ruled **(c)** by the user 2026-09-02: downgraded to low
+  and banked as rider `record-commit-owner`, deadline before the next product-run review
+  dispatch, redeem surface includes round 2. `L-1`'s named content applied to `R10`'s first
+  sentence by `E10`'s free channel on the orchestrator's finding that it adds no clause and
+  changes no rule's requirement (the requirement was already "not the instrument's bank") and
+  that no round has relied on the sentence; its independent read rides the next read of this
+  layer at per-member digest cost. `O-1`/`O-2` stay recorded in the read record, no rows. No
+  amendment/re-read pair is owed: nothing above low was fixed in the layer.
+- [ ] 3. Executor dispatch — one cold `claude -p` session on `opus` (`HD-69`: it stops at
+  decision points and is resumed with rulings, same session; the orchestrator records its
+  session id in the round journal by hand). Scope: items 3–7 + the `E4`-inverse suite, round
+  1's change boundary (no rule-layer or contract bytes — those are round 2's).
+- [ ] 4. FULL (cold, dispatched with `--range`) → user gate on findings → at most one
+  user-approved fix (same-session resume) → targeted VERIFY → closeout, ledger pointer in the
+  closeout commit.
+
 ## Resume pointer
 
-Plan written and all six questions ruled 2026-09-01; the batch is open with seven items and
-two rounds ahead, neither dispatched. Next act: round 1 `PROMISE-PATH-ENGINE` — `E11` card to
-the user, then the opening read (which pays the `RULES.md` free-channel debt), then the
-executor. A cold session: read this file, then `CONSTRUCTION-LEDGER.md`'s pointer.
+Round 1 `PROMISE-PATH-ENGINE` in flight: steps 1–2 done, next act = step 3, the executor
+dispatch. A cold session: read this file, the steps above, then `CONSTRUCTION-LEDGER.md`'s
+pointer.

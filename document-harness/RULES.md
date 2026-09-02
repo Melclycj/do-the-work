@@ -203,9 +203,10 @@
   recoverable from adjacent text or a
   committed record. Name the downstream decision that goes wrong if it stays unfixed; if none
   can be named, it rides the next batch touching this layer and spawns no round and no read.
-- **R10** The rider bank (`HARNESS-RIDERS.md`) is the construction side's
+- **R10** The instrument's own rider bank (`HARNESS-RIDERS.md` at the instrument's root) is
+  the construction side's
   internal debt ledger; product-run observations, schema governance and post-CLOSED
-  admission belong to HarnessIssue or to the caller's own rider bank, never this one.
+  admission belong to HarnessIssue or to the caller's own bank, never the instrument's.
   Findings route by the 2026-07-29
   ruling, and neither the tier they were filed at nor whether a read or a FULL produced them
   changes the route: `E10`'s must-fix channel takes must-fix, R9 takes wording-level, the
