@@ -200,22 +200,31 @@ def emit_reviewed(
     repo: pathlib.Path,
     next_action: str,
 ) -> bool:
-    """Advance the state to REVIEWED, binding this round's review by bytes, and save.
+    """Write this branch's instruction, and the REVIEWED transition when one is owed.
 
-    Returns whether it advanced, which is not decoration: already-REVIEWED is a **no-op**
-    rather than a self-transition, because the R10 branch below is reached a second time by
-    the run that returns with the user's decision in hand, and REVIEWED -> REVIEWED is not a
-    legal successor (``flow._SUCCESSORS``). ``assurance_state.advance`` does not check
-    legality, so without the no-op that illegal transition would be written with nothing to
-    show for it -- the same status, the same pointer, no visible difference. The return value
-    is what gives the no-op a consequence a test can hold: the caller says on stdout which of
-    the two passes this is, so deleting the no-op changes the output.
+    Returns whether a **status transition** was written. Already-REVIEWED is not a
+    transition: the R10 branch below is reached a second time by the run that returns with
+    the user's decision in hand, and REVIEWED -> REVIEWED is not a legal successor
+    (``flow._SUCCESSORS``), while ``assurance_state.advance`` does not check legality, so
+    taking it would write an illegal transition with nothing to show for it.
+
+    It is not a no-op either, and that is FULL `38038ec` `B-1`'s correction. The second pass
+    still owes its own ``next_action``: the instruction is printed and STORED as one string
+    (rider ``sg-print`` -- two rewrites of one fact diverge silently), and on the second pass
+    the printed one is this branch's, not the sentence pass 1 left behind asking for a
+    decision that has since been made. So the field is saved without the status moving, which
+    is a legal thing for a document to do and an illegal transition is not. What the caller
+    must do with the return value is say on stdout which of the two passes this was: an
+    ``emitted ... -> state REVIEWED`` line printed where nothing was written is the
+    controller reporting a transition it did not take, and `state.json` is committed
+    control-plane evidence a later independent review reads.
 
     Both stopping branches land here and the candidate act passes through it, so the
     transition is written once rather than three times -- the copy-class fork rider
     ``decl-dup`` names that shape.
     """
     if state["status"] == "REVIEWED":
+        assurance_state.save({**state, "next_action": next_action}, control_path)
         return False
     advanced = assurance_state.advance(
         state, "REVIEWED",
@@ -372,15 +381,18 @@ def main(argv: Sequence[str] | None = None) -> int:
               "bound at round 0")
         print(f"next action            : {next_action}")
         if args.emit:
-            emit_reviewed(
+            if emit_reviewed(
                 assurance_state.load(CONTROL / "state.json"),
                 control_path=CONTROL / "state.json",
                 review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
                 repo=REPO,
                 next_action=next_action,
-            )
-            print(f"emitted                : {names[-1]} -> state REVIEWED "
-                  "(review_ref = bytes digest via pointer_for)")
+            ):
+                print(f"emitted                : {names[-1]} -> state REVIEWED "
+                      "(review_ref = bytes digest via pointer_for)")
+            else:
+                print("state                  : already REVIEWED from the earlier pass; "
+                      "next_action updated, no transition written")
         return 0
 
     # --- R10: a clean FULL carrying lows is a DECISION POINT, not a green light ---------
@@ -410,15 +422,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             # silently, where a copy diverges visibly).
             print(f"next action            : {r10_action}")
             if args.emit:
-                emit_reviewed(
+                if emit_reviewed(
                     assurance_state.load(CONTROL / "state.json"),
                     control_path=CONTROL / "state.json",
                     review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
                     repo=REPO,
                     next_action=r10_action,
-                )
-                print(f"emitted                : {names[-1]} -> state REVIEWED "
-                      "(review_ref = bytes digest via pointer_for)")
+                ):
+                    print(f"emitted                : {names[-1]} -> state REVIEWED "
+                          "(review_ref = bytes digest via pointer_for)")
+                else:
+                    print("state                  : already REVIEWED from the earlier "
+                          "pass; next_action updated, no transition written")
             return 0
 
         # The decision is READ, never authored here (every UserDecision is the user's), and
@@ -442,15 +457,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"lows decision          : {r10_decision['decision']} — the leg is spent")
             print(f"next action            : {spend_action}")
             if args.emit:
-                emit_reviewed(
+                if emit_reviewed(
                     assurance_state.load(CONTROL / "state.json"),
                     control_path=CONTROL / "state.json",
                     review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
                     repo=REPO,
                     next_action=spend_action,
-                )
-                print(f"emitted                : {names[-1]} -> state REVIEWED "
-                      "(review_ref = bytes digest via pointer_for)")
+                ):
+                    print(f"emitted                : {names[-1]} -> state REVIEWED "
+                          "(review_ref = bytes digest via pointer_for)")
+                else:
+                    print("state                  : already REVIEWED from the earlier "
+                          "pass; next_action updated, no transition written")
             return 0
         print("lows decision          : NO_REPAIR — the user banked the low(s); this bind "
               "binds the AssuranceCandidate")
@@ -543,8 +561,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             repo=REPO,
             next_action="controller binds the AssuranceCandidate for the FINAL decision",
         ):
-            print("state                  : already REVIEWED from the earlier pass; only "
-                  "the AWAITING_FINAL transition is owed")
+            print("state                  : already REVIEWED from the earlier pass; "
+                  "next_action updated, only the AWAITING_FINAL transition is owed")
         # Re-read rather than carried forward: the helper above may have written a new state
         # or, on the second pass of the R10 branch, deliberately left the REVIEWED one it
         # found. Reading back is what makes the two paths converge on one document.

@@ -1386,8 +1386,8 @@ class TheLowsDecisionIsPutBeforeTheCandidateIsBound(BindTemplateCase):
         second, out = run_main(self.template, self.argv(root, "--emit"))
         self.assertEqual(second, 0, out)
         self.assertIn(
-            "state                  : already REVIEWED from the earlier pass; only the "
-            "AWAITING_FINAL transition is owed",
+            "state                  : already REVIEWED from the earlier pass; next_action "
+            "updated, only the AWAITING_FINAL transition is owed",
             out.splitlines(),
         )
         saved = self.saved_state(root)
@@ -1400,6 +1400,145 @@ class TheLowsDecisionIsPutBeforeTheCandidateIsBound(BindTemplateCase):
                     json.dumps(CLEAN_FULL_REVIEW).encode("utf-8")),
             },
         )
+
+
+class TheSecondPassReportsWhatItActuallyWrote(BindTemplateCase):
+    """FULL `38038ec` `B-1`: the step reported a transition it did not take.
+
+    All four call sites of `emit_reviewed` receive the same answer -- whether a status
+    transition was written -- and until this fix only the candidate act read it. The other
+    three printed `emitted ... -> state REVIEWED` unconditionally, so on a second pass they
+    told the operator a transition had happened when nothing had; and because the branch's
+    own `next_action` never reached disk, the stored instruction stayed pass 1's request for
+    a decision that had since been made, contradicting the sentence printed beside it.
+    `state.json` is committed control-plane evidence a later independent review reads.
+
+    The ordering is what makes this real rather than hypothetical, and it is the ordering
+    these tests drive: the decision point exists to stop BEFORE a decision is on disk, so a
+    run that actually meets it can only reach pass 2 with the state already REVIEWED. The
+    class's earlier fixtures start at EVIDENCED with the decision already present, which is
+    the one ordering the decision point cannot produce -- that is why they stayed green
+    across the defect.
+
+    `E7`: three sites, not the one reproduced. Each is driven twice and asserted on both
+    halves -- printed only where written, and stored == printed -- and each is paired with
+    its one-pass negative control, which must keep reporting a transition and no resumed
+    position.
+    """
+
+    RESUMED = ("state                  : already REVIEWED from the earlier pass; "
+               "next_action updated, no transition written")
+    WROTE = ("emitted                : review-full.json -> state REVIEWED "
+             "(review_ref = bytes digest via pointer_for)")
+
+    def two_passes(self, root, *, decision=None):
+        """Run the step, optionally record the user's decision, run it again.
+
+        Returns both passes' output. The decision is written BETWEEN the passes, which is
+        the sequence the decision point produces and the one the earlier fixtures cannot.
+        """
+        first_code, first_out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(first_code, 0, first_out)
+        self.assertEqual(self.saved_state(root)["status"], "REVIEWED")
+        if decision is not None:
+            (root / CONTROL_ROOT / "control" / "user-decision-repair.json").write_text(
+                json.dumps(decision), encoding="utf-8")
+        second_code, second_out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(second_code, 0, second_out)
+        return first_out, second_out
+
+    def printed_next_action(self, out):
+        """The instruction as STDOUT carries it, so it can be compared to the stored one."""
+        printed = [line for line in out.splitlines()
+                   if line.startswith("next action            : ")]
+        self.assertEqual(len(printed), 1, out)
+        return printed[0].split(": ", 1)[1]
+
+    def lows_run(self, *, verdict="REVIEWED_NO_BLOCKER", full=None):
+        root = self.make_run(
+            repair_round=0,
+            reviews=[("review-full.json", full if full is not None else CLEAN_FULL_REVIEW)],
+            control_files={"resolved-plan.json": RESOLVED_PLAN},
+        )
+        self.template.RV = RecordingResultChecker(clean_report())
+        return root
+
+    # --- site 1: the R10 branch reached with the user's APPLY, the reported sequence -----
+
+    def test_the_apply_pass_reports_no_transition_and_stores_its_own_instruction(self):
+        root = self.lows_run()
+        first, second = self.two_passes(root, decision=APPLY_LOWS_DECISION)
+        # (a) printed only where written
+        self.assertIn(self.WROTE, first.splitlines())
+        self.assertNotIn(self.WROTE, second.splitlines())
+        self.assertIn(self.RESUMED, second.splitlines())
+        # (b) stored == printed, and the stored sentence is pass 2's, not pass 1's
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "REVIEWED")
+        self.assertEqual(
+            saved["next_action"],
+            "user chose to spend the repair leg on the non-blocking findings; the next act "
+            "is run_repair.py, which gates the decision and enters REPAIRING",
+        )
+        self.assertEqual(saved["next_action"], self.printed_next_action(second))
+        self.assertNotEqual(saved["next_action"], self.printed_next_action(first))
+
+    def test_negative_control_the_one_pass_apply_still_reports_the_transition(self):
+        """The decision on disk from the start: one pass, one transition, no resumption."""
+        root = self.make_run(
+            repair_round=0,
+            reviews=[("review-full.json", CLEAN_FULL_REVIEW)],
+            repair=APPLY_LOWS_DECISION,
+            control_files={"resolved-plan.json": RESOLVED_PLAN},
+        )
+        self.template.RV = RecordingResultChecker(clean_report())
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertIn(self.WROTE, out.splitlines())
+        self.assertNotIn(self.RESUMED, out.splitlines())
+
+    # --- site 2: the R10 branch with still no decision on disk ---------------------------
+
+    def test_a_second_pass_with_no_decision_yet_reports_no_transition(self):
+        root = self.lows_run()
+        first, second = self.two_passes(root)
+        self.assertIn(self.WROTE, first.splitlines())
+        self.assertNotIn(self.WROTE, second.splitlines())
+        self.assertIn(self.RESUMED, second.splitlines())
+        saved = self.saved_state(root)
+        self.assertEqual(saved["next_action"], self.printed_next_action(second))
+
+    def test_negative_control_the_first_pass_with_no_decision_reports_the_transition(self):
+        root = self.lows_run()
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertIn(self.WROTE, out.splitlines())
+        self.assertNotIn(self.RESUMED, out.splitlines())
+
+    # --- site 3: the round-0 blocked branch, the third member of the class ---------------
+
+    def test_a_second_pass_on_a_blocking_round_zero_reports_no_transition(self):
+        """`E7`: the same defect, at the site whose two sentences happen to be equal.
+
+        On the blocked branch pass 1 and pass 2 store the same instruction, so the stored
+        half is invisible there and only the false report survives -- which is exactly why
+        the site needs its own test rather than inheriting the R10 one's.
+        """
+        root = self.lows_run(full=FULL_REVIEW)
+        first, second = self.two_passes(root)
+        self.assertIn(self.WROTE, first.splitlines())
+        self.assertNotIn(self.WROTE, second.splitlines())
+        self.assertIn(self.RESUMED, second.splitlines())
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "REVIEWED")
+        self.assertEqual(saved["next_action"], self.printed_next_action(second))
+
+    def test_negative_control_the_first_blocking_pass_reports_the_transition(self):
+        root = self.lows_run(full=FULL_REVIEW)
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertIn(self.WROTE, out.splitlines())
+        self.assertNotIn(self.RESUMED, out.splitlines())
 
 
 class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):

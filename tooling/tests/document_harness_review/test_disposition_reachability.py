@@ -26,6 +26,28 @@ Properties 1, 2 and 4 are also exercised against synthetic tables, because the `
 has no real row today: a branch nothing runs is a branch nobody has seen work, which is the
 same defect in the guard that the guard exists to find in the engine.
 
+**What property 1 does NOT watch, stated because the omission is invisible from the table**
+(FULL `38038ec` `L-1`). `enumerated()` reads three families out of the schema pack and no more,
+so the guard covers exactly the dispositions a rule change would express as an ENUM VALUE. The
+table's other kind of row — what `Row` below calls "a bare name for the dispositions the rules
+name in prose" — has no enumeration guard at all: `STOPPED_REPLAN`, both `repair-leg-after-…`
+rows and `ACCEPT_WITH_LIMITATIONS-from-residual-uncertainty` are here because somebody
+hand-wrote them, and a prose-named route nobody hand-writes is one this file will never notice
+is missing. One such route is open right now and is named here so the next round meets it
+rather than rediscovers it: **`ACCEPT_WITH_LIMITATIONS` after a blocking VERIFY**, promised by
+`EXECUTION.md:98-100` ("the honest dispositions left are `STOPPED_REPLAN` or a user
+`ACCEPT_WITH_LIMITATIONS` that names what is still open"), by `REVIEW.md` and by contract v4,
+and **not built** — it is item 1 of batch `PROMISE-PATH`, ruled shape (a) and scheduled for
+round 2 `PROMISE-PATH-VOCAB`. It adds no enum value, so nothing here turns red when round 2
+builds it; the row it owes is round 2's to write, beside the row item 2's new VERIFY verdict
+value will force. Item 2 is the contrast worth keeping in view: growing the VERIFY verdict enum
+makes `missing_rows` and `test_the_enumeration_is_not_vacuous` red on its own, which is the
+whole of why the gap is specifically the prose class.
+
+A `no-path` row for that route is deliberately NOT added here. A `no-path` row obliges its named
+rule site to carry the absence in its own text (property 4), and those sites are
+instruction-layer members — writing one is design, and design opens a round.
+
 The one stand-in is `review_result_v2.check_review_result_v2` where a bind is driven: its real
 form needs a git repository holding the evidence commit, and which DISPOSITION the step
 produces is a property of the step alone. Everything else — the flow controller, the summary
@@ -166,6 +188,10 @@ def enumerated() -> dict[str, tuple[str, ...]]:
     Read from the committed files rather than from any module's constants: the schemas are
     what a rule change would touch, and a table checked against `flow.py` would agree with
     the engine by construction.
+
+    Three families and no more, which is this guard's ceiling rather than an oversight: it
+    watches what a rule change expresses as an enum value, and the module docstring names
+    what that leaves unwatched — the prose-named rows, and the one open route among them.
     """
     decision = load_json(SCHEMA_DIR / "user-decision.schema.json")
     review = load_json(SCHEMA_DIR / "review.v2.schema.json")
