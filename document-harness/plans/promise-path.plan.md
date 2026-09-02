@@ -1,7 +1,8 @@
 # Plan — batch `PROMISE-PATH`: every disposition the rule layer names has a tested engine path or a recorded absence
 
-> **Status: all six questions ruled 2026-09-01 — the batch is open; next act = round 1
-> `PROMISE-PATH-ENGINE`'s opening read (its `E11` card owes its own user confirmation).** The
+> **Status: round 1 `PROMISE-PATH-ENGINE` CLOSED 2026-09-03 — see *Steps* and the *Resume
+> pointer*; next act = round 2 `PROMISE-PATH-VOCAB`'s `E11` card.** All six opening questions
+> were ruled 2026-09-01. The
 > batch was established by the user's ruling 2 of 2026-09-01 (`a6207e5`: six observations
 > routed here entire, queue head ahead of candidate-isolation and dispatch-economy). The same
 > day's second sitting briefed the VERIFY flow in full and took all six rulings (*Rulings*
@@ -288,16 +289,36 @@ alternative offered and not taken was a versioned successor (v5) for one table r
   that no round has relied on the sentence; its independent read rides the next read of this
   layer at per-member digest cost. `O-1`/`O-2` stay recorded in the read record, no rows. No
   amendment/re-read pair is owed: nothing above low was fixed in the layer.
-- [ ] 3. Executor dispatch — one cold `claude -p` session on `opus` (`HD-69`: it stops at
-  decision points and is resumed with rulings, same session; the orchestrator records its
-  session id in the round journal by hand). Scope: items 3–7 + the `E4`-inverse suite, round
-  1's change boundary (no rule-layer or contract bytes — those are round 2's).
-- [ ] 4. FULL (cold, dispatched with `--range`) → user gate on findings → at most one
-  user-approved fix (same-session resume) → targeted VERIFY → closeout, ledger pointer in the
-  closeout commit.
+- [x] 3. **Executor — DONE 2026-09-02.** One cold `claude -p` session on `opus`, session id in
+  the round journal (`HD-69`'s first full application: the one decision point it hit —
+  the new schema tripping `test_readme_enumeration`, whose subject `README.md` is an `E10`
+  member outside the dispatched boundary — was ruled **(a)** by the user and the **same
+  session resumed** to close it, no cold correction executor). Landed `1c18e4a..38038ec`,
+  seven commits: items 7, 3, 6, 5, 4, the reachability suite, and the `E10` amendment
+  `38038ec` (one additive README enumeration entry, rely-before-read deferral facts in its
+  body, bytes riding the next layer read). 21 mutation probes red/green; battery 932 after
+  the amendment.
+- [x] 4. **FULL → fix → VERIFY → closeout — DONE 2026-09-03, this commit closes the round.**
+  FULL (record `09daa7e`, `v3-review-full-38038ec.md`): `CHANGES_REQUIRED` — B-1 (the `R10`
+  decision point's three `emit_reviewed` sites falsely reporting a state write on the second
+  pass) + 3 lows + 4 observations. The user ruled the leg as **(ii)**: B-1 + L-1 + L-2
+  folded; fix `1f6a5a5` (same-session resume), battery 938. VERIFY (record `07da6b1`,
+  `v3-review-verify-1f6a5a5.md`): **`REVIEWED_NO_BLOCKER`** — all three findings closed,
+  repair diff accounted for, boundaries clean, battery independently reproduced; two new
+  observations. `E9` spent in full. Observation routing ruled by the user 2026-09-03
+  (按建议): **O-2, O-4, V-O-1 banked** (rows `summary-reads-unvalidated`,
+  `no-repair-unbound`, `emit-reviewed-legality`), **O-1, O-3, V-O-2 stay in their records**.
+  L-3 discharged by this commit: steps checked, pointer moved, journal landed tracked.
 
 ## Resume pointer
 
-Round 1 `PROMISE-PATH-ENGINE` in flight: steps 1–2 done, next act = step 3, the executor
-dispatch. A cold session: read this file, the steps above, then `CONSTRUCTION-LEDGER.md`'s
-pointer.
+**Round 1 `PROMISE-PATH-ENGINE` CLOSED 2026-09-03** (chain: plan `51bd4f6` → read `b2f2c3b` →
+disposition `1c18e4a` → candidate `09ed9ed..887c576` → `E10` amendment `38038ec` → FULL record
+`09daa7e` → fix `1f6a5a5` → VERIFY record `07da6b1` → closeout, this commit). Items 3–7 and
+the `E4`-inverse suite are live; items 1–2 are round 2's. **Next act: round 2
+`PROMISE-PATH-VOCAB`** — its `E11` card to the user; at its opening the orchestrator
+transcribes ruling 6's fifth `HD-63/64/67/68`-family entry into the decisions register with
+the contract sites enumerated, and the opening `E10` read covers `README.md` (amended
+`38038ec`) and `RULES.md` (amended `1c18e4a`) end to end — both deferrals ride it — with
+unchanged members covered by citing `v3-cold-read-51bd4f6.md`. A cold session: read this
+file, the steps above, then `CONSTRUCTION-LEDGER.md`'s pointer.
