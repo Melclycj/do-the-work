@@ -77,6 +77,14 @@ from rsclib.document_harness import (
 N2_SCHEMA_FILES: dict[str, str] = {
     "assurance_candidate": "assurance.schema.json",
     "harness_issue": "harness-issue.schema.json",
+    # Registered HERE and not in `__init__.SCHEMA_FILES`, for a reason worth stating rather
+    # than leaving to be re-derived: `bind-declarations.schema.json` `$ref`s two `$defs` of
+    # `assurance.schema.json`, which only this registry loads, and `pack_digests()` hashes
+    # exactly `__init__.SCHEMA_FILES` -- so registering it there would move a digest that
+    # binds which interface version produced a piece of evidence, for a document that is an
+    # INPUT to the bind rather than a member of the signed interface. Added in round
+    # `PROMISE-PATH-ENGINE` (batch `PROMISE-PATH` item 6).
+    "bind_declarations": "bind-declarations.schema.json",
 }
 
 N2_SCHEMA_POINTERS: dict[str, str] = {

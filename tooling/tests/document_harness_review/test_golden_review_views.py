@@ -225,8 +225,12 @@ class N2ValidatorTests(unittest.TestCase):
     #: `test_fix_round_locks.py` fixed exactly that shape for the module list by comparing
     #: against the directory and never for these tables; round `V1-RESULT-RETIRE` made the
     #: gap urgent by removing two entries — `review_package` and `review_result`, which went
-    #: with the version-1 schema file — so the set below is the post-retirement one.
-    EXPECTED_N2_KINDS = frozenset({"assurance_candidate", "harness_issue", "assurance_summary"})
+    #: with the version-1 schema file — so the set below is the post-retirement one. Round
+    #: `PROMISE-PATH-ENGINE` added `bind_declarations`, whose schema `$ref`s two `$defs` of
+    #: `assurance.schema.json` and therefore has to resolve through THIS registry.
+    EXPECTED_N2_KINDS = frozenset(
+        {"assurance_candidate", "harness_issue", "assurance_summary", "bind_declarations"}
+    )
 
     #: Kinds that existed and were deliberately retired. A retired kind must stop, never
     #: quietly validate, and never come back unannounced.

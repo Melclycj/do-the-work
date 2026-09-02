@@ -1283,10 +1283,56 @@ class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
         code, out = run_main(self.template, self.argv(root, "--emit"))
         self.assertEqual(code, 1)
         self.assertIn(
-            "STOP: control/bind-declarations.json carries no governance_scan; this script "
-            "supplies no default for either",
+            "STOP: control/bind-declarations.json is not a valid BindDeclarations document; "
+            "the governance-scan state and the run's disclosures are declarations, and this "
+            "script supplies no default for either",
             out.splitlines(),
         )
+        self.assertIn(
+            "  V3-SCHEMA-BIND_DECLARATIONS <root> \u2014 'governance_scan' is a required "
+            "property",
+            out.splitlines(),
+        )
+
+    def test_a_disclosure_over_the_candidates_cap_stops_the_bind(self):
+        """Item 6: the 500-character cap used to bite only after the candidate was built.
+
+        The caller's run 2 authored three disclosures at 541, 843 and 513 characters; the
+        assembly went through, `check_assurance_candidate` refused the result, and the bind
+        exited 1 having moved nothing -- with the reviewer having already read those bytes.
+        The cap is the same cap by reference, so this cannot report a different limit than
+        the candidate does.
+        """
+        root = self.clean_declared(declarations={
+            "governance_scan": BIND_DECLARATIONS["governance_scan"],
+            "disclosures": [{
+                "statement": "x" * 501,
+                "source_ref": {"path": "docs/notes.md", "digest_sha256": "0" * 64},
+            }],
+        })
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1)
+        self.assertIn(
+            "STOP: control/bind-declarations.json is not a valid BindDeclarations document; "
+            "the governance-scan state and the run's disclosures are declarations, and this "
+            "script supplies no default for either",
+            out.splitlines(),
+        )
+        self.assertFalse(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").exists())
+
+    def test_a_disclosure_at_the_cap_is_not_refused(self):
+        """Negative control (E4): the guard is the cap, not the presence of a long line."""
+        root = self.clean_declared(declarations={
+            "governance_scan": BIND_DECLARATIONS["governance_scan"],
+            "disclosures": [{
+                "statement": "x" * 500,
+                "source_ref": {"path": "docs/notes.md", "digest_sha256": "0" * 64},
+            }],
+        })
+        code, out = run_main(self.template, self.argv(root))
+        self.assertEqual(code, 0, out)
+        self.assertNotIn("STOP: control/bind-declarations.json", out)
 
     def test_a_complete_declarations_file_does_not_trip_the_stop(self):
         """Negative control (E4): the guard is about absence, not about the values."""

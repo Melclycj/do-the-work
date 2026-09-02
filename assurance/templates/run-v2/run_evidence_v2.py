@@ -42,6 +42,7 @@ from rsclib.document_harness.caller import discover_repo_root  # noqa: E402
 from rsclib.document_harness import assurance_state  # noqa: E402
 from rsclib.document_harness import candidate as cand  # noqa: E402
 from rsclib.document_harness import checks as C, review_subject as RS  # noqa: E402
+from rsclib.document_harness import review as R  # noqa: E402
 from rsclib.document_harness import views  # noqa: E402
 from rsclib.document_harness.candidate import CandidateTreeReader  # noqa: E402
 from rsclib.document_harness.spec import artifact_index  # noqa: E402
@@ -179,6 +180,28 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("      fill control/fulfillment.json for each — this script supplies no "
               "default status")
         return 1
+
+    # The bind step's hand-authored declarations, checked HERE because here is before the
+    # evidence commit and therefore before the independent review reads those bytes. The bind
+    # is where they are used and it checks them again; the bind is also the last step of the
+    # round, so a defect first reported there costs a correction to a document the reviewer
+    # has already read (round `PROMISE-PATH-ENGINE`, batch `PROMISE-PATH` item 6). Absence is
+    # not refused here and is refused at the bind: `governance_scan.result_ref` names a
+    # CheckResult this step has not written yet, so a run that authors the file after the
+    # evidence layer is legitimate, while one that has already authored it gets the caps now.
+    declarations_path = CONTROL / "bind-declarations.json"
+    if declarations_path.is_file():
+        decl_report = R.validate_n2("bind_declarations", load_json(declarations_path))
+        print(f"bind declarations    : {'clean' if decl_report.ok else 'ISSUES'}")
+        for issue in decl_report.issues:
+            print("  " + issue.render()[:160])
+        if not decl_report.ok:
+            print("STOP: control/bind-declarations.json is not a valid BindDeclarations "
+                  "document — nothing committed, state not advanced")
+            return 1
+    else:
+        print("bind declarations    : absent (the bind step refuses it there; "
+              "it may be authored after this step)")
 
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     ctx = C.CheckContext(

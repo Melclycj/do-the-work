@@ -71,6 +71,7 @@ from rsclib.document_harness import SpecGap  # noqa: E402
 from rsclib.document_harness.caller import discover_repo_root  # noqa: E402
 from rsclib.document_harness import assurance_state  # noqa: E402
 from rsclib.document_harness import flow  # noqa: E402
+from rsclib.document_harness import review as R  # noqa: E402
 from rsclib.document_harness import review_result_v2 as RV  # noqa: E402
 from rsclib.document_harness import review_subject as RS  # noqa: E402
 from rsclib.document_harness import summary as S  # noqa: E402
@@ -416,10 +417,20 @@ def main(argv: Sequence[str] | None = None) -> int:
               "disclosures are declarations, not derivations")
         return 1
     declarations = load_json(declarations_path)
-    absent = [key for key in ("governance_scan", "disclosures") if key not in declarations]
-    if absent:
-        print(f"STOP: {DECLARATIONS} carries no {', '.join(absent)}; "
+    # The whole document against its own schema, not the two key names. Key presence was all
+    # this step could check while nothing under `schema/` named the file (round
+    # `PROMISE-PATH-ENGINE`, item 6): a disclosure over the candidate's 500-character cap
+    # passed here and was refused later by `check_assurance_candidate`, after the independent
+    # review had read those bytes. The schema is the same cap by reference, so the two cannot
+    # disagree, and the evidence step now runs this check before the commit as well -- this
+    # one stays because the file may be edited between the two.
+    decl_report = R.validate_n2("bind_declarations", declarations)
+    if not decl_report.ok:
+        print(f"STOP: {DECLARATIONS} is not a valid BindDeclarations document; "
+              "the governance-scan state and the run's disclosures are declarations, and "
               "this script supplies no default for either")
+        for issue in decl_report.issues:
+            print("  " + issue.render()[:160])
         return 1
     GOVERNANCE_SCAN = declarations["governance_scan"]
     DISCLOSURES = declarations["disclosures"]

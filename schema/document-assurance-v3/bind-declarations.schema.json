@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "researchsystem/schema/document-assurance-v3/bind-declarations.schema.json",
+  "title": "BindDeclarations — the two facts the bind step may not derive (sole owner: the run's owner)",
+  "description": "A hand-authored control document, read by the bind step as `control/bind-declarations.json` and copied into the AssuranceCandidate it assembles. It carries exactly what the controller has no standing to compute: whether the governance-frontmatter scan ran in THIS run, and the run's disclosures, each naming the owner-authored document it came from. Neither has a default — a skip_reason supplied by a template would be the run's excuse written by somebody who was not there — so both keys are required and the bind refuses their absence. Added in round PROMISE-PATH-ENGINE (2026-09-02, batch PROMISE-PATH item 6), when nothing under schema/ named this file: it fed a schema-capped generated document while being validated by nothing, so an over-long disclosure was first refused at bind — after the independent review had already read those bytes, when correcting them means changing what was reviewed. Both member definitions are REFERENCED from assurance.schema.json rather than restated, which is what makes the caps here the same caps the candidate enforces rather than a second copy that drifts. A pack file added after the 2026-08-03 re-baseline is not an announced path under E2 until a later re-baseline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "governance_scan",
+    "disclosures"
+  ],
+  "properties": {
+    "governance_scan": {
+      "$ref": "assurance.schema.json#/$defs/governanceScanState",
+      "description": "Discharges N1-R2 at the point the fact is known. `included: true` requires the result_ref of the CheckResult that ran it; `included: false` requires the honest skip_reason, capped at 500 characters here exactly as on the candidate."
+    },
+    "disclosures": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "assurance.schema.json#/$defs/disclosure"
+      },
+      "description": "What the user should know before deciding, each entry naming its owner-authored source. REQUIRED and permitted to be EMPTY, which is the one place this document deliberately differs from the candidate's own `disclosures`: there the field is optional and, when present, non-empty, because absence means nothing to disclose; here an author who has nothing to disclose must say so, since a missing key and an unconsidered question would otherwise look identical. The bind copies a non-empty list forward and omits an empty one."
+    }
+  }
+}
