@@ -341,6 +341,32 @@ def as_v2_review(review: dict[str, Any]) -> dict[str, Any]:
     return v2
 
 
+def make_verify(
+    *,
+    verdict: str,
+    findings: Iterable[dict[str, Any]] = (),
+    accepted_finding_ids: Iterable[str] = (),
+) -> dict[str, Any]:
+    """A schema-valid v2 VERIFY result -- the round-1 review the outcome gate reads.
+
+    Its own helper since round `PROMISE-PATH-ENGINE`: `flow.check_verify_outcome` validates
+    the result before reading it (item 7), so a VERIFY fixture has to be one the v2 schema
+    accepts, and every call site was previously spelling out the same four keyword arguments
+    to `make_review` before the projection. `candidate_commit` is C2 in every case for the
+    reason the VERIFY exists at all -- it answers the repaired candidate.
+    """
+    return as_v2_review(
+        make_review(
+            result_id="rr-verify",
+            review_round="VERIFY",
+            verdict=verdict,
+            candidate_commit=CANDIDATE_C2,
+            findings=findings,
+            accepted_finding_ids=accepted_finding_ids,
+        )
+    )
+
+
 def make_record(
     *, candidate_commit: str = CANDIDATE_C, repair_round: int = 0, run_id: str = RUN_ID
 ) -> dict[str, Any]:
@@ -866,12 +892,21 @@ class RepairDecisionBindingAcrossResultVersions(unittest.TestCase):
             [("V3-FLOW-REPAIR-WRONG-CANDIDATE", "target/candidate_ref")],
         )
 
-    def test_a_v2_review_carrying_no_subject_candidate_is_reported_unverified(self) -> None:
+    def test_a_v2_review_carrying_no_subject_candidate_is_refused_by_the_schema(self) -> None:
+        """Where this property is enforced MOVED in round `PROMISE-PATH-ENGINE` (item 7).
+
+        It used to be `check_repair_decision`'s own UNVERIFIED issue, because the function
+        read the review without validating it and had to be defensive about every field. Now
+        the review is validated first and `subject.candidate_ref` is required by
+        `review.v2.schema.json`, so the schema layer refuses the document and the flow issue
+        is unreachable for a v2 result. The enforcement layer is pinned here rather than
+        inferred, following this file's own rule.
+        """
         stripped = {**self.v2, "subject": {k: v for k, v in self.v2["subject"].items()
                                            if k != "candidate_ref"}}
         self.assertEqual(
             located(flow.check_repair_decision(make_repair_decision(), stripped, self.plan)),
-            [("V3-FLOW-REPAIR-BINDING-UNVERIFIED", "target/candidate_ref")],
+            [("V3-SCHEMA-REVIEW_RESULT_V2", "subject")],
         )
 
     def test_a_v2_no_repair_bound_to_the_wrong_candidate_is_still_named(self) -> None:
@@ -882,14 +917,38 @@ class RepairDecisionBindingAcrossResultVersions(unittest.TestCase):
             [("V3-FLOW-REPAIR-WRONG-CANDIDATE", "target/candidate_ref")],
         )
 
-    def test_the_v1_root_shape_is_unaffected(self) -> None:
+    def test_the_v1_root_shape_is_refused_rather_than_read(self) -> None:
+        """`HD-65`'s boundary, closed in round `PROMISE-PATH-ENGINE` (item 7).
+
+        This method used to assert the opposite -- that a version-1 root shape was read and
+        decided from exactly as a v2 one is -- and was named
+        `test_the_v1_root_shape_is_unaffected`. Contract v4 13.1 prescribes no validation
+        path for a result carrying no `schema_version`, so a clean report over one was the
+        function answering a question it had no basis to answer. Both the well-bound and the
+        wrongly-bound decision now stop, because the stop is about the review's shape and not
+        about what the decision says.
+        """
+        for decision in (make_repair_decision(),
+                         make_repair_decision(candidate_commit=CANDIDATE_C2)):
+            with self.assertRaises(SpecGap) as raised:
+                flow.check_repair_decision(decision, self.v1, self.plan)
+            self.assertIn("review_result", str(raised.exception))
+
+    def test_the_accessor_itself_refuses_a_shape_no_schema_answers_to(self) -> None:
+        """`HD-65`'s second site, bound on its own rather than through its caller.
+
+        `reviewed_candidate_ref` is a public accessor, so a guard that only fires because
+        `check_repair_decision` happens to validate first is a guard nothing holds: deleting
+        the accessor's own validation would leave every test in this class green. Pinned
+        here, with the negative control beside it.
+        """
+        with self.assertRaises(SpecGap):
+            flow.reviewed_candidate_ref(self.v1)
+
+    def test_negative_control_the_accessor_still_reads_a_valid_v2_subject(self) -> None:
         self.assertEqual(
-            codes(flow.check_repair_decision(make_repair_decision(), self.v1, self.plan)), []
-        )
-        self.assertEqual(
-            located(flow.check_repair_decision(
-                make_repair_decision(candidate_commit=CANDIDATE_C2), self.v1, self.plan)),
-            [("V3-FLOW-REPAIR-WRONG-CANDIDATE", "target/candidate_ref")],
+            flow.reviewed_candidate_ref(self.v2),
+            {"branch": "candidate", "commit": CANDIDATE_C},
         )
 
     def test_an_unknown_result_version_stops_instead_of_matching_a_shape(self) -> None:
@@ -905,10 +964,16 @@ class RepairDecisionBindingAcrossResultVersions(unittest.TestCase):
 
 
 class RepairDecisionBinding(unittest.TestCase):
-    """REPAIR binds the reviewed candidate, the accepted findings and a narrowing boundary."""
+    """REPAIR binds the reviewed candidate, the accepted findings and a narrowing boundary.
+
+    The fixture is projected into the v2 shape because since round `PROMISE-PATH-ENGINE` the
+    gate validates the review before reading it (item 7), and the v1 root shape no registered
+    schema answers to now stops rather than being decided from. Every property below is about
+    the DECISION, so the projection changes nothing they assert.
+    """
 
     def setUp(self) -> None:
-        self.review = make_review(findings=[make_finding("f-changelog")])
+        self.review = as_v2_review(make_review(findings=[make_finding("f-changelog")]))
         self.plan = {"effective_change_boundary": EFFECTIVE_BOUNDARY}
 
     def test_negative_control_a_well_bound_repair_reports_nothing(self) -> None:
@@ -1095,20 +1160,12 @@ class VerifyOutcomeStopsRatherThanLooping(unittest.TestCase):
     """A problem still standing after VERIFY stops the run: no second fix, no second review."""
 
     def test_negative_control_a_clean_verify_reports_nothing(self) -> None:
-        verify = make_review(
-            result_id="rr-verify",
-            review_round="VERIFY",
-            verdict="REVIEWED_NO_BLOCKER",
-            candidate_commit=CANDIDATE_C2,
-        )
+        verify = make_verify(verdict="REVIEWED_NO_BLOCKER")
         self.assertEqual(codes(verify_outcome(verify)), [])
 
     def test_a_blocker_still_standing_after_verify_stops_the_run(self) -> None:
-        verify = make_review(
-            result_id="rr-verify",
-            review_round="VERIFY",
+        verify = make_verify(
             verdict="REVIEWED_NO_BLOCKER",
-            candidate_commit=CANDIDATE_C2,
             findings=[make_finding("f-changelog"), make_finding("f-links", obligation_id="ob-links")],
         )
         report = verify_outcome(verify)
@@ -1117,27 +1174,41 @@ class VerifyOutcomeStopsRatherThanLooping(unittest.TestCase):
         self.assertIn("f-links", report.issues[0].message)
 
     def test_a_non_blocking_finding_after_verify_does_not_stop_the_run(self) -> None:
-        verify = make_review(
-            result_id="rr-verify",
-            review_round="VERIFY",
-            verdict="REVIEWED_NO_BLOCKER",
-            candidate_commit=CANDIDATE_C2,
-            findings=[make_finding("f-style", blocking=False)],
+        verify = make_verify(
+            verdict="REVIEWED_NO_BLOCKER", findings=[make_finding("f-style", blocking=False)]
         )
         self.assertEqual(codes(verify_outcome(verify)), [])
 
     def test_a_spec_gap_at_verify_stops_and_is_never_patched(self) -> None:
-        verify = make_review(
-            result_id="rr-verify",
-            review_round="VERIFY",
-            verdict="SPEC_GAP",
-            candidate_commit=CANDIDATE_C2,
-        )
+        verify = make_verify(verdict="SPEC_GAP")
         self.assertEqual(located(verify_outcome(verify)), [("V3-FLOW-VERIFY-SPEC-GAP", "verdict")])
 
     def test_a_full_result_is_not_a_verify_outcome(self) -> None:
-        full = make_review(findings=[make_finding("f-changelog")])
+        full = as_v2_review(make_review(findings=[make_finding("f-changelog")]))
         self.assertEqual(located(verify_outcome(full)), [("V3-FLOW-NOT-VERIFY", "review_round")])
+
+    def test_a_verify_the_schema_refuses_never_reaches_the_outcome_checks(self) -> None:
+        """Item 7's third site: the VERIFY is validated before any field of it is read.
+
+        The malformed instance is a VERIFY carrying no `verify_scope`, which the schema makes
+        conditional on the round -- so the document is exactly the shape whose scope
+        reconciliation would otherwise run against nothing.
+        """
+        malformed = {k: v for k, v in make_verify(verdict="REVIEWED_NO_BLOCKER").items()
+                     if k != "verify_scope"}
+        self.assertEqual(
+            codes(flow.check_verify_outcome(malformed, make_repair_decision())),
+            ["V3-SCHEMA-REVIEW_RESULT_V2"],
+        )
+
+    def test_a_v1_root_shape_verify_stops_rather_than_being_read(self) -> None:
+        """The version with no validation path stops instead of being decided from."""
+        with self.assertRaises(SpecGap):
+            flow.check_verify_outcome(
+                make_review(result_id="rr-verify", review_round="VERIFY",
+                            verdict="REVIEWED_NO_BLOCKER", candidate_commit=CANDIDATE_C2),
+                make_repair_decision(),
+            )
 
     def test_a_verify_cannot_request_changes_and_has_no_third_round(self) -> None:
         # A VERIFY that returned CHANGES_REQUIRED would be asking for a repair that cannot exist.
@@ -2110,7 +2181,7 @@ class EnforcementLayerIsPinned(unittest.TestCase):
         reached.update(codes(flow.check_state_pointers(stopped)))
         reached.update(codes(flow.check_state_pointers(make_state("EVIDENCED", repair_round=1))))
 
-        review = make_review(findings=[make_finding("f-changelog")])
+        review = as_v2_review(make_review(findings=[make_finding("f-changelog")]))
         plan = {"effective_change_boundary": EFFECTIVE_BOUNDARY}
         reached.update(codes(flow.check_repair_decision(make_final_decision(), review, plan)))
         reached.update(
@@ -2138,27 +2209,15 @@ class EnforcementLayerIsPinned(unittest.TestCase):
         reached.update(
             codes(flow.check_repair_regeneration(evidence_set(0x100, checks=(dig(1),)), evidence_set(0x100, checks=(dig(1),))))
         )
-        reached.update(codes(verify_outcome(make_review())))
         reached.update(
-            codes(
-                verify_outcome(
-                    make_review(
-                        result_id="rr-verify",
-                        review_round="VERIFY",
-                        verdict="SPEC_GAP",
-                        candidate_commit=CANDIDATE_C2,
-                    )
-                )
-            )
+            codes(verify_outcome(as_v2_review(make_review(verdict="REVIEWED_NO_BLOCKER"))))
         )
+        reached.update(codes(verify_outcome(make_verify(verdict="SPEC_GAP"))))
         reached.update(
             codes(
                 verify_outcome(
-                    make_review(
-                        result_id="rr-verify",
-                        review_round="VERIFY",
+                    make_verify(
                         verdict="REVIEWED_NO_BLOCKER",
-                        candidate_commit=CANDIDATE_C2,
                         findings=[make_finding("f-changelog")],
                     )
                 )
@@ -2372,7 +2431,7 @@ class KnownDefects(unittest.TestCase):
         `check_package` reports `V3-PACKAGE-RECORD-CANDIDATE-UNBOUND` for the same reason.
         Fixed inside V3-N2 — the widest possible repair boundary no longer passes silently.
         """
-        review = make_review(findings=[make_finding("f-changelog")])
+        review = as_v2_review(make_review(findings=[make_finding("f-changelog")]))
         decision = make_repair_decision(write_scope=["ResearchSystem/tooling"])
         self.assertNotEqual(
             codes(flow.check_repair_decision(decision, review, {})),

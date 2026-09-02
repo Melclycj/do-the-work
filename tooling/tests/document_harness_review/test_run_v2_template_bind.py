@@ -131,16 +131,41 @@ CLEAN_FULL_REVIEW = {
     "verdict": "REVIEWED_NO_BLOCKER",
     "findings": [{"finding_id": "f2", "blocking": False}],
 }
+#: The round-1 VERIFY, written out whole. The other fixtures here carry the minimum the
+#: template's own helpers read, and this one cannot: round `PROMISE-PATH-ENGINE` (item 7)
+#: made ``flow.check_verify_outcome`` validate the result before reading it, and this fixture
+#: is the one that reaches the REAL gate (`TheAssembledCandidatePassesTheRealFaithfulnessGate`
+#: leaves `flow` unstubbed). `findings` is absent rather than empty: the schema forbids the
+#: empty array, and a clean VERIFY found none.
 VERIFY_REVIEW = {
+    "schema_version": "2",
     "result_id": "rv-verify",
+    "work_id": "w-test",
+    "run_id": "tr-nine",
     "review_round": "VERIFY",
+    "subject": {
+        "evidence_commit": "a" * 40,
+        "candidate_ref": {"branch": "run/tr-nine", "commit": "c" * 40},
+        "base_revision": "d" * 40,
+        "control_root": "ResearchSystem/assurance/runs/tr-nine",
+        "repair_round": 1,
+    },
     "verdict": "REVIEWED_NO_BLOCKER",
-    "findings": [],
+    "instruction_completeness": {
+        "result": "COMPLETE",
+        "instruction_ref": {
+            "path": "ResearchSystem/assurance/runs/tr-nine/instruction.md",
+            "revision": "d" * 40,
+        },
+    },
+    "per_obligation_disposition": [{"obligation_id": "ob-one", "disposition": "SUPPORTED"}],
+    "residual_uncertainty": [],
     "verify_scope": {
         "accepted_finding_ids": ["f1"],
         "repair_diff_reviewed": True,
         "permanent_boundaries_checked": True,
     },
+    "reviewed_by": "independent reviewer",
 }
 REPAIR_DECISION = {
     "decision": "APPLY_ACCEPTED_FINDINGS",
@@ -309,7 +334,12 @@ class TheBindRefusesAnIncompleteReviewSet(BindTemplateCase):
                      ("review-verify.json", VERIFY_REVIEW)],
         )
         code, out = run_main(self.template, self.argv(root))
-        self.assertIsNone(code)  # proceeds past the refusal and dies later, downstream
+        # It walks INTO the next gate and is stopped there: the result checker runs for real
+        # here, and the fixture names an evidence commit no repository holds. Asserting that
+        # line rather than the exit code is what keeps this a negative control -- the refusal
+        # under test returns 1 too, so `code == 1` alone would be satisfied by the guard
+        # firing, which is the opposite of what this method claims.
+        self.assertIn("check_review_result_v2 : ISSUES", out.splitlines())
         self.assertNotIn("STOP: repair round", out)
 
 

@@ -44,6 +44,22 @@ the `_ABSENT` sentinel's measured distinction between an absent key and an expli
 with a generic one, and it would turn that accessor into a raising path for a shape it reads
 correctly.
 
+**Corrected forward 2026-09-02, round `PROMISE-PATH-ENGINE`; the two paragraphs above are
+left standing word for word (`HD-59`).** Three of their statements no longer hold, and each
+was removed by a change rather than found wrong when written. (1) The caller count: measured
+over `tooling/` and `assurance/` at this round's base, `result_schema_kind` has **three**
+callers in the package — `validate_result` and `check_review_result_v2` below, and
+`flow.reviewed_candidate_ref` — the first of them added here. (2) The accessor now validates:
+`flow.reviewed_candidate_ref` reads nothing until `validate_result` has passed on the
+instance, so §13.1 reaches it after all, and a version-1 root shape stops there instead of
+being read correctly and decided from. (3) `check_repair_decision` no longer reads a result it
+never validated, and neither does `check_verify_outcome`; the gap the last sentence named —
+about validating results at all, not about v1 — is what item 7 of batch `PROMISE-PATH` closed,
+by the entry below and its three uses in `flow.py`. What did **not** change is the choice
+those paragraphs defend: `result_schema_kind` still classifies and never raises on absence, so
+the `_ABSENT` distinction and the specific v1 message both survive, and the stop is still
+raised by whoever tries to validate.
+
 **Parity ceiling, stated rather than glossed (W2 record §6).** The result-internal checks
 shared with v1 (obligation coverage, finding coherence, INCOMPLETE disclosure, verify scope,
 reviewer distinctness) were re-implemented here rather than imported, because v1's lived in
@@ -98,6 +114,27 @@ def result_schema_kind(result: Mapping[str, Any]) -> str:
         f"unsupported ReviewResult schema_version: {declared!r} — "
         "no cross-version fallback; supported: absent (v1), '2'"
     )
+
+
+def validate_result(result: Mapping[str, Any]) -> Report:
+    """Validate a ReviewResult against the schema the instance itself declares. Fails closed.
+
+    The entry the flow controller reads a returned result through. Until round
+    `PROMISE-PATH-ENGINE` nothing in `flow.py` validated the review it decided from:
+    `check_repair_decision` reconciled a repair against a document of any shape at all, and a
+    version-1 root shape — the kind no registered schema answers to since round
+    `V1-RESULT-RETIRE` — returned a clean report rather than a stop (`HD-65`'s boundary
+    paragraph, 2026-08-29: "对任何 result 都不验证，v2 的也不验证；v1 只是它今天最显眼的一个面").
+
+    Keyed on `result_schema_kind`, so the routing rule is the module's one rule and not a
+    second copy of it: `"2"` selects the v2 schema; key absence selects the v1 kind, which
+    `validate_w2` refuses as unregistered — contract v4 §13.1's "not validated and not
+    accepted", reached by trying to validate rather than by a second decision here; any other
+    value raises out of the classifier, with no cross-version fallback. Both refusals raise
+    rather than report, which is what separates "this result is defective" (a Report the
+    caller weighs) from "this result has no validation path" (a stop).
+    """
+    return validate_w2(result_schema_kind(result), result)
 
 
 def check_review_result_v2(
@@ -327,4 +364,5 @@ __all__ = [
     "RESULT_SCHEMA_KINDS",
     "check_review_result_v2",
     "result_schema_kind",
+    "validate_result",
 ]

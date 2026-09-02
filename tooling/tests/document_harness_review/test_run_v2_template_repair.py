@@ -85,19 +85,56 @@ WORK_ID = "w-test"
 CONTROL_ROOT = f"ResearchSystem/assurance/runs/{RUN_ID}"
 CANDIDATE_COMMIT = "c" * 40
 
-#: The round-0 FULL this repair answers, hand-written in the v1 result shape the step reads
+#: The round-0 FULL this repair answers, hand-written in the v2 result shape the step reads
 #: from ``evidence/review-full.json``. It found one blocker and one non-blocker.
+#:
+#: It was a v1 root shape carrying four keys until round `PROMISE-PATH-ENGINE` (item 7), when
+#: ``flow.check_repair_decision`` began validating the review before reading it: a version-1
+#: shape now stops, and a v2 one is validated whole, so the fixture is a complete document
+#: rather than the fields the gate happens to read. Written out here, never imported (E5).
 FULL_REVIEW = {
+    "schema_version": "2",
     "result_id": "rv-full",
     "work_id": WORK_ID,
     "run_id": RUN_ID,
     "review_round": "FULL",
+    "subject": {
+        "evidence_commit": "e" * 40,
+        "candidate_ref": {"branch": f"{RUN_ID}-candidate", "commit": CANDIDATE_COMMIT},
+        "base_revision": "b" * 40,
+        "control_root": CONTROL_ROOT,
+        "repair_round": 0,
+    },
     "verdict": "CHANGES_REQUIRED",
-    "candidate_ref": {"branch": f"{RUN_ID}-candidate", "commit": CANDIDATE_COMMIT},
-    "findings": [
-        {"finding_id": "f1", "blocking": True},
-        {"finding_id": "f2", "blocking": False},
+    "instruction_completeness": {
+        "result": "COMPLETE",
+        "instruction_ref": {"path": f"{CONTROL_ROOT}/instruction.md", "revision": "b" * 40},
+    },
+    "per_obligation_disposition": [
+        {
+            "obligation_id": "ob-one",
+            "disposition": "NOT_SUPPORTED",
+            "note": "the frozen subjects contradict the fulfillment claim",
+            "finding_ids": ["f1"],
+        }
     ],
+    "residual_uncertainty": [],
+    "findings": [
+        {
+            "finding_id": "f1",
+            "blocking": True,
+            "statement": "the changelog does not name the release the instruction froze",
+            "candidate_locator": {"path": "docs/changelog.md", "anchor": "## 1.2.0"},
+            "ground_truth_locator": {"path": "docs/instruction.md", "anchor": "## release"},
+            "minimum_fix": "name the release the instruction froze",
+        },
+        {
+            "finding_id": "f2",
+            "blocking": False,
+            "statement": "two headings use different capitalisation",
+        },
+    ],
+    "reviewed_by": "independent reviewer",
 }
 
 #: The plan whose effective boundary the repair boundary must only narrow.

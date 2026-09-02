@@ -325,11 +325,20 @@ def reviewed_candidate_ref(review: Mapping[str, Any]) -> Any:
     Keyed on the declared version rather than trying both shapes in turn — reading whichever
     happens to be present would make an unknown future version silently match one of them,
     the cross-version fallback wave 1 ruled out.
+
+    **The instance is validated before any field of it is read** (round `PROMISE-PATH-ENGINE`,
+    item 7). Reading a declared shape is not the same as knowing the instance has it: a
+    document declaring `schema_version: "2"` and carrying a `subject` of any shape at all used
+    to reach the `.get` below and return whatever it found, and a version-1 root shape — the
+    kind no registered schema answers to — returned its root `candidate_ref` and was decided
+    from. `HD-65`'s boundary paragraph named this accessor as the second site of that class;
+    the stop it now raises is `validate_result`'s, not a second rule written here.
     """
     # Imported here rather than at module scope: flow is the older module, and a top-level
     # edge into the successor would make the successor unable to import flow later.
-    from rsclib.document_harness.review_result_v2 import result_schema_kind
+    from rsclib.document_harness.review_result_v2 import result_schema_kind, validate_result
 
+    validate_result(review).require(SpecGap)
     if result_schema_kind(review) == "review_result_v2":
         subject = review.get("subject")
         return subject.get("candidate_ref") if isinstance(subject, Mapping) else None
@@ -347,10 +356,25 @@ def check_repair_decision(
     run's own effective boundary would let the single approved repair write where the original
     candidate was never allowed to. That is not a repair, it is a second, wider authorization
     obtained by calling it a fix.
+
+    **Both documents are validated before either is read** (round `PROMISE-PATH-ENGINE`, item
+    7). The decision always was; the review never was, so every comparison below ran against a
+    document nothing had checked the shape of — the reported instance being a version-1 root
+    shape, which returned a clean report here while no registered schema would validate it
+    (`HD-65`'s boundary, 2026-08-29). The review's report is returned on its own rather than
+    merged: a comparison against an unvalidated review is not a weaker answer, it is no answer,
+    and reporting a binding mismatch beside a schema failure would invite the reader to fix the
+    mismatch.
     """
     schema_report = validate("decision", decision)
     if not schema_report.ok:
         return schema_report
+
+    from rsclib.document_harness.review_result_v2 import validate_result
+
+    review_report = validate_result(review)
+    if not review_report.ok:
+        return review_report
 
     if decision["phase"] != "REPAIR":
         return report_of(
@@ -408,6 +432,15 @@ def check_repair_decision(
     # `check_package` reported as RECORD-CANDIDATE-UNBOUND until round `CORE-SET-CODE`
     # retired it. It is reported here for the same reason: a repair that cannot be shown to
     # bind the reviewed candidate is unverified, not approved.
+    #
+    # Since round `PROMISE-PATH-ENGINE` this branch is the SECOND layer, not the first, and
+    # the fact is stated rather than left for a reader to work out: the review is validated
+    # above, and `review.v2.schema.json` requires `subject.candidate_ref` with a `commit`
+    # inside it, so a v2 result reaching here always carries one and the issue below cannot
+    # fire for it. It is kept because the property it names is the one this function exists
+    # to hold, and a schema that later relaxed the requirement would find the guard still
+    # standing rather than gone. Its reachable siblings are the `run_id` / `work_id` absences
+    # above, which the decision schema leaves optional.
     reviewed_ref = reviewed_candidate_ref(review)
     reviewed_commit = reviewed_ref.get("commit") if isinstance(reviewed_ref, Mapping) else None
     target_ref = target.get("candidate_ref")
@@ -569,7 +602,21 @@ def check_verify_outcome(verify: Mapping[str, Any], repair_decision: Mapping[str
 
     There is no second fix and no review-of-review, so a blocker still standing leaves only
     `STOPPED_REPLAN` or a user `ACCEPT_WITH_LIMITATIONS` naming what is open.
+
+    **The VERIFY is validated before it is read** (round `PROMISE-PATH-ENGINE`, item 7): the
+    third site of the class `HD-65` named at `check_repair_decision`, found by this round's own
+    scan of the module. `repair_decision` is deliberately not validated here and the asymmetry
+    is the reason: every read of it below goes through `.get` and an `isinstance` guard, so a
+    malformed decision is *reported* as an unverified scope, while the verify is read by
+    subscript and a malformed one raised. Its own validation is `check_repair_decision`'s, one
+    step earlier in the run.
     """
+    from rsclib.document_harness.review_result_v2 import validate_result
+
+    verify_report = validate_result(verify)
+    if not verify_report.ok:
+        return verify_report
+
     issues: list[Issue] = []
     if verify["review_round"] != "VERIFY":
         return report_of(

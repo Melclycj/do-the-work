@@ -58,16 +58,60 @@ def make_repair_decision(*, accepted: list[str], decision: str = "APPLY_ACCEPTED
 
 
 def make_verify(*, covered: list[str], findings: list[dict] | None = None) -> dict:
-    return {
+    """A whole v2 VERIFY result, hand-written field by field.
+
+    It used to carry only the four keys the outcome gate reads. Round
+    `PROMISE-PATH-ENGINE` (item 7) made `flow.check_verify_outcome` validate the result
+    before reading it, so a fixture trimmed to the read fields is now refused by the schema
+    before any property below is reached -- which is the fix working, and the reason this
+    literal grew. `findings` is added only when there are some: the schema forbids the empty
+    array, so `or []` would make every clean VERIFY here schema-invalid. Nothing is imported
+    from the module under test (E5).
+    """
+    result = {
+        "schema_version": "2",
+        "result_id": "rr-verify",
+        "work_id": "work-one",
+        "run_id": "run-one",
         "review_round": "VERIFY",
+        "subject": {
+            "evidence_commit": COMMIT_B,
+            "candidate_ref": {"branch": "cand", "commit": COMMIT_A},
+            "base_revision": "0" * 40,
+            "control_root": "runs/run-one",
+            "repair_round": 1,
+        },
         "verdict": "REVIEWED_NO_BLOCKER",
-        "findings": findings or [],
+        "instruction_completeness": {
+            "result": "COMPLETE",
+            "instruction_ref": {"path": "docs/instruction.md", "revision": "0" * 40},
+        },
+        "per_obligation_disposition": [
+            {"obligation_id": "ob-one", "disposition": "SUPPORTED"}
+        ],
+        "residual_uncertainty": [],
         "verify_scope": {
             "accepted_finding_ids": covered,
             "repair_diff_reviewed": True,
             "permanent_boundaries_checked": True,
         },
+        "reviewed_by": "independent reviewer",
     }
+    if findings:
+        result["findings"] = findings
+    return result
+
+
+#: A blocking finding with every field a blocker may not omit -- `minimum_fix` is what a
+#: REPAIR boundary is derived from, so the schema requires it of a blocking finding.
+BLOCKING_FINDING = {
+    "finding_id": "f-a",
+    "blocking": True,
+    "statement": "the candidate does not carry the release the instruction froze",
+    "candidate_locator": {"path": "docs/changelog.md", "anchor": "## 1.2.0"},
+    "ground_truth_locator": {"path": "docs/instruction.md", "anchor": "## release"},
+    "minimum_fix": "name the release the instruction froze",
+}
 
 
 class VerifyCoversWhatTheUserApproved(unittest.TestCase):
@@ -123,7 +167,7 @@ class VerifyCoversWhatTheUserApproved(unittest.TestCase):
     def test_a_blocker_still_standing_after_verify_stops_the_run(self):
         """The pre-existing N2-A6 property must survive the new argument."""
         report = flow.check_verify_outcome(
-            make_verify(covered=["f-a"], findings=[{"finding_id": "f-a", "blocking": True}]),
+            make_verify(covered=["f-a"], findings=[BLOCKING_FINDING]),
             make_repair_decision(accepted=["f-a"]),
         )
         self.assertIn("V3-FLOW-BLOCKER-AFTER-VERIFY", codes(report))
@@ -185,32 +229,75 @@ class MalformedDocumentsAreReportedNotRaised(unittest.TestCase):
 
 
 class RepairBindingIsNeverSilentlySkipped(unittest.TestCase):
-    """F3 — a repair that cannot be shown to bind the reviewed candidate is unverified."""
+    """F3 -- a repair that cannot be shown to bind the reviewed candidate never passes.
+
+    F3's own finding was that the guard fell silent: `if reviewed_commit and ...` switched
+    itself off for a review naming only a branch, and raised outright for one naming no
+    candidate at all. Both cases are still refused, and since round `PROMISE-PATH-ENGINE`
+    (item 7) they are refused one layer earlier: `check_repair_decision` validates the review
+    before reading it, and `review.v2.schema.json` requires `subject.candidate_ref` and
+    requires a `commit` inside it. The two methods below therefore assert the SCHEMA code
+    rather than the flow's UNVERIFIED one -- the property is unchanged, the layer holding it
+    is not, and this file pins layers rather than inferring them. The flow's own guard stays
+    as the second layer and is still reached for the bindings the schema leaves optional
+    (`run_id`), which is where `V3-FLOW-REPAIR-BINDING-UNVERIFIED` is asserted.
+    """
 
     def _review(self, candidate_ref=None):
+        """A schema-valid v2 review except for the candidate binding under test."""
         review = {
+            "schema_version": "2",
+            "result_id": "rr-full",
             "work_id": "work-one",
             "run_id": "run-one",
-            "findings": [{"finding_id": "f-a", "blocking": True}],
+            "review_round": "FULL",
+            "subject": {
+                "evidence_commit": COMMIT_B,
+                "base_revision": "0" * 40,
+                "control_root": "runs/run-one",
+                "repair_round": 0,
+            },
+            "verdict": "CHANGES_REQUIRED",
+            "instruction_completeness": {
+                "result": "COMPLETE",
+                "instruction_ref": {"path": "docs/instruction.md", "revision": "0" * 40},
+            },
+            "per_obligation_disposition": [
+                {"obligation_id": "ob-one", "disposition": "NOT_SUPPORTED",
+                 "note": "the frozen subjects contradict the fulfillment claim",
+                 "finding_ids": ["f-a"]}
+            ],
+            "residual_uncertainty": [],
+            "findings": [BLOCKING_FINDING],
+            "reviewed_by": "independent reviewer",
         }
         if candidate_ref is not None:
-            review["candidate_ref"] = candidate_ref
+            review["subject"]["candidate_ref"] = candidate_ref
         return review
 
     def _plan(self):
         return {"effective_change_boundary": {"write_scope": ["docs"], "out": ["docs/private"]}}
 
-    def test_a_review_naming_only_a_branch_reports_the_unverified_state(self):
+    def test_a_review_naming_only_a_branch_is_refused(self):
         report = flow.check_repair_decision(
             make_repair_decision(accepted=["f-a"]), self._review({"branch": "cand"}), self._plan()
         )
-        self.assertIn("V3-FLOW-REPAIR-BINDING-UNVERIFIED", codes(report))
+        self.assertEqual(codes(report), ["V3-SCHEMA-REVIEW_RESULT_V2"])
 
     def test_a_review_with_no_candidate_at_all_is_reported_not_raised(self):
         report = flow.check_repair_decision(
             make_repair_decision(accepted=["f-a"]), self._review(), self._plan()
         )
-        self.assertIn("V3-FLOW-REPAIR-BINDING-UNVERIFIED", codes(report))
+        self.assertEqual(codes(report), ["V3-SCHEMA-REVIEW_RESULT_V2"])
+
+    def test_a_decision_naming_no_run_is_still_reported_unverified(self):
+        """The flow's own UNVERIFIED guard, on the binding the schema leaves optional."""
+        decision = make_repair_decision(accepted=["f-a"])
+        del decision["run_id"]
+        report = flow.check_repair_decision(
+            decision, self._review({"branch": "cand", "commit": COMMIT_A}), self._plan()
+        )
+        self.assertEqual(codes(report), ["V3-FLOW-REPAIR-BINDING-UNVERIFIED"])
 
     def test_negative_control_an_exact_commit_verifies_silently(self):
         report = flow.check_repair_decision(
