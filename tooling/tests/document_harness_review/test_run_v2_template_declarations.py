@@ -74,6 +74,18 @@ OVER_CAP = {"statement": "x" * 501, "source_ref": SOURCE_REF}
 AT_CAP = {"statement": "x" * 500, "source_ref": SOURCE_REF}
 
 
+#: A structurally valid evidence commit message. The evidence step refuses a message it was
+#: not given (batch `PROMISE-PATH` item 4), so every fixture that drives `main()` past the
+#: argument checks supplies one. Its CONTENT is the author's and this is a fixture's, not a
+#: template's -- what the step checks is the title / blank line / body shape.
+COMMIT_MESSAGE = (
+    "run evidence commit: the control plane at repair round 0\n"
+    "\n"
+    "Kind: evidence commit. Regenerates every evidence document against the round's "
+    "candidate and stages the run's control root explicitly.\n"
+)
+
+
 def load_template():
     """Bind the template file directly; never by adding its directory to sys.path."""
     if not TEMPLATE_PATH.is_file():
@@ -124,6 +136,7 @@ class DeclarationsAreRefusedBeforeTheEvidenceCommit(unittest.TestCase):
                     "--base", "b" * 40,
                     "--candidate", "c" * 40,
                     "--candidate-branch", "run/tr-decl-candidate",
+                    "--commit-message", COMMIT_MESSAGE,
                 ])
         except Exception:
             return None, captured.getvalue()

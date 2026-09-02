@@ -72,6 +72,17 @@ GAP_REFUSAL = ("      the check request is uninterpretable, so nothing after it 
                "nothing committed, state not advanced")
 
 
+#: A structurally valid evidence commit message. The evidence step refuses a message it was
+#: not given (batch `PROMISE-PATH` item 4), so every fixture that drives `main()` past the
+#: argument checks supplies one. Its CONTENT is the author's and this is a fixture's, not a
+#: template's -- what the step checks is the title / blank line / body shape.
+COMMIT_MESSAGE = (
+    "run evidence commit: the control plane at repair round 0\n"
+    "\n"
+    "Kind: evidence commit. Regenerates every evidence document against the round's "
+    "candidate and stages the run's control root explicitly.\n"
+)
+
 class EvidenceRunFixture(unittest.TestCase):
     """A run at the real nested depth, carrying three check requests and no obligations.
 
@@ -143,6 +154,7 @@ class EvidenceRunFixture(unittest.TestCase):
                         "--base", "b" * 40,
                         "--candidate", "c" * 40,
                         "--candidate-branch", f"run/{self.run_id}-candidate",
+                        "--commit-message", COMMIT_MESSAGE,
                     ])
                 except Exception:
                     code = None

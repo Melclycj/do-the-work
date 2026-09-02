@@ -47,6 +47,9 @@ PARAGRAPH_COUNT = 3
 REQUIRED_ARGS = {
     "run_evidence_v2.py": (
         "--base", "b" * 40, "--candidate", "c" * 40, "--candidate-branch", "run/x",
+        # Item 4: the message is refused before the root is resolved, so a fixture that
+        # omits it never reaches the derivation this file is about.
+        "--commit-message", "evidence commit\n\nKind: evidence commit. Fixture body.\n",
     ),
     "run_bind_v2.py": ("--evidence-commit", "e" * 40, "--bound-at", "2026-08-23"),
     "run_repair.py": (),

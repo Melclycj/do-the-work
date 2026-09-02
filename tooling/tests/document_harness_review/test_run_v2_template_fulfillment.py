@@ -48,6 +48,17 @@ def load_template():
     return module
 
 
+#: A structurally valid evidence commit message. The evidence step refuses a message it was
+#: not given (batch `PROMISE-PATH` item 4), so every fixture that drives `main()` past the
+#: argument checks supplies one. Its CONTENT is the author's and this is a fixture's, not a
+#: template's -- what the step checks is the title / blank line / body shape.
+COMMIT_MESSAGE = (
+    "run evidence commit: the control plane at repair round 0\n"
+    "\n"
+    "Kind: evidence commit. Regenerates every evidence document against the round's "
+    "candidate and stages the run's control root explicitly.\n"
+)
+
 #: Two obligations, hand-written here. The suite never reads the template's own fixtures.
 OBLIGATIONS = [
     {"obligation_id": "ob-one", "verification_mode": "local_check"},
@@ -234,6 +245,7 @@ class TheRunIsRefusedNotMerelyReported(unittest.TestCase):
                     "--base", "b" * 40,
                     "--candidate", "c" * 40,
                     "--candidate-branch", "run/tr-eight-candidate",
+                    "--commit-message", COMMIT_MESSAGE,
                 ])
         except Exception:
             return None, captured.getvalue()
@@ -380,6 +392,7 @@ class TheEvidenceStepDerivesRepoRootAndControlRootFromRunDir(unittest.TestCase):
                         "--base", "b" * 40,
                         "--candidate", "c" * 40,
                         "--candidate-branch", f"run/{run_id}-candidate",
+                        "--commit-message", COMMIT_MESSAGE,
                     ])
                 except Exception:
                     # Whatever main() does after build_record — real Git calls against a

@@ -18,8 +18,22 @@ narrowing — this run authored those files and cannot bind itself by digesting 
 per-CheckResult files are the derivation target ``check_subject`` re-enumerates from the
 committed plan's ``check_order``.
 
+The evidence commit's MESSAGE arrives as an argument and is used verbatim (item 4 of batch
+``PROMISE-PATH``, round ``PROMISE-PATH-ENGINE``). It used to be a hard-coded one-line
+f-string, so a title and a body the orchestrator is obliged to require -- ``E8``: a single
+dense title naming the round, one dense paragraph, the commit's kind named so the review side
+can attribute it without asking -- could not land on an evidence commit at all; the caller's
+`2c6ed15` carries the template's own string and no tier declaration. What stays here is the
+STRUCTURE, which is decidable without knowing anything about the run: a non-empty title, a
+blank line under it, and a non-empty body. The words are the author's, and their absence is
+refused rather than defaulted -- a message this script invented would be the executor's commit
+described by somebody who was not there, the same reason ``fulfillment.json`` and
+``bind-declarations.json`` carry no defaults either.
+
 Run:  python -X utf8 run_evidence_v2.py <run-dir> --base <sha> --candidate <sha>
-              --candidate-branch <branch> [--repo-root <path>]
+              --candidate-branch <branch>
+              (--commit-message <text> | --commit-message-file <path>)
+              [--repo-root <path>]
 """
 from __future__ import annotations
 
@@ -82,6 +96,51 @@ def build_claims(
     return claims, unfilled
 
 
+def commit_control_plane(repo: pathlib.Path, control_root: str, message: str) -> None:
+    """Stage the run's control root explicitly and commit it with the author's message.
+
+    A function rather than two lines inside ``main`` so that "the message reaches git
+    unedited" is a property a test can assert against a real repository, instead of one a
+    reader has to take on the evidence of the source. What it does NOT do is the point: no
+    run id prepended, no candidate SHA appended, no trailer. Both facts a generated suffix
+    would carry are already bound by the commit it would ride on -- the staged control plane
+    holds the run's state and the CandidateRecord names the candidate -- so appending them
+    would restate evidence in the one place ``E8`` asks for prose, and would make the
+    committed message not the message the author wrote.
+
+    ``add`` names the control root explicitly and never ``-A`` (supersession-1 S2/S4;
+    operating contract rule 7).
+    """
+    subprocess.run(["git", "-C", str(repo), "add", control_root], check=True)
+    subprocess.run(["git", "-C", str(repo), "commit", "-m", message], check=True)
+
+
+def commit_message_fault(message: str) -> str | None:
+    """The one thing this script may still decide about the message: its shape.
+
+    Returns the sentence naming the fault, or None. Three rules, each decidable without
+    knowing the round, the kind or the run: a title, a blank line, a body. They are the
+    structure ``E8`` needs in order to be met -- a title and one dense paragraph cannot be
+    told apart from a one-line string without them -- and they are the whole of what is
+    checked here. Whether the title names the round and whether the body names the commit's
+    kind are judgments about content, and a template that scored them would be grading the
+    author against a vocabulary this instrument does not own.
+    """
+    lines = message.split("\n")
+    if not lines[0].strip():
+        return "the message has no title: the first line is empty"
+    if len(lines) < 3:
+        return ("the message is a title and nothing else; E8 asks for a title AND one dense "
+                "paragraph naming the commit's kind")
+    if lines[1].strip():
+        return ("the second line is not blank, so the title and the body are one paragraph; "
+                "git reads the first line as the subject and everything after the blank line "
+                "as the body")
+    if not "\n".join(lines[2:]).strip():
+        return "the message has a title and a blank line but no body"
+    return None
+
+
 def next_action_for(repair_round: int) -> str:
     """Which review the evidenced state asks for — round-dependent by construction.
 
@@ -117,7 +176,38 @@ def main(argv: Sequence[str] | None = None) -> int:
                         help="the 40-hex payload candidate commit this round evidences")
     parser.add_argument("--candidate-branch", required=True, metavar="BRANCH",
                         help="the isolated branch the payload candidate lives on")
+    # Not `required=True` on a mutually exclusive group: argparse answers a missing required
+    # argument with SystemExit(2) and a usage block, and this script's refusals are exit 1
+    # with a sentence saying what to write. The absence is checked below with the others.
+    parser.add_argument("--commit-message", metavar="TEXT",
+                        help="the evidence commit's message, used verbatim (title, blank "
+                             "line, body); mutually exclusive with --commit-message-file")
+    parser.add_argument("--commit-message-file", type=pathlib.Path, metavar="PATH",
+                        help="a file holding that message; the usual form, since a body is "
+                             "a paragraph and a shell argument is not")
     args = parser.parse_args(argv)
+
+    # Refused FIRST, before the run directory is even resolved: the checks below take minutes
+    # and the evidence commit is irreversible, so the cheapest refusal goes at the front. The
+    # script supplies no message and no fallback text (item 4) -- only the structure rules.
+    if (args.commit_message is None) == (args.commit_message_file is None):
+        print("STOP: supply the evidence commit's message with exactly one of "
+              "--commit-message or --commit-message-file")
+        print("      E8: a single dense title naming the round, then one dense paragraph "
+              "naming the commit's kind; this script supplies neither")
+        return 1
+    if args.commit_message_file is not None:
+        if not args.commit_message_file.is_file():
+            print(f"STOP: --commit-message-file names {args.commit_message_file}, "
+                  "which does not exist")
+            return 1
+        COMMIT_MESSAGE = args.commit_message_file.read_text(encoding="utf-8")
+    else:
+        COMMIT_MESSAGE = args.commit_message
+    fault = commit_message_fault(COMMIT_MESSAGE)
+    if fault is not None:
+        print(f"STOP: the evidence commit message is malformed — {fault}")
+        return 1
 
     run_dir = args.run_dir.resolve()
     if args.repo_root:
@@ -322,12 +412,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     # --- the evidence commit: stage the explicit control root, commit, verify ---
     # (supersession-1 S2/S4; operating contract rule 7 — explicit paths, no add -A)
-    subprocess.run(["git", "-C", str(REPO), "add", CONTROL_ROOT], check=True)
-    subprocess.run(
-        ["git", "-C", str(REPO), "commit", "-m",
-         f"{RUN_ID} evidence commit (control plane; candidate {CANDIDATE[:12]})"],
-        check=True,
-    )
+    commit_control_plane(REPO, CONTROL_ROOT, COMMIT_MESSAGE)
     evidence_commit = cand.head_revision(REPO)
 
     subject = RS.subject_of(
