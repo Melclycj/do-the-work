@@ -346,6 +346,40 @@ class BindTemplateCase(unittest.TestCase):
         return json.loads(
             (root / CONTROL_ROOT / "control" / "state.json").read_text(encoding="utf-8"))
 
+    def clean_declared(self, *, declarations):
+        """A clean round-0 run whose declarations file is the variable under test.
+
+        Lives on the shared case since round `PROMISE-PATH-ENGINE`: two classes now vary that
+        one file -- `TheDeclarationsAreReadNeverDefaulted` over its SHAPE and
+        `TheDeclaredDigestsAreRecomputedNeverCopied` over the DIGESTS it declares -- and a
+        second copy of the fixture is the copy-class fork this repository keeps paying for.
+        Carries the user's NO_REPAIR for the same reason `clean_round_zero` does: the clean
+        FULL it uses carries a low, so the run has to pass the R10 decision point to reach
+        the assembly at all.
+        """
+        control_files = {
+            "work-spec.json": WORK_SPEC,
+            "resolved-plan.json": RESOLVED_PLAN,
+            "instruction-audit.json": {"note": "test audit stand-in"},
+        }
+        if declarations is not None:
+            control_files["bind-declarations.json"] = declarations
+        root = self.make_run(
+            repair_round=0,
+            reviews=[("review-full.json", CLEAN_FULL_REVIEW)],
+            repair=NO_REPAIR_DECISION,
+            control_files=control_files,
+            evidence_files={
+                "candidate-record.json": CLEAN_RECORD,
+                "check-results.json": [CHECK_RESULT],
+                "check-chk-one.json": CHECK_RESULT,
+                "coverage.json": {"rows": []},
+            },
+            state=clean_round_zero_state(),
+        )
+        self.template.RV = RecordingResultChecker(clean_report())
+        return root
+
 
 class TheRoundDecidesWhichReviewsAreBound(BindTemplateCase):
     """M9: '按 repair_round 读 full/verify' — the file set is a function of the round."""
@@ -815,6 +849,15 @@ class TheAssembledCandidatePassesTheRealFaithfulnessGate(BindTemplateCase):
         self.assertIn("check_assurance_cand.  : clean", out.splitlines())
 
 
+#: A digestRef that really binds: the fixture's WorkSpec, at the digest of the bytes
+#: `make_run` writes for it. Since round `PROMISE-PATH-ENGINE` the bind recomputes every
+#: digest the declarations carry (item 5), so a fixture ref to a file nobody wrote is a
+#: STALE-declaration refusal rather than an unread decoration -- which is the fix working.
+REAL_SOURCE_REF = {
+    "path": f"{CONTROL_ROOT}/control/work-spec.json",
+    "digest_sha256": WORK_SPEC_DIGEST,
+}
+
 #: The per-run declarations the bind step may not derive. A run's own copy is authored by a
 #: person; this is the fixture's, written out here so the two keys the template refuses
 #: without are visible at the point they are supplied.
@@ -1081,6 +1124,109 @@ class TheCleanRoundEmitsTheCandidateItPrinted(BindTemplateCase):
         self.assertEqual(self.emitted_candidate(root)["unresolved_finding_ids"], ["f1"])
 
 
+class TheDeclaredDigestsAreRecomputedNeverCopied(BindTemplateCase):
+    """Item 5: a digest the bind copies forward is a digest the bind has verified.
+
+    `run_bind_v2` loaded `control/bind-declarations.json` and copied `governance_scan` --
+    `result_ref` and its `digest_sha256` included -- verbatim into the AssuranceCandidate,
+    and nothing recomputed it against the bytes it named. At the caller's `2c6ed15` the
+    candidate declared a round-0 digest for a file whose bytes had changed, so the block that
+    exists to state what was scanned stated it of something else.
+
+    The defect CLASS (E7) is "a hand-authored digestRef copied into the candidate with
+    nothing checking it", and `disclosures[].source_ref` is its second member: a disclosure
+    exists to name the owner-authored document it came from, so a source_ref binding nothing
+    is an unsourced sentence reaching the deciding user. Both are pinned, each with the
+    negative control that proves the guard is the digest and not the presence of a ref.
+    """
+
+    STOP = ("STOP: control/bind-declarations.json binds bytes it does not match; a digest "
+            "nobody checks certifies nothing, and re-declaring it is the run's act, not "
+            "this script's")
+
+    def scan_ran(self, ref):
+        return {"governance_scan": {"included": True, "result_ref": ref}, "disclosures": []}
+
+    # --- the reported instance: the governance digest ----------------------------------
+
+    def test_a_governance_digest_the_named_bytes_contradict_stops_the_bind(self):
+        root = self.clean_declared(declarations=self.scan_ran(
+            {**REAL_SOURCE_REF, "digest_sha256": "0" * 64}))
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1, out)
+        self.assertIn("declared digests       : STALE", out.splitlines())
+        self.assertIn(self.STOP, out.splitlines())
+        self.assertFalse(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").exists())
+
+    def test_a_governance_ref_to_a_file_that_is_not_there_stops_the_bind(self):
+        """A ref to bytes that do not exist is not a weaker binding, it is none."""
+        root = self.clean_declared(declarations=self.scan_ran(
+            {"path": f"{CONTROL_ROOT}/evidence/check-chk-governance.json",
+             "digest_sha256": "0" * 64}))
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1, out)
+        self.assertIn(
+            f"  governance_scan/result_ref names {CONTROL_ROOT}/evidence/"
+            "check-chk-governance.json, which does not exist",
+            out.splitlines(),
+        )
+
+    def test_negative_control_a_governance_digest_that_matches_passes(self):
+        root = self.clean_declared(declarations=self.scan_ran(REAL_SOURCE_REF))
+        code, out = run_main(self.template, self.argv(root))
+        self.assertEqual(code, 0, out)
+        self.assertIn("declared digests       : verified", out.splitlines())
+
+    # --- the class's second site: the disclosure source ---------------------------------
+
+    def test_a_disclosure_source_digest_the_bytes_contradict_stops_the_bind(self):
+        root = self.clean_declared(declarations={
+            "governance_scan": BIND_DECLARATIONS["governance_scan"],
+            "disclosures": [{
+                "statement": "the tone requirement was judged against no stated criterion",
+                "source_ref": {**REAL_SOURCE_REF, "digest_sha256": "1" * 64},
+            }],
+        })
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1, out)
+        self.assertIn(self.STOP, out.splitlines())
+        self.assertTrue(
+            any(line.startswith("  disclosures/0/source_ref declares digest")
+                for line in out.splitlines()),
+            out,
+        )
+
+    def test_negative_control_a_disclosure_source_that_matches_passes(self):
+        root = self.clean_declared(declarations={
+            "governance_scan": BIND_DECLARATIONS["governance_scan"],
+            "disclosures": [{
+                "statement": "the tone requirement was judged against no stated criterion",
+                "source_ref": REAL_SOURCE_REF,
+            }],
+        })
+        code, out = run_main(self.template, self.argv(root))
+        self.assertEqual(code, 0, out)
+        self.assertIn("declared digests       : verified", out.splitlines())
+
+    def test_every_stale_ref_is_named_in_one_pass(self):
+        """One re-run per stale declaration is a worse instrument than one report."""
+        root = self.clean_declared(declarations={
+            "governance_scan": {"included": True,
+                                "result_ref": {**REAL_SOURCE_REF, "digest_sha256": "0" * 64}},
+            "disclosures": [{
+                "statement": "the tone requirement was judged against no stated criterion",
+                "source_ref": {**REAL_SOURCE_REF, "digest_sha256": "1" * 64},
+            }],
+        })
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1, out)
+        named = [line for line in out.splitlines()
+                 if line.startswith("  governance_scan/result_ref")
+                 or line.startswith("  disclosures/0/source_ref")]
+        self.assertEqual(len(named), 2, out)
+
+
 class TheLowsDecisionIsPutBeforeTheCandidateIsBound(BindTemplateCase):
     """`R10`: a clean FULL with lows is a decision point, and the candidate is a second act.
 
@@ -1305,10 +1451,7 @@ class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
         """
         root = self.clean_declared(declarations={
             "governance_scan": BIND_DECLARATIONS["governance_scan"],
-            "disclosures": [{
-                "statement": "x" * 501,
-                "source_ref": {"path": "docs/notes.md", "digest_sha256": "0" * 64},
-            }],
+            "disclosures": [{"statement": "x" * 501, "source_ref": REAL_SOURCE_REF}],
         })
         code, out = run_main(self.template, self.argv(root, "--emit"))
         self.assertEqual(code, 1)
@@ -1325,10 +1468,7 @@ class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
         """Negative control (E4): the guard is the cap, not the presence of a long line."""
         root = self.clean_declared(declarations={
             "governance_scan": BIND_DECLARATIONS["governance_scan"],
-            "disclosures": [{
-                "statement": "x" * 500,
-                "source_ref": {"path": "docs/notes.md", "digest_sha256": "0" * 64},
-            }],
+            "disclosures": [{"statement": "x" * 500, "source_ref": REAL_SOURCE_REF}],
         })
         code, out = run_main(self.template, self.argv(root))
         self.assertEqual(code, 0, out)
@@ -1341,31 +1481,6 @@ class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
         self.assertEqual(code, 0, out)
         self.assertNotIn("STOP: control/bind-declarations.json", out)
 
-    def clean_declared(self, *, declarations):
-        # Carries the NO_REPAIR for the same reason `clean_round_zero` does: this class's
-        # property is the declarations file, and the run has to reach the assembly to meet it.
-        control_files = {
-            "work-spec.json": WORK_SPEC,
-            "resolved-plan.json": RESOLVED_PLAN,
-            "instruction-audit.json": {"note": "test audit stand-in"},
-        }
-        if declarations is not None:
-            control_files["bind-declarations.json"] = declarations
-        root = self.make_run(
-            repair_round=0,
-            reviews=[("review-full.json", CLEAN_FULL_REVIEW)],
-            repair=NO_REPAIR_DECISION,
-            control_files=control_files,
-            evidence_files={
-                "candidate-record.json": CLEAN_RECORD,
-                "check-results.json": [CHECK_RESULT],
-                "check-chk-one.json": CHECK_RESULT,
-                "coverage.json": {"rows": []},
-            },
-            state=clean_round_zero_state(),
-        )
-        self.template.RV = RecordingResultChecker(clean_report())
-        return root
 
 
 if __name__ == "__main__":

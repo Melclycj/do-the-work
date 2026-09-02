@@ -88,6 +88,12 @@ from rsclib.document_harness.review import blocking_findings  # noqa: E402
 #:
 #: There is no default for either. A skip_reason is an honest sentence about this run, and a
 #: template that supplied one would be authoring the run's own excuse.
+#:
+#: Since round `PROMISE-PATH-ENGINE` the file is read through three gates rather than one, and
+#: they answer different questions: it exists (absence is refused, and neither key is
+#: defaulted), it is a valid BindDeclarations document (item 6 -- the schema, which is also
+#: run one step earlier by `run_evidence_v2`), and every digest it declares matches the bytes
+#: it names (item 5 -- `declared_ref_faults` below).
 DECLARATIONS = "control/bind-declarations.json"
 
 
@@ -138,6 +144,52 @@ def unresolved_ids(reviews: Sequence[Mapping[str, Any]]) -> list[str]:
             for finding in blocking_findings(review)
         }
     )
+
+
+def declared_ref_faults(
+    declarations: Mapping[str, Any], repo: pathlib.Path
+) -> list[str]:
+    """Every authored digest in the declarations, recomputed against the bytes it names.
+
+    Item 5 of batch `PROMISE-PATH`. The bind copies ``governance_scan`` -- ``result_ref``
+    and its ``digest_sha256`` included -- verbatim into the AssuranceCandidate it assembles,
+    and nothing recomputed it: at the caller's `2c6ed15` the candidate declared a round-0
+    digest for a file whose bytes had changed, and every later reader saw a candidate stating
+    what was scanned. A digest nobody checks certifies nothing, and this is the one moment
+    the declared digest and the bytes are both in hand -- the same M7 shape ``digest_ref_of``
+    answers for state pointers.
+
+    The CLASS and not the reported instance (`E7`): ``disclosures[].source_ref`` is the same
+    thing, a hand-authored ``digestRef`` copied straight into the candidate, and its
+    consequence is worse -- a disclosure exists to name the owner-authored document it came
+    from, so a source_ref that binds nothing turns "what the user should know before
+    deciding" into an unsourced sentence, which is exactly what ``assurance.schema.json``
+    makes the field required to prevent. Both are checked here; the schema (item 6) has
+    already established that every ref present is a ``digestRef`` with both keys.
+
+    Returns one sentence per fault rather than raising, so a run with several stale
+    declarations sees all of them in one pass instead of one per re-run. An absent file is a
+    fault of its own: a ref to bytes that are not there is not a weaker binding, it is none.
+    """
+    faults: list[str] = []
+    scan = declarations["governance_scan"]
+    refs = [("governance_scan/result_ref", scan["result_ref"])] if scan.get("result_ref") else []
+    refs += [
+        (f"disclosures/{index}/source_ref", entry["source_ref"])
+        for index, entry in enumerate(declarations["disclosures"])
+    ]
+    for where, ref in refs:
+        target = repo / ref["path"]
+        if not target.is_file():
+            faults.append(f"{where} names {ref['path']}, which does not exist")
+            continue
+        observed = bytes_digest(target.read_bytes())
+        if observed != ref["digest_sha256"]:
+            faults.append(
+                f"{where} declares digest {ref['digest_sha256'][:16]}… for {ref['path']} "
+                f"but its bytes digest {observed[:16]}…"
+            )
+    return faults
 
 
 def emit_reviewed(
@@ -431,6 +483,17 @@ def main(argv: Sequence[str] | None = None) -> int:
               "this script supplies no default for either")
         for issue in decl_report.issues:
             print("  " + issue.render()[:160])
+        return 1
+    # The digests the declarations carry are recomputed here, before any of them is copied
+    # into the candidate. See `declared_ref_faults` for what this closes and why the
+    # disclosure refs are in it too.
+    faults = declared_ref_faults(declarations, REPO)
+    print(f"declared digests       : {'verified' if not faults else 'STALE'}")
+    for fault in faults:
+        print("  " + fault)
+    if faults:
+        print(f"STOP: {DECLARATIONS} binds bytes it does not match; a digest nobody checks "
+              "certifies nothing, and re-declaring it is the run's act, not this script's")
         return 1
     GOVERNANCE_SCAN = declarations["governance_scan"]
     DISCLOSURES = declarations["disclosures"]
