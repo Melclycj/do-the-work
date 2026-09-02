@@ -33,3 +33,10 @@ ruled the observation routing 2026-09-03 (「按建议」): O-2, O-4 and V-O-1 b
 `summary-reads-unvalidated`, `no-repair-unbound` and `emit-reviewed-legality`; O-1, O-3 and
 V-O-2 stay in their records. This journal lands tracked in the closeout commit — the FULL's
 L-3 discharged. Round 1 CLOSED; next act = round 2 `PROMISE-PATH-VOCAB`.
+
+**Errata (2026-09-03, forward correction under `HD-59`; the closeout body stands as
+written).** `58bdf10`'s sentence "Bank 34 -> 37 rows" is off by one on both sides: it counted
+the table's header line. Measured after the fact by id column (`awk` on the id field,
+header excluded): **33 data rows at `07da6b1`, 36 at the closeout tip** — the +3 delta and
+the three row ids are unaffected. The figure was derived from the read record's prose
+instead of measured before writing; `E3` names exactly this failure.
