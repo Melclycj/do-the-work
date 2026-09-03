@@ -1,0 +1,15 @@
+contract/Document-Work-Assurance-Contract-v4.md
+schema/document-assurance-v3/
+document-harness/RULES.md
+document-harness/README.md
+document-harness/EXECUTION.md
+document-harness/REVIEW.md
+document-harness/ORCHESTRATION.md
+document-harness/ONBOARDING.md
+document-harness/templates/
+tooling/dtw.py
+tooling/do-the-work.py
+tooling/rsclib/document_harness/
+tooling/hooks/
+assurance/templates/run-v2/
+document-harness/product-tier.txt

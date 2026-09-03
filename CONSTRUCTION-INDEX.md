@@ -24,24 +24,37 @@
 
 ## Product-run tier — what a caller mounts
 
-Nothing outside these rows travels. **59 files** against a repository of **421**, measured
-2026-08-30 at `8ce93f7` by the commands at the foot — re-run them rather than citing these,
-because a count is invalidated by the next commit and this round's own records invalidate it
-several times over (`E3`). Round `CORE-ONLY-CODE` moved the tier's ratio and not its size: it
-added a construction-side dispatch generator and two test files and deleted the two
-retired-contract stubs, all of them outside these rows, so the tier stayed at 59 while the
-repository moved 415 → 421.
+Nothing outside these rows travels, and since round `CORE-MOUNT` the rows have a machine-readable
+twin: row 9's `document-harness/product-tier.txt` holds one *Where* token per line, travels with
+the tier, and is what a caller feeds to `git sparse-checkout` to materialize this tier and nothing
+else (`document-harness/ONBOARDING.md` item 1b). The two copies are held equal by
+`tooling/tests/document_harness/test_product_tier_manifest.py`, which parses the *Where* column
+below and compares it with that file, so a *Where* cell edited here without the manifest — or the
+reverse — turns red. The *Files* column is not guarded and is a measurement, not a definition.
+
+**61 files** against a repository of **443**, measured 2026-09-03 on the tree this commit creates,
+by the commands at the foot — re-run them rather than citing these, because a count is invalidated
+by the next commit (`E3`). No tip SHA is written for the same reason `E12` gives about a recorded
+range: writing these figures is itself the commit they are measured on, so a SHA here would name
+the commit before them. Where the movement since the 2026-08-30 measurement at `8ce93f7` came
+from, measured by `git diff --diff-filter=A --name-only 8ce93f7..` before this commit: **20 files
+added and none deleted**, 421 → 441 — 10 review and read records, 4 journals, 2 plans, 3 test
+files, and one schema, `bind-declarations.schema.json`, which joined the pack in round
+`PROMISE-PATH-ENGINE` (2026-09-02) and is why row 2 reads **15** where it read 14. This commit
+adds the other two: the row-9 manifest, which is in the tier, and the test that binds it, which
+is not.
 
 | # | What travels | Where | Files |
 |---|---|---|---|
 | 1 | The operative contract; `E2` freezes its bytes | `contract/Document-Work-Assurance-Contract-v4.md` | 1 |
-| 2 | Every schema a run validates against; `E2` freezes the fifteen the pack held at the 2026-08-03 re-baseline, a dated snapshot the pack no longer equals, and `paragraph-map.schema.json` is also an instruction-layer member | `schema/document-assurance-v3/` | 14 |
-| 3 | The rules every session answers to, the navigation surface, and the three role charters — executor, reviewer, orchestrator; instruction-layer members | `document-harness/RULES.md` · `README.md` · `EXECUTION.md` · `REVIEW.md` · `ORCHESTRATION.md` | 5 |
+| 2 | Every schema a run validates against; `E2` freezes the fifteen the pack held at the 2026-08-03 re-baseline, a dated snapshot the pack no longer equals, and `paragraph-map.schema.json` is also an instruction-layer member | `schema/document-assurance-v3/` | 15 |
+| 3 | The rules every session answers to, the navigation surface, and the three role charters — executor, reviewer, orchestrator; instruction-layer members | `document-harness/RULES.md` · `document-harness/README.md` · `document-harness/EXECUTION.md` · `document-harness/REVIEW.md` · `document-harness/ORCHESTRATION.md` | 5 |
 | 4 | Onboarding, needed once and before anything else works; not a member, and it says so | `document-harness/ONBOARDING.md` | 1 |
 | 5 | The decision log and rider bank a caller gets verbatim from `dtw init`; the decision log's own header is where the log's rules live (`HD-19`) | `document-harness/templates/` | 2 |
 | 6 | The CLI entry points | `tooling/dtw.py` · `tooling/do-the-work.py` | 2 |
 | 7 | The engine — checks, review, dispatch, init, preview, candidate and spec handling | `tooling/rsclib/document_harness/` | 22 |
 | 8 | The three tracked pre-commit guards and the package marker they are called through — which of them a repository wires is its own choice, and `document-harness/README.md`'s *Local enforcement* row is the single home of that division of labour — and the run template a run is copied from | `tooling/hooks/` · `assurance/templates/run-v2/` | 4 + 8 |
+| 9 | This table's *Where* column, one token per line and self-including — what the tier is measured by and what a core-only mount's `git sparse-checkout` reads, so a caller can redo the step from the mount alone after a gitlink bump without reading this file | `document-harness/product-tier.txt` | 1 |
 
 ## Construction-side tier — what stays here
 
@@ -64,9 +77,18 @@ repository moved 415 → 421.
 
 ```
 git ls-files <each product-tier path> | wc -l        # files per row
-git ls-files <the product-tier paths together> | wc -l   # the tier
+git ls-files -- $(tr -d '\r' < document-harness/product-tier.txt) | wc -l   # the tier
 git ls-files | wc -l                                 # the repository, for the ratio
 ```
+
+The tier command reads row 9's manifest rather than a re-typed path list, so it cannot disagree
+with what a caller's sparse checkout materializes. `tr -d '\r'` is not decoration: a checkout with
+`core.autocrlf=true` gives that file CRLF endings, and while `git sparse-checkout --stdin` strips
+the CR itself, a shell expanding the file into `git ls-files` arguments does not. Measured
+2026-09-03 by handing `git ls-files --` the manifest's lines with a `\r` appended to each — the
+shape a CRLF checkout produces — against the same lines stripped: **0** files matched against
+**61**. The failure is silent, which is why the strip is written into the command rather than
+left to the reader.
 
 Counts only, deliberately: a worktree byte figure is not a function of the tree — line endings
 differ per checkout — so use `git cat-file -s` if bytes are ever needed (rider `figure-units`).

@@ -1,6 +1,6 @@
 # ONBOARDING — taking a repository that has never seen this harness to one that can run a round
 
-Nine items, written out in the order they are actually done, each with **the command or
+Ten items, written out in the order they are actually done, each with **the command or
 edit**, **how the caller sees that it took**, and **which rule or decision owns it**. Ownership is by pointer: this file never
 re-types a rule, because a second copy is a second thing that has to stay true (`HD-5`
 records transcription as a drift surface).
@@ -84,6 +84,24 @@ path on Windows until `-c core.longpaths=true` was passed (three N0 fixture path
 that trip it); and a submodule whose source is a local directory rather than a URL additionally
 needs `-c protocol.file.allow=always`, which git has refused by default since 2022 — that one is
 an artefact of testing without a network, not a step a caller with a real remote performs.
+
+#### 1b — and, if you want the product-run tier and nothing else, narrow the checkout
+
+The mount above materializes the whole instrument, construction side included. A caller that
+wants only what it actually runs against narrows the working tree — the same pinned revision,
+fewer files on disk.
+
+| | |
+|---|---|
+| **Do** | Initialise the submodule as above, then, **from inside the mount directory**, `git sparse-checkout set --no-cone --stdin < document-harness/product-tier.txt`. That file is one repo-relative path per line, it lists itself, and it is the same list the instrument's own product-run inventory is measured by — so the step is repeatable from the mount alone, with nothing to re-type and nothing to read in the instrument's construction material. **After any gitlink bump, re-run the set from the new revision's file**: rows are added and removed by the instrument's rounds, and a stale pattern list narrows to yesterday's tier. Dispatch every cold session from such a mount with `--disallowedTools WebFetch,WebSearch` — this instrument is a public repository, so a session that can fetch can read exactly what the narrowed checkout is keeping off disk, and the narrowing is then a convenience rather than a boundary. |
+| **See** | Count the files on disk under the mount and compare with `git ls-files -- $(tr -d '\r' < document-harness/product-tier.txt) \| wc -l`; the two agree. Four files the construction side owns are gone from disk — `CONSTRUCTION-LEDGER.md`, `HARNESS-DECISIONS.md`, `document-harness/CONSTRUCTION-CHECKLIST.md`, `tooling/construction_dispatch.py`. `python tooling/dtw.py --help` still exits 0, which is the check that matters: the tier is import-complete, so narrowing the tree did not break the CLI. The `tr -d '\r'` is load-bearing on a checkout with `core.autocrlf=true` — `sparse-checkout --stdin` strips the CR itself, a shell expanding the file into arguments does not, and the difference is silent. |
+| **Owner** | `HD-66`, which makes the submodule the default distribution form *and not the last word*, and names sparse-checkout as the first of three paths to walk before that question is reopened — this is that path, made repeatable. `HD-34` is the discipline around it: the narrowing is per-checkout and untracked, it writes nothing inside the instrument, and a caller that adapts it records the adaptation in its own decision log. |
+
+**What the narrowing is, and what it is not.** It is a seal on the **filesystem**, never on the
+object store. The gitlink still pins the whole revision, `git show HEAD:CONSTRUCTION-LEDGER.md`
+inside the mount still answers, and a session that wants a construction-side file can widen the
+checkout in one command. What it buys is that nothing reaches a reader by accident — not that
+anything is unreachable.
 
 ### 2 — `.harness/`, and its ignore entry
 
