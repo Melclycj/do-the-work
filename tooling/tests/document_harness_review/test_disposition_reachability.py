@@ -39,10 +39,13 @@ rather than rediscovers it: **`ACCEPT_WITH_LIMITATIONS` after a blocking VERIFY*
 `ACCEPT_WITH_LIMITATIONS` that names what is still open"), by `REVIEW.md` and by contract v4,
 and **not built** — it is item 1 of batch `PROMISE-PATH`, ruled shape (a) and scheduled for
 round 2 `PROMISE-PATH-VOCAB`. It adds no enum value, so nothing here turns red when round 2
-builds it; the row it owes is round 2's to write, beside the row item 2's new VERIFY verdict
-value will force. Item 2 is the contrast worth keeping in view: growing the VERIFY verdict enum
-makes `missing_rows` and `test_the_enumeration_is_not_vacuous` red on its own, which is the
-whole of why the gap is specifically the prose class.
+builds it, and the row it owes is written by hand like every other prose row. Item 2 is the
+contrast, and it has now been measured rather than predicted: with `UNRESOLVED_BLOCKER` in the
+VERIFY narrowing, `missing_rows` is red until its row is written and
+`test_the_enumeration_is_not_vacuous` is red until its count is raised — round 2's mutation
+probes 6 and 7, each neutered and restored against a sha256-checked scratchpad copy. That an
+enum value cannot land here unnoticed is the whole of why the gap is specifically the prose
+class, where nothing plays either part.
 
 A `no-path` row for that route is deliberately NOT added here. A `no-path` row obliges its named
 rule site to carry the absence in its own text (property 4), and those sites are
@@ -152,6 +155,12 @@ TABLE: tuple[Row, ...] = (
         reacher="verify_spec_gap",
     ),
     Row(
+        key="verify-verdict:UNRESOLVED_BLOCKER",
+        named_by="review.v2.schema.json VERIFY narrowing; RULES.md R3 VERIFY row; "
+                 "contract v4 §5 VERIFY verdict row, added in place under HD-70",
+        reacher="verify_unresolved_blocker",
+    ),
+    Row(
         key="STOPPED_REPLAN",
         named_by="contract §8 status set; flow._SUCCESSORS reaches it from every "
                  "pre-terminal status",
@@ -199,14 +208,24 @@ def enumerated() -> dict[str, tuple[str, ...]]:
         rule for rule in decision["allOf"]
         if rule["if"].get("properties", {}).get("phase", {}).get("const") == "FINAL"
     )
-    verify_branch = next(
-        rule for rule in review["allOf"]
-        if rule["if"].get("properties", {}).get("review_round", {}).get("const") == "VERIFY"
-    )
+
+    def round_branch(name):
+        return next(
+            rule for rule in review["allOf"]
+            if rule["if"].get("properties", {}).get("review_round", {}).get("const") == name
+        )
+
+    # Both verdict families come from their ROUND's narrowing, never from the root enum.
+    # The root held the FULL set exactly until round `PROMISE-PATH-VOCAB` gave the VERIFY
+    # round a value of its own; from then the root is the UNION of the two rounds, so a
+    # `full-verdict` family read there would demand a row for `UNRESOLVED_BLOCKER` under a
+    # family whose whole claim is that a FULL can return it — a row asserting something
+    # false, produced by the guard itself.
     return {
         "final": tuple(final_branch["then"]["properties"]["decision"]["enum"]),
-        "full-verdict": tuple(review["properties"]["verdict"]["enum"]),
-        "verify-verdict": tuple(verify_branch["then"]["properties"]["verdict"]["enum"]),
+        "full-verdict": tuple(round_branch("FULL")["then"]["properties"]["verdict"]["enum"]),
+        "verify-verdict": tuple(
+            round_branch("VERIFY")["then"]["properties"]["verdict"]["enum"]),
     }
 
 
@@ -510,11 +529,12 @@ class Reachers:
 
     # --- the VERIFY verdicts ------------------------------------------------------------
 
-    def _verify(self, verdict):
+    def _verify(self, verdict, findings=()):
         decision = repair_decision(decision="APPLY_ACCEPTED_FINDINGS", accepted=["f-changelog"])
         verify = review(
             verdict=verdict,
             round_="VERIFY",
+            findings=findings,
             scope={
                 "accepted_finding_ids": ["f-changelog"],
                 "repair_diff_reviewed": True,
@@ -533,6 +553,20 @@ class Reachers:
         self.case.assertEqual(
             [issue.code for issue in report.issues], ["V3-FLOW-VERIFY-SPEC-GAP"])
         return "SPEC_GAP"
+
+    def verify_unresolved_blocker(self):
+        """Item 2's value: the repair is spent and a blocking finding stands.
+
+        The blocker is carried, not asserted — the schema refuses this verdict without
+        findings, and the flow reports the standing one by id. That the report is EXACTLY
+        the standing-blocker issue is what item 1's branch keys on: any other issue means
+        the VERIFY is malformed rather than blocking, and only the blocking case is a
+        thing the user may authorize a candidate over.
+        """
+        report = self._verify("UNRESOLVED_BLOCKER", findings=[BLOCKER])
+        self.case.assertEqual(
+            [issue.code for issue in report.issues], ["V3-FLOW-BLOCKER-AFTER-VERIFY"])
+        return "UNRESOLVED_BLOCKER"
 
     # --- the stop ------------------------------------------------------------------------
 
@@ -695,7 +729,26 @@ class DispositionReachability(unittest.TestCase):
         families = enumerated()
         self.assertEqual(
             {family: len(values) for family, values in families.items()},
-            {"final": 4, "full-verdict": 3, "verify-verdict": 2},
+            {"final": 4, "full-verdict": 3, "verify-verdict": 3},
+        )
+
+    def test_the_root_verdict_enum_is_exactly_the_two_rounds_together(self):
+        """A root value in neither round's narrowing would be reachable by nobody.
+
+        `enumerated()` reads the narrowings and the table answers those, so a fifth value
+        added to the root alone would sit in the schema unrowed and unreached with every
+        check above still green. The literals are hand-written (`E5`); the SOURCE is the
+        committed pack.
+        """
+        review = load_json(SCHEMA_DIR / "review.v2.schema.json")
+        families = enumerated()
+        self.assertEqual(
+            sorted(review["properties"]["verdict"]["enum"]),
+            sorted(set(families["full-verdict"]) | set(families["verify-verdict"])),
+        )
+        self.assertEqual(
+            sorted(review["properties"]["verdict"]["enum"]),
+            ["CHANGES_REQUIRED", "REVIEWED_NO_BLOCKER", "SPEC_GAP", "UNRESOLVED_BLOCKER"],
         )
 
     # --- property 3: every path row is reached ------------------------------------------

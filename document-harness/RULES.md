@@ -189,7 +189,13 @@
   obligations, and every number you re-derive from the repository yourself; accept no
   reported figure; classify changed paths by hand; chat-only load-bearing material is a finding.
 - **R3** Verdicts: FULL → `REVIEWED_NO_BLOCKER | CHANGES_REQUIRED | SPEC_GAP`; VERIFY →
-  `REVIEWED_NO_BLOCKER | SPEC_GAP`. Lead with the implementation — whether the code,
+  `REVIEWED_NO_BLOCKER | SPEC_GAP | UNRESOLVED_BLOCKER`. Reach for `UNRESOLVED_BLOCKER`,
+  never `SPEC_GAP`, when a blocking finding stands at the end of the VERIFY — one the
+  repair failed to close or one the repair itself created; `SPEC_GAP` says the
+  specification was defective and owes a new WorkSpec and a new START, which is a
+  different stop and a different remedy, and a VERIFY that borrows it for a standing
+  blocker tells the next reader the spec failed when it did not. Both stop the run: the
+  single repair is spent either way. Lead with the implementation — whether the code,
   schemas, tests or instruction text do what they claim and whether the guards bind;
   process and record conformance is a boundary check, run second. A blocker names its
   location, the ground truth it violates, and the minimum fix; a non-blocking finding is

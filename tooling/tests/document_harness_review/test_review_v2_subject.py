@@ -303,6 +303,42 @@ class SchemaShape(unittest.TestCase):
             with self.subTest(label=label):
                 self.assertFalse(RS.validate_w2("review_result_v2", document).ok)
 
+    def test_the_two_verdict_conditionals_round_2_added(self):
+        """Round `PROMISE-PATH-VOCAB`, item 2: the value is VERIFY-only and names a finding.
+
+        The root enum is now the UNION of the two rounds, so `UNRESOLVED_BLOCKER` is a legal
+        root value and only the FULL narrowing keeps a FULL from returning it — a narrowing
+        this round had to ADD, because until now the root enum was the FULL set and the FULL
+        branch constrained `verify_scope` alone. The first case is that narrowing; without it
+        contract §5's FULL row would be closed on paper and open in the schema.
+        """
+        scope = {"accepted_finding_ids": ["f-one"], "repair_diff_reviewed": True,
+                 "permanent_boundaries_checked": True}
+        low = {"finding_id": "f-style", "blocking": False,
+               "statement": "two headings use different capitalisation"}
+        for label, document in (
+            ("FULL reaching for the VERIFY-only value",
+             make_result(self.scn, verdict="UNRESOLVED_BLOCKER", findings=[low])),
+            ("UNRESOLVED_BLOCKER naming no finding at all",
+             make_result(self.scn, review_round="VERIFY", verify_scope=scope,
+                         verdict="UNRESOLVED_BLOCKER")),
+            ("VERIFY reaching for CHANGES_REQUIRED",
+             make_result(self.scn, review_round="VERIFY", verify_scope=scope,
+                         verdict="CHANGES_REQUIRED", findings=[low])),
+        ):
+            with self.subTest(label=label):
+                self.assertFalse(RS.validate_w2("review_result_v2", document).ok)
+        # Negative controls: each differs from a case above by exactly one field, so a
+        # schema that simply refused everything would fail here.
+        for label, document in (
+            ("VERIFY returning it, with a finding",
+             make_result(self.scn, review_round="VERIFY", verify_scope=scope,
+                         verdict="UNRESOLVED_BLOCKER", findings=[low])),
+            ("FULL returning a FULL value", make_result(self.scn, verdict="SPEC_GAP")),
+        ):
+            with self.subTest(label=label):
+                self.assertTrue(RS.validate_w2("review_result_v2", document).ok)
+
 
 # ---------------------------------------------------------------------------
 # W2-A4 — pointer_to writes bytes digests; the resume guard keeps its teeth
@@ -503,6 +539,38 @@ class SubjectAgainstCleanPlane(unittest.TestCase):
                     executor=EXECUTOR)
                 for code in expected:
                     self.assertIn(code, codes(report))
+
+    def test_an_unresolved_blocker_verdict_must_name_the_blocker_that_stands(self):
+        """Round `PROMISE-PATH-VOCAB`, item 2: the other half of the same reconciliation.
+
+        `review.v2.schema.json` gets as far as requiring `findings` on this verdict. Whether
+        any of them is BLOCKING is a value it cannot see — the verdict and the findings sit
+        in separate subschemas — so the schema says so in its own description and this
+        function, which holds both at once, carries it. Mirror of the
+        `BLOCKER-CONTRADICTS-VERDICT` case above: that one is a blocker under a verdict
+        claiming none, this one a verdict claiming one over no blocker.
+        """
+        scn = self.scn
+        scope = {"accepted_finding_ids": ["f-one"], "repair_diff_reviewed": True,
+                 "permanent_boundaries_checked": True}
+        low = {"finding_id": "f-style", "blocking": False,
+               "statement": "two headings use different capitalisation"}
+        stands = {"finding_id": "f-block", "blocking": True,
+                  "statement": "the repair did not close the blocking defect",
+                  "candidate_locator": {"path": "docs/guide.md", "anchor": "# Guide"},
+                  "ground_truth_locator": {"path": "docs/instruction.md", "anchor": "## Task"},
+                  "minimum_fix": "repair the guide"}
+        names_none = make_result(scn, review_round="VERIFY", verify_scope=scope,
+                                 verdict="UNRESOLVED_BLOCKER", findings=[low])
+        report = RV.check_review_result_v2(
+            names_none, scn.repo.root, evidence_commit=scn.evidence_commit, executor=EXECUTOR)
+        self.assertIn("V3-REVIEW-UNRESOLVED-BLOCKER-NAMES-NONE", codes(report))
+        # Negative control: the same verdict, one blocking finding, and this guard is silent.
+        names_one = make_result(scn, review_round="VERIFY", verify_scope=scope,
+                                verdict="UNRESOLVED_BLOCKER", findings=[stands])
+        report = RV.check_review_result_v2(
+            names_one, scn.repo.root, evidence_commit=scn.evidence_commit, executor=EXECUTOR)
+        self.assertNotIn("V3-REVIEW-UNRESOLVED-BLOCKER-NAMES-NONE", codes(report))
 
     def test_incomplete_map_must_be_disclosed_and_disclosure_silences_it(self):
         silent = make_result(self.scn)

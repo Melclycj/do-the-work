@@ -159,6 +159,33 @@ read.
     reproduces is the contract's **current** §14, whose fifth item is now the default-interface
     removals. The set is the same either way — §12's surviving paragraph is what both names reach —
     and only the name of the fifth item differs between the signed text and the text in force.
+  - **Eighth post-signature write, 2026-09-03 — round `PROMISE-PATH-VOCAB`'s vocabulary commit,
+    this commit.** Two sites in §5, one authorisation each, and this is the first write in the
+    `HD-63` family's line that makes the contract **require more** rather than correct or delete.
+    **§5's VERIFY verdict row `:118` gains a third value**, `UNRESOLVED_BLOCKER`, meaning a
+    blocking finding stands after the single permitted repair — the repair failed to close it, or
+    created it — so that `SPEC_GAP` goes back to meaning only what §5 and §13 say it means, a
+    defective specification owing a new WorkSpec and a new START. `HD-70` authorises exactly this
+    row and this one value, expressly overriding §13's *Signed contracts are never amended in
+    place*, and expressly refusing precedent for any other enum: the FULL row `:117` is untouched
+    and the closed enums beside it are untouched. The engine borrowed `SPEC_GAP` for this outcome
+    in a real run, which is the evidence the ruling was taken on. **§5's closing paragraph
+    `:127-128` loses one ordinal**: *nonblocking uncertainty is never a fourth control verdict*
+    now reads *never a control verdict*. With the union of the two rounds at four values the
+    ordinal would have begun naming the new value, leaving the sentence true and empty instead of
+    saying that disclosed uncertainty is not a verdict at all; no clause is added and no
+    requirement changes. That deletion is the user's ruling of 2026-09-03 (plan
+    `document-harness/plans/promise-path.plan.md` ruling 11), taken on the executor's class scan
+    at the decision point `HD-70` reserved for it; the same ruling ratified leaving `:195-196`
+    (*A remaining blocker or `SPEC_GAP` stops*) and `:200-201` (*an unrepaired blocker*) as
+    written, both being descriptions of the flow that the new value reports rather than reroutes.
+    Unlike every earlier write in this family, `E10`'s design test **does** fire here — the value
+    changes what `R3` requires — and the round it opens is `PROMISE-PATH-VOCAB`, already open,
+    which is where this write happens. No valid independent FULL has occurred on this round's
+    candidate, so under `E9` this is candidate work and consumes no fix leg. The signed blob above
+    is unchanged and v4 is **not** re-signed; this write's `E2` disclosure rides its own commit
+    body, naming `contract/Document-Work-Assurance-Contract-v4.md` site by site, and the changed
+    text owes `E10`'s independent re-read, riding this round's next read of that layer.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.

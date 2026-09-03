@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "researchsystem/schema/document-assurance-v3/review.v2.schema.json",
   "title": "ReviewResult v2 — commit-bound review subject (sole owner: the independent reviewer)",
-  "description": "Versioned successor to the version-1 reviewResult definition, which lived in review.schema.json until round V1-RESULT-RETIRE retired that file on 2026-08-28; the succession is per the user-adjudicated wave-2 design (2026-07-23) and contract supersession-1. Closed runs and shadow rounds keep their frozen packages as pinned v1 history, which is read from the commits that hold it and on which no migration was ever performed; the promise that the v1 file itself stays frozen for that reading was corrected out of contract v4 §13.1 on 2026-08-28 under HD-63, the same defect class and the same sweep. Delta over v1, and nothing else: (1) root schema_version const '2' — the instance names its own schema, and the loader keys on it explicitly with no cross-version fallback (the W1 pattern); (2) 'package_ref' is gone — the review subject is one committed control plane, bound as subject = { evidence_commit, candidate_ref, base_revision, control_root, repair_round }; git content-addresses every member byte, so there are no per-member digests and no hand-authored member list (the w1-r1 freeze-check-paths defect class is unrepresentable here). A result that carries package_ref, or omits subject, fails this schema's closed root. Five definitions are referenced rather than copied — review_round, instruction_completeness, the per-obligation dispositions, the findings and verify_scope — and since round V1-RESULT-RETIRE (2026-08-28) they are referenced from common.schema.json, where this pack's shared definitions live (one home, N0-A6); they moved there byte-equal, and this file is their only referent. verdict and residual_uncertainty are stated inline because no shared $def for either exists to reference: the constraints are the ones the version-1 reviewResult carried inline, reproduced here unchanged, and the move to common.schema.json extracted nothing new for them. REVIEWED_NO_BLOCKER still means only 'no blocking discrepancy found within the frozen subjects and review dimensions' (N2-A3).",
+  "description": "Versioned successor to the version-1 reviewResult definition, which lived in review.schema.json until round V1-RESULT-RETIRE retired that file on 2026-08-28; the succession is per the user-adjudicated wave-2 design (2026-07-23) and contract supersession-1. Closed runs and shadow rounds keep their frozen packages as pinned v1 history, which is read from the commits that hold it and on which no migration was ever performed; the promise that the v1 file itself stays frozen for that reading was corrected out of contract v4 §13.1 on 2026-08-28 under HD-63, the same defect class and the same sweep. Delta over v1, and nothing else: (1) root schema_version const '2' — the instance names its own schema, and the loader keys on it explicitly with no cross-version fallback (the W1 pattern); (2) 'package_ref' is gone — the review subject is one committed control plane, bound as subject = { evidence_commit, candidate_ref, base_revision, control_root, repair_round }; git content-addresses every member byte, so there are no per-member digests and no hand-authored member list (the w1-r1 freeze-check-paths defect class is unrepresentable here). A result that carries package_ref, or omits subject, fails this schema's closed root. Five definitions are referenced rather than copied — review_round, instruction_completeness, the per-obligation dispositions, the findings and verify_scope — and since round V1-RESULT-RETIRE (2026-08-28) they are referenced from common.schema.json, where this pack's shared definitions live (one home, N0-A6); they moved there byte-equal, and this file is their only referent. verdict and residual_uncertainty are stated inline because no shared $def for either exists to reference: the constraints came from the version-1 reviewResult's inline ones, and the move to common.schema.json extracted nothing new for them. residual_uncertainty is still that v1 constraint unchanged; verdict is not, since round PROMISE-PATH-VOCAB (2026-09-03) added the VERIFY-only value UNRESOLVED_BLOCKER under HD-70 and, with the root enum now the union of the two rounds, gave the FULL round the explicit narrowing the root used to supply on its own. REVIEWED_NO_BLOCKER still means only 'no blocking discrepancy found within the frozen subjects and review dimensions' (N2-A3).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -29,8 +29,8 @@
     "review_round": { "$ref": "common.schema.json#/$defs/reviewRound" },
     "subject": { "$ref": "#/$defs/reviewSubject" },
     "verdict": {
-      "enum": ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"],
-      "description": "Closed control verdicts (contract §5), unchanged from v1. Narrowed per round below."
+      "enum": ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP", "UNRESOLVED_BLOCKER"],
+      "description": "The UNION of the two rounds' closed control verdicts (contract §5); neither round may return all four, and the narrowing that says which is below — both rounds, since round PROMISE-PATH-VOCAB. Unchanged from v1 until that round, which added UNRESOLVED_BLOCKER as a VERIFY-only value under HD-70: it means a blocking finding stands after the single permitted repair, whether the repair failed to close it or created it, and it exists so that SPEC_GAP goes back to meaning what it says — the specification is defective, and a new WorkSpec and a new START are owed. It names the set the AssuranceCandidate already calls unresolved_finding_ids. A FULL never returns it: a FULL that finds a blocker asks for the repair (CHANGES_REQUIRED), and there is no repair left to ask for once the VERIFY is the round in hand."
     },
     "instruction_completeness": { "$ref": "common.schema.json#/$defs/instructionCompleteness" },
     "per_obligation_disposition": {
@@ -65,15 +65,16 @@
       "if": { "properties": { "review_round": { "const": "VERIFY" } }, "required": ["review_round"] },
       "then": {
         "required": ["verify_scope"],
-        "properties": { "verdict": { "enum": ["REVIEWED_NO_BLOCKER", "SPEC_GAP"] } },
-        "description": "A VERIFY cannot return CHANGES_REQUIRED (contract §5): there is no second repair for it to request."
+        "properties": { "verdict": { "enum": ["REVIEWED_NO_BLOCKER", "SPEC_GAP", "UNRESOLVED_BLOCKER"] } },
+        "description": "A VERIFY cannot return CHANGES_REQUIRED (contract §5): there is no second repair for it to request. It reports a standing blocker as UNRESOLVED_BLOCKER instead, which is the value round PROMISE-PATH-VOCAB added so that outcome stops borrowing SPEC_GAP's name."
       }
     },
     {
       "if": { "properties": { "review_round": { "const": "FULL" } }, "required": ["review_round"] },
       "then": {
         "not": { "required": ["verify_scope"] },
-        "description": "A FULL has no accepted-finding scope to declare — it is the round that produces the findings."
+        "properties": { "verdict": { "enum": ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"] } },
+        "description": "A FULL has no accepted-finding scope to declare — it is the round that produces the findings. Its verdict narrowing is stated here rather than left to the root enum: since the root grew to the union of both rounds, a root-only constraint would let a FULL return the VERIFY-only UNRESOLVED_BLOCKER, and contract §5's FULL row is closed at three."
       }
     },
     {
@@ -81,6 +82,13 @@
       "then": {
         "required": ["findings"],
         "description": "CHANGES_REQUIRED with no findings would demand a change without naming one."
+      }
+    },
+    {
+      "if": { "properties": { "verdict": { "const": "UNRESOLVED_BLOCKER" } }, "required": ["verdict"] },
+      "then": {
+        "required": ["findings"],
+        "description": "UNRESOLVED_BLOCKER with no findings would report a blocker without naming it, and the run stops on this verdict — the sibling of the CHANGES_REQUIRED rule above, and the reason the flow can enumerate what stands. That at least one of those findings is blocking is check_review_result_v2's, which has the findings and this schema's enum in one place."
       }
     }
   ],

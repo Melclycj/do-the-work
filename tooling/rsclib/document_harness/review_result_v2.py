@@ -270,7 +270,12 @@ def check_review_result_v2(
                 )
             )
 
-    # --- a blocking discrepancy cannot coexist with 'no blocker found' ---
+    # --- a blocking discrepancy cannot coexist with 'no blocker found', and the verdict that
+    # --- reports one cannot decline to name it. Both directions of the same reconciliation,
+    # --- and this is the one function holding the verdict and the findings at once. The
+    # --- schema gets as far as requiring `findings` on an UNRESOLVED_BLOCKER; whether any of
+    # --- them is BLOCKING is a value it cannot see across two subschemas, so it says so in
+    # --- its own description and leaves the second half here.
     blocking = [f["finding_id"] for f in result.get("findings", []) if f["blocking"]]
     if blocking and result["verdict"] == "REVIEWED_NO_BLOCKER":
         issues.append(
@@ -278,6 +283,17 @@ def check_review_result_v2(
                 f"{RESULT_CODE}-BLOCKER-CONTRADICTS-VERDICT",
                 f"verdict is REVIEWED_NO_BLOCKER while {len(blocking)} blocking finding(s) "
                 f"are recorded: {', '.join(blocking)}",
+                "verdict",
+            )
+        )
+    if result["verdict"] == "UNRESOLVED_BLOCKER" and not blocking:
+        issues.append(
+            Issue(
+                f"{RESULT_CODE}-UNRESOLVED-BLOCKER-NAMES-NONE",
+                "verdict is UNRESOLVED_BLOCKER while no blocking finding is recorded; the "
+                "verdict means a blocker stands after the single permitted repair, and the "
+                "stop it triggers reports which ones — so a verdict naming none stops the "
+                "run over nothing and leaves the user deciding about an unnamed defect",
                 "verdict",
             )
         )

@@ -41,7 +41,7 @@
       "type": "array",
       "minItems": 1,
       "items": { "type": "string", "minLength": 8, "maxLength": 500 },
-      "description": "User-acknowledged residual limitations. Required for ACCEPT_WITH_LIMITATIONS (V3-D6: residual uncertainty is disclosed data, never a fourth control verdict)."
+      "description": "User-acknowledged residual limitations. Required for ACCEPT_WITH_LIMITATIONS (V3-D6: residual uncertainty is disclosed data, never a control verdict). The ordinal that used to stand in that clause — 'never a fourth control verdict' — was dropped in round PROMISE-PATH-VOCAB: with UNRESOLVED_BLOCKER added to the VERIFY round the union of control verdicts is four, so the phrase would have started naming that value instead of saying what it means, which is that disclosed uncertainty is not a verdict at all."
     },
     "rationale": { "type": "string", "minLength": 4, "maxLength": 1000 },
     "decided_by": { "$ref": "common.schema.json#/$defs/actorName" },

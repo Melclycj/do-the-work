@@ -180,10 +180,15 @@ def write_freeze_marker(repo_root: pathlib.Path | str, subject: str) -> pathlib.
 
 
 #: Closed per-round verdicts (contract §5). A VERIFY cannot return `CHANGES_REQUIRED`:
-#: there is no second repair for it to request, and a remaining blocker stops the round.
+#: there is no second repair for it to request, and a remaining blocker stops the round. It
+#: reports that blocker as `UNRESOLVED_BLOCKER` (round `PROMISE-PATH-VOCAB`, `HD-70`) rather
+#: than borrowing `SPEC_GAP`, which means the specification was defective and owes a new
+#: WorkSpec and a new START. Hand-written per round rather than read out of
+#: `review.v2.schema.json`: this is what a dispatch tells a reviewer it may return, and a
+#: copy derived from the schema would agree with it by construction (`E5`).
 VERDICTS: dict[str, tuple[str, ...]] = {
     "FULL": ("REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"),
-    "VERIFY": ("REVIEWED_NO_BLOCKER", "SPEC_GAP"),
+    "VERIFY": ("REVIEWED_NO_BLOCKER", "SPEC_GAP", "UNRESOLVED_BLOCKER"),
 }
 
 _STATE_SUFFIX = f"/{STATE_PATH}"

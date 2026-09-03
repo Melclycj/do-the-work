@@ -115,7 +115,7 @@ control root E(C), outside C's payload identity
 | WorkState status | `RESOLVED · AUDITED · EXECUTING · EVIDENCED · REVIEWED · REPAIRING · AWAITING_FINAL · CLOSED · STOPPED_REPLAN` |
 | Audit result | `COVERED · SPEC_GAP` (no repair loop) |
 | Review verdict — FULL | `REVIEWED_NO_BLOCKER · CHANGES_REQUIRED · SPEC_GAP` (schema at N2) |
-| Review verdict — VERIFY | `REVIEWED_NO_BLOCKER · SPEC_GAP` (schema at N2) |
+| Review verdict — VERIFY | `REVIEWED_NO_BLOCKER · SPEC_GAP · UNRESOLVED_BLOCKER` (schema at N2) |
 | Decision phases | `START · REPAIR · FINAL · ISSUE_TRIAGE` |
 | START decisions | `START · REPLAN` |
 | REPAIR decisions | `APPLY_ACCEPTED_FINDINGS · NO_REPAIR` |
@@ -124,7 +124,7 @@ control root E(C), outside C's payload identity
 | LocalCheckSpec kinds | `file_exists · json_schema · markdown_link · locator_exists · git_diff_boundary · command_exit` (full schema at N1; unknown kind = `SPEC_GAP`) |
 | Verification mode | `local_check · review_only` |
 
-Every ReviewResult carries `residual_uncertainty` as data; nonblocking uncertainty is never a fourth
+Every ReviewResult carries `residual_uncertainty` as data; nonblocking uncertainty is never a
 control verdict. `REVIEWED_NO_BLOCKER` means only "no blocking discrepancy found within the frozen
 subjects and review dimensions".
 

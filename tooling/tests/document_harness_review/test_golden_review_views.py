@@ -335,10 +335,26 @@ class TheClosedReviewSurface(unittest.TestCase):
     def test_n2_a3_control_verdicts_are_exactly_the_contract_set(self):
         result = review_v2_schema()
         shared = common_schema()
+        # The root enum is the UNION of the two rounds and has been since round
+        # `PROMISE-PATH-VOCAB` gave the VERIFY round `UNRESOLVED_BLOCKER` (contract §5's
+        # VERIFY row, amended in place under `HD-70`). Asserting only the root would no
+        # longer say what contract §5 says, because §5 states the two rows separately and
+        # closes the FULL one at three; so each round's narrowing is asserted here beside
+        # the union, against hand-written literals.
         self.assertEqual(
             result["properties"]["verdict"]["enum"],
-            ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"],
+            ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP", "UNRESOLVED_BLOCKER"],
         )
+        rounds = {
+            rule["if"]["properties"]["review_round"]["const"]:
+                rule["then"].get("properties", {}).get("verdict", {}).get("enum")
+            for rule in result["allOf"]
+            if "review_round" in rule["if"].get("properties", {})
+        }
+        self.assertEqual(
+            rounds["FULL"], ["REVIEWED_NO_BLOCKER", "CHANGES_REQUIRED", "SPEC_GAP"])
+        self.assertEqual(
+            rounds["VERIFY"], ["REVIEWED_NO_BLOCKER", "SPEC_GAP", "UNRESOLVED_BLOCKER"])
         self.assertEqual(shared["$defs"]["reviewRound"]["enum"], ["FULL", "VERIFY"])
         self.assertEqual(
             shared["$defs"]["instructionCompleteness"]["properties"]["result"]["enum"],

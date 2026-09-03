@@ -127,13 +127,24 @@ subject makes tampering visible; it establishes nothing about whether the work i
 | Round | Verdicts | Scope |
 |---|---|---|
 | FULL | `REVIEWED_NO_BLOCKER` · `CHANGES_REQUIRED` · `SPEC_GAP` | the whole frozen package |
-| VERIFY | `REVIEWED_NO_BLOCKER` · `SPEC_GAP` | the accepted findings, the **entire** repair diff, and the permanent boundaries |
+| VERIFY | `REVIEWED_NO_BLOCKER` · `SPEC_GAP` · `UNRESOLVED_BLOCKER` | the accepted findings, the **entire** repair diff, and the permanent boundaries |
 
 A VERIFY cannot return `CHANGES_REQUIRED` — there is no second repair for it to request. A
-blocker still standing stops the run.
+blocker still standing stops the run, and `UNRESOLVED_BLOCKER` is how you say so.
 
 `SPEC_GAP` stops. It is never patched inside the candidate. When to reach for it rather than
 disclose a gap and continue is settled below, under *When the map is incomplete*.
+
+**`UNRESOLVED_BLOCKER` is not `SPEC_GAP`, and the difference is the whole reason it exists.**
+It is the VERIFY round's alone, and it means exactly one thing: a blocking finding stands at
+the end of this round — the repair did not close it, or the repair created it. Name those
+findings; the verdict is refused without them, and the stop it triggers reports which ones
+stand. `SPEC_GAP` says something else entirely — the specification was defective, so a new
+WorkSpec revision and a new user START decision are owed and no repair to this candidate
+could have helped. Both stop the run, so nothing is lost by choosing wrong on the day; what
+is lost is later, when a reader of the record is told the spec failed and goes looking for
+the defect in it. The `SPEC_GAP` this value took that duty off was borrowed for it in a real
+run, which is why it is here.
 
 ## What every result must carry
 
