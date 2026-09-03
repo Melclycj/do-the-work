@@ -120,6 +120,27 @@ is 938 (VERIFY record `07da6b1`, independently reproduced; no test file touched 
    `v3-cold-read-51bd4f6.md`; the reader derives coverage itself and the dispatch carries no
    member table (`R2`). `§live` in full — twelve entries once `HD-70` lands before the read.
 
+The executor's first stop (2026-09-03, session `d8f5d450-a3cf-495a-86c5-99840b0c8ca6`, after
+its `61afc26`), the user's word: **"1b 2 同意"**.
+
+10. **The value is `UNRESOLVED_BLOCKER`.** Offered and not taken: `BLOCKER_STANDS` (verb
+    form, no sibling of that shape in the pack) and `REMAINING_BLOCKER` ("remaining" implies
+    the blocker pre-existed, which the caller's run 1 — a blocker the repair itself created —
+    contradicts). Ground taken: the value names the set the candidate already calls
+    `unresolved_finding_ids` (`summary.py:12`: exactly the reviewer's blocking findings), so
+    one word carries one concept across the verdict and the field item 1's branch fills.
+11. **Sibling sites ratified as the executor's scan put them.** Contract `:127-128` loses the
+    ordinal — "never a fourth control verdict" becomes "never a control verdict" — because
+    with four values in the union the phrase would start naming the new value; no clause
+    added, no requirement changed. `schema/document-assurance-v3/user-decision.schema.json:44`,
+    the same sentence's sibling (`E7`), takes the same deletion: it is an announced path not
+    named by ruling 2's list, and this ruling adds it to the round's boundary, `E2` disclosure
+    site by site. Contract `:195-196` and `:200-201` ("an unrepaired blocker", the fourth site
+    the scan found, unnamed by `HD-70`) stay as written: the value names the verdict that
+    reports the condition, not a new route to `STOPPED_REPLAN`. `HD-70`'s `:196-197` is
+    `:195-196` at `b9710af` (`:197` blank); corrected forward here and in the journal, the
+    entry untouched (`HD-59`).
+
 ## The six defects, each pinned to the tree
 
 Numbering below is the ledger row's order and is the batch's item vocabulary.
