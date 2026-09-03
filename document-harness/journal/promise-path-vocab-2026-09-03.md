@@ -49,3 +49,18 @@ derivable at the `E11` card (the schema-description sibling was in the orchestra
 second scan and mis-triaged as a restatement); only `:200-201` needed the wider class
 reading the executor made. Whether the card must carry candidate names and a written class
 definition is batch `dispatch-economy`'s question, not filed here (`R5`).
+
+**Executor complete (2026-09-03).** The resumed session ran to the end of step 3 without a
+second stop: `15e5ccc` (item 2) and `97cc298` (item 1 + rider `no-repair-unbound` + the
+touch record), 130 turns in all across the cold start and one resume. Executor-reported and
+not yet independently reproduced: battery 951 at `97cc298`, 16 mutation probes fired, riders
+table at 32 data rows by id column after two redemptions and this round's one banking. Three
+judgments the executor flagged for the review: no new decision phase or value (the FINAL
+decision itself is the licence); the companion guard refusing an unqualified `ACCEPT` over a
+standing blocker, which ruling 1's enumeration implied but did not name; and
+`check_verify_outcome` left logically unchanged. Plan step 3 checked in this commit.
+
+**FULL range.** `b9710af..97cc298`: base = the executor's dispatch tip, tip = its last
+candidate commit, the shape round 1 used (`1c18e4a..38038ec`). The plan's step-4 placeholder
+said "HD-70 tip", which would have put the read record and the disposition commit inside the
+subject; the plan is corrected in the same commit as this note.

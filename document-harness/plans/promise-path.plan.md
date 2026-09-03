@@ -393,17 +393,22 @@ alternative offered and not taken was a versioned successor (v5) for one table r
   `HD-63`'s class; no sixth family ruling); O-1 is `wl-route`'s deadline arriving — route
   taken as `E10`/`R10` say, row stands; O-2 recorded, `E2` re-baseline deferred to closeout.
   No amendment/re-read pair owed: nothing above low.
-- [ ] 3. **Executor.** One cold `claude -p` on `opus` (`HD-69`: stops at decision points, the
-  same session resumes; session id in the journal by hand). Item 2's value first, since item
-  1's branch fires on it: the value's name and the sibling contract sites at the first stop,
-  then `R3`, `REVIEW.md:129-135`, `review.v2.schema.json`, `dispatch.py` `VERDICTS`,
-  `flow.check_verify_outcome`, contract `:118` under `HD-70` (`E2` disclosure; the signature
-  record's eighth post-signature write); then item 1 — bind's blocking-VERIFY branch, the
-  flow admitting it, the binding of its gate and of `NO_REPAIR` (rider `no-repair-unbound`,
-  row deleted in that commit); `REVIEW.md`'s *Where the result lives* after `R6` (rider
-  `record-commit-owner`, row deleted in that commit); the suite's rows for items 1–2;
-  mutation per `E4`; the touch record on `emit-reviewed-legality`.
-- [ ] 4. **FULL → (one fix) → VERIFY → closeout.** Range `<HD-70 tip>..<candidate tip>`;
+- [x] 3. **Executor — DONE 2026-09-03.** One cold `claude -p` on `opus` at `b9710af`, session
+  `d8f5d450-a3cf-495a-86c5-99840b0c8ca6`, no web tools; stopped once (the value's name and
+  the sibling sites, rulings 10–11 at `b8a2183`) and the **same session resumed** (`HD-69`).
+  Landed `61afc26` (rider `record-commit-owner`, `REVIEW.md:46,156`), `15e5ccc` (item 2:
+  `UNRESOLVED_BLOCKER` at all eight VERIFY-row sites, root enum four with a new FULL
+  narrowing, the ordinal deleted at contract `:127` and `user-decision.schema.json:44`,
+  signature record's eighth write), `97cc298` (item 1: bind's standing-blocker branch in two
+  passes, FINAL decision binding the candidate digest as the licence; new state field
+  `bind_authorization_ref` redeeming rider `no-repair-unbound`; companion guard
+  `V3-ASSURANCE-ACCEPTED-OVER-BLOCKER`; touch record on `emit-reviewed-legality`; the
+  suite's rows). Executor-reported: battery 951, 16 mutation probes fired; the FULL
+  re-derives both. `check_verify_outcome` changed only in docstring — it already reported
+  the standing blocker, which the branch keys on by issue code.
+- [ ] 4. **FULL → (one fix) → VERIFY → closeout.** Range `b9710af..97cc298` — base = the
+  executor's dispatch tip, as round 1's `1c18e4a..38038ec` took it, so the range is the round's
+  work and the ruling carrier inside it, not the read record;
   lows' spend/bank (`R10`) and observation routing (`R5`) to the user before closeout; then
   batch `PROMISE-PATH` closes and the queue head becomes candidate isolation.
 
