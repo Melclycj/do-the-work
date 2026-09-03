@@ -1,5 +1,36 @@
 # Contract v4 signature record
 
+## ⚠ Signature SUSPENDED — 2026-09-04 (revision period; re-signature owed)
+
+**The user suspended v4's signature on 2026-09-04**, for a period of active contract revision,
+and it has not been re-signed since. This register is the authority on the contract's
+signed-status (the contract's own *Signature semantics* block and §14 delegate it here — the
+file "never carries its own approval status"), so while this section stands, **v4 is a draft
+under revision, not a signed contract.**
+
+- **What it lifts.** §13's clause "Signed contracts are never amended in place; corrections
+  create a versioned successor" keys on the contract being **signed**. A draft is not, so that
+  clause does not bind during suspension: the contract may be edited in place, and no
+  per-edit ruling (the `HD-63`/`64`/`67`/`68`/`70` family, all retired 2026-09-04) is needed.
+- **What it does NOT lift.** The contract is still an `E2` announced path — a write to it is
+  disclosed after the fact, site by site, in the commit body — and still an `E10` instruction-
+  layer member, so an edit still owes `E10`'s independent re-read; a factual correction that
+  adds no clause and changes no requirement takes `E10`'s free channel (relied on at once, the
+  re-read riding the next layer read), and only a requirement-changing edit opens a round. That
+  is the whole of what makes a contract edit cost anything now.
+- **What was signed is preserved, not erased.** The blob recorded below (`614932de…`) remains
+  the record of what the 2026-08-23 signature bound; suspension is a status change, not a
+  deletion of that fact.
+- **Re-enable (owed before stability is declared).** Add a re-signature entry here: the new
+  blob's id and sha256, the date, and a statement that the whole text was read. §13 binds again
+  the moment this section is replaced by that entry.
+- **Why this is not a decision-log ruling.** Suspending and re-signing are the signer's own
+  authorization events, recorded where signing status lives (here), not design-layer rulings —
+  consistent with the 2026-08-21 ruling that an in-repo "the user approved" is an authorization
+  fact, not a decision-log entry, and that no approval-carrier machine is built for it.
+
+---
+
 Per the contract's own *Signature semantics* block and §14 — the signature record lives outside
 the file it signs — the user signed **`Document-Work-Assurance-Contract-v4.md`** on
 **2026-08-23**, at the close of round `CONTRACT-V4`, after stating that the whole text had been
