@@ -64,3 +64,39 @@ standing blocker, which ruling 1's enumeration implied but did not name; and
 candidate commit, the shape round 1 used (`1c18e4a..38038ec`). The plan's step-4 placeholder
 said "HD-70 tip", which would have put the read record and the disposition commit inside the
 subject; the plan is corrected in the same commit as this note.
+
+**FULL (2026-09-03).** Dispatched on `b9710af..97cc298` at branch tip `f0143c8`; cold
+`claude -p` on `opus` without web tools, session `da96703b-e90f-4f7b-a65e-f427310cb490`, 91
+turns; record `v3-review-full-97cc298.md` committed unchanged at `67dbb08`, the marker deleted
+in that act. **`CHANGES_REQUIRED`**: B-1 (the companion guard refuses an ordinary successful
+repair — its predicate is the union of every review's blockers, closed ones included), B-2
+(the new licence pointer is written with a digest no reader checks: absent from
+`POINTER_FIELDS` and from `read_control_plane`'s field tuple), L-1, L-2, L-3, O-1, O-2, O-3.
+Item 2 clean at every site; the branch itself driven end to end by the reviewer; battery 951
+reproduced.
+
+**Design or execution — asked by the user, answered before the leg was ruled.** B-1:
+execution, with a design gap — ruling 1 named three FINAL outcomes and was silent on bare
+`ACCEPT`; the executor filled the gap, reasonably, and chose the wrong predicate, misreading a
+field whose own docstring says the controller has no vocabulary for "repaired"; its tests
+pinned the intent, not the population the predicate covers. B-2: execution — half a mechanism
+(a writer with a digest, no reader); the class scan for "every place a new pointer field is
+registered" was not run although the tuple's docstring says "every pointer-shaped field"; the
+rider row was deleted while its stated defect (a later reader cannot verify) was still open;
+all nine executor probes were on the write side, and no test pinned the two tables'
+consistency.
+
+**Resume 2 (2026-09-03), the user's "同意".** Plan ruling 12: leg (ii) B-1 + B-2 + L-2, B-2's
+fix carrying a class assertion; O-2 banked as `bound-at-digest-gate`; O-1 and L-1 corrected
+forward below; L-3 answered by the plan's boundary line; O-3 recorded. Same executor session
+resumed for the one fix; it obliges the targeted VERIFY.
+
+**Forward corrections (`HD-59`; the number under `HD-23`).** O-1: the figure "riders table at
+32 data rows by id column" in `f0143c8`'s body and in the *Executor complete* note above is
+wrong — the pattern used required lowercase ids and skipped `RA`, `PD` and `E10-sync`; counted
+by the id column with the header and separator rows excluded, the table holds **35** rows at
+`97cc298` (37 at `b9710af`, 36 after the first redemption, 35 after the second), the
+reviewer's figure, re-measured here. L-1: `97cc298`'s class-scan section cites
+`document-harness/REVIEW.md:215` for the promise sentence at its declared anchor `15e5ccc`,
+where that sentence sits at `:226`; `:215` was its line at `61afc26`. Both bodies stand as
+written.

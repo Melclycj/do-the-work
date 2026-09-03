@@ -141,6 +141,27 @@ its `61afc26`), the user's word: **"1b 2 同意"**.
     `:195-196` at `b9710af` (`:197` blank); corrected forward here and in the journal, the
     entry untouched (`HD-59`).
 
+The FULL's disposition (2026-09-03, record `67dbb08`, `v3-review-full-97cc298.md`:
+`CHANGES_REQUIRED`, B-1 + B-2 + three lows + three observations), the user's word: **"同意"**
+to the recommendation as put, after asking whether each blocker was design or execution
+(answered in conversation and recorded in the journal).
+
+12. **The repair leg is (ii): B-1 + B-2 + L-2 — one user-approved fix, obliging the targeted
+    VERIFY.** B-1's fix is the record's minimum: the companion guard consumes the
+    standing-blocker fact (the operative VERIFY's `UNRESOLVED_BLOCKER` /
+    `flow.BLOCKER_AFTER_VERIFY`) rather than inferring it from `unresolved_finding_ids`;
+    changing that field's semantics is a design question the executor stops for, not
+    decides. B-2's fix is the record's minimum — the name added to
+    `assurance_state.POINTER_FIELDS` and to `review_subject.py`'s field tuple — plus, at the
+    user's word, one class assertion that every member of `DIGEST_PROTECTED_FIELDS` is in
+    `POINTER_FIELDS`, so the defect class and not the instance is what the test pins (`E7`),
+    mutation-proven (`E4`). L-2 folds: `five` → `six` at the three sites the record names.
+    Option (i), the two blockers alone, was offered and not taken. Off the leg, as records
+    rather than the reviewed work product: L-1 and O-1 are corrected forward in the journal
+    (`HD-59`, `HD-23`); L-3 is answered by this plan's *Change boundary* growing below; O-2 is
+    banked as rider `bound-at-digest-gate`; O-3 stays recorded, and the closeout states the
+    real carrier of the owed `E10` re-read — the next round's opening cold read.
+
 ## The six defects, each pinned to the tree
 
 Numbering below is the ledger row's order and is the batch's item vocabulary.
@@ -273,6 +294,11 @@ the engine or the table answers it.
 
 - **In**: `tooling/rsclib/document_harness/flow.py` ·
   `tooling/rsclib/document_harness/review_result_v2.py` (item 7's validation entry) ·
+  **added 2026-09-03 under ruling 12, answering the FULL's L-3 (written in round 2 without
+  the escape being named):** `tooling/rsclib/document_harness/summary.py` (the companion
+  guard) · `tooling/rsclib/document_harness/dispatch.py` (`VERDICTS`) ·
+  `tooling/rsclib/document_harness/assurance_state.py` and
+  `tooling/rsclib/document_harness/review_subject.py` (the licence pointer and its readers) ·
   `assurance/templates/run-v2/` (both
   templates) · `schema/document-assurance-v3/` additions and, under the rulings, the three
   existing schema files · `tooling/tests/` · under *Rulings* 2: `document-harness/RULES.md`
