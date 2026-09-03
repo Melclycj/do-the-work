@@ -126,7 +126,7 @@ subject makes tampering visible; it establishes nothing about whether the work i
 
 | Round | Verdicts | Scope |
 |---|---|---|
-| FULL | `REVIEWED_NO_BLOCKER` · `CHANGES_REQUIRED` · `SPEC_GAP` | the whole frozen package |
+| FULL | `REVIEWED_NO_BLOCKER` · `CHANGES_REQUIRED` · `SPEC_GAP` | the whole dispatched subject — the committed control plane as floor, and the tree at the pinned revisions |
 | VERIFY | `REVIEWED_NO_BLOCKER` · `SPEC_GAP` · `UNRESOLVED_BLOCKER` | the accepted findings, the **entire** repair diff, and the permanent boundaries |
 
 A VERIFY cannot return `CHANGES_REQUIRED` — there is no second repair for it to request. A

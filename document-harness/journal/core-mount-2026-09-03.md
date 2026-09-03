@@ -45,3 +45,34 @@ Kept here because the plan carries the conclusions and this is where the reading
 This session is the orchestrator (work side). The executor is a separate cold `claude -p`
 session; the reviewer and the reader are cold. The norm the three-roles table states; no
 exception channel is taken. The executor holds none of `R1`'s four holdings.
+
+**Read (2026-09-03).** Dispatched at tip `73bfe1e` (`python tooling/construction_dispatch.py
+--read 73bfe1e`), one cold `claude -p` on `opus`, `--disallowedTools WebFetch WebSearch`,
+`--permission-mode acceptEdits`, git allowed only as read-only subcommands (`log`, `show`,
+`ls-tree`, `rev-parse`, `diff`, `ls-files`, `cat-file`, `status`, `grep`, `blame`,
+`hash-object`, `rev-list`, `branch`, `describe`); session `1d4ccd50-4070-4b3f-a4a7-1718b4b7e75d`,
+49 turns, 903 s. Record `v3-cold-read-73bfe1e.md` committed unchanged at `d0d029a`, the freeze
+marker deleted in that act; no commit landed inside the window. **0 must-fix, 2 low, 2
+observation**; the reader took nothing by citation — eight files end to end — and its §3
+discharges the three deferrals `PROMISE-PATH`'s closeout named (`15e5ccc`, `61afc26`,
+`b9710af`), each found standing. Battery 956 by the reader; 0 unresolved path tokens over the
+whole standing text; 40 markdown links resolving; `sweep_refs` 13 NAMETOK unchanged.
+
+**Disposition (2026-09-03), the user's "1 入 bank 2 用 3 记录 4 转".** L-1 (the `R3` /
+`REVIEW.md:264-268` verdict collision at a VERIFY) is banked as rider
+`verify-specgap-precedence` — design, no bytes, both targets named, deadline the first
+product-run VERIFY that records `instruction_completeness: INCOMPLETE` with a blocker standing.
+L-2 (`REVIEW.md:129`'s "the whole frozen package") takes `E10`'s free channel with the
+record's exact bytes; the orchestrator's two findings: the application adds no clause and
+changes no rule's requirement (the FULL's subject was already one dispatched SHA by `E12` and
+by `REVIEW.md`'s own *When the subject is one commit*), and no round has relied on the cell
+(an outcome would not have changed had it read otherwise); its independent read rides the
+next read of this layer. This is the third arrival of rider `wl-route`'s deadline event; the
+route taken is `E10`'s enumeration and `R10`'s routing sentence, as `1c18e4a` and `b9710af`
+took it; the row stands. O-1 (the ReviewResult's commit has no named owner in `R6`'s text
+after the `record-commit-owner` fix) and O-2 (a VERIFY's stated scope excludes the
+instruction map while every result must carry an instruction-completeness recheck — `R5`'s
+question, put to the user) stay in the record; the user chose to record O-2 and not open it.
+`HD-70` flips `implemented` → `retired` in the disposition commit, its carrier being the read
+record `d0d029a` (`HD-2`), every earlier word of its status line kept (`HD-59`). Acceptance 4
+is written forward in the plan to name this commit's one member change. Plan step 2 checked.

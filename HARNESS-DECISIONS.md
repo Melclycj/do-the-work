@@ -284,7 +284,10 @@
 ## §implemented —— 在 force，细则已由别处承载（不必读，grep 可达）
 
 ### HD-70 · 契约 v4 `:118` 的 VERIFY verdict 行准予就地**加一个值**——本裁**明写盖过契约 §13**，`HD-63` / `HD-64` / `HD-67` / `HD-68` 之后本族第五条，盖的对象是「闭合枚举的**词表扩张**」
-- 2026-09-03 · user · scope: one-shot · status: **implemented**（用户裁决 2026-09-03 翻态，挪节与翻转同
+- 2026-09-03 · user · scope: one-shot · status: **retired**（用户裁决 2026-09-03 二次翻态「转」：本条所欠的
+  `E10` 独立复读已由轮 `CORE-MOUNT` 的开轮冷读承载——记录 `v3-cold-read-73bfe1e.md` 于 `d0d029a` 原样落地，
+  其 §3 通读 `15e5ccc` 改后的契约 `:118`/`:127`、`RULES.md` `R3` 与 `REVIEW.md` 文本并判该设计 stands、
+  五个站点均如裁；无后继，终态；前一态 `implemented` 的理由原样留在下文：用户裁决 2026-09-03 翻态，挪节与翻转同
   commit 按 `HD-2`；承载 = `15e5ccc`（契约 `:118` 加 `UNRESOLVED_BLOCKER`、`:127` 删序数，
   `CONTRACT-V4-SIGNATURE.md` 第八笔签署后写入），经 FULL `67dbb08` + VERIFY `da1aac3` 审毕；改后文本欠
   `E10` 独立复读，由**下一轮开轮冷读**承载，复读回来后转 `retired` 归用户；原 live 理由随本条挪节留在下文

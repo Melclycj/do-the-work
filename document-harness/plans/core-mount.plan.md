@@ -216,6 +216,11 @@ if question 2 folds the rider), `HD-34` (nothing here writes outside this reposi
    `document-harness/ONBOARDING.md` and in `CONSTRUCTION-INDEX.md`; `grep -c 'Nine items'
    document-harness/ONBOARDING.md` → 0.
 4. **No member moved.** `git diff --stat 05ae1b6..<tip> -- <the seven E10 paths>` → empty.
+   *Forward note, 2026-09-03 (step 2):* the disposition commit applied the read's L-2 bytes
+   to `document-harness/REVIEW.md:129` by `E10`'s free channel, so over `05ae1b6..<tip>` that
+   command returns exactly that one file and one line; the criterion is read as **no member
+   moved by the executor's commits** — `git diff --stat <disposition commit>..<tip>` over the
+   seven paths → empty — and the FULL meets the `REVIEW.md` change declared, not discovered.
 5. **The index is true at its own tip**: header figures re-measured by the commands it
    prints; row 3's five tokens and row 9 present; the test's parse of the table equals the
    manifest.
@@ -240,10 +245,22 @@ if question 2 folds the rider), `HD-34` (nothing here writes outside this reposi
   "ok" at the `E11` card, base `05ae1b6`; rulings 1–4 written above; journal
   `document-harness/journal/core-mount-2026-09-03.md` opened tracked; ledger entry for the
   batch carrying the queue ruling.
-- [ ] 2. **Read + disposition** — `python tooling/construction_dispatch.py --read <tip>`
-  (writes the freeze marker), one cold `claude -p` on `opus` without web tools; record
-  committed unchanged, marker deleted in that act; must-fix → amendment + re-read pair;
-  lows → free channel or bank per `R10`; `HD-70` → `retired` if the user rules it.
+- [x] 2. **Read + disposition — DONE 2026-09-03.** Read dispatched at `73bfe1e` (`python
+  tooling/construction_dispatch.py --read 73bfe1e`), one cold `claude -p` on `opus` without
+  web tools and with git restricted to read-only subcommands, session
+  `1d4ccd50-4070-4b3f-a4a7-1718b4b7e75d`, 49 turns, 903 s; record `v3-cold-read-73bfe1e.md`
+  committed unchanged at `d0d029a`, marker deleted in that act. **0 must-fix, 2 low, 2
+  observation**; all eight files read end to end (the narrow form was available and not
+  used); all three `PROMISE-PATH` deferrals discharged (§3); battery 956 by the reader.
+  Disposition (user "1 入 bank 2 用 3 记录 4 转"): **L-1 banked** as rider
+  `verify-specgap-precedence` (design; deadline the first product-run VERIFY recording
+  `instruction_completeness: INCOMPLETE` with a blocker standing); **L-2 applied** to
+  `REVIEW.md:129` by `E10`'s free channel with the record's bytes — adds no clause, changes
+  no requirement, no round relied on the cell; its read rides the next layer read; rider
+  `wl-route`'s deadline event a third time, row stands; **O-1, O-2 stay in the record**, no
+  rows (O-2 is `R5`'s question, put and answered "record"); **`HD-70` → `retired`** in the
+  disposition commit (carrier: the read record `d0d029a`). No amendment/re-read pair owed:
+  nothing above low. **Acceptance 4 is read accordingly** — see its forward note.
 - [ ] 3. **Executor** — `python tooling/construction_dispatch.py --construction-executor`
   plus this plan's path as the instruction; one session; commits inside the boundary, each
   body naming its kind and pasting acceptance output; session id to the journal.
