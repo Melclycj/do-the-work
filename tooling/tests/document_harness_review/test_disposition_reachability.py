@@ -689,7 +689,11 @@ class Reachers:
             promotion=summary.no_promotion("a blocker stands; nothing was promoted"),
             generated_by="reachability controller",
         )
-        report = summary.check_summary(document, candidate, decision)
+        # The reviews go in because a real caller's FINAL step must supply them since FULL
+        # `97cc298` `B-1`: the terminal check reads the operative verdict rather than guessing
+        # a standing blocker from `unresolved_finding_ids`. Driving the route without them
+        # would exercise a call no caller may now make.
+        report = summary.check_summary(document, candidate, decision, [full, verify])
         self.case.assertEqual(report.rendered(), [], "the summary the engine produced is refused")
         self.case.assertEqual(document["outcome"], "ACCEPT_WITH_LIMITATIONS")
         self.case.assertEqual(document["limitations"], [RESIDUAL])

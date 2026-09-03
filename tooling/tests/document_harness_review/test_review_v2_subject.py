@@ -363,6 +363,27 @@ class PointerHelper(unittest.TestCase):
             with self.assertRaises(AssuranceFault):
                 assurance_state.pointer_to("missing.json", repo.root)
 
+    def test_every_digest_protected_field_is_a_pointer_field(self):
+        """The CLASS FULL `97cc298` `B-2` was one instance of (`E7`).
+
+        `pointer_for` writes a digest on every `DIGEST_PROTECTED_FIELDS` member, and the
+        readers that resolve and verify a state's pointers walk `POINTER_FIELDS` —
+        `assurance_state.resume`, `ResumePoint.render`. A name in the first set and not the
+        second is written with a digest nothing in this repository ever reads, which is
+        exactly what `bind_authorization_ref` was for one round.
+
+        Both sets are read from the module here, and that is the point rather than a lapse:
+        the property is a RELATION between them, and hand-writing either side would pin the
+        one name this finding reported instead of the rule it broke. The membership of the
+        protected set is pinned by hand in the test below, which is where that belongs.
+        """
+        self.assertEqual(
+            sorted(set(assurance_state.DIGEST_PROTECTED_FIELDS)
+                   - set(assurance_state.POINTER_FIELDS)),
+            [],
+            "a digest is written on this field and no reader of the state resolves it",
+        )
+
     def test_pointer_for_writes_a_digest_on_exactly_the_protected_fields(self):
         """The narrowed policy, held by hand-written field names (never the module's set).
 

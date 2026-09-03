@@ -1486,46 +1486,85 @@ class SummaryIsTheUsersDecision(unittest.TestCase):
                     else:
                         self.assertIn("V3-ASSURANCE-OUTCOME-ALTERED", codes(report))
 
-    def test_an_unqualified_accept_over_a_standing_blocker_is_refused(self) -> None:
-        """Round `PROMISE-PATH-VOCAB`, item 1's companion guard.
+    #: The two round-1 populations this guard has to tell apart, and the whole of `B-1`. Both
+    #: carry the SAME `unresolved_finding_ids` — the union over every bound review, which is
+    #: what `run_bind_v2.unresolved_ids` derives and what `check_assurance_candidate` enforces
+    #: — so the field cannot distinguish them and only the operative verdict can.
+    REPAIRED = (make_review(findings=[make_finding("f-changelog")]),
+                make_review(result_id="rr-verify", review_round="VERIFY",
+                            verdict="REVIEWED_NO_BLOCKER",
+                            accepted_finding_ids=["f-changelog"]))
+    STANDS = (make_review(findings=[make_finding("f-changelog")]),
+              make_review(result_id="rr-verify", review_round="VERIFY",
+                          verdict="UNRESOLVED_BLOCKER", findings=[make_finding("f-changelog")],
+                          accepted_finding_ids=["f-changelog"]))
 
-        Structural until this round and therefore unwritten: no AssuranceCandidate could
-        exist over a standing blocker, so no summary could accept one. Item 1 built exactly
-        that candidate on purpose — it is what makes a FINAL representable after a blocking
-        VERIFY — and the outcomes the ruling enumerated for it are ACCEPT_WITH_LIMITATIONS,
-        REJECT and REPLAN. Bare ACCEPT is the one it did not name and the one that would
-        matter: the summary would close the run declaring no limitation at all while the
-        candidate it terminates binds the reviewer's blocking finding.
+    def accept_codes(self, *, reviews, decision="ACCEPT", limitations=()):
+        """One ACCEPT-shaped summary over a candidate carrying a blocking finding id."""
+        candidate = make_candidate(unresolved_finding_ids=["f-changelog"])
+        final = make_final_decision(
+            candidate=candidate, decision=decision, limitations=limitations)
+        generated = make_summary(candidate=candidate, decision=final)
+        return codes(summary.check_summary(generated, candidate, final, reviews))
+
+    def test_an_unqualified_accept_over_a_blocker_that_still_stands_is_refused(self) -> None:
+        """Round `PROMISE-PATH-VOCAB` item 1's companion guard, as FULL `97cc298` `B-1` fixed it.
+
+        Item 1 made an AssuranceCandidate over a standing blocker possible, so bare ACCEPT —
+        the one outcome the ruling did not name for it — had to be refused rather than left
+        structurally impossible. The first version of the guard read
+        `unresolved_finding_ids` and refused the harness's ORDINARY success as well, because
+        that field is the union of blocking findings over every bound review and carries a
+        finding the repair closed. The two populations below differ in exactly one thing —
+        the operative review's verdict — and the guard now reads that.
         """
-        standing = make_candidate(unresolved_finding_ids=["f-changelog"])
-        accepted = make_final_decision(candidate=standing, decision="ACCEPT")
-        report = summary.check_summary(
-            make_summary(candidate=standing, decision=accepted), standing, accepted)
-        self.assertIn("V3-ASSURANCE-ACCEPTED-OVER-BLOCKER", codes(report))
+        self.assertIn(
+            "V3-ASSURANCE-ACCEPTED-OVER-BLOCKER", self.accept_codes(reviews=self.STANDS))
 
-        # Negative control, one field apart: the same standing blocker under the outcome the
-        # rules DO name for it. The schema already forces `limitations` there, so the blocker
-        # cannot vanish silently and this guard has nothing to add.
-        disclosed = make_final_decision(
-            candidate=standing,
-            decision="ACCEPT_WITH_LIMITATIONS",
-            limitations=["the blocking finding f-changelog is still open after the repair"],
-        )
+    def test_the_ordinary_repaired_run_closes_on_accept(self) -> None:
+        """`B-1`'s negative control, and the case that made it a blocker.
+
+        FULL names a blocker, the user approves the repair, the VERIFY returns
+        REVIEWED_NO_BLOCKER. The candidate still carries that finding id — the controller has
+        no vocabulary for "repaired" — and ACCEPT is the correct FINAL. Nothing here may fire.
+        """
+        self.assertEqual(self.accept_codes(reviews=self.REPAIRED), [])
+
+    def test_the_outcome_the_rules_do_name_over_a_standing_blocker_is_not_refused(self) -> None:
+        """Negative control on the outcome, same standing blocker.
+
+        The schema already requires `limitations` on ACCEPT_WITH_LIMITATIONS, so the blocker
+        cannot vanish silently there and this guard has nothing to add.
+        """
         self.assertNotIn(
             "V3-ASSURANCE-ACCEPTED-OVER-BLOCKER",
-            codes(summary.check_summary(
-                make_summary(candidate=standing, decision=disclosed), standing, disclosed)),
+            self.accept_codes(reviews=self.STANDS, decision="ACCEPT_WITH_LIMITATIONS",
+                              limitations=["finding f-changelog is still open"]),
         )
 
-        # Negative control, the other field: an unqualified ACCEPT is the normal terminal
-        # outcome when nothing stands, so the guard must be about the blocker, not ACCEPT.
+    def test_an_accept_over_a_candidate_with_nothing_unresolved_is_not_refused(self) -> None:
+        """Negative control on the candidate: the guard is about the blocker, not about ACCEPT."""
         clean = make_candidate()
-        clean_accept = make_final_decision(candidate=clean, decision="ACCEPT")
+        final = make_final_decision(candidate=clean, decision="ACCEPT")
         self.assertNotIn(
             "V3-ASSURANCE-ACCEPTED-OVER-BLOCKER",
             codes(summary.check_summary(
-                make_summary(candidate=clean, decision=clean_accept), clean, clean_accept)),
+                make_summary(candidate=clean, decision=final), clean, final, self.STANDS)),
         )
+
+    def test_without_the_reviews_the_question_is_unverified_never_satisfied(self) -> None:
+        """The parameter arrived after the function did, so its absence must be loud.
+
+        A caller that has not been updated would otherwise silently disable the guard, which
+        is the fail-open shape this module has been bitten by and the shape `B-2` — a digest
+        nobody reads — is the same round's other instance of. Paired with the two supplied
+        cases above, which is what makes this an ABSENCE test rather than a second refusal.
+        """
+        unverified = "V3-ASSURANCE-STANDING-BLOCKER-UNVERIFIED"
+        self.assertIn(unverified, self.accept_codes(reviews=None))
+        self.assertIn(unverified, self.accept_codes(reviews=()))
+        self.assertNotIn(unverified, self.accept_codes(reviews=self.STANDS))
+        self.assertNotIn(unverified, self.accept_codes(reviews=self.REPAIRED))
 
     def test_a_dropped_limitation_is_named(self) -> None:
         candidate = make_candidate()

@@ -57,6 +57,7 @@ POINTER_FIELDS = (
     "review_ref",
     "repair_decision_ref",
     "assurance_candidate_ref",
+    "bind_authorization_ref",
     "final_decision_ref",
     "summary_ref",
 )
@@ -65,7 +66,7 @@ POINTER_FIELDS = (
 #: The pointer fields that still carry — and are still checked against — a bytes digest.
 #:
 #: The criterion is *permission*, never value: **if this file were mis-written and the
-#: executor regenerated it, would that be forgery?** Yes for these five. A START / REPAIR /
+#: executor regenerated it, would that be forgery?** Yes for these six. A START / REPAIR /
 #: FINAL decision is the user's authorization and a review record is the reviewer's
 #: judgement, so an executor re-issuing either is signing someone else's name; the WorkSpec
 #: is the paper this run is judged against, and while the executor authored its first

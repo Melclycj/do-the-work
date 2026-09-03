@@ -73,12 +73,13 @@ w1-r1 established the layout conventions this template inherits; they are
   life — retired at closeout (`HD-12`);
 - state pointers are authored via `assurance_state.pointer_for`, which writes a **BYTES**
   digest — never a hand-supplied canonical one — on the fields in
-  `assurance_state.DIGEST_PROTECTED_FIELDS` (`work_spec_ref`, the three decision refs,
-  `review_ref`) and the path alone on every other field. Those five name files whose
+  `assurance_state.DIGEST_PROTECTED_FIELDS` (`work_spec_ref`, the four decision refs,
+  `review_ref`) and the path alone on every other field. Those six name files whose
   current version the executor is not entitled to produce; elsewhere a digest the executor
   computes over a file it may legitimately rewrite binds no one, so it is not written
-  (2026-07-29 narrowing). Of the five, only `review_ref` is written by these scripts
-  (`run_bind_v2.py`); the other four are authored outside this template.
+  (2026-07-29 narrowing). Of the six, two are written by these scripts — `review_ref`, and
+  `bind_authorization_ref` since round `PROMISE-PATH-VOCAB` gave `run_bind_v2.py` a licence
+  pointer to record; the other four are authored outside this template.
 
 ## What changed from the w1-r1 shape
 

@@ -290,6 +290,7 @@ def check_summary(
     summary: Mapping[str, Any],
     candidate: Mapping[str, Any],
     decision: Mapping[str, Any],
+    reviews: Sequence[Mapping[str, Any]] | None = None,
 ) -> Report:
     """Invariants 12 and 13, N2-A8 and N2-A9: faithful to the user, and never promoting a refusal."""
     # --- invariant 13 / N2-A8, run FIRST and unconditionally ---
@@ -398,31 +399,60 @@ def check_summary(
             )
         )
 
-    # --- an unqualified ACCEPT cannot terminate a candidate with a blocker still standing ---
+    # --- an unqualified ACCEPT cannot terminate a run whose reviewer says a blocker STANDS ---
     #
-    # Structural until round `PROMISE-PATH-VOCAB`: no AssuranceCandidate could exist over a
-    # standing blocker, so no summary could accept one, and nothing had to say this. Item 1
-    # built that candidate on purpose — it is what makes a FINAL representable after a
-    # blocking VERIFY — and the outcomes the ruling enumerated for it are
-    # ACCEPT_WITH_LIMITATIONS, REJECT and REPLAN. Bare ACCEPT is the one it did not name, and
-    # it is the one that would matter: the candidate carries `unresolved_finding_ids` because
-    # the reviewer recorded blocking findings, and an ACCEPT summary declares no limitations
-    # at all, so the run would close asserting less openness than the reviewer stated. This
-    # is invariant 4's shape — NOT_IMPLEMENTED can never become unqualified success — arriving
-    # at the terminal step. `ACCEPT_WITH_LIMITATIONS` is not caught: the schema already
-    # requires `limitations` on it, so the blocker cannot vanish silently there.
+    # Round `PROMISE-PATH-VOCAB` item 1 made an AssuranceCandidate over a standing blocker
+    # possible, so the outcomes its ruling enumerated — ACCEPT_WITH_LIMITATIONS, REJECT,
+    # REPLAN — needed the fourth, bare ACCEPT, refused rather than left structurally absent.
+    # Invariant 4's shape at the terminal step: NOT_IMPLEMENTED can never become unqualified
+    # success.
+    #
+    # **The fact this consumes is the reviewer's verdict, and the reason is FULL `97cc298`
+    # `B-1`.** The first version of this guard read `unresolved_finding_ids` and treated a
+    # non-empty list as "a blocker stands". That field is not that: `run_bind_v2.unresolved_ids`
+    # is the union of blocking findings over EVERY bound review, and says so — the controller
+    # has no vocabulary for "repaired", because whether a repair worked is the reviewer's
+    # judgment. So the harness's ordinary success — a FULL naming a blocker, an approved
+    # repair, a VERIFY returning REVIEWED_NO_BLOCKER — produced a candidate carrying that
+    # CLOSED finding and had its correct ACCEPT refused. The operative review's verdict is
+    # what distinguishes the two populations, and `UNRESOLVED_BLOCKER` exists to carry it.
+    # Narrowing `unresolved_finding_ids` instead would change what `check_assurance_candidate`
+    # enforces about the reviewer's claim, and is not this guard's to decide.
+    #
+    # Operative = the last review bound, which is `run_bind_v2`'s own definition of it and
+    # the only one that can hold this verdict: a FULL may not return it (review.v2's FULL
+    # narrowing), so at round 0 the answer is always "nothing stands".
+    #
+    # Absent reviews are UNVERIFIED, never satisfied. `check_summary` grew this parameter
+    # after the fact, so a caller that has not been updated would otherwise silently disable
+    # the guard — the fail-open shape this module has been bitten by, and the shape `B-2`
+    # (a digest nobody reads) is the same round's other instance of.
     unresolved = candidate.get("unresolved_finding_ids") or []
     if summary.get("outcome") == "ACCEPT" and unresolved:
-        issues.append(
-            Issue(
-                f"{CODE}-ACCEPTED-OVER-BLOCKER",
-                f"the summary records an unqualified ACCEPT while the candidate carries "
-                f"{len(unresolved)} unresolved blocking finding(s) "
-                f"({', '.join(sorted(unresolved))}); the honest terminal outcomes over a "
-                "standing blocker are ACCEPT_WITH_LIMITATIONS naming it, REJECT or REPLAN",
-                "outcome",
+        operative = reviews[-1] if reviews else None
+        if not isinstance(operative, Mapping):
+            issues.append(
+                Issue(
+                    f"{CODE}-STANDING-BLOCKER-UNVERIFIED",
+                    "the summary records an unqualified ACCEPT and the candidate carries "
+                    f"{len(unresolved)} unresolved finding(s) "
+                    f"({', '.join(sorted(unresolved))}), but no review was supplied, so "
+                    "whether any of them still STANDS could not be established; this is an "
+                    "unverified property, not a satisfied one",
+                    "outcome",
+                )
             )
-        )
+        elif operative.get("verdict") == "UNRESOLVED_BLOCKER":
+            issues.append(
+                Issue(
+                    f"{CODE}-ACCEPTED-OVER-BLOCKER",
+                    "the summary records an unqualified ACCEPT while the operative review "
+                    f"returned UNRESOLVED_BLOCKER over {len(unresolved)} finding(s) "
+                    f"({', '.join(sorted(unresolved))}); the honest terminal outcomes over a "
+                    "standing blocker are ACCEPT_WITH_LIMITATIONS naming it, REJECT or REPLAN",
+                    "outcome",
+                )
+            )
 
     declared_limits = list(summary.get("limitations", []))
     user_limits = list(decision.get("limitations", []))

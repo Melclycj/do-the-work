@@ -930,7 +930,7 @@ class TestN1A10ColdResume(unittest.TestCase):
         """The digest narrowing (2026-07-29): on a DIGEST_PROTECTED_FIELDS pointer a missing
         digest is now reported, and the pointer *also* stays in `present_unverified`.
 
-        Both halves matter. Reporting it is the new obligation — those five files have no
+        Both halves matter. Reporting it is the new obligation — those six files have no
         legitimate digest-less shape, because the only author entitled to their current
         version is not the executor writing the pointer. Keeping it in `present_unverified`
         is the old N1-A10 property above: an unverified pointer renders `??`, and swapping

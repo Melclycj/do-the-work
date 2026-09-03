@@ -197,7 +197,7 @@ def _resolve_pointer(
     """Resolve one state pointer inside the evidence commit and verify its bytes digest.
 
     A missing digest is an issue on a `DIGEST_PROTECTED_FIELDS` pointer and nothing at all
-    elsewhere (the 2026-07-29 narrowing). Those five name files whose current version the
+    elsewhere (the 2026-07-29 narrowing). Those six name files whose current version the
     executor is not entitled to produce — the user's decisions, the reviewer's record, and
     the WorkSpec this run is judged against — so there the absent digest says a binding was
     never taken. Everywhere else the executor legitimately authors the file it points at, a
@@ -293,7 +293,8 @@ def read_control_plane(
     # the subject is the whole control plane, not the three documents this module joins.
     for field in ("instruction_audit_ref", "start_decision_ref", "manifest_ref",
                   "check_results_ref", "coverage_ref", "review_ref", "repair_decision_ref",
-                  "assurance_candidate_ref", "final_decision_ref", "summary_ref"):
+                  "assurance_candidate_ref", "bind_authorization_ref", "final_decision_ref",
+                  "summary_ref"):
         _resolve_pointer(reader, state, field, issues, required=False)
 
     if spec is not None:
