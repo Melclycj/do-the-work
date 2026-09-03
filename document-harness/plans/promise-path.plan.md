@@ -362,11 +362,16 @@ alternative offered and not taken was a versioned successor (v5) for one table r
   L-3 asked for exactly this, at the moment it applies); ledger pointer moved. The next
   commit transcribes `HD-70` into `HARNESS-DECISIONS.md` `§live` (sites per ruling 8, the
   class-scan output in its body), before the read so the `§live` the reader reads carries it.
-- [ ] 2. **Read + disposition.** `python tooling/construction_dispatch.py --read <HD-70 tip>`,
-  one cold `claude -p` session on `opus` without web tools; record committed unchanged under
-  `R6`'s title, the freeze marker deleted in that act. Both deferrals (`38038ec`, `1c18e4a`)
-  ride it. Then disposition: must-fix → amendment + re-read; a low with bytes → free channel;
-  the rest bank; `R5` observations to the user.
+- [x] 2. **Read + disposition — DONE 2026-09-03.** Read dispatched at `c50362c` (the `HD-70`
+  tip), one cold `claude -p` on `opus` without web tools; record `v3-cold-read-c50362c.md`
+  committed unchanged at `13fde05`, marker deleted in that act; **0 must-fix, 2 low, 2
+  observation**, both deferrals discharged, battery 938 by the reader. Disposition (user
+  "1a 2a"): L-1 applied to `README.md:20` by `E10`'s free channel with the record's bytes
+  (adds no clause, changes no requirement, no round relied on the sentence; its read rides the
+  next layer read); L-2 banked as rider `enum-single-home` (heading false at signing, not
+  `HD-63`'s class; no sixth family ruling); O-1 is `wl-route`'s deadline arriving — route
+  taken as `E10`/`R10` say, row stands; O-2 recorded, `E2` re-baseline deferred to closeout.
+  No amendment/re-read pair owed: nothing above low.
 - [ ] 3. **Executor.** One cold `claude -p` on `opus` (`HD-69`: stops at decision points, the
   same session resumes; session id in the journal by hand). Item 2's value first, since item
   1's branch fires on it: the value's name and the sibling contract sites at the first stop,
