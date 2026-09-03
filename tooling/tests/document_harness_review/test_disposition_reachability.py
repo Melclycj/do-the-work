@@ -33,13 +33,15 @@ table's other kind of row — what `Row` below calls "a bare name for the dispos
 name in prose" — has no enumeration guard at all: `STOPPED_REPLAN`, both `repair-leg-after-…`
 rows and `ACCEPT_WITH_LIMITATIONS-from-residual-uncertainty` are here because somebody
 hand-wrote them, and a prose-named route nobody hand-writes is one this file will never notice
-is missing. One such route is open right now and is named here so the next round meets it
-rather than rediscovers it: **`ACCEPT_WITH_LIMITATIONS` after a blocking VERIFY**, promised by
-`EXECUTION.md:98-100` ("the honest dispositions left are `STOPPED_REPLAN` or a user
-`ACCEPT_WITH_LIMITATIONS` that names what is still open"), by `REVIEW.md` and by contract v4,
-and **not built** — it is item 1 of batch `PROMISE-PATH`, ruled shape (a) and scheduled for
-round 2 `PROMISE-PATH-VOCAB`. It adds no enum value, so nothing here turns red when round 2
-builds it, and the row it owes is written by hand like every other prose row. Item 2 is the
+is missing. One such route was open when this file was written and is now closed:
+**`ACCEPT_WITH_LIMITATIONS` after a blocking VERIFY**, promised by `EXECUTION.md:98-100` ("the
+honest dispositions left are `STOPPED_REPLAN` or a user `ACCEPT_WITH_LIMITATIONS` that names
+what is still open"), by `REVIEW.md` and by contract v4, and unreachable until round
+`PROMISE-PATH-VOCAB` built it as item 1 of batch `PROMISE-PATH`. It added no enum value, so
+nothing here turned red when it landed and its row was written by hand like every other prose
+row — which is exactly the exposure this paragraph exists to state, not a story about one
+route: the next prose-named disposition nobody hand-writes is one this file will still never
+notice is missing. Item 2 is the
 contrast, and it has now been measured rather than predicted: with `UNRESOLVED_BLOCKER` in the
 VERIFY narrowing, `missing_rows` is red until its row is written and
 `test_the_enumeration_is_not_vacuous` is red until its count is raised — round 2's mutation
@@ -47,9 +49,11 @@ probes 6 and 7, each neutered and restored against a sha256-checked scratchpad c
 enum value cannot land here unnoticed is the whole of why the gap is specifically the prose
 class, where nothing plays either part.
 
-A `no-path` row for that route is deliberately NOT added here. A `no-path` row obliges its named
-rule site to carry the absence in its own text (property 4), and those sites are
-instruction-layer members — writing one is design, and design opens a round.
+No `no-path` row exists yet, here or anywhere, and that is a fact about the tree rather than an
+omission: every disposition the rules name is now reached. Writing one is not free either — a
+`no-path` row obliges its named rule site to carry the absence in its own text (property 4),
+and those sites are instruction-layer members, so writing one is design and design opens a
+round. That is why the branch is exercised against synthetic tables below instead.
 
 The one stand-in is `review_result_v2.check_review_result_v2` where a bind is driven: its real
 form needs a git repository holding the evidence commit, and which DISPOSITION the step
@@ -182,6 +186,13 @@ TABLE: tuple[Row, ...] = (
         named_by="REVIEW.md: residual_uncertainty reaches the user at FINAL, where they may "
                  "convert it to ACCEPT_WITH_LIMITATIONS",
         reacher="residual_uncertainty_converted_at_final",
+    ),
+    Row(
+        key="ACCEPT_WITH_LIMITATIONS-after-a-blocking-VERIFY",
+        named_by="EXECUTION.md, After a review: the honest dispositions left are "
+                 "STOPPED_REPLAN or a user ACCEPT_WITH_LIMITATIONS that names what is still "
+                 "open; REVIEW.md, When the map is incomplete; contract v4 §5",
+        reacher="accept_with_limitations_after_a_blocking_verify",
     ),
 )
 
@@ -613,6 +624,77 @@ class Reachers:
         self.case.assertEqual(repairing["status"], "REPAIRING")
         return f"repair-leg-after-{full['verdict']}"
 
+    def accept_with_limitations_after_a_blocking_verify(self):
+        """The route this whole batch exists for, driven end to end through the real engine.
+
+        The rules promise it at three sites and, before round `PROMISE-PATH-VOCAB`, only
+        `STOPPED_REPLAN` could actually be reached: a FINAL decision binds one exact
+        AssuranceCandidate (invariant 12) and a blocking VERIFY ended the bind before one was
+        assembled. The caller's run 1 paid for that — a user ruling of
+        `ACCEPT_WITH_LIMITATIONS` no document could carry, superseded by `STOPPED_REPLAN`.
+
+        Everything below is the real thing: the real bind step over a real VERIFY carrying
+        the real new verdict, the real candidate faithfulness gate, the real summary
+        generator and the real terminal check. The only fixture is the user's own decision,
+        which is the one thing no engine may author.
+        """
+        full = review(verdict="CHANGES_REQUIRED", findings=[BLOCKER])
+        verify = review(
+            verdict="UNRESOLVED_BLOCKER",
+            round_="VERIFY",
+            findings=[BLOCKER],
+            scope={
+                "accepted_finding_ids": ["f-changelog"],
+                "repair_diff_reviewed": True,
+                "permanent_boundaries_checked": True,
+            },
+        )
+        root = self.case.make_run(
+            full, verify=verify, evidenced=True,
+            repair=repair_decision(
+                decision="APPLY_ACCEPTED_FINDINGS", accepted=["f-changelog"]),
+        )
+
+        # Pass 1: the candidate is offered and the run is NOT promoted.
+        code, out = self.case.drive_bind(root)
+        self.case.assertEqual(code, 0, out)
+        self.case.assertEqual(self.case.saved_state(root)["status"], "REVIEWED")
+        candidate = self.case.written_candidate(root)
+        self.case.assertEqual(candidate["unresolved_finding_ids"], ["f-changelog"])
+
+        # The user decides, against those exact bytes.
+        decision = final_decision(outcome="ACCEPT_WITH_LIMITATIONS", limitations=[RESIDUAL])
+        decision["target"]["assurance_candidate_ref"]["digest_sha256"] = canonical_digest(
+            candidate)
+        (root / CONTROL_ROOT / "control" / "user-decision-final.json").write_text(
+            json.dumps(decision), encoding="utf-8")
+
+        # Pass 2: promoted, and the licence is recorded where a later reader will find it.
+        code, out = self.case.drive_bind(root)
+        self.case.assertEqual(code, 0, out)
+        promoted = self.case.saved_state(root)
+        self.case.assertEqual(promoted["status"], "AWAITING_FINAL")
+        self.case.assertIn("digest_sha256", promoted["final_decision_ref"])
+
+        # And the disposition itself: the summary the FINAL produces, passing the real check.
+        candidate = self.case.written_candidate(root)
+        document = summary.generate_summary(
+            summary_id=f"sum-{RUN_ID}",
+            candidate=candidate,
+            candidate_ref={"path": f"{CONTROL_ROOT}/control/assurance-candidate.json",
+                           "digest_sha256": canonical_digest(candidate)},
+            decision=decision,
+            decision_ref={"path": f"{CONTROL_ROOT}/control/user-decision-final.json",
+                          "digest_sha256": canonical_digest(decision)},
+            promotion=summary.no_promotion("a blocker stands; nothing was promoted"),
+            generated_by="reachability controller",
+        )
+        report = summary.check_summary(document, candidate, decision)
+        self.case.assertEqual(report.rendered(), [], "the summary the engine produced is refused")
+        self.case.assertEqual(document["outcome"], "ACCEPT_WITH_LIMITATIONS")
+        self.case.assertEqual(document["limitations"], [RESIDUAL])
+        return "ACCEPT_WITH_LIMITATIONS-after-a-blocking-VERIFY"
+
     # --- the three FULL verdicts, through the step that acts on them ---------------------
 
     def _bind_verdict(self, verdict, **kwargs):
@@ -670,7 +752,15 @@ class DispositionReachability(unittest.TestCase):
 
     # --- fixture plumbing for the rows that drive the bind step ------------------------
 
-    def make_run(self, full, *, repair=None, evidenced=False):
+    def make_run(self, full, *, repair=None, evidenced=False, verify=None):
+        """A throwaway run the real bind step is pointed at.
+
+        `verify` makes it a ROUND-1 run: the repair happened, both reviews are on disk and
+        the state, the CandidateRecord and the bind all say round 1. Round is carried in one
+        place here for the reason the template carries it in one place — a mirror is a second
+        place for it to be wrong.
+        """
+        repair_round = 0 if verify is None else 1
         root = pathlib.Path(tempfile.mkdtemp(prefix="reach-"))
         self.addCleanup(shutil.rmtree, root, ignore_errors=True)
         subprocess.run(["git", "-C", str(root), "init", "-q"], check=True,
@@ -680,7 +770,12 @@ class DispositionReachability(unittest.TestCase):
         control.mkdir(parents=True)
         evidence.mkdir(parents=True)
         (evidence / "review-full.json").write_text(json.dumps(full), encoding="utf-8")
-        control_files = {"state.json": state("EVIDENCED"), "resolved-plan.json": RESOLVED_PLAN}
+        if verify is not None:
+            (evidence / "review-verify.json").write_text(json.dumps(verify), encoding="utf-8")
+        control_files = {
+            "state.json": state("EVIDENCED", repair_round=repair_round),
+            "resolved-plan.json": RESOLVED_PLAN,
+        }
         if repair is not None:
             control_files["user-decision-repair.json"] = repair
         if evidenced:
@@ -688,7 +783,7 @@ class DispositionReachability(unittest.TestCase):
             control_files["instruction-audit.json"] = AUDIT
             control_files["bind-declarations.json"] = DECLARATIONS
             for name, document in (
-                ("candidate-record.json", RECORD),
+                ("candidate-record.json", {**RECORD, "repair_round": repair_round}),
                 ("check-results.json", [CHECK_RESULT]),
                 ("check-chk-one.json", CHECK_RESULT),
                 ("coverage.json", {"rows": []}),
@@ -697,6 +792,11 @@ class DispositionReachability(unittest.TestCase):
         for name, document in control_files.items():
             (control / name).write_text(json.dumps(document), encoding="utf-8")
         return root
+
+    def written_candidate(self, root):
+        return json.loads(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json")
+            .read_text(encoding="utf-8"))
 
     def drive_bind(self, root):
         buffer = io.StringIO()

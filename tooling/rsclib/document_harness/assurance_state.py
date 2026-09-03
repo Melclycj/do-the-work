@@ -83,6 +83,12 @@ DIGEST_PROTECTED_FIELDS = frozenset(
         "work_spec_ref",
         "start_decision_ref",
         "repair_decision_ref",
+        # Round `PROMISE-PATH-VOCAB`: the fourth user-decision pointer, and protected for the
+        # reason the other three are — it names a document the user authored and the executor
+        # may not rewrite, so a digest here binds the actor it has to bind. It exists because
+        # `repair_decision_ref` is refused at repair round 0 and a DECLINED repair had nowhere
+        # to be recorded (rider `no-repair-unbound`).
+        "bind_authorization_ref",
         "final_decision_ref",
         "review_ref",
     }

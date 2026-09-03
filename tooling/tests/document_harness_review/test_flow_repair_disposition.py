@@ -185,6 +185,7 @@ POINTER_PATHS: dict[str, str] = {
     "review_ref": "control/review-full.json",
     "repair_decision_ref": "control/repair-decision.json",
     "assurance_candidate_ref": "control/assurance-candidate.json",
+    "bind_authorization_ref": "control/repair-decision.json",
     "final_decision_ref": "control/final-decision.json",
     "summary_ref": "control/summary.json",
 }
@@ -1485,6 +1486,47 @@ class SummaryIsTheUsersDecision(unittest.TestCase):
                     else:
                         self.assertIn("V3-ASSURANCE-OUTCOME-ALTERED", codes(report))
 
+    def test_an_unqualified_accept_over_a_standing_blocker_is_refused(self) -> None:
+        """Round `PROMISE-PATH-VOCAB`, item 1's companion guard.
+
+        Structural until this round and therefore unwritten: no AssuranceCandidate could
+        exist over a standing blocker, so no summary could accept one. Item 1 built exactly
+        that candidate on purpose — it is what makes a FINAL representable after a blocking
+        VERIFY — and the outcomes the ruling enumerated for it are ACCEPT_WITH_LIMITATIONS,
+        REJECT and REPLAN. Bare ACCEPT is the one it did not name and the one that would
+        matter: the summary would close the run declaring no limitation at all while the
+        candidate it terminates binds the reviewer's blocking finding.
+        """
+        standing = make_candidate(unresolved_finding_ids=["f-changelog"])
+        accepted = make_final_decision(candidate=standing, decision="ACCEPT")
+        report = summary.check_summary(
+            make_summary(candidate=standing, decision=accepted), standing, accepted)
+        self.assertIn("V3-ASSURANCE-ACCEPTED-OVER-BLOCKER", codes(report))
+
+        # Negative control, one field apart: the same standing blocker under the outcome the
+        # rules DO name for it. The schema already forces `limitations` there, so the blocker
+        # cannot vanish silently and this guard has nothing to add.
+        disclosed = make_final_decision(
+            candidate=standing,
+            decision="ACCEPT_WITH_LIMITATIONS",
+            limitations=["the blocking finding f-changelog is still open after the repair"],
+        )
+        self.assertNotIn(
+            "V3-ASSURANCE-ACCEPTED-OVER-BLOCKER",
+            codes(summary.check_summary(
+                make_summary(candidate=standing, decision=disclosed), standing, disclosed)),
+        )
+
+        # Negative control, the other field: an unqualified ACCEPT is the normal terminal
+        # outcome when nothing stands, so the guard must be about the blocker, not ACCEPT.
+        clean = make_candidate()
+        clean_accept = make_final_decision(candidate=clean, decision="ACCEPT")
+        self.assertNotIn(
+            "V3-ASSURANCE-ACCEPTED-OVER-BLOCKER",
+            codes(summary.check_summary(
+                make_summary(candidate=clean, decision=clean_accept), clean, clean_accept)),
+        )
+
     def test_a_dropped_limitation_is_named(self) -> None:
         candidate = make_candidate()
         decision = make_final_decision(
@@ -2458,6 +2500,10 @@ class KnownDefects(unittest.TestCase):
             ("RESOLVED", "manifest_ref"),
             ("RESOLVED", "coverage_ref"),
             ("AUDITED", "repair_decision_ref"),
+            # Round `PROMISE-PATH-VOCAB`'s addition. A licence cannot exist before the act it
+            # licenses, and this table is the only thing that says so for it: the field is
+            # written beside the AWAITING_FINAL advance and nowhere else.
+            ("REVIEWED", "bind_authorization_ref"),
         )
         unguarded: list[tuple[str, str]] = []
         for status, field in impossible:

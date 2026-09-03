@@ -48,6 +48,12 @@ from rsclib.document_harness.candidate import covered_by
 
 CODE = "V3-FLOW"
 
+#: The issue `check_verify_outcome` raises for a blocker still standing after the one repair.
+#: Named because a caller has to be able to tell that outcome apart from a MALFORMED verify —
+#: `run_bind_v2`'s limitations branch may act only on the first, and matching on the message
+#: text would break the moment the wording changed.
+BLOCKER_AFTER_VERIFY = f"{CODE}-BLOCKER-AFTER-VERIFY"
+
 #: Legal successors per status (contract §8). `STOPPED_REPLAN` is reachable from every
 #: pre-terminal status and is therefore added to each row below rather than repeated here.
 _SUCCESSORS: dict[str, tuple[str, ...]] = {
@@ -110,6 +116,7 @@ _EARLIEST_POINTER: dict[str, str] = {
     "coverage_ref": "EVIDENCED",
     "review_ref": "REVIEWED",
     "assurance_candidate_ref": "AWAITING_FINAL",
+    "bind_authorization_ref": "AWAITING_FINAL",
     "final_decision_ref": "AWAITING_FINAL",
     "summary_ref": "CLOSED",
 }
@@ -601,7 +608,14 @@ def check_verify_outcome(verify: Mapping[str, Any], repair_decision: Mapping[str
     reviewer really looked — only that the scope it declared is the scope that was authorized.
 
     There is no second fix and no review-of-review, so a blocker still standing leaves only
-    `STOPPED_REPLAN` or a user `ACCEPT_WITH_LIMITATIONS` naming what is open.
+    `STOPPED_REPLAN` or a user `ACCEPT_WITH_LIMITATIONS` naming what is open. Both of those
+    are now reachable, which they were not when that sentence was written: round
+    `PROMISE-PATH-VOCAB` item 1 gave `run_bind_v2` the branch that assembles an
+    AssuranceCandidate over a standing blocker once the user has authorized it, so the FINAL
+    the sentence promises has a document to bind. This function is unchanged by that and
+    deliberately: `BLOCKER_AFTER_VERIFY` below is the issue that branch keys on, and it must
+    keep being reported. A standing blocker is a stop either way — what the branch supplies
+    is which of the two stops the user gets to choose, not permission to continue.
 
     **The VERIFY is validated before it is read** (round `PROMISE-PATH-ENGINE`, item 7): the
     third site of the class `HD-65` named at `check_repair_decision`, found by this round's own
@@ -670,7 +684,7 @@ def check_verify_outcome(verify: Mapping[str, Any], repair_decision: Mapping[str
     if remaining:
         issues.append(
             Issue(
-                f"{CODE}-BLOCKER-AFTER-VERIFY",
+                BLOCKER_AFTER_VERIFY,
                 f"{len(remaining)} blocking finding(s) remain after the single permitted repair "
                 f"({', '.join(remaining)}); the run stops rather than opening a second round",
                 "findings",

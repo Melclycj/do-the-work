@@ -367,12 +367,14 @@ class PointerHelper(unittest.TestCase):
         """The narrowed policy, held by hand-written field names (never the module's set).
 
         Importing `DIGEST_PROTECTED_FIELDS` here would make the test agree with whatever the
-        module currently says, including after an edit that widened or emptied it. The five
+        module currently says, including after an edit that widened or emptied it. The six
         names are therefore typed out, and every other state field is checked to carry the
-        path alone.
+        path alone. Six since round `PROMISE-PATH-VOCAB`: `bind_authorization_ref` joined
+        them as the fourth user-decision pointer, protected for the reason the other three
+        are — it names a document the user authored and the executor may not rewrite.
         """
         protected = ("work_spec_ref", "start_decision_ref", "repair_decision_ref",
-                     "final_decision_ref", "review_ref")
+                     "bind_authorization_ref", "final_decision_ref", "review_ref")
         unprotected = ("resolved_plan_ref", "instruction_audit_ref", "fulfillment_ref",
                        "manifest_ref", "check_results_ref", "coverage_ref",
                        "assurance_candidate_ref", "summary_ref")

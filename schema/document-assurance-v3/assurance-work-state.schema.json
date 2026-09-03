@@ -33,6 +33,10 @@
     "review_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
     "repair_decision_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
     "assurance_candidate_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
+    "bind_authorization_ref": {
+      "$ref": "common.schema.json#/$defs/pointerRef",
+      "description": "The user decision that licensed the AssuranceCandidate to be bound, where the licence is not recoverable from any other pointer here. Added in round PROMISE-PATH-VOCAB for the round-0 NO_REPAIR gate: a clean FULL carrying non-blocking findings stops for the user's spend-or-bank choice (R10), and only a recorded NO_REPAIR reaches the candidate — but repair_decision_ref is refused at repair round 0, on the standing ground that a repair authorization cannot precede the repair it authorizes, which a DECLINED repair does not do. So the decision that unlocked the bind reached neither the state nor the candidate and a later reader of an AWAITING_FINAL state could not name it. Digest-protected like the other three user-decision pointers, so it carries the decided bytes and not merely a path. Earliest at AWAITING_FINAL, like every pointer the stage rule covers: a licence cannot exist before the act it licenses."
+    },
     "final_decision_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
     "summary_ref": { "$ref": "common.schema.json#/$defs/pointerRef" },
     "blockers": {

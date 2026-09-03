@@ -46,6 +46,7 @@ import unittest
 import _harness  # noqa: F401 — installs the tooling import path the template needs
 
 from rsclib.document_harness import AssuranceFault, Issue, bytes_digest, canonical_digest, report_of
+from rsclib.document_harness import flow as real_flow
 
 TEMPLATE_PATH: pathlib.Path = (
     _harness.RS_ROOT / "assurance" / "templates" / "run-v2" / "run_bind_v2.py"
@@ -91,7 +92,16 @@ class RecordingResultChecker:
 
 
 class RecordingOutcomeGate:
-    """Stands in for the flow module: records the (verify, repair decision) pair."""
+    """Stands in for the flow module: records the (verify, repair decision) pair.
+
+    It carries the real module's `BLOCKER_AFTER_VERIFY` rather than its own copy of the
+    string. Since round `PROMISE-PATH-VOCAB` the bind step reads that attribute to tell a
+    standing blocker apart from a malformed VERIFY, and a double that spelled the code itself
+    would keep passing after the module renamed it — the double would be asserting agreement
+    with a constant nobody uses.
+    """
+
+    BLOCKER_AFTER_VERIFY = real_flow.BLOCKER_AFTER_VERIFY
 
     def __init__(self, report):
         self.report = report
@@ -107,7 +117,23 @@ def clean_report():
 
 
 def failing_report():
+    """A VERIFY the step must refuse outright: not the standing-blocker code."""
     return report_of([Issue("V3-TEST-STOP", "stop main here for the recorder", "test")])
+
+
+def standing_blocker_report(*, plus_another=False):
+    """What `check_verify_outcome` returns when the repair left a blocker standing.
+
+    `plus_another` adds a SECOND, unrelated issue — the mixed case the limitations branch
+    must refuse, because a scope mismatch does not become decidable by standing next to a
+    blocker.
+    """
+    issues = [Issue(real_flow.BLOCKER_AFTER_VERIFY,
+                    "1 blocking finding(s) remain after the single permitted repair (f1)",
+                    "findings")]
+    if plus_another:
+        issues.append(Issue("V3-FLOW-VERIFY-SCOPE-MISMATCH", "scope disagreement", "verify_scope"))
+    return report_of(issues)
 
 
 #: Hand-written review rounds, never copied from any run on disk. The FULL found one blocker
@@ -258,6 +284,23 @@ VERIFY_REVIEW = {
     },
     "reviewed_by": "independent reviewer",
 }
+#: The round-1 VERIFY that item 1 of batch `PROMISE-PATH` exists for: the single repair is
+#: spent and the blocker the FULL found is still standing, so the reviewer returns the value
+#: round `PROMISE-PATH-VOCAB` added instead of borrowing `SPEC_GAP`. Whole and schema-valid
+#: for the same reason `VERIFY_REVIEW` is: the class that uses it leaves `flow` UNSTUBBED, so
+#: the real `check_verify_outcome` validates it and produces the real standing-blocker issue.
+STANDING_BLOCKER_VERIFY = {
+    **VERIFY_REVIEW,
+    "result_id": "rv-verify-standing",
+    "verdict": "UNRESOLVED_BLOCKER",
+    "findings": [BLOCKER_F1],
+    "per_obligation_disposition": [{
+        "obligation_id": "ob-one",
+        "disposition": "NOT_SUPPORTED",
+        "note": "the repair did not close the blocking defect",
+        "finding_ids": ["f1"],
+    }],
+}
 REPAIR_DECISION = {
     "decision": "APPLY_ACCEPTED_FINDINGS",
     "target": {"accepted_finding_ids": ["f1"]},
@@ -345,6 +388,20 @@ class BindTemplateCase(unittest.TestCase):
     def saved_state(self, root):
         return json.loads(
             (root / CONTROL_ROOT / "control" / "state.json").read_text(encoding="utf-8"))
+
+    # Both read what a run WROTE, so they belong to every class that drives one. They sat on
+    # the clean-round class until round `PROMISE-PATH-VOCAB` gave the standing-blocker branch
+    # a class of its own that reads the same two things; a second copy is the copy-class fork
+    # rider `decl-dup` names.
+    def emitted_candidate(self, root):
+        return json.loads(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json")
+            .read_text(encoding="utf-8"))
+
+    def printed_digest(self, out):
+        printed = [line for line in out.splitlines() if line.startswith("candidate digest")]
+        self.assertEqual(len(printed), 1, out)
+        return printed[0].split(": ", 1)[1]
 
     def clean_declared(self, *, declarations):
         """A clean round-0 run whose declarations file is the variable under test.
@@ -951,16 +1008,6 @@ class TheCleanRoundEmitsTheCandidateItPrinted(BindTemplateCase):
         self.template.RV = RecordingResultChecker(clean_report())
         return root
 
-    def emitted_candidate(self, root):
-        return json.loads(
-            (root / CONTROL_ROOT / "control" / "assurance-candidate.json")
-            .read_text(encoding="utf-8"))
-
-    def printed_digest(self, out):
-        printed = [line for line in out.splitlines() if line.startswith("candidate digest")]
-        self.assertEqual(len(printed), 1, out)
-        return printed[0].split(": ", 1)[1]
-
     # --- (i) the dry run writes nothing -------------------------------------------------
 
     def test_without_emit_the_candidate_is_assembled_and_nothing_is_written(self):
@@ -1339,6 +1386,51 @@ class TheLowsDecisionIsPutBeforeTheCandidateIsBound(BindTemplateCase):
 
     # --- (iii) negative controls: the two positions that must NOT stop ------------------
 
+    def test_the_no_repair_that_licensed_the_bind_is_recorded_in_the_state(self):
+        """Rider `no-repair-unbound`, redeemed in round `PROMISE-PATH-VOCAB`.
+
+        This decision is the only thing between a clean-FULL-with-lows run and
+        AWAITING_FINAL, and no digest of it used to reach the state or the candidate:
+        `check_state_pointers` refuses `repair_decision_ref` at repair round 0, on the ground
+        that a repair authorization cannot precede the repair it authorizes — true, and not a
+        statement about a repair the user DECLINED. So a later reader of an AWAITING_FINAL
+        state could not name what unlocked it, in the batch whose item 5 exists because a
+        digest nobody checks certifies nothing.
+
+        The digest is written out here from the fixture's own bytes rather than read back
+        from the state (`E5`): a comparison against whatever the step wrote would agree with
+        it by construction.
+        """
+        root = self.lows_round_zero(repair=NO_REPAIR_DECISION)
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "AWAITING_FINAL")
+        self.assertEqual(
+            saved.get("bind_authorization_ref"),
+            {
+                "path": f"{CONTROL_ROOT}/control/user-decision-repair.json",
+                "digest_sha256": bytes_digest(
+                    json.dumps(NO_REPAIR_DECISION).encode("utf-8")),
+            },
+        )
+        # And the pointer it could NOT take, for the reason above: still refused at round 0.
+        self.assertNotIn("repair_decision_ref", saved)
+
+    def test_negative_control_a_bind_with_no_licence_to_record_records_none(self):
+        """The clean FULL with no lows at all: nothing was decided, so nothing is claimed.
+
+        Without this the field could be written unconditionally and every assertion above
+        would still pass, leaving a pointer that says a user licensed something they were
+        never asked about.
+        """
+        root = self.lows_round_zero(full=CLEAN_FULL_NO_LOWS, repair=None)
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        saved = self.saved_state(root)
+        self.assertEqual(saved["status"], "AWAITING_FINAL")
+        self.assertNotIn("bind_authorization_ref", saved)
+
     def test_a_recorded_no_repair_lets_the_candidate_act_run(self):
         root = self.lows_round_zero(repair=NO_REPAIR_DECISION)
         code, out = run_main(self.template, self.argv(root, "--emit"))
@@ -1619,6 +1711,168 @@ class TheDeclarationsAreReadNeverDefaulted(BindTemplateCase):
         code, out = run_main(self.template, self.argv(root))
         self.assertEqual(code, 0, out)
         self.assertNotIn("STOP: control/bind-declarations.json", out)
+
+
+def standing_blocker_state():
+    """The EVIDENCED state a round-1 bind is entered from, hand-written (`E5`).
+
+    `clean_round_zero_state()`'s round-1 twin: same resolved pointers, plus the repair
+    authorization the round owes and the round itself.
+    """
+    return {
+        **clean_round_zero_state(),
+        "repair_round": 1,
+        "repair_decision_ref": {"path": f"{CONTROL_ROOT}/control/user-decision-repair.json"},
+    }
+
+
+class TheStandingBlockerIsOfferedNeverPromotedAlone(BindTemplateCase):
+    """Item 1 of batch `PROMISE-PATH`: a blocking VERIFY reaches a FINAL, on the user's word.
+
+    The promise these tests hold the step to is not this file's — `EXECUTION.md`, `REVIEW.md`
+    and contract §5 all say the dispositions left after a standing blocker are
+    `STOPPED_REPLAN` **or** a user `ACCEPT_WITH_LIMITATIONS` naming what is open, and until
+    this round only the first was reachable. The caller's run 1 is the recorded cost: a user
+    ruling of `ACCEPT_WITH_LIMITATIONS` that no document could carry, superseded by
+    `STOPPED_REPLAN`.
+
+    `flow` is deliberately NOT stubbed here except where the subject is the mixed-issue
+    refusal: the real `check_verify_outcome` reads the real VERIFY and raises the real
+    standing-blocker issue, so what these tests drive is the branch's actual trigger and not
+    a fixture shaped like it.
+    """
+
+    def standing(self, *, final_decision=None):
+        root = self.make_run(
+            repair_round=1,
+            reviews=[("review-full.json", FULL_REVIEW),
+                     ("review-verify.json", STANDING_BLOCKER_VERIFY)],
+            repair=REPAIR_DECISION,
+            control_files={
+                "work-spec.json": WORK_SPEC,
+                "resolved-plan.json": RESOLVED_PLAN,
+                "instruction-audit.json": {"note": "test audit stand-in"},
+                "bind-declarations.json": BIND_DECLARATIONS,
+                **({"user-decision-final.json": final_decision}
+                   if final_decision is not None else {}),
+            },
+            evidence_files={
+                "candidate-record.json": {**CLEAN_RECORD, "repair_round": 1},
+                "check-results.json": [CHECK_RESULT],
+                "check-chk-one.json": CHECK_RESULT,
+                "coverage.json": {"rows": []},
+            },
+            state=standing_blocker_state(),
+        )
+        self.template.RV = RecordingResultChecker(clean_report())
+        return root
+
+    def final_for(self, digest, *, decision="ACCEPT_WITH_LIMITATIONS"):
+        document = {
+            "decision_id": "ud-final",
+            "work_id": "w-test",
+            "run_id": "tr-nine",
+            "phase": "FINAL",
+            "decision": decision,
+            "target": {"assurance_candidate_ref": {
+                "path": f"{CONTROL_ROOT}/control/assurance-candidate.json",
+                "digest_sha256": digest,
+            }},
+            "decided_by": "Melclycj (user)",
+            "decided_at": "2026-09-03",
+        }
+        if decision == "ACCEPT_WITH_LIMITATIONS":
+            document["limitations"] = ["the blocking finding f1 is still open after the repair"]
+        return document
+
+    # --- pass 1: the candidate is offered, and nothing is promoted ----------------------
+
+    def test_pass_one_writes_the_candidate_and_holds_the_run_at_reviewed(self):
+        root = self.standing()
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertTrue(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").is_file(), out)
+        state = self.saved_state(root)
+        self.assertEqual(state["status"], "REVIEWED")
+        # The FILE is control plane the user reads; the state claim is what needs authorizing,
+        # and `flow._EARLIEST_POINTER` would refuse this pointer at REVIEWED anyway.
+        self.assertNotIn("assurance_candidate_ref", state)
+        self.assertIn("STOPPED_REPLAN", state["next_action"])
+        self.assertIn("ACCEPT_WITH_LIMITATIONS", state["next_action"])
+
+    def test_the_offered_candidate_carries_the_standing_blocker(self):
+        """Not by the controller saying so: `unresolved_finding_ids` is derived and gated."""
+        root = self.standing()
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertEqual(self.emitted_candidate(root)["unresolved_finding_ids"], ["f1"])
+        self.assertIn("check_assurance_cand.  : clean", out.splitlines())
+
+    # --- pass 2: promotion, and only against a decision about THESE bytes ---------------
+
+    def test_pass_two_promotes_against_a_final_decision_binding_this_candidate(self):
+        root = self.standing()
+        _, out = run_main(self.template, self.argv(root, "--emit"))
+        digest = self.printed_digest(out)
+        (root / CONTROL_ROOT / "control" / "user-decision-final.json").write_text(
+            json.dumps(self.final_for(digest)), encoding="utf-8")
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        state = self.saved_state(root)
+        self.assertEqual(state["status"], "AWAITING_FINAL")
+        self.assertEqual(
+            state["final_decision_ref"]["path"],
+            f"{CONTROL_ROOT}/control/user-decision-final.json")
+        # Digest-protected: the licence binds the decided BYTES, which is the whole of what
+        # lets a later reader of this state name what unlocked it.
+        self.assertIn("digest_sha256", state["final_decision_ref"])
+
+    def test_a_final_decision_about_other_bytes_does_not_promote(self):
+        """Mutation: the authorization names a candidate that is not the one assembled."""
+        root = self.standing(final_decision=self.final_for("9" * 64))
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1, out)
+        self.assertEqual(self.saved_state(root)["status"], "EVIDENCED")
+        self.assertIn("STOP: user-decision-final.json does not authorize THIS candidate",
+                      "\n".join(out.splitlines()))
+
+    def test_a_repair_phase_decision_left_in_that_file_does_not_promote(self):
+        """Negative control on the phase half of the same gate, digest kept correct."""
+        root = self.standing()
+        _, out = run_main(self.template, self.argv(root, "--emit"))
+        digest = self.printed_digest(out)
+        wrong_phase = {**self.final_for(digest), "phase": "REPAIR"}
+        (root / CONTROL_ROOT / "control" / "user-decision-final.json").write_text(
+            json.dumps(wrong_phase), encoding="utf-8")
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1, out)
+        self.assertEqual(self.saved_state(root)["status"], "REVIEWED")
+
+    # --- what the branch may NOT act on -------------------------------------------------
+
+    def test_a_verify_both_blocking_and_malformed_is_refused_outright(self):
+        """A scope mismatch does not become decidable by standing beside a blocker.
+
+        Stubbed here because the subject is the CODE-set arithmetic, and driving the real
+        gate to emit two issues at once would make the fixture the thing under test.
+        """
+        root = self.standing()
+        self.template.flow = RecordingOutcomeGate(standing_blocker_report(plus_another=True))
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 1, out)
+        self.assertEqual(self.saved_state(root)["status"], "EVIDENCED")
+        self.assertFalse(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").exists())
+
+    def test_negative_control_the_standing_blocker_alone_does_reach_the_branch(self):
+        """The same stub with the second issue removed: one field apart, opposite outcome."""
+        root = self.standing()
+        self.template.flow = RecordingOutcomeGate(standing_blocker_report())
+        code, out = run_main(self.template, self.argv(root, "--emit"))
+        self.assertEqual(code, 0, out)
+        self.assertTrue(
+            (root / CONTROL_ROOT / "control" / "assurance-candidate.json").is_file())
 
 
 

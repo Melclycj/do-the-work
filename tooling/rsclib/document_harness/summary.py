@@ -398,6 +398,32 @@ def check_summary(
             )
         )
 
+    # --- an unqualified ACCEPT cannot terminate a candidate with a blocker still standing ---
+    #
+    # Structural until round `PROMISE-PATH-VOCAB`: no AssuranceCandidate could exist over a
+    # standing blocker, so no summary could accept one, and nothing had to say this. Item 1
+    # built that candidate on purpose — it is what makes a FINAL representable after a
+    # blocking VERIFY — and the outcomes the ruling enumerated for it are
+    # ACCEPT_WITH_LIMITATIONS, REJECT and REPLAN. Bare ACCEPT is the one it did not name, and
+    # it is the one that would matter: the candidate carries `unresolved_finding_ids` because
+    # the reviewer recorded blocking findings, and an ACCEPT summary declares no limitations
+    # at all, so the run would close asserting less openness than the reviewer stated. This
+    # is invariant 4's shape — NOT_IMPLEMENTED can never become unqualified success — arriving
+    # at the terminal step. `ACCEPT_WITH_LIMITATIONS` is not caught: the schema already
+    # requires `limitations` on it, so the blocker cannot vanish silently there.
+    unresolved = candidate.get("unresolved_finding_ids") or []
+    if summary.get("outcome") == "ACCEPT" and unresolved:
+        issues.append(
+            Issue(
+                f"{CODE}-ACCEPTED-OVER-BLOCKER",
+                f"the summary records an unqualified ACCEPT while the candidate carries "
+                f"{len(unresolved)} unresolved blocking finding(s) "
+                f"({', '.join(sorted(unresolved))}); the honest terminal outcomes over a "
+                "standing blocker are ACCEPT_WITH_LIMITATIONS naming it, REJECT or REPLAN",
+                "outcome",
+            )
+        )
+
     declared_limits = list(summary.get("limitations", []))
     user_limits = list(decision.get("limitations", []))
     if declared_limits != user_limits:

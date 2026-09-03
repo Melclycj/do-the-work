@@ -43,6 +43,27 @@ the banked lows is written into the candidate: a disclosure is a declaration wit
 (V3-D5), the bound FULL already carries the findings, and a controller-authored line about
 them would be the controller speaking in its own voice.
 
+A third branch is verdict-shaped and belongs to round 1, and it is item 1 of the same batch
+(round ``PROMISE-PATH-VOCAB``, 2026-09-03). ``EXECUTION.md``, ``REVIEW.md`` and contract §5
+all promise that when a blocker still stands after the VERIFY the honest dispositions are
+``STOPPED_REPLAN`` **or** a user ``ACCEPT_WITH_LIMITATIONS`` naming what is open -- and only
+the first was reachable, because a FINAL decision binds one exact AssuranceCandidate
+(invariant 12) and a blocking VERIFY ended this step before one was assembled. The caller's
+run 1 met that exactly: a user ruling of ``ACCEPT_WITH_LIMITATIONS`` that could not be
+executed and had to be superseded by ``STOPPED_REPLAN`` on evidence the first ruling never
+had. So a VERIFY whose ONLY complaint is the standing blocker -- separated from a malformed
+VERIFY by issue code, ``flow.BLOCKER_AFTER_VERIFY``, never by message text -- now assembles
+the candidate and OFFERS it. The candidate carries the standing blockers already, with no new
+machinery and no controller voice: ``unresolved_finding_ids`` is derived from the reviews in
+hand and ``check_assurance_candidate`` refuses it if it is not exactly the reviewer's blocking
+set, in both directions. Two passes, because the FINAL decision must name the candidate's
+digest and promoting the run over a blocker is the act that needs authorizing: pass 1 writes
+the candidate and stops at REVIEWED, pass 2 re-assembles and promotes only against a FINAL
+decision binding that same digest. Nothing here decides anything -- ``STOPPED_REPLAN`` stays
+reachable throughout and is what the run does if that decision is never authored -- and an
+unqualified ``ACCEPT`` over a standing blocker is refused at the summary, where the candidate
+and the decision meet.
+
 The assembly follows the worked precedents (round 0: ``../../runs/w1-r1/run_bind.py``;
 round 1: p3-corr above): rich in references, poor in claims (V3-D5) — assembling is not
 judging. ``unresolved_finding_ids`` is derived from the reviews in hand because N2-A9's
@@ -333,6 +354,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not report.ok:
         return 1
 
+    # Set by the round-1 gate below when the VERIFY's ONLY complaint is a standing blocker:
+    # the run is stopping either way, and which stop it takes is the user's to choose.
+    limitations_path = False
     if REPAIR_ROUND >= 1:
         repair = load_json(CONTROL / "user-decision-repair.json")
         outcome = flow.check_verify_outcome(operative, repair)
@@ -340,7 +364,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         for issue in outcome.issues:
             print("  " + issue.render()[:160])
         if not outcome.ok:
-            return 1
+            # Item 1 of batch `PROMISE-PATH`. A blocking VERIFY used to end here, and the
+            # dispositions the rules promise at that point -- `STOPPED_REPLAN` or a user
+            # `ACCEPT_WITH_LIMITATIONS` naming what is still open (EXECUTION.md, REVIEW.md,
+            # contract §5) -- were one reachable and one not: a FINAL decision binds one exact
+            # AssuranceCandidate (invariant 12) and no candidate existed, so the caller's run
+            # 1 had a user ruling of ACCEPT_WITH_LIMITATIONS it could not execute and had to
+            # supersede with STOPPED_REPLAN.
+            #
+            # The two classes of issue are separated by CODE, never by message text. A
+            # standing blocker is a fact about the work that the user may decide over; every
+            # other issue -- a scope mismatch, a verify answering no repair, a schema fault --
+            # means the VERIFY itself cannot be relied on, and there is nothing to decide over
+            # a document that is not trustworthy. Mixed is refused too: a scope mismatch does
+            # not become decidable because a blocker stands beside it.
+            standing = [i for i in outcome.issues if i.code == flow.BLOCKER_AFTER_VERIFY]
+            if not standing or len(standing) != len(outcome.issues):
+                return 1
+            limitations_path = True
+            print("verdict                : the single repair is spent and a blocker stands; "
+                  "this bind offers the user the choice the rules promise, and decides "
+                  "nothing")
 
     binding = RS.subject_binding(EVIDENCE_COMMIT, operative)
     print(f"subject binding        : evidence_commit {binding['evidence_commit'][:12]}, "
@@ -401,6 +445,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     # non-blocking findings, read from the operative review rather than counted anywhere
     # else, so the trigger is the reviewer's own claim. At round 1 there is no leg left to
     # spend, so the stop is round-0's alone.
+    bind_auth_ref = None
     lows = [
         finding["finding_id"]
         for finding in operative.get("findings", [])
@@ -472,6 +517,19 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         print("lows decision          : NO_REPAIR — the user banked the low(s); this bind "
               "binds the AssuranceCandidate")
+        # Rider `no-repair-unbound`, redeemed here. This decision is the only thing standing
+        # between a clean-FULL-with-lows run and AWAITING_FINAL, and until now no digest of it
+        # reached the state or the candidate: `check_state_pointers` refuses
+        # `repair_decision_ref` at repair round 0 on the ground that a repair authorization
+        # cannot precede the repair it authorizes -- true, and not a statement about a repair
+        # the user DECLINED. So the licence went unrecorded and a later reader of an
+        # AWAITING_FINAL state could not name what unlocked it, in the batch whose item 5
+        # exists because a digest nobody checks certifies nothing. The pointer is written
+        # beside the candidate act below, digest-protected like every other user-decision
+        # pointer.
+        bind_auth_ref = assurance_state.pointer_for(
+            "bind_authorization_ref",
+            f"{CONTROL_ROOT}/control/user-decision-repair.json", REPO)
 
     spec = load_json(CONTROL / "work-spec.json")
     record = load_json(EVIDENCE / "candidate-record.json")
@@ -553,6 +611,66 @@ def main(argv: Sequence[str] | None = None) -> int:
     cand_digest = canonical_digest(candidate)
     print(f"candidate digest       : {cand_digest}")
 
+    # --- item 1: over a standing blocker the candidate is OFFERED, never promoted alone ----
+    #
+    # Two passes, and the ordering is the whole design. A FINAL decision binds the candidate's
+    # digest, so the candidate has to exist before the user can decide about it; but promoting
+    # the run to AWAITING_FINAL over a blocker is the very thing that needs authorizing, so it
+    # cannot happen on the same pass. Pass 1 therefore WRITES the candidate and stops at
+    # REVIEWED -- the file is control-plane the user reads, not a state claim, and the state
+    # gets no `assurance_candidate_ref`, which `flow._EARLIEST_POINTER` would refuse here
+    # anyway. Pass 2 re-assembles from the same inputs and requires a FINAL decision naming
+    # THIS digest; deterministic assembly is what makes that comparison mean something, and a
+    # run that changed underneath produces a different digest and is refused rather than
+    # promoted. `STOPPED_REPLAN` stays available at every point and is what the run does if
+    # the user never authors that decision -- the honest default is still the stop.
+    final_ref = None
+    if limitations_path:
+        decision_path = CONTROL / "user-decision-final.json"
+        blockers = candidate.get("unresolved_finding_ids", [])
+        offer = (
+            "user choice, and only these two: STOPPED_REPLAN, or a FINAL decision "
+            f"(ACCEPT_WITH_LIMITATIONS naming finding(s) {', '.join(blockers)} as the "
+            f"limitation, REJECT or REPLAN) binding candidate digest {cand_digest[:16]}; an "
+            "unqualified ACCEPT is refused over a standing blocker"
+        )
+        if args.emit:
+            write_canonical(CONTROL / "assurance-candidate.json", candidate)
+        authorized = decision_path.is_file()
+        if authorized:
+            final_decision = load_json(decision_path)
+            target = final_decision.get("target")
+            bound = target.get("assurance_candidate_ref") if isinstance(target, Mapping) else None
+            bound_digest = bound.get("digest_sha256") if isinstance(bound, Mapping) else None
+            if final_decision.get("phase") != "FINAL" or bound_digest != cand_digest:
+                print("STOP: user-decision-final.json does not authorize THIS candidate "
+                      f"(phase {final_decision.get('phase')}, binds "
+                      f"{str(bound_digest)[:16]}, candidate is {cand_digest[:16]})")
+                print("      re-decide against the candidate in hand, or stop the run; a "
+                      "promotion over a blocker on an authorization about other bytes is "
+                      "the check-candidate-A-report-candidate-B class at the last step")
+                return 1
+            final_ref = assurance_state.pointer_for(
+                "final_decision_ref", f"{CONTROL_ROOT}/control/user-decision-final.json", REPO)
+            print(f"authorization          : FINAL {final_decision['decision']} binds this "
+                  f"candidate; AWAITING_FINAL is licensed by a decision, not by this script")
+        else:
+            print(f"next action            : {offer}")
+            if args.emit:
+                if emit_reviewed(
+                    assurance_state.load(CONTROL / "state.json"),
+                    control_path=CONTROL / "state.json",
+                    review_path=f"{CONTROL_ROOT}/evidence/{names[-1]}",
+                    repo=REPO,
+                    next_action=offer,
+                ):
+                    print(f"emitted                : {names[-1]} -> state REVIEWED, "
+                          "assurance-candidate.json written and NOT promoted")
+                else:
+                    print("state                  : already REVIEWED from the earlier pass; "
+                          "next_action updated, no transition written")
+            return 0
+
     if args.emit:
         if not emit_reviewed(
             state,
@@ -568,19 +686,39 @@ def main(argv: Sequence[str] | None = None) -> int:
         # found. Reading back is what makes the two paths converge on one document.
         state = assurance_state.load(CONTROL / "state.json")
         emitted = write_canonical(CONTROL / "assurance-candidate.json", candidate)
+        # Whichever user decision licensed this act is recorded WITH it, never left to be
+        # inferred from the branch the run happened to take: the NO_REPAIR that banked the
+        # lows at round 0, or the FINAL decision that authorized a promotion over a standing
+        # blocker at round 1. On the plain path -- a clean review with nothing to decide --
+        # both are None and `assurance_state.advance` drops them, which is where that
+        # filtering belongs; a second filter here would be a branch no mutation could make
+        # fail, because the module behind it already does the same thing.
         state = assurance_state.advance(
             state, "AWAITING_FINAL",
             assurance_candidate_ref=assurance_state.pointer_for(
                 "assurance_candidate_ref",
                 f"{CONTROL_ROOT}/control/assurance-candidate.json", REPO),
-            next_action="user FINAL decision (ACCEPT / ACCEPT_WITH_LIMITATIONS / REJECT / "
-                        "REPLAN) binding the AssuranceCandidate digest; on ACCEPT the "
-                        "promotion step is explicit and recorded",
+            bind_authorization_ref=bind_auth_ref,
+            final_decision_ref=final_ref,
+            next_action=(
+                "user FINAL decision (ACCEPT / ACCEPT_WITH_LIMITATIONS / REJECT / REPLAN) "
+                "binding the AssuranceCandidate digest; on ACCEPT the promotion step is "
+                "explicit and recorded"
+                if final_ref is None else
+                "controller generates the AssuranceSummary from the FINAL decision already "
+                "recorded here; an unqualified ACCEPT over the standing blocker is refused"
+            ),
         )
         assurance_state.save(state, CONTROL / "state.json")
+        # Read back out of the state that was saved, never out of the variables that fed it:
+        # a printed line naming a licence the document does not carry is the controller
+        # reporting a write it did not make (FULL `38038ec` `B-1`, one branch over).
+        licensed = [field for field in ("bind_authorization_ref", "final_decision_ref")
+                    if field in state]
         print(f"emitted                : {names[-1]} REVIEWED (review_ref = bytes digest "
               f"via pointer_for; digest-protected) -> assurance-candidate.json "
-              f"({emitted[:16]}) -> state AWAITING_FINAL")
+              f"({emitted[:16]}) -> state AWAITING_FINAL"
+              + (f" (licensed by {', '.join(licensed)})" if licensed else ""))
     return 0
 
 
