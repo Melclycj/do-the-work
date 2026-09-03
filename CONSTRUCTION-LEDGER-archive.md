@@ -807,3 +807,22 @@
   → retired 2026-09-01（用户裁「退」）：三轮实证选定条目自陈两选中的第二选——此类由真实冷读者＋
   独立评审＋读审计兜底，不造 token 级量具；两笔残差各有家：rider `caller-cannot-resolve-ids`
   （`E10` 设计题）与批 `PROMISE-PATH`（层 3 盲区成文）。
+
+### 2026-09-03 第四次搬入 —— 批 `PROMISE-PATH` 行（从 `CONSTRUCTION-LEDGER.md` 原样搬入 — 只读，勿续写）
+
+> 用户 2026-09-03 收轮裁决「按建议」（批 `PROMISE-PATH` 两轮全 CLOSED）；授权与处置在搬迁 commit 正文与
+> `document-harness/plans/promise-path.plan.md` Steps。
+
+- **批 `PROMISE-PATH` 立项，队首（用户 2026-09-01 三裁：批 `CORE-ONLY` 收口批准 · ISSUE_TRIAGE
+  六条全数路由本批、独立批插队首 · 本档 `R5` 观察条退休）**：修「规则承诺、引擎无路」类——六条观察
+  逐字在调用者三份收口正文（其 `1a634fe` / `fe9f36a` / `c184681`）：blocking VERIFY 后
+  `ACCEPT_WITH_LIMITATIONS` 无路 · VERIFY 词表缺「blocker 仍立」值 · 干净 FULL 后修腿不可达（bind 直冲
+  `AWAITING_FINAL`，违 `R10`）· `run_evidence_v2` 自写 commit message（`E8` 面）· governance digest 拷贝
+  不校验 · `bind-declarations.json` 无 schema、上限只在 bind 咬人。脊柱＝`E4` 反向套件：规则层点名的每个
+  处置，引擎要么有被测的路，要么显式落盘「无路」。开批时付 `RULES.md` 两处自由通道欠的层读。
+  **2026-09-01 六问全裁**（1a 建路 · 2a 词表加值 · 3 确认 · 两轮 · 第七件并入〔`check_repair_decision`
+  不验证，`HD-65` 边界之缺〕· 契约走族内第五裁），载 plan `promise-path.plan.md`。**轮 1 `ENGINE`
+  CLOSED 2026-09-03**（件 3–7＋套件落地；FULL `CHANGES_REQUIRED`→修（ii）→VERIFY 绿；bank +3、
+  观察路由已裁；链与细节在 plan Steps）。**轮 2 `VOCAB` CLOSED 2026-09-03**（件 1–2＋两 rider 并入；`HD-70` 转写、审毕转 implemented；FULL `CHANGES_REQUIRED`→修（ii）→VERIFY 绿；bank +4；链在 plan Steps）。**批整体 CLOSED 2026-09-03。**
+  其后：候选隔离 · dispatch-economy（携 `HD-69`）。CLOSED 的 `CORE-ONLY` 行与退休的 `R5` 条
+  2026-09-01 原样搬入 [archive](CONSTRUCTION-LEDGER-archive.md)。

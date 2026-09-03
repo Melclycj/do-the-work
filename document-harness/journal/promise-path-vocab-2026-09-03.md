@@ -100,3 +100,32 @@ reviewer's figure, re-measured here. L-1: `97cc298`'s class-scan section cites
 `document-harness/REVIEW.md:215` for the promise sentence at its declared anchor `15e5ccc`,
 where that sentence sits at `:226`; `:215` was its line at `61afc26`. Both bodies stand as
 written.
+
+**VERIFY (2026-09-03).** Dispatched on `97cc298..d56def4` at tip `d56def4`; cold `claude -p` on
+`opus` without web tools, session `35818543-4607-44ae-b3af-e309ae4eccde`, 64 turns; record
+`v3-review-verify-d56def4.md` committed unchanged at `da1aac3`, the marker deleted in that
+act. **`REVIEWED_NO_BLOCKER`**: both blockers closed by driving the repaired code, L-2 closed at
+four sites; V-1 (four sites still say the protected set is five, two in the signed contract),
+V-2 (`review_subject`'s tuple pinned by nothing), V-O-1..3. `E9` spent in full: FULL `67dbb08`,
+fix `d56def4`, VERIFY `da1aac3`.
+
+**Closeout (2026-09-03), the user's 「按建议」.** V-1 banked as `protected-set-says-five`, the
+two contract sites confirmed `HD-63`'s class (true at signing, falsified by `97cc298`), so the
+redeeming write goes under `HD-63` with `E2` disclosure and a ninth signature-record entry and
+opens no family entry; V-2 banked as `subject-tuple-unpinned`; V-O-1 banked as
+`check-summary-reviews-undocumented`; V-O-2 and V-O-3 stay in the record. `HD-70` flipped to
+`implemented` in this commit (carrier `15e5ccc`, reviewed by `67dbb08` + `da1aac3`); its
+`retired` follows the next opening cold read, which is also the carrier of the independent
+re-read the round's commit bodies promised for `RULES.md` `R3`, `REVIEW.md`, contract
+`:118`/`:127` and `README.md:20` — FULL O-3: the phrase "this round's next read of that layer"
+named a read the round did not perform, corrected forward here with the bodies standing. `E2`
+re-baseline not opened; rider `announced-set-anchor` holds it. L-3's second occurrence in two
+rounds — engine modules written outside the plan's *In* list with the escape unnamed — is
+answered by the plan's boundary line and left here for the next plan's author. Batch
+`PROMISE-PATH` CLOSED; the ledger row moved verbatim to the archive; queue head = candidate
+isolation, whether it opens being a separate 开轮 question. The user's question at the
+executor's first stop — whether decision points are foreseeable at START — stays with this
+journal; the `dispatch-economy` backlog row is untouched (`R5`). `E1`: the round ran in the
+norm, two sessions, the executor holding none of `R1`'s four holdings. Sessions: reader
+`c07ef2ee…`, executor `d8f5d450…` (cold start + two resumes), FULL `da96703b…`, VERIFY
+`35818543…`.

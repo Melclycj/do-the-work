@@ -1,8 +1,7 @@
 # Plan — batch `PROMISE-PATH`: every disposition the rule layer names has a tested engine path or a recorded absence
 
-> **Status: round 2 `PROMISE-PATH-VOCAB` OPEN 2026-09-03 at `2db6d87` (round 1
-> `PROMISE-PATH-ENGINE` CLOSED the same day) — see *Steps — round 2* and the *Resume
-> pointer*.** All six opening questions
+> **Status: batch `PROMISE-PATH` CLOSED 2026-09-03 — round 1 `PROMISE-PATH-ENGINE` and round 2
+> `PROMISE-PATH-VOCAB` both closed; see the *Resume pointer*.** All six opening questions
 > were ruled 2026-09-01. The
 > batch was established by the user's ruling 2 of 2026-09-01 (`a6207e5`: six observations
 > routed here entire, queue head ahead of candidate-isolation and dispatch-economy). The same
@@ -432,17 +431,35 @@ alternative offered and not taken was a versioned successor (v5) for one table r
   suite's rows). Executor-reported: battery 951, 16 mutation probes fired; the FULL
   re-derives both. `check_verify_outcome` changed only in docstring — it already reported
   the standing blocker, which the branch keys on by issue code.
-- [ ] 4. **FULL → (one fix) → VERIFY → closeout.** Range `b9710af..97cc298` — base = the
-  executor's dispatch tip, as round 1's `1c18e4a..38038ec` took it, so the range is the round's
-  work and the ruling carrier inside it, not the read record;
-  lows' spend/bank (`R10`) and observation routing (`R5`) to the user before closeout; then
-  batch `PROMISE-PATH` closes and the queue head becomes candidate isolation.
+- [x] 4. **FULL → fix → VERIFY → closeout — DONE 2026-09-03, this commit closes the round and
+  the batch.** FULL (record `67dbb08`, `v3-review-full-97cc298.md`, range `b9710af..97cc298`):
+  `CHANGES_REQUIRED` — B-1 (the companion guard read `unresolved_finding_ids` as a standing
+  blocker and refused the ordinary repaired run's `ACCEPT`) + B-2 (`bind_authorization_ref`
+  written with a digest no reader checked) + 3 lows + 3 observations. The user asked whether
+  each was design or execution and was answered (journal), then ruled the leg **(ii)** B-1 +
+  B-2 + L-2 with a class assertion for B-2 (ruling 12); fix `d56def4` (same session), battery
+  956. VERIFY (record `da1aac3`, `v3-review-verify-d56def4.md`, range `97cc298..d56def4`):
+  **`REVIEWED_NO_BLOCKER`** — both blockers closed by driving the repaired code, the low at four
+  sites, the repair diff accounted for, boundaries clean, battery reproduced; V-1, V-2, three
+  observations. `E9` spent in full. Closeout rulings (user 「按建议」): **V-1 banked** as
+  `protected-set-says-five`, the two contract sites confirmed `HD-63`'s class; **V-2 banked** as
+  `subject-tuple-unpinned`; **V-O-1 banked** as `check-summary-reviews-undocumented`; V-O-2 and
+  V-O-3 stay in the record; `HD-70` → `implemented` in this commit (`retired` after the next
+  opening read, which is also the carrier of the `E10` re-read the round's commit bodies
+  promised — FULL O-3); `E2` re-baseline not opened (rider `announced-set-anchor` holds it);
+  batch `PROMISE-PATH` CLOSED, its ledger row moved to the archive, queue head = candidate
+  isolation.
 
 ## Resume pointer
 
-**Round 2 `PROMISE-PATH-VOCAB` OPEN 2026-09-03 at `2db6d87`** — continue from *Steps — round
-2* above: the first unchecked box is the next act. Round 1's chain (plan `51bd4f6` → read
-`b2f2c3b` → disposition `1c18e4a` → candidate `09ed9ed..887c576` → `E10` amendment `38038ec`
-→ FULL record `09daa7e` → fix `1f6a5a5` → VERIFY record `07da6b1` → closeout `58bdf10` →
-errata `2db6d87`) is closed and stays in its own steps. A cold session: read this file, the
-round-2 steps, the round-2 journal, then `CONSTRUCTION-LEDGER.md`'s pointer.
+**Batch `PROMISE-PATH` CLOSED 2026-09-03** — both rounds done. Round 2's chain: open `6d7e26c`
+→ `HD-70` `c50362c` → read `13fde05` → disposition `b9710af` → executor `61afc26` / `b8a2183`
+(rulings 10–11) / `15e5ccc` / `97cc298` → pointer `f0143c8` → FULL record `67dbb08` →
+disposition `06f0b4f` (ruling 12) → fix `d56def4` → VERIFY record `da1aac3` → closeout, this
+commit. Round 1's chain is in its own steps. Nothing in this plan is open; what the batch left
+behind lives in the rider bank (`protected-set-says-five`, `subject-tuple-unpinned`,
+`check-summary-reviews-undocumented`, `enum-single-home`, `bound-at-digest-gate`, and the
+touch record on `emit-reviewed-legality`) and in `CONSTRUCTION-LEDGER.md`'s queue (candidate
+isolation next). The next round's opening cold read carries the `E10` re-read owed on
+`RULES.md` `R3`, `REVIEW.md`, contract `:118`/`:127` and `README.md:20`, and `HD-70`'s flip to
+`retired` follows it.
