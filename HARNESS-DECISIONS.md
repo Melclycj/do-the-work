@@ -28,6 +28,46 @@
 > 设计推演与实证：[journal/decision-log-2026-08-08.md](document-harness/journal/decision-log-2026-08-08.md)。
 
 ## §live —— 必读（在 force，且没有别的东西替它说话）
+### HD-70 · 契约 v4 `:118` 的 VERIFY verdict 行准予就地**加一个值**——本裁**明写盖过契约 §13**，`HD-63` / `HD-64` / `HD-67` / `HD-68` 之后本族第五条，盖的对象是「闭合枚举的**词表扩张**」
+- 2026-09-03 · user · scope: one-shot · status: **live**（层内零承载：契约 §13 说反面、§5 自称 closed
+  enums；前四条各只盖自己那一类——签署时为真后来变假的陈述 / 对空集生效的要求 / 调用者不可达的历史 /
+  引用形态——本类不在其中。承载 = 轮 `PROMISE-PATH-VOCAB` executor 写契约的那个 commit +
+  `CONTRACT-V4-SIGNATURE.md` 记入第八笔签署后写入 + `E10` 对被改文本的独立复读；落地后转 `implemented`、
+  复读回来后 `retired`，两次翻态皆归用户（`HD-2`）。本条由 orchestrator 按 plan 裁决 6 转写 2026-09-01
+  的「6 i」与 2026-09-03 `E11` 卡上的站点枚举追认，不加新裁决）
+- 裁决：准予 executor 就地改 `contract/Document-Work-Assurance-Contract-v4.md:118`（本 commit 时）的
+  VERIFY verdict 行 `REVIEWED_NO_BLOCKER · SPEC_GAP`，**加入一个第三值**，义为「一次修腿之后 blocker
+  仍立」，使 `SPEC_GAP` 回到它的定义（spec 有缺、新 WorkSpec、新 START）。值名由 executor 在本轮第一个
+  决策点提出、用户追认（`HD-69`：同会话停、不另派发），**追认前一字不写**；FULL 行 `:117` 一字不动。
+  本裁**明写盖过 §13** "Signed contracts are never amended in place; corrections create a versioned
+  successor"——依据同前四条：本簿抬头「细则与裁决冲突，细则错」与 `E10` 自认 `§live` 冲突时压它。
+  被放弃的另一路（为一行表格出 v5 后继）在 plan 开轮问题 6 提出、未取。
+- **站点枚举（plan 裁决 6：每处先点名、后动笔；量程 = 全仓 tracked 于本 commit 之父 `6d7e26c`，
+  排除两份 archive、`migration/` 与 `document-harness/journal/`；grep 输出贴在本 commit 正文）**。
+  **授权站点一处**：`:118`。**兄弟候选两处**，executor 扫类后在命名决策点一并提请追认，追认前一字不写：
+  `:127-129`「nonblocking uncertainty is never a fourth control verdict」（加值后「fourth」这个数字可疑，
+  但该句主语是 nonblocking，而新值表示 blocking 仍立，语义可能不动）· `:196-197`「A remaining blocker
+  or `SPEC_GAP` stops; no second fix or review-of-review exists」（新值正是「remaining blocker」的机器
+  形态，语义应不动）。**明确不在射程**：`:117` FULL 行 · §3 接口 · §7 不变量 · §13 版本边界 ·
+  `:105` / `:122`（件 1 让它们变真，不改字）。executor 扫类若再见本类站点，同一决策点提请，本条不预授权。
+- **与前四条的区别照记，五条各自独立、互不作先例扩张**：`HD-63` 盖「签署时为真后来变假的陈述」，
+  `HD-64` 盖「对空集生效的要求」，`HD-67` 盖「调用者不可达的历史」，`HD-68` 盖「引用形态」；本条盖的是
+  **闭合枚举的词表扩张**——既非更正也非删除，而是给一条在 force 的要求**加**一个值，是本族唯一一条让
+  契约今后要求得更多的。正因如此 plan 明写「scope = this one vocabulary change, no precedent expansion」。
+- 边界：只此一行、只此一个值；FULL 词表不动；不开「契约枚举随手可加」的通道；不授权任何别的枚举行。
+  `E10` 的 design test **照常触发**——本改动改变 `R3` 要求什么，故开轮，轮即 `PROMISE-PATH-VOCAB`，
+  本条**不**做 `HD-64` 式的免开轮 set-aside。
+- 后果：v4 是 announced 路径，写它的 commit 按 `E2` 在正文逐点点名
+  `contract/Document-Work-Assurance-Contract-v4.md`；`CONTRACT-V4-SIGNATURE.md` 同 commit 记入第八笔
+  签署后写入，不重指签字 blob（仍是 `614932de…`）；改后文本欠 `E10` 独立复读，随本轮下一次层读。
+  同轮改 `document-harness/RULES.md` `R3`、`document-harness/REVIEW.md:129-135`、
+  `schema/document-assurance-v3/review.v2.schema.json`（后者 announced、逐点披露）不是本条的对象——
+  它们归 `E10` 的设计轮，本条只盖契约。
+- basis: 用户裁决 2026-09-01（对话「6 i」，载体 plan `document-harness/plans/promise-path.plan.md`
+  裁决 6）· 用户裁决 2026-09-03（`E11` 卡问题 2「ok」，载体同 plan 裁决 8）· `HD-63` / `HD-64` /
+  `HD-67` / `HD-68`（同族前四条，各自边界段把本类排除）· 调用者 run 1 VERIFY 借用 `SPEC_GAP` 的实证
+  （其 `1a634fe` 收口正文；plan 件 2）
+
 ### HD-69 · 修正派发不再另起冷 executor：executor 停在决策点、裁决回来**同会话续跑**（落地归批 `dispatch-economy`）
 - 2026-08-30 · user · scope: standing · status: **live**（层内零承载：`ORCHESTRATION.md` 三角色表只说
   executor 是「a full session」，《The executor's report back》只说上报、不说报完之后谁接着做；
