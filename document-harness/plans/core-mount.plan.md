@@ -261,11 +261,23 @@ if question 2 folds the rider), `HD-34` (nothing here writes outside this reposi
   rows (O-2 is `R5`'s question, put and answered "record"); **`HD-70` → `retired`** in the
   disposition commit (carrier: the read record `d0d029a`). No amendment/re-read pair owed:
   nothing above low. **Acceptance 4 is read accordingly** — see its forward note.
-- [ ] 3. **Executor** — `python tooling/construction_dispatch.py --construction-executor`
-  plus this plan's path as the instruction; one session; commits inside the boundary, each
-  body naming its kind and pasting acceptance output; session id to the journal.
-- [ ] 4. **Pointer** — plan steps checked, journal appended, `git diff --stat` over the
-  members pasted.
+- [x] 3. **Executor — DONE 2026-09-03.** One cold `claude -p` on `opus` without web tools,
+  session `b2720689-5f0a-44d4-b1f4-668d7b018348`, 105 turns, 1816 s; **no decision-point
+  stop** (`HD-69`'s form held but was not exercised — nothing outran the plan's rulings).
+  Two commits inside the boundary: `4d2bf42` (`V3-CORE-MOUNT-MANIFEST-AND-STEP-v1` — manifest,
+  test, ONBOARDING 1b, INDEX row 9, the two rider touch records) and `4020efa`
+  (`V3-CORE-MOUNT-PROTECTED-SET-SIX-v1` — ruling 2's own commit: contract `:300`/`:335-340`,
+  `CONTRACT-V4-SIGNATURE.md` ninth entry, `summary.py:202`, `test_run_v2_template_bind.py:1041`,
+  row deleted). Acceptance measured at `4020efa` and pasted in the commit bodies: the probe
+  clone materialized 61 == `git ls-files --` 61, the four construction files absent,
+  `dtw --help` exit 0; the manifest test 5 passed with all four mutations (three the plan
+  named plus a fourth on a *Where* token) red and the control green; battery 961 (956 + 5);
+  both guards exit 0; `announced_path_disclosure --before 8ecc7a5 --after HEAD` exit 0.
+- [x] 4. **Pointer — the commit that checks this box.** Steps 3–4 checked; journal appended
+  with the executor dispatch, its session id, the two commits and the boundary note;
+  `git diff --stat 05ae1b6..4020efa` over the seven members pasted into the journal — two
+  member changes, both declared (`REVIEW.md:129` by the disposition `8ecc7a5`, the contract
+  by the authorised `4020efa`), which is what the FULL reviews.
 - [ ] 5. **FULL → (fix → VERIFY) → closeout** — `--range 05ae1b6..<tip>`, record committed
   unchanged; lows' spend-or-bank put to the user (`R10`); closeout moves the ledger pointer
   to `EXECUTOR-LIFECYCLE`, touch records land, `HD-66` stays live (this round is path ①

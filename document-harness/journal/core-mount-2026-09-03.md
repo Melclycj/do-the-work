@@ -76,3 +76,52 @@ question, put to the user) stay in the record; the user chose to record O-2 and 
 `HD-70` flips `implemented` → `retired` in the disposition commit, its carrier being the read
 record `d0d029a` (`HD-2`), every earlier word of its status line kept (`HD-59`). Acceptance 4
 is written forward in the plan to name this commit's one member change. Plan step 2 checked.
+
+**Executor (2026-09-03).** Dispatched at tip `8ecc7a5` (`python
+tooling/construction_dispatch.py --construction-executor`, plus this plan as the instruction),
+one cold `claude -p` on `opus`, `--disallowedTools WebFetch WebSearch`, `--permission-mode
+acceptEdits`, git and the shell read/write tools allowed; session
+`b2720689-5f0a-44d4-b1f4-668d7b018348`, 105 turns, 1816 s. **No decision-point stop**:
+`HD-69`'s single-session form held but nothing in the work outran the plan's four rulings, so
+the executor ran START-to-report without a resume. Two commits, both inside the *Change
+boundary*:
+
+- `4d2bf42` `V3-CORE-MOUNT-MANIFEST-AND-STEP-v1` — `document-harness/product-tier.txt` (15
+  lines, self-including), `tooling/tests/document_harness/test_product_tier_manifest.py` (5
+  assertions), `document-harness/ONBOARDING.md` item 1b and the "Nine items"→"Ten items"
+  header fix, `CONSTRUCTION-INDEX.md` row 9 + row 3's five full paths + re-measured figures
+  (61/443, row 2 → 15) + the manifest-reading *How to re-measure*, and the two rider touch
+  records (`figure-units` fourth touch, `onboarding-carries-construction` arm (a) third
+  touch), neither redeemed.
+- `4020efa` `V3-CORE-MOUNT-PROTECTED-SET-SIX-v1` — ruling 2's own commit for rider
+  `protected-set-says-five`: contract `:300-302` (the enum gains `bind_authorization_ref`)
+  and `:335-340` (one live write path of five → two of six), `CONTRACT-V4-SIGNATURE.md`'s
+  ninth post-signature entry, `summary.py:202`, `test_run_v2_template_bind.py:1041`, the row
+  deleted. The commit body carries the `E2` disclosure site by site, the `HD-63` class
+  argument (fact true at signing, falsified by `97cc298`; no new family entry), the `HD-41`
+  ④ class scan, and a "BOUNDARY, STATED RATHER THAN ASSUMED" paragraph noting that ruling 2
+  ("boundary grows by the five paths the *Change boundary* lists") governs over design
+  decision 2's general "no member touched".
+
+**Acceptance at `4020efa`, as the executor pasted it**: the probe clone materialized 61
+tracked files == `git ls-files --` over the manifest's 15 lines, the four construction files
+(`CONSTRUCTION-LEDGER.md`, `HARNESS-DECISIONS.md`, `document-harness/CONSTRUCTION-CHECKLIST.md`,
+`tooling/construction_dispatch.py`) absent, `dtw --help` exit 0; the manifest test 5 passed
+with four mutations red (drop a line → (b); append `CONSTRUCTION-LEDGER.md` → (d); misspell a
+row path → (a); corrupt a *Where* token → (b)) and the unmodified control green, each restored
+from sha256-checked scratch copies; battery 961 (956 + 5, none removed); both guards exit 0.
+The orchestrator re-ran the manifest test (5 passed) and both guards (exit 0) at this tip, and
+re-ran the whole battery before dispatching the FULL.
+
+**Two member changes over the round range**, both declared not discovered, which is what the
+FULL adjudicates:
+
+```
+$ git diff --stat 05ae1b6..4020efa -- <the seven E10 members>
+ contract/Document-Work-Assurance-Contract-v4.md | 16 +++++++++-------
+ document-harness/REVIEW.md                      |  2 +-
+```
+
+`REVIEW.md:129` is the disposition's free-channel L-2 application (`8ecc7a5`); the contract is
+the authorised `protected-set-says-five` redemption (`4020efa`). Plan steps 3–4 checked.
+
