@@ -248,6 +248,32 @@ read.
     rides its own commit body, naming `contract/Document-Work-Assurance-Contract-v4.md` site by
     site, and the changed text owes `E10`'s independent re-read, riding the next read of that
     layer.
+    **Forward correction, 2026-09-04, round `CORE-MOUNT`'s fix commit — the entry above stands
+    word for word (`HD-59`) and this paragraph is the correction; its class claim is withdrawn
+    and the count it wrote is wrong.** The entry certifies that *"Both sentences were true when
+    v4 was signed on 2026-08-23 and were made false elsewhere"*, which is `HD-63`'s class. The
+    round's FULL (`v3-review-full-3deb304.md` `B-1`) measured otherwise for the second sentence:
+    `run_repair.py` was in the shipped template writing `repair_decision_ref` through
+    `pointer_for` on the day v4 was signed, so *"Only one protected field has a live write path"*
+    was **already false at signing** — not a statement made false later, and so not the class the
+    entry names. **And the replacement was false too**: the entry's own *two live write paths of
+    six* is wrong at four. Re-measured at the fix commit's tip with the command that could
+    falsify it, `grep -rn "pointer_for(" assurance/templates/run-v2/*.py` — `review_ref`
+    (`run_bind_v2.py:252`), `bind_authorization_ref` (`:530`), `final_decision_ref` (`:653`) and
+    `repair_decision_ref` (`run_repair.py:105`) all have one; only `work_spec_ref` and
+    `start_decision_ref` do not. §13.2 now says four, and `assurance/templates/run-v2/README.md`
+    says four in the same commit (`E7`). **What the correction rides on now, and why no ruling is
+    owed for it.** The user suspended v4's signature on 2026-09-04 — the banner at the head of
+    this file — and retired the `HD-63`/`64`/`67`/`68`/`70` family entire. While suspended v4 is a
+    draft, §13's *never amended in place* does not bind, and this correction is a plain `E2`
+    write taking `E10`'s free channel: it adds no clause, changes no requirement, and no round
+    has relied on the sentence, so it is applied at once with its independent re-read riding the
+    next read of that layer. So the `HD-63` question the FULL routed to the user — a new
+    family ruling for the false-at-signing half, or a correction confined to what `HD-63`
+    reached — is moot: the suspension dissolved both routes, and no per-edit authorisation and
+    no tenth post-signature entry is owed for this write. What the entry above still records
+    correctly is what the 2026-08-23 signature bound, the blob `614932de…` unchanged, and that
+    the `bind_authorization_ref` enum addition at `:300-302` was and is right.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.

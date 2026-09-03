@@ -332,12 +332,15 @@ state machines.
   **Coverage of the narrowing is partial and named**: `assurance_state.pointer(path,
   digest)` still accepts a caller-supplied digest and is used directly by hand-written run
   scripts, so a run authored by copying an existing precedent will keep writing digests on
-  unprotected fields; the obligation removed is on the documented authoring path. **Two
-  protected fields have a live write path**: of the six, `review_ref` and
-  `bind_authorization_ref` are authored by `assurance/templates/run-v2/`
-  (`run_bind_v2.py`); the other four are written by hand-authored run scripts, which this
-  policy governs but no shipped template exercises — end-to-end demonstration covers two
-  fields, unit tests the rest.
+  unprotected fields; the obligation removed is on the documented authoring path. **Four
+  protected fields have a live write path**: of the six, `review_ref`,
+  `bind_authorization_ref` and `final_decision_ref` are authored by
+  `assurance/templates/run-v2/` in `run_bind_v2.py`, and `repair_decision_ref` by
+  `run_repair.py` in that same template; the two with none, `work_spec_ref` and
+  `start_decision_ref`, are written by hand-authored run scripts, which this policy governs
+  but no shipped template writes. All four the template does write are demonstrated over a
+  real run directory rather than by `pointer_for` unit tests alone — a test drives the
+  template's own entry point and asserts the pointer in the state it saved.
 
 ## 14. Signature
 

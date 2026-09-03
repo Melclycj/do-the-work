@@ -18,7 +18,10 @@ clone of this repository, the manifest fed to `sparse-checkout`, a checkout, and
 consumers compared against each other on the result — what is on disk against what
 `git ls-files` matches from the same lines. The four construction-side files it asserts absent
 are a hand-written literal (`E5`), and each is asserted *present in the clone's index* in the
-same breath, so "absent" cannot be satisfied by a path that stopped existing.
+same breath, so "absent" cannot be satisfied by a path that stopped existing. It closes by
+running the CLI inside that same clone: `document-harness/ONBOARDING.md` item 1b tells a caller
+that `dtw --help` exiting 0 is the check that matters, and the two lists can agree perfectly
+while the tier has stopped being import-complete.
 
 Read from the worktree, not from `HEAD`: the manifest under test is the file as it stands, so
 an edit to it is visible to these assertions without a commit — which is what makes them
@@ -30,6 +33,7 @@ import pathlib
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -196,6 +200,28 @@ class ASparseCheckoutFromTheManifestCarriesTheTierAndNothingElse(unittest.TestCa
                     on_disk,
                     f"{path} is construction-side and reached a narrowed checkout",
                 )
+
+            # Last, on the same clone, because it writes `__pycache__` into it and the
+            # on-disk walk above must not see that. Import-completeness is the property
+            # `document-harness/ONBOARDING.md` item 1b calls "the check that matters", and
+            # until this line it was established by hand and by nothing thereafter: two
+            # copies of the list can stay in perfect agreement while a module added under
+            # `tooling/` outside every manifest line, or a new third-party import, quietly
+            # takes the CLI out of the tier (FULL `v3-review-full-3deb304.md` `L-1`).
+            help_run = subprocess.run(
+                [sys.executable, "tooling/dtw.py", "--help"],
+                cwd=clone,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                encoding="utf-8",
+                errors="replace",
+            )
+            self.assertEqual(
+                help_run.returncode,
+                0,
+                "the CLI does not run inside the narrowed checkout, so the product-run "
+                f"tier is not import-complete:\n{help_run.stdout}",
+            )
         finally:
             shutil.rmtree(clone, ignore_errors=True)
 
