@@ -1,7 +1,8 @@
 # Plan — batch `PROMISE-PATH`: every disposition the rule layer names has a tested engine path or a recorded absence
 
-> **Status: round 1 `PROMISE-PATH-ENGINE` CLOSED 2026-09-03 — see *Steps* and the *Resume
-> pointer*; next act = round 2 `PROMISE-PATH-VOCAB`'s `E11` card.** All six opening questions
+> **Status: round 2 `PROMISE-PATH-VOCAB` OPEN 2026-09-03 at `2db6d87` (round 1
+> `PROMISE-PATH-ENGINE` CLOSED the same day) — see *Steps — round 2* and the *Resume
+> pointer*.** All six opening questions
 > were ruled 2026-09-01. The
 > batch was established by the user's ruling 2 of 2026-09-01 (`a6207e5`: six observations
 > routed here entire, queue head ahead of candidate-isolation and dispatch-economy). The same
@@ -75,6 +76,49 @@ The same day's third exchange answered questions 4–6, the user's words: **"两
    the family form: `E2` disclosure in the writing commit's body,
    `CONTRACT-V4-SIGNATURE.md` records the post-signature write, `E10` independent re-read of
    the changed text.
+
+## Rulings — 2026-09-03, taken at round 2's `E11` card
+
+The user's word against the card's three numbered questions: **"ok"** — every recommendation
+as put. Base for round 2: `2db6d87`, the `dev` tip at opening, 19 commits ahead of
+`origin/dev`. Measured there before the card: of the seven `E10` members and this repository's
+declared rule file, only `document-harness/README.md` (`38038ec`) and
+`document-harness/RULES.md` (`1c18e4a`) have changed blob since the round-1 read at `51bd4f6`
+(`git diff --stat 51bd4f6 2db6d87` over the eight paths returns those two files, 4 insertions
+and 3 deletions); `HARNESS-DECISIONS.md` `§live` holds eleven entries; the battery baseline
+is 938 (VERIFY record `07da6b1`, independently reproduced; no test file touched since).
+
+7. **Two of the three riders whose redeem surface names this round are folded in; the third
+   is touch-recorded.** `record-commit-owner` is folded, and the owner is ruled: **`REVIEW.md`'s
+   *Where the result lives* follows `R6`** — the reviewer persists the record in the worktree
+   and the orchestrator commits it — on the ground that `ORCHESTRATION.md`'s obligation table
+   already assigns "commit the reviewer's record unchanged" to the orchestrator and names it
+   `R1`'s *reported-through* holding; its deadline (before the next product-run review
+   dispatch) is the nearest of the three. `no-repair-unbound` is folded because item 1 adds a
+   second user-authorized gate to bind, and a gate bound by nothing is that row's defect class
+   (`E7`); the binding's shape is the executor's, as item 3's was. `emit-reviewed-legality` is
+   **not** folded — its deadline (the first product run re-running a completed bind) is far
+   and the round already carries five surfaces; the executor's commit that touches
+   `run_bind_v2.py`'s emit path appends a touch record to the row in `wl-route`'s form and
+   leaves it standing. Redemption is `R10`'s: the fix rides the commit touching the surface
+   and the row is deleted in that same commit. The change boundary grows accordingly:
+   `REVIEW.md`'s *Where the result lives* (one sentence) and, for the two gates, whatever
+   state or candidate field carries the decision's digest — if that field lives in one of
+   the fifteen announced pack files, the write is disclosed site by site (`E2`).
+8. **`HD-70`'s site enumeration.** One authorized site: contract v4 `:118`, the VERIFY verdict
+   row, gaining a third value. Two sibling candidates, named now and written only after the
+   executor's `HD-41` ④ scan puts them to the user at the same decision point as the value's
+   name: `:127-129` ("nonblocking uncertainty is never a fourth control verdict" — the
+   numeral turns suspect, the sentence's subject does not) and `:196-197` ("A remaining
+   blocker or `SPEC_GAP` stops; no second fix or review-of-review exists" — the new value is
+   that sentence's machine form). Expressly outside: `:117` (the FULL row), §3 interfaces, §7
+   invariants, §13 version boundaries, and `:105`/`:122`, which item 1 makes true rather than
+   rewrites. A site the scan adds beyond these is put at the same stop; nothing is
+   pre-authorized.
+9. **Opening read in the narrow form**, as the resume pointer already said: `README.md` and
+   `RULES.md` end to end, the other five members and the declared rule file covered by citing
+   `v3-cold-read-51bd4f6.md`; the reader derives coverage itself and the dispatch carries no
+   member table (`R2`). `§live` in full — twelve entries once `HD-70` lands before the read.
 
 ## The six defects, each pinned to the tree
 
@@ -310,15 +354,38 @@ alternative offered and not taken was a versioned successor (v5) for one table r
   `no-repair-unbound`, `emit-reviewed-legality`), **O-1, O-3, V-O-2 stay in their records**.
   L-3 discharged by this commit: steps checked, pointer moved, journal landed tracked.
 
+## Steps — round 2 `PROMISE-PATH-VOCAB`
+
+- [x] 1. **Open — the commit that checks this box (2026-09-03).** Round 2 opened on the
+  user's "ok" at the `E11` card, base `2db6d87`; rulings 7–9 written above; journal
+  `document-harness/journal/promise-path-vocab-2026-09-03.md` opened tracked (round 1's FULL
+  L-3 asked for exactly this, at the moment it applies); ledger pointer moved. The next
+  commit transcribes `HD-70` into `HARNESS-DECISIONS.md` `§live` (sites per ruling 8, the
+  class-scan output in its body), before the read so the `§live` the reader reads carries it.
+- [ ] 2. **Read + disposition.** `python tooling/construction_dispatch.py --read <HD-70 tip>`,
+  one cold `claude -p` session on `opus` without web tools; record committed unchanged under
+  `R6`'s title, the freeze marker deleted in that act. Both deferrals (`38038ec`, `1c18e4a`)
+  ride it. Then disposition: must-fix → amendment + re-read; a low with bytes → free channel;
+  the rest bank; `R5` observations to the user.
+- [ ] 3. **Executor.** One cold `claude -p` on `opus` (`HD-69`: stops at decision points, the
+  same session resumes; session id in the journal by hand). Item 2's value first, since item
+  1's branch fires on it: the value's name and the sibling contract sites at the first stop,
+  then `R3`, `REVIEW.md:129-135`, `review.v2.schema.json`, `dispatch.py` `VERDICTS`,
+  `flow.check_verify_outcome`, contract `:118` under `HD-70` (`E2` disclosure; the signature
+  record's eighth post-signature write); then item 1 — bind's blocking-VERIFY branch, the
+  flow admitting it, the binding of its gate and of `NO_REPAIR` (rider `no-repair-unbound`,
+  row deleted in that commit); `REVIEW.md`'s *Where the result lives* after `R6` (rider
+  `record-commit-owner`, row deleted in that commit); the suite's rows for items 1–2;
+  mutation per `E4`; the touch record on `emit-reviewed-legality`.
+- [ ] 4. **FULL → (one fix) → VERIFY → closeout.** Range `<HD-70 tip>..<candidate tip>`;
+  lows' spend/bank (`R10`) and observation routing (`R5`) to the user before closeout; then
+  batch `PROMISE-PATH` closes and the queue head becomes candidate isolation.
+
 ## Resume pointer
 
-**Round 1 `PROMISE-PATH-ENGINE` CLOSED 2026-09-03** (chain: plan `51bd4f6` → read `b2f2c3b` →
-disposition `1c18e4a` → candidate `09ed9ed..887c576` → `E10` amendment `38038ec` → FULL record
-`09daa7e` → fix `1f6a5a5` → VERIFY record `07da6b1` → closeout, this commit). Items 3–7 and
-the `E4`-inverse suite are live; items 1–2 are round 2's. **Next act: round 2
-`PROMISE-PATH-VOCAB`** — its `E11` card to the user; at its opening the orchestrator
-transcribes ruling 6's fifth `HD-63/64/67/68`-family entry into the decisions register with
-the contract sites enumerated, and the opening `E10` read covers `README.md` (amended
-`38038ec`) and `RULES.md` (amended `1c18e4a`) end to end — both deferrals ride it — with
-unchanged members covered by citing `v3-cold-read-51bd4f6.md`. A cold session: read this
-file, the steps above, then `CONSTRUCTION-LEDGER.md`'s pointer.
+**Round 2 `PROMISE-PATH-VOCAB` OPEN 2026-09-03 at `2db6d87`** — continue from *Steps — round
+2* above: the first unchecked box is the next act. Round 1's chain (plan `51bd4f6` → read
+`b2f2c3b` → disposition `1c18e4a` → candidate `09ed9ed..887c576` → `E10` amendment `38038ec`
+→ FULL record `09daa7e` → fix `1f6a5a5` → VERIFY record `07da6b1` → closeout `58bdf10` →
+errata `2db6d87`) is closed and stays in its own steps. A cold session: read this file, the
+round-2 steps, the round-2 journal, then `CONSTRUCTION-LEDGER.md`'s pointer.
