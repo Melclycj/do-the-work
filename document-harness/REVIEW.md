@@ -43,7 +43,7 @@ control plane is inside it by this section's own first sentence.
 
 **Where an observation this section removes from the verdict goes** — codifying what reviewers
 have in fact done. Record it as an **observation finding in your own review record**, which is
-one of the two artifacts you already persist and commit; a `HarnessIssue` is not the reviewer's
+one of the two artifacts you already persist; a `HarnessIssue` is not the reviewer's
 to file mid-run, and the schema makes that structural rather than remembered (`observed_after`
 admits only the two terminal statuses, so an issue recorded while the run is still in flight
 is unrepresentable). At closeout the orchestrator routes it under the caller's policy
@@ -153,8 +153,12 @@ because nothing here said where the result goes (routed `WORKFLOW_FIX` by
 `user-decision-triage-review-role-deliverables-gap`, with the UTF-8 clause below folded in by
 `user-decision-triage-reviewer-console-decode-artifact`).*
 
-A review is not returned until it is committed. You persist, and commit, exactly two
-artifacts:
+A review is not returned until it is committed — and the commit is not yours. You persist,
+into the worktree, exactly two artifacts, and the orchestrator commits them unchanged:
+[`RULES.md`](RULES.md) `R6` owns that act and the title it lands under, and
+[ORCHESTRATION.md](ORCHESTRATION.md)'s obligation table assigns it there. Leaving them
+uncommitted in the worktree is what returning looks like from this side, and it is not an
+unreturned review.
 
 1. **The ReviewResult** — schema-valid against the result schema the run's control plane
    names, written to `<control root>/evidence/review-full.json` (a round-1 targeted VERIFY:
