@@ -186,6 +186,37 @@ read.
     is unchanged and v4 is **not** re-signed; this write's `E2` disclosure rides its own commit
     body, naming `contract/Document-Work-Assurance-Contract-v4.md` site by site, and the changed
     text owes `E10`'s independent re-read, riding this round's next read of that layer.
+  - **Ninth post-signature write, 2026-09-03 — round `CORE-MOUNT`'s rider commit, this commit.**
+    Two sites in §13.2, one authorisation, and both of them the class `HD-63` already covers.
+    **The enumeration of `assurance_state.DIGEST_PROTECTED_FIELDS` gains
+    `bind_authorization_ref`** — `:300-302` after this write, the `:299-301` rider
+    `protected-set-says-five` named before it — and **"Only one protected field has a live
+    write path … of the five … the other four" becomes two live write paths of six**, naming
+    `bind_authorization_ref` as authored by `run_bind_v2.py` beside `review_ref` — `:335-340`
+    after this write, `:334-338` before. Both sentences
+    were true when v4 was signed on 2026-08-23 and were made false elsewhere: `97cc298`, round
+    `PROMISE-PATH-VOCAB`, added `bind_authorization_ref` to that set as the fourth user-decision
+    pointer and gave the round-0 `NO_REPAIR` gate the second live write path. That is `HD-63`'s
+    class exactly — a statement of fact, not an obligation — so no new entry in this family
+    opens, and what the contract **requires** is untouched: the policy's predicate has always
+    been *a field the executor may not author the current version of*, and the enumeration
+    states which fields those are rather than deciding it. `E10`'s design test therefore does not
+    fire and no round opens for this write; it lands inside round `CORE-MOUNT`, whose FULL has
+    not occurred, so under `E9` it is candidate work and consumes no fix leg. The user confirmed
+    the class on 2026-09-03 when the finding was banked as rider `protected-set-says-five`, and
+    ruled the form at this round's `E11` card (plan `document-harness/plans/core-mount.plan.md`
+    ruling 2): its own commit, `E2` disclosure site by site, this entry, and the row deleted in
+    the same commit. **What was reached outside this file's subject, recorded because `E7` makes
+    the class the unit**: the same commit closes the class's other two sites,
+    `tooling/rsclib/document_harness/summary.py:202` and
+    `tooling/tests/document_harness_review/test_run_v2_template_bind.py:1041`, each reading
+    *five* where the set is six; the class scan that bounded the sweep is pasted in that commit's
+    body (`HD-41` ④). **The decision this closes**: a caller deriving digest policy from the
+    signed text treated the licence pointer as unprotected and met `POINTER-UNVERIFIED`. The
+    signed blob above is unchanged and v4 is **not** re-signed; this write's `E2` disclosure
+    rides its own commit body, naming `contract/Document-Work-Assurance-Contract-v4.md` site by
+    site, and the changed text owes `E10`'s independent re-read, riding the next read of that
+    layer.
 - **What the signature means** (contract §14): the interfaces, enums, invariants, version
   boundaries and dependency map are frozen as the operative text for v3-family construction, and
   this file supersedes the v3 contract and its two supersessions as one operative document.

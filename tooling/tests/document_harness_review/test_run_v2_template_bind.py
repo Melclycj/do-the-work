@@ -1038,7 +1038,7 @@ class TheCleanRoundEmitsTheCandidateItPrinted(BindTemplateCase):
             {"path": f"{CONTROL_ROOT}/control/assurance-candidate.json"},
         )
         # The run passed THROUGH REVIEWED on the way, binding the round's own review by
-        # bytes — `review_ref` is one of the five digest-protected fields.
+        # bytes — `review_ref` is one of the six digest-protected fields.
         self.assertEqual(
             saved.get("review_ref"),
             {

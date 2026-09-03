@@ -199,7 +199,7 @@ def check_assurance_candidate(
     # The digests compared are canonical digests of the review documents already in hand —
     # the kind the authoring precedent writes (w1-r1 run_bind) — so this adds no I/O. The
     # six evidence/spec refs stay stored-without-content-check by the 2026-07-30 C2 ruling
-    # (M6 option B): supersession-2 narrowed state-pointer digests to the five protected
+    # (M6 option B): supersession-2 narrowed state-pointer digests to the six protected
     # fields, so no independently-authored digest is in hand to check them against, and a
     # digest recomputed over files the same actor may rewrite binds nobody.
     known = {canonical_digest(review): review.get("result_id", "<unnamed>") for review in reviews}

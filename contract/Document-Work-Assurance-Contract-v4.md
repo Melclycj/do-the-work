@@ -297,8 +297,9 @@ state machines.
 
 - A state pointer carries the **BYTES digest** of the pointed-at file **when, and only
   when, its field is one the executor may not author the current version of**:
-  `work_spec_ref`, `start_decision_ref`, `repair_decision_ref`, `final_decision_ref` and
-  `review_ref` (`assurance_state.DIGEST_PROTECTED_FIELDS`). Every other state pointer
+  `work_spec_ref`, `start_decision_ref`, `repair_decision_ref`,
+  `bind_authorization_ref`, `final_decision_ref` and `review_ref`
+  (`assurance_state.DIGEST_PROTECTED_FIELDS`). Every other state pointer
   carries the path alone; `pointerRef` requires only `path`, so this needs no schema
   change. The documented authoring path is the `assurance_state.pointer_for` helper, which
   applies the field policy and delegates to `pointer_to` for the digest; `pointer_to`
@@ -331,11 +332,12 @@ state machines.
   **Coverage of the narrowing is partial and named**: `assurance_state.pointer(path,
   digest)` still accepts a caller-supplied digest and is used directly by hand-written run
   scripts, so a run authored by copying an existing precedent will keep writing digests on
-  unprotected fields; the obligation removed is on the documented authoring path. **Only
-  one protected field has a live write path**: of the five, only `review_ref` is authored
-  by `assurance/templates/run-v2/` (`run_bind_v2.py`); the other four are written by
-  hand-authored run scripts, which this policy governs but no shipped template exercises —
-  end-to-end demonstration covers one field, unit tests the rest.
+  unprotected fields; the obligation removed is on the documented authoring path. **Two
+  protected fields have a live write path**: of the six, `review_ref` and
+  `bind_authorization_ref` are authored by `assurance/templates/run-v2/`
+  (`run_bind_v2.py`); the other four are written by hand-authored run scripts, which this
+  policy governs but no shipped template exercises — end-to-end demonstration covers two
+  fields, unit tests the rest.
 
 ## 14. Signature
 
