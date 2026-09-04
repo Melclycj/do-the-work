@@ -278,10 +278,24 @@ if question 2 folds the rider), `HD-34` (nothing here writes outside this reposi
   `git diff --stat 05ae1b6..4020efa` over the seven members pasted into the journal — two
   member changes, both declared (`REVIEW.md:129` by the disposition `8ecc7a5`, the contract
   by the authorised `4020efa`), which is what the FULL reviews.
-- [ ] 5. **FULL → (fix → VERIFY) → closeout** — `--range 05ae1b6..<tip>`, record committed
-  unchanged; lows' spend-or-bank put to the user (`R10`); closeout moves the ledger pointer
-  to `EXECUTOR-LIFECYCLE`, touch records land, `HD-66` stays live (this round is path ①
-  made repeatable, not a judgment that ① suffices).
+- [x] 5. **FULL → fix → VERIFY → closeout — DONE 2026-09-04, this commit closes the round.**
+  FULL (record `v3-review-full-3deb304.md`, `88fa1d7`): `CHANGES_REQUIRED` — `B-1` (the
+  `4020efa` protected-set commit wrote a new false §13.2 sentence: two live write paths where
+  four exist, and certified an `HD-63` class claim the tree refuted) + `L-1` (low) + O-1/O-2.
+  **Mid-round regime change on the user's ruling** (`7908a8e`): contract signing suspended
+  (`CONTRACT-V4-SIGNATURE.md` SUSPENDED) and the in-place-edit family `HD-63/64/67/68/70`
+  retired to the archive — so `B-1`'s fix became a plain `E2` write under `E10`'s free channel,
+  no HD, dissolving the route-A/C authorization question. Fix `674ac43` (executor session
+  resumed, `HD-69`): §13.2 → four live write paths (`review_ref`, `bind_authorization_ref`,
+  `final_decision_ref`, `repair_decision_ref`), the README twin, the ninth signature entry
+  corrected forward, and `L-1`'s `dtw --help` assertion inside the narrowed clone; battery 961.
+  VERIFY (record `v3-review-verify-674ac43.md`, `f5bbf98`): **`REVIEWED_NO_BLOCKER`** — both
+  closed and re-driven; six non-blocking findings. Closeout routing (user "收"): `F-3`
+  corrects rider `enum-single-home`'s route; `L-3v` banked; `F-1`/`L-1v`/`L-2v` forward-
+  corrected (`HD-59`); `F-2` and `O-1v`'s forward half recorded as `R5` items for
+  `EXECUTOR-LIFECYCLE`; O-1/O-2 stay in the FULL record. Ledger pointer moved to
+  `EXECUTOR-LIFECYCLE`. `HD-66` stays live (this round made path ① repeatable, not a judgment
+  that ① suffices).
 
 ## Rulings — 2026-09-03, taken at the `E11` card
 
@@ -303,8 +317,15 @@ as put.
 
 ## Resume pointer
 
-**Round `CORE-MOUNT` OPEN 2026-09-03** at base `05ae1b6`. Next: step 2, the opening read, once
-the four questions above are ruled and the opening commit has landed.
+**Batch `CORE-MOUNT` CLOSED 2026-09-04 — the single round done.** Chain: open `73bfe1e` → read
+record `d0d029a` (0 must-fix) → disposition `8ecc7a5` → executor `4d2bf42` (manifest, test,
+ONBOARDING 1b, index row 9) + `4020efa` (protected-set, later found flawed) → pointer `3deb304`
+→ FULL `88fa1d7` (`CHANGES_REQUIRED`, `B-1`) → governance `7908a8e` (signature suspended, family
+retired) → fix `674ac43` → VERIFY `f5bbf98` (`REVIEWED_NO_BLOCKER`) → closeout, this commit.
+Nothing in this plan is open. What the round left behind: rider `L-3v` banked; `F-2` and `O-1v`
+recorded as `R5` items in `CONSTRUCTION-LEDGER.md` for batch `EXECUTOR-LIFECYCLE`, the next queue
+head. The contract is now a draft (signature suspended); re-signature is owed before stability
+is re-declared.
 
 ## Out of scope
 

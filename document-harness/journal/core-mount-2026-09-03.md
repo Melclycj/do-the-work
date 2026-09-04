@@ -125,3 +125,71 @@ $ git diff --stat 05ae1b6..4020efa -- <the seven E10 members>
 `REVIEW.md:129` is the disposition's free-channel L-2 application (`8ecc7a5`); the contract is
 the authorised `protected-set-says-five` redemption (`4020efa`). Plan steps 3–4 checked.
 
+
+## FULL → regime change → fix → VERIFY → closeout (2026-09-03/04)
+
+**FULL (2026-09-03).** Dispatched over `05ae1b6..3deb304` (`python
+tooling/construction_dispatch.py --range`), one cold `claude -p` on `opus` without web tools,
+session `83d8d74c-d550-4c2d-b563-c9b2e9b59f26`, 72 turns, 928 s. Record
+`v3-review-full-3deb304.md` committed unchanged at `88fa1d7`, marker deleted in that act.
+**`CHANGES_REQUIRED`** — the headline work (manifest, ONBOARDING 1b, index row, guard) driven
+and found sound; the blocker `B-1` entirely in `4020efa`: correcting rider
+`protected-set-says-five` (cardinality 5→6, correct) it rewrote §13.2's neighbouring
+live-write-path sentence to "two" where four is true, and certified an `HD-63` class claim
+(true-at-signing) that the tree at v4's signing refuted for `repair_decision_ref`. Plus `L-1`
+(low, the guard omits the import-completeness property) and O-1/O-2 (observations).
+
+**Regime change (2026-09-04, the user's ruling), `7908a8e`.** The user ruled two things that
+reframed the fix: stop minting one-shot in-place-edit rulings, and disable contract signing for
+the near-term revision period. Executed as governance bookkeeping (not the round's fix leg):
+contract v4's signature suspended (`CONTRACT-V4-SIGNATURE.md` SUSPENDED banner — §13's
+never-amend-in-place keys on "signed", so a draft is exempt; contract edits become plain `E2`
+writes under `E10`'s free channel), and the in-place-edit family `HD-63/64/67/68/70` retired to
+the archive (authorization for editing signed text is henceforth a signature-record event, not
+an HD — 2026-08-21's no-approval-carrier ruling). This dissolved the route-A/C authorization
+question the pending fix carried.
+
+**Fix (2026-09-04), `674ac43`.** The executor session resumed (`HD-69`, same session
+`b2720689-5f0a-44d4-b1f4-668d7b018348`, its second turn, 33 turns, 788 s), no cold correction
+executor. §13.2 → the measured four live write paths (`review_ref`, `bind_authorization_ref`,
+`final_decision_ref` via `run_bind_v2.py`; `repair_decision_ref` via `run_repair.py`; the two
+without = `work_spec_ref`, `start_decision_ref`), the README twin the same, the ninth signature
+entry corrected forward (`HD-59`, its `HD-63` claim withdrawn), and `L-1`'s `dtw --help`
+assertion inside the narrowed clone. The executor also corrected the FULL's own aside that
+`run_repair.py` is driven by `subprocess` — measured in-process import + entry-point call — and
+wrote what is true. Plain `E2` write, no HD. Battery 961.
+
+**VERIFY (2026-09-04), `f5bbf98`.** Dispatched over `88fa1d7..674ac43` (the repair: the
+governance commit + the fix), one cold `claude -p` on `opus` without web tools, session
+`da08cca9-bb80-46bb-8540-ad737a8b9769`, 68 turns, 1032 s. Record `v3-review-verify-674ac43.md`
+committed unchanged, marker deleted in that act. **`REVIEWED_NO_BLOCKER`** — `B-1` and `L-1`
+both closed and re-driven (four measured against the code, `run_bind_v2.py:585` confirmed to
+write `work_spec_ref` into the AssuranceCandidate document and not as a state pointer, so
+§13.2's statement stands; the `L-1` assertion mutation-tested red at test line 219), battery
+961, guards 0. Six non-blocking findings, all created by the repair diff, none a failed repair.
+
+**Closeout routing (2026-09-04, the user's "收").** `F-3` — rider `enum-single-home`'s stated
+route falsified by the suspension (its §5 heading is now a plain `E2` edit, not design);
+corrected in the row. `L-3v` — the test comment over-claims; banked as `product-tier-help-comment`.
+`F-1` (the `7908a8e` body's "not a reviewed work product" is imprecise — the file it touched was
+in `B-1`'s scope and this VERIFY reviewed it; what it correctly meant was "not the round's `E9`
+fix leg", which `674ac43` is), `L-1v` (the archive note's stale `protected-set-says-five`
+example) and `L-2v` (the eighth `HD-6` payment belongs in the archive header) — forward-corrected
+(`HD-59`) in the archive header and here, the committed texts standing. `F-2` (the suspension is
+invisible to a mounting repository — the signature record does not travel) and `O-1v`'s forward
+half (should `layer_path_check` gain a committed-tree scan mode so a post-hoc check certifies) —
+recorded as `R5` items in `CONSTRUCTION-LEDGER.md` for batch `EXECUTOR-LIFECYCLE`; O-1/O-2 stay
+in the FULL record.
+
+**`E9`** is spent exactly once each: one FULL (`88fa1d7`), one user-approved fix (`674ac43`),
+one targeted VERIFY (`f5bbf98`). The governance commit `7908a8e` consumed no fix leg (it is not
+the round's reviewed work product but the regime under which the fix is authorized; `F-1` is the
+forward correction to its own overstatement of that).
+
+**`E1`** for the whole round: this session orchestrated; the reader, the executor, the FULL
+reviewer and the VERIFY reviewer were each their own cold `claude -p` session (ids above); the
+executor held none of `R1`'s four holdings. The norm, no exception channel taken.
+
+**Session ids:** read `1d4ccd50-4070-4b3f-a4a7-1718b4b7e75d` · executor
+`b2720689-5f0a-44d4-b1f4-668d7b018348` (resumed for the fix) · FULL
+`83d8d74c-d550-4c2d-b563-c9b2e9b59f26` · VERIFY `da08cca9-bb80-46bb-8540-ad737a8b9769`.
