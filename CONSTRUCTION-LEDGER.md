@@ -138,6 +138,7 @@
   按其自带处置删除、不带进 v4）。批 B 的 preclear 三条已各归其家、不占本区：`HD-38` 追认与
   `HD-37` ③「旧行不回溯」在各自条目，commit 正文违 `E8` 的纪律与根因在
   [journal §8](document-harness/journal/batch-b-2026-08-11.md)。 · **charter 轮留下两条 `R5` 归口用户的问题（2026-08-18）**：**① 已由轮 `EXECUTOR-CHARTER` 关闭（2026-08-22，`HD-53`：构造侧 charter=`CONSTRUCTION-CHECKLIST.md`，`dtw dispatch --construction-executor` 送达）**；② `R9` 的 wording-level 通道要不要立一个可枚举物**仍开**——实证：一条 banked 小修在同一轮内碰了三次 README 都没搭上车。
+- **未结（open）· 契约 v4 签名挂起中（2026-09-04，批 `CORE-MOUNT`）**：契约现为草稿，§13「signed 不得就地改」对草稿不适用，就地改降为普通 `E2` 写（逐点披露）+ `E10` 自由通道；**re-sign owed —— 稳定后须在 `CONTRACT-V4-SIGNATURE.md` 补一条 re-signature（新 blob sha256 + 日期 + 已读全文）方复活 §13**。载体＝该文件顶部 SUSPENDED 段；此为纪律义务、无机器强制、无 deadline，故记本区防遗忘。相关待议两条（`R5`，归 `EXECUTOR-LIFECYCLE`）：`F-2` 挂起状态对调用者不可见（签字记录不 travel）· `O-1v` 要不要给 `layer_path_check` 加扫已提交树的模式。
 - **已裁但只存在于对话里的（一行一条）** —— 2026-08-17 清理：**十条已被别处承载或已消耗者整段
   搬入 [archive](CONSTRUCTION-LEDGER-archive.md)**（判据＝该条已由指令层正文 / 已签载体 / 决策簿条目
   说话，或是一次性且已用掉），**留下六条**，都是今后仍会被反复援引且层内确无别家的：
